@@ -168,13 +168,13 @@ The production build will be in `frontend/dist/cocktaildb-frontend`
 
 ## Security Notes
 
-The frontend uses Angular 18 which includes recent security updates. When running `npm install`, you may see some npm audit warnings about vulnerabilities in development dependencies (esbuild, tmp, etc.). These are:
+The frontend uses Angular 18, which includes recent security updates. When running `npm install`, you may see some npm audit warnings about vulnerabilities in development dependencies (esbuild, tmp, etc.). These are:
 
 - **Development-only dependencies**: The reported vulnerabilities are in packages used only during development (dev server, CLI tools), not in the production build.
 - **Low to moderate severity**: All vulnerabilities are rated as low to moderate, affecting only the development environment.
 - **Not affecting production**: The production build (`npm run build`) does not include these development dependencies.
 
-To completely eliminate all warnings would require upgrading to Angular 20+, which would introduce breaking changes to the application. The current setup with Angular 18 provides a good balance between security and stability.
+To completely eliminate all warnings, you may need to upgrade to a newer Angular version (such as Angular 19) when it becomes available and compatible. The current setup with Angular 18 provides a good balance between security and stability.
 
 If you're concerned about development environment security:
 - Only run the development server on trusted networks
