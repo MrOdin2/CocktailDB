@@ -4,6 +4,17 @@
   padding: 20px;
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-section h2 {
+  margin: 0;
+}
+
 .filter-section {
   background: #e8f4f8;
   padding: 15px;
@@ -43,6 +54,17 @@
   border-radius: 4px;
 }
 
+.form-group input.ng-invalid.ng-touched,
+.form-group select.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 .ingredient-inputs,
 .step-inputs {
   display: flex;
@@ -62,6 +84,13 @@
   flex: 1;
 }
 
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 .btn-primary {
   background-color: #007bff;
   color: white;
@@ -71,8 +100,14 @@
   cursor: pointer;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .btn-secondary {

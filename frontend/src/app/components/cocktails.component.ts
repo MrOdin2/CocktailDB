@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Cocktail, CocktailIngredient, Ingredient } from '../models/models';
 import { ApiService } from '../services/api.service';
+import { ModalComponent } from './modal.component';
 
 @Component({
   selector: 'app-cocktails',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './cocktails.component.html',
   styleUrls: ['./cocktails.component.css']
 })
@@ -16,6 +17,7 @@ export class CocktailsComponent implements OnInit {
   availableCocktails: Cocktail[] = [];
   ingredients: Ingredient[] = [];
   showOnlyAvailable = false;
+  isModalOpen = false;
   
   newCocktail: Cocktail = {
     name: '',
@@ -76,6 +78,15 @@ export class CocktailsComponent implements OnInit {
     return this.showOnlyAvailable ? this.availableCocktails : this.cocktails;
   }
 
+  openModal(): void {
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.resetNewCocktail();
+  }
+
   addIngredientToCocktail(): void {
     if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measure) {
       this.newCocktail.ingredients.push({ ...this.newIngredientEntry });
@@ -104,7 +115,7 @@ export class CocktailsComponent implements OnInit {
         next: () => {
           this.loadCocktails();
           this.loadAvailableCocktails();
-          this.resetNewCocktail();
+          this.closeModal();
         },
         error: (error: any) => {
           console.error('Error creating cocktail:', error);
