@@ -5,22 +5,25 @@
   </div>
   
   <app-modal [isOpen]="isModalOpen" [title]="'Add New Ingredient'" (closed)="closeModal()">
-    <form (ngSubmit)="createIngredient()">
+    <form #ingredientForm="ngForm" (ngSubmit)="createIngredient()">
       <div class="form-group">
         <label>Name:</label>
-        <input type="text" [(ngModel)]="newIngredient.name" name="name" required>
+        <input type="text" [(ngModel)]="newIngredient.name" name="name" required #nameInput="ngModel">
+        <div *ngIf="nameInput.invalid && nameInput.touched" class="error-message">
+          Name is required
+        </div>
       </div>
       
       <div class="form-group">
         <label>Type:</label>
-        <select [(ngModel)]="newIngredient.type" name="type">
+        <select [(ngModel)]="newIngredient.type" name="type" required>
           <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
         </select>
       </div>
       
       <div class="form-group">
         <label>ABV (%):</label>
-        <input type="number" [(ngModel)]="newIngredient.abv" name="abv" min="0" max="100">
+        <input type="number" [(ngModel)]="newIngredient.abv" name="abv" min="0" max="100" required>
       </div>
       
       <div class="form-group">
@@ -32,7 +35,7 @@
       
       <div class="modal-actions">
         <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
-        <button type="submit" class="btn-primary">Add Ingredient</button>
+        <button type="submit" class="btn-primary" [disabled]="ingredientForm.invalid">Add Ingredient</button>
       </div>
     </form>
   </app-modal>
