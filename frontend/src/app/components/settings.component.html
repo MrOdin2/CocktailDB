@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="header-section">
+    <h2>Settings</h2>
+  </div>
+
+  <div class="settings-section">
+    <h3>Theme Selection</h3>
+    <p>Choose your retro 80s theme:</p>
+
+    <div class="theme-grid">
+      <div *ngFor="let theme of themes" 
+           class="theme-card" 
+           [class.active]="currentTheme === theme.id"
+           (click)="selectTheme(theme.id)">
+        <div class="theme-header">
+          <h4>{{ theme.name }}</h4>
+          <span class="active-badge" *ngIf="currentTheme === theme.id">ACTIVE</span>
+        </div>
+        <p class="theme-description">{{ theme.description }}</p>
+        <p class="theme-preview">{{ theme.preview }}</p>
+        <button class="btn-primary" 
+                [disabled]="currentTheme === theme.id"
+                (click)="selectTheme(theme.id)">
+          {{ currentTheme === theme.id ? 'Current Theme' : 'Apply Theme' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>About Retro Themes</h3>
+    <p>All themes feature:</p>
+    <ul>
+      <li>Authentic 80s color palettes with atmospheric backgrounds</li>
+      <li>Courier New monospace font for terminal authenticity</li>
+      <li>CRT scanline overlay effects</li>
+      <li>Text glow effects (phosphor screen simulation)</li>
+      <li>80s-style blocky borders (no rounded corners)</li>
+      <li>High contrast for maximum readability</li>
+    </ul>
+    <p>Your theme preference is automatically saved and will persist across sessions.</p>
+  </div>
+</div>
