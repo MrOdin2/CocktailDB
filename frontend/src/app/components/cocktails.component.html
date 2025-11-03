@@ -1,5 +1,8 @@
 <div class="container">
-  <h2>Cocktails</h2>
+  <div class="header-section">
+    <h2>Cocktails</h2>
+    <button class="btn-primary" (click)="openModal()">Add New Cocktail</button>
+  </div>
   
   <div class="filter-section">
     <label>
@@ -8,8 +11,7 @@
     </label>
   </div>
 
-  <div class="add-form">
-    <h3>Add New Cocktail</h3>
+  <app-modal [isOpen]="isModalOpen" [title]="'Add New Cocktail'" (closed)="closeModal()">
     <form (ngSubmit)="createCocktail()">
       <div class="form-group">
         <label>Cocktail Name:</label>
@@ -55,9 +57,12 @@
         <textarea [(ngModel)]="newCocktail.notes" name="notes" rows="3"></textarea>
       </div>
 
-      <button type="submit" class="btn-primary">Add Cocktail</button>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn-primary">Add Cocktail</button>
+      </div>
     </form>
-  </div>
+  </app-modal>
 
   <div class="cocktails-list">
     <h3>{{ showOnlyAvailable ? 'Available Cocktails' : 'All Cocktails' }}</h3>

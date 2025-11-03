@@ -1,8 +1,10 @@
 <div class="container">
-  <h2>Ingredients</h2>
+  <div class="header-section">
+    <h2>Ingredients</h2>
+    <button class="btn-primary" (click)="openModal()">Add New Ingredient</button>
+  </div>
   
-  <div class="add-form">
-    <h3>Add New Ingredient</h3>
+  <app-modal [isOpen]="isModalOpen" [title]="'Add New Ingredient'" (closed)="closeModal()">
     <form (ngSubmit)="createIngredient()">
       <div class="form-group">
         <label>Name:</label>
@@ -28,9 +30,12 @@
         </label>
       </div>
       
-      <button type="submit" class="btn-primary">Add Ingredient</button>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn-primary">Add Ingredient</button>
+      </div>
     </form>
-  </div>
+  </app-modal>
 
   <div class="ingredients-list">
     <h3>All Ingredients</h3>

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
+import { ModalComponent } from './modal.component';
 
 @Component({
   selector: 'app-ingredients',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './ingredients.component.html',
   styleUrls: ['./ingredients.component.css']
 })
@@ -21,6 +22,7 @@ export class IngredientsComponent implements OnInit {
   };
   ingredientTypes = Object.values(IngredientType);
   editingIngredient: Ingredient | null = null;
+  isModalOpen = false;
 
   constructor(private apiService: ApiService) {}
 
@@ -39,11 +41,20 @@ export class IngredientsComponent implements OnInit {
     });
   }
 
+  openModal(): void {
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.resetNewIngredient();
+  }
+
   createIngredient(): void {
     this.apiService.createIngredient(this.newIngredient).subscribe({
       next: () => {
         this.loadIngredients();
-        this.resetNewIngredient();
+        this.closeModal();
       },
       error: (error: any) => {
         console.error('Error creating ingredient:', error);

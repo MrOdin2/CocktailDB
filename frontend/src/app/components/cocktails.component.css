@@ -4,6 +4,17 @@
   padding: 20px;
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-section h2 {
+  margin: 0;
+}
+
 .filter-section {
   background: #e8f4f8;
   padding: 15px;
@@ -60,6 +71,13 @@
 
 .step-inputs input {
   flex: 1;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .btn-primary {
