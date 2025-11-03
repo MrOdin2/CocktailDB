@@ -125,7 +125,6 @@ export class ModalComponent {
 
   close(): void {
     this.isOpen = false;
-    this.isOpen = false;
     this.closed.emit();
     this.removeFromStack();
   }
