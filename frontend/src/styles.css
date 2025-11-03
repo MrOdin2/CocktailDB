@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: 'Courier New', 'Courier', monospace;
-  background-color: #000000;
+  background-color: #000000 !important;
   color: #00ff00;
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
@@ -15,7 +15,7 @@ code {
   font-family: 'Courier New', 'Courier', monospace;
 }
 
-/* CRT scanline effect - will be overridden by theme-specific styles */
+/* CRT scanline effect - reduced intensity, will be overridden by theme-specific styles */
 body::before {
   content: " ";
   display: block;
@@ -24,9 +24,9 @@ body::before {
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 2px, 3px 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 3px;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 1;
+  opacity: 0.3;
 }
