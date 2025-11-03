@@ -1,0 +1,93 @@
+<div class="container">
+  <h2>Cocktails</h2>
+  
+  <div class="filter-section">
+    <label>
+      <input type="checkbox" [(ngModel)]="showOnlyAvailable" (change)="toggleAvailableOnly()">
+      Show only cocktails I can make (with available ingredients)
+    </label>
+  </div>
+
+  <div class="add-form">
+    <h3>Add New Cocktail</h3>
+    <form (ngSubmit)="createCocktail()">
+      <div class="form-group">
+        <label>Cocktail Name:</label>
+        <input type="text" [(ngModel)]="newCocktail.name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Ingredients:</label>
+        <div class="ingredient-inputs">
+          <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
+            <option value="0">Select Ingredient</option>
+            <option *ngFor="let ingredient of ingredients" [value]="ingredient.id">
+              {{ ingredient.name }}
+            </option>
+          </select>
+          <input type="text" [(ngModel)]="newIngredientEntry.measure" name="measure" placeholder="Measure (e.g., 2 oz)">
+          <button type="button" class="btn-secondary" (click)="addIngredientToCocktail()">Add</button>
+        </div>
+        <ul class="ingredient-list">
+          <li *ngFor="let ing of newCocktail.ingredients; let i = index">
+            {{ getIngredientName(ing.ingredientId) }} - {{ ing.measure }}
+            <button type="button" class="btn-small" (click)="removeIngredient(i)">Remove</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="form-group">
+        <label>Steps:</label>
+        <div class="step-inputs">
+          <input type="text" [(ngModel)]="newStep" name="newStep" placeholder="Add a step">
+          <button type="button" class="btn-secondary" (click)="addStep()">Add Step</button>
+        </div>
+        <ol class="steps-list">
+          <li *ngFor="let step of newCocktail.steps; let i = index">
+            {{ step }}
+            <button type="button" class="btn-small" (click)="removeStep(i)">Remove</button>
+          </li>
+        </ol>
+      </div>
+
+      <div class="form-group">
+        <label>Notes:</label>
+        <textarea [(ngModel)]="newCocktail.notes" name="notes" rows="3"></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary">Add Cocktail</button>
+    </form>
+  </div>
+
+  <div class="cocktails-list">
+    <h3>{{ showOnlyAvailable ? 'Available Cocktails' : 'All Cocktails' }}</h3>
+    <div class="cocktail-cards">
+      <div *ngFor="let cocktail of displayedCocktails" class="cocktail-card">
+        <h4>{{ cocktail.name }}</h4>
+        
+        <div class="card-section">
+          <strong>Ingredients:</strong>
+          <ul>
+            <li *ngFor="let ing of cocktail.ingredients">
+              {{ getIngredientName(ing.ingredientId) }} - {{ ing.measure }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-section" *ngIf="cocktail.steps && cocktail.steps.length > 0">
+          <strong>Steps:</strong>
+          <ol>
+            <li *ngFor="let step of cocktail.steps">{{ step }}</li>
+          </ol>
+        </div>
+
+        <div class="card-section" *ngIf="cocktail.notes">
+          <strong>Notes:</strong>
+          <p>{{ cocktail.notes }}</p>
+        </div>
+
+        <button class="btn-danger" (click)="deleteCocktail(cocktail.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
