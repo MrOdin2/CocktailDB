@@ -5,8 +5,13 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  height: 100%;
   font-family: 'Courier New', 'Courier', monospace;
   background-color: #1a0f00 !important;
   color: #ffb000;
@@ -43,6 +48,7 @@ body::before {
 /* App Component Styles */
 .app {
   min-height: 100vh;
+  height: 100%;
   background-color: #1a0f00;
 }
 
