@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Ingredient, IngredientType } from '../../models/models';
-import { ApiService } from '../../services/api.service';
+import { Ingredient, IngredientType } from '../models/models';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-ingredients',
@@ -29,52 +29,52 @@ export class IngredientsComponent implements OnInit {
   }
 
   loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe(
-      (data) => {
+    this.apiService.getAllIngredients().subscribe({
+      next: (data: Ingredient[]) => {
         this.ingredients = data;
       },
-      (error) => {
+      error: (error: any) => {
         console.error('Error loading ingredients:', error);
       }
-    );
+    });
   }
 
   createIngredient(): void {
-    this.apiService.createIngredient(this.newIngredient).subscribe(
-      () => {
+    this.apiService.createIngredient(this.newIngredient).subscribe({
+      next: () => {
         this.loadIngredients();
         this.resetNewIngredient();
       },
-      (error) => {
+      error: (error: any) => {
         console.error('Error creating ingredient:', error);
       }
-    );
+    });
   }
 
   updateIngredient(ingredient: Ingredient): void {
     if (ingredient.id) {
-      this.apiService.updateIngredient(ingredient.id, ingredient).subscribe(
-        () => {
+      this.apiService.updateIngredient(ingredient.id, ingredient).subscribe({
+        next: () => {
           this.loadIngredients();
           this.editingIngredient = null;
         },
-        (error) => {
+        error: (error: any) => {
           console.error('Error updating ingredient:', error);
         }
-      );
+      });
     }
   }
 
   deleteIngredient(id: number | undefined): void {
     if (id && confirm('Are you sure you want to delete this ingredient?')) {
-      this.apiService.deleteIngredient(id).subscribe(
-        () => {
+      this.apiService.deleteIngredient(id).subscribe({
+        next: () => {
           this.loadIngredients();
         },
-        (error) => {
+        error: (error: any) => {
           console.error('Error deleting ingredient:', error);
         }
-      );
+      });
     }
   }
 

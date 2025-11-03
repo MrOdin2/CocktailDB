@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Cocktail, CocktailIngredient, Ingredient } from '../../models/models';
-import { ApiService } from '../../services/api.service';
+import { Cocktail, CocktailIngredient, Ingredient } from '../models/models';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-cocktails',
@@ -40,36 +40,36 @@ export class CocktailsComponent implements OnInit {
   }
 
   loadCocktails(): void {
-    this.apiService.getAllCocktails().subscribe(
-      (data) => {
+    this.apiService.getAllCocktails().subscribe({
+      next: (data: Cocktail[]) => {
         this.cocktails = data;
       },
-      (error) => {
+      error: (error: any) => {
         console.error('Error loading cocktails:', error);
       }
-    );
+    });
   }
 
   loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe(
-      (data) => {
+    this.apiService.getAllIngredients().subscribe({
+      next: (data: Ingredient[]) => {
         this.ingredients = data;
       },
-      (error) => {
+      error: (error: any) => {
         console.error('Error loading ingredients:', error);
       }
-    );
+    });
   }
 
   loadAvailableCocktails(): void {
-    this.apiService.getAvailableCocktails().subscribe(
-      (data) => {
+    this.apiService.getAvailableCocktails().subscribe({
+      next: (data: Cocktail[]) => {
         this.availableCocktails = data;
       },
-      (error) => {
+      error: (error: any) => {
         console.error('Error loading available cocktails:', error);
       }
-    );
+    });
   }
 
   get displayedCocktails(): Cocktail[] {
@@ -100,30 +100,30 @@ export class CocktailsComponent implements OnInit {
 
   createCocktail(): void {
     if (this.newCocktail.name && this.newCocktail.ingredients.length > 0) {
-      this.apiService.createCocktail(this.newCocktail).subscribe(
-        () => {
+      this.apiService.createCocktail(this.newCocktail).subscribe({
+        next: () => {
           this.loadCocktails();
           this.loadAvailableCocktails();
           this.resetNewCocktail();
         },
-        (error) => {
+        error: (error: any) => {
           console.error('Error creating cocktail:', error);
         }
-      );
+      });
     }
   }
 
   deleteCocktail(id: number | undefined): void {
     if (id && confirm('Are you sure you want to delete this cocktail?')) {
-      this.apiService.deleteCocktail(id).subscribe(
-        () => {
+      this.apiService.deleteCocktail(id).subscribe({
+        next: () => {
           this.loadCocktails();
           this.loadAvailableCocktails();
         },
-        (error) => {
+        error: (error: any) => {
           console.error('Error deleting cocktail:', error);
         }
-      );
+      });
     }
   }
 
