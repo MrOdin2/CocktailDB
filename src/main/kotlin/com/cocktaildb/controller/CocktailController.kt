@@ -2,6 +2,7 @@ package com.cocktaildb.controller
 
 import com.cocktaildb.model.Cocktail
 import com.cocktaildb.service.CocktailService
+import com.cocktaildb.repository.CocktailRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/cocktails")
 @CrossOrigin(origins = ["http://localhost:4200"])
 class CocktailController(
-    private val cocktailService: CocktailService
+    private val cocktailService: CocktailService,
+    private val cocktailRepository: CocktailRepository
 ) {
     
     @GetMapping
@@ -49,8 +51,12 @@ class CocktailController(
     
     @DeleteMapping("/{id}")
     fun deleteCocktail(@PathVariable id: Long): ResponseEntity<Void> {
-        cocktailService.deleteCocktail(id)
-        return ResponseEntity.noContent().build()
+        return if (cocktailRepository.existsById(id)) {
+            cocktailRepository.deleteById(id)
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.notFound().build()
+        }
     }
     
     @GetMapping("/available")

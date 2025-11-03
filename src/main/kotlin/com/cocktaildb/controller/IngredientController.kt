@@ -2,6 +2,7 @@ package com.cocktaildb.controller
 
 import com.cocktaildb.model.Ingredient
 import com.cocktaildb.service.IngredientService
+import com.cocktaildb.repository.IngredientRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/ingredients")
 @CrossOrigin(origins = ["http://localhost:4200"])
 class IngredientController(
-    private val ingredientService: IngredientService
+    private val ingredientService: IngredientService,
+    private val ingredientRepository: IngredientRepository
 ) {
     
     @GetMapping
@@ -49,8 +51,12 @@ class IngredientController(
     
     @DeleteMapping("/{id}")
     fun deleteIngredient(@PathVariable id: Long): ResponseEntity<Void> {
-        ingredientService.deleteIngredient(id)
-        return ResponseEntity.noContent().build()
+        return if (ingredientRepository.existsById(id)) {
+            ingredientRepository.deleteById(id)
+            ResponseEntity.noContent().build()
+        } else {
+            ResponseEntity.notFound().build()
+        }
     }
     
     @GetMapping("/in-stock")

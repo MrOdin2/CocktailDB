@@ -37,7 +37,7 @@ class CocktailService(
     
     fun getAvailableCocktails(): List<Cocktail> {
         val inStockIngredients = ingredientRepository.findByInStock(true)
-        val inStockIngredientIds = inStockIngredients.map { it.id }.toSet()
+        val inStockIngredientIds = inStockIngredients.mapNotNull { it.id }.toSet()
         
         val allCocktails = cocktailRepository.findAll()
         
