@@ -39,7 +39,7 @@ class DataInitializer(
             Ingredient(name = "Cognac", type = IngredientType.SPIRIT, abv = 40, inStock = true),
             
             // Liqueurs
-            Ingredient(name = "Triple Sec", type = IngredientType.LIQUEUR, abv = 40, inStock = true),
+            Ingredient(name = "Triple Sec", type = IngredientType.LIQUEUR, abv = 25, inStock = true),
             Ingredient(name = "Coffee Liqueur", type = IngredientType.LIQUEUR, abv = 20, inStock = true),
             Ingredient(name = "Amaretto", type = IngredientType.LIQUEUR, abv = 28, inStock = false),
             Ingredient(name = "Blue Curaçao", type = IngredientType.LIQUEUR, abv = 24, inStock = false),
