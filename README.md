@@ -25,17 +25,18 @@ A home-solution to manage Cocktails and Ingredients. Keep track of your recipes,
 
 ```
 CocktailDB/
-├── src/main/kotlin/com/cocktaildb/     # Backend Kotlin code
-│   ├── controller/                      # REST API controllers
-│   ├── model/                           # JPA entities
-│   ├── repository/                      # Data repositories
-│   └── service/                         # Business logic
-├── frontend/                            # Angular frontend
-│   └── src/app/
-│       ├── components/                  # UI components
-│       ├── models/                      # TypeScript interfaces
-│       └── services/                    # API service
-└── build.gradle.kts                     # Gradle build file
+├── backend/                             # Spring Boot backend
+│   ├── src/main/kotlin/com/cocktaildb/  # Backend Kotlin code
+│   │   ├── controller/                  # REST API controllers
+│   │   ├── model/                       # JPA entities
+│   │   ├── repository/                  # Data repositories
+│   │   └── service/                     # Business logic
+│   └── build.gradle.kts                 # Gradle build file
+└── frontend/                            # Angular frontend
+    └── src/app/
+        ├── components/                  # UI components
+        ├── models/                      # TypeScript interfaces
+        └── services/                    # API service
 ```
 
 ## Getting Started
@@ -46,8 +47,9 @@ CocktailDB/
 
 ### Running the Backend
 
-1. Build and run the Spring Boot application:
+1. Navigate to the backend directory and build/run the Spring Boot application:
 ```bash
+cd backend
 ./gradlew bootRun
 ```
 
@@ -78,12 +80,14 @@ For the full experience, run both the backend and frontend simultaneously:
 
 **Terminal 1 - Backend:**
 ```bash
+cd backend
 ./gradlew bootRun
 ```
 
 **Terminal 2 - Frontend:**
 ```bash
-cd frontend && npm start
+cd frontend
+npm start
 ```
 
 Then open your browser to `http://localhost:4200`
@@ -149,6 +153,7 @@ Then open your browser to `http://localhost:4200`
 
 ### Backend
 ```bash
+cd backend
 ./gradlew build
 java -jar build/libs/cocktaildb-0.0.1-SNAPSHOT.jar
 ```
