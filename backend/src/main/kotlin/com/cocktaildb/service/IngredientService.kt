@@ -22,11 +22,12 @@ class IngredientService(
     }
     
     fun updateIngredient(id: Long, ingredient: Ingredient): Ingredient? {
-        return if (ingredientRepository.existsById(id)) {
-            ingredientRepository.save(ingredient.copy(id = id))
-        } else {
-            null
-        }
+        val existing = ingredientRepository.findById(id).orElse(null) ?: return null
+        existing.name = ingredient.name
+        existing.type = ingredient.type
+        existing.abv = ingredient.abv
+        existing.inStock = ingredient.inStock
+        return ingredientRepository.save(existing)
     }
     
     fun deleteIngredient(id: Long) {
