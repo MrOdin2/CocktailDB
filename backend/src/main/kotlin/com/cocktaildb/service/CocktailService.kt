@@ -24,11 +24,12 @@ class CocktailService(
     }
     
     fun updateCocktail(id: Long, cocktail: Cocktail): Cocktail? {
-        return if (cocktailRepository.existsById(id)) {
-            cocktailRepository.save(cocktail.copy(id = id))
-        } else {
-            null
-        }
+        val existing = cocktailRepository.findById(id).orElse(null) ?: return null
+        existing.name = cocktail.name
+        existing.ingredients = cocktail.ingredients
+        existing.steps = cocktail.steps
+        existing.notes = cocktail.notes
+        return cocktailRepository.save(existing)
     }
     
     fun deleteCocktail(id: Long) {
