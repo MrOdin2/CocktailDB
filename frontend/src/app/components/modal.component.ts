@@ -7,9 +7,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick()">
-      <div class="modal-content" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h3>{{ title }}</h3>
+          <h3 id="modal-title">{{ title }}</h3>
           <button type="button" class="close-button" aria-label="Close modal" (click)="close()">&times;</button>
         </div>
         <div class="modal-body">
