@@ -92,6 +92,7 @@ nav a.active {
 
 main {
   padding: 20px;
+  background-color: #1a0f00;
 }
 
 /* Container styles */
@@ -99,6 +100,7 @@ main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  background-color: transparent;
 }
 
 .header-section {
