@@ -1,16 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-// Plugin version variables
-val springBootVersion = "3.1.5"
-val springDependencyManagementVersion = "1.1.3"
-val kotlinVersion = "1.9.10"
-
 plugins {
-    id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version springDependencyManagementVersion
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
+    id("org.springframework.boot") version "3.1.5"
+    id("io.spring.dependency-management") version "1.1.3"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.spring") version "1.9.10"
+    kotlin("plugin.jpa") version "1.9.10"
 }
 
 group = "com.cocktaildb"
