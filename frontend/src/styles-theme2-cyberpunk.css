@@ -1,6 +1,51 @@
 /* THEME 2: Cyberpunk Magenta/Cyan - Neon Cyberpunk Aesthetic (Matrix/RoboCop) */
 /* Complete application styles */
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Courier New', 'Courier', monospace;
+  background-color: #0a0e27;
+  color: #00ffff;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+code {
+  font-family: 'Courier New', 'Courier', monospace;
+}
+
+/* CRT scanline effect with neon glow */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+              linear-gradient(90deg, rgba(255, 0, 255, 0.06), rgba(0, 255, 255, 0.02), rgba(255, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+    opacity: 0.8;
+  }
+}
+
 /* App Component Styles */
 .app {
   min-height: 100vh;

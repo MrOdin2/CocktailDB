@@ -1,6 +1,45 @@
 /* THEME 3: Amber Monitor - Vintage Amber CRT Monitor */
 /* Complete application styles */
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Courier New', 'Courier', monospace;
+  background-color: #1a0f00;
+  color: #ffb000;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-shadow: 0 0 5px #ffb000;
+}
+
+code {
+  font-family: 'Courier New', 'Courier', monospace;
+}
+
+/* CRT scanline effect */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+              linear-gradient(90deg, rgba(255, 176, 0, 0.06), rgba(255, 176, 0, 0.02), rgba(255, 176, 0, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes amber-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
 /* App Component Styles */
 .app {
   min-height: 100vh;
