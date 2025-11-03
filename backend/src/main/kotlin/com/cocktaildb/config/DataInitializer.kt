@@ -1,0 +1,440 @@
+package com.cocktaildb.config
+
+import com.cocktaildb.model.Cocktail
+import com.cocktaildb.model.CocktailIngredient
+import com.cocktaildb.model.Ingredient
+import com.cocktaildb.model.IngredientType
+import com.cocktaildb.repository.CocktailRepository
+import com.cocktaildb.repository.IngredientRepository
+import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Component
+
+@Component
+class DataInitializer(
+    private val ingredientRepository: IngredientRepository,
+    private val cocktailRepository: CocktailRepository
+) : CommandLineRunner {
+
+    override fun run(vararg args: String?) {
+        // Create ingredients
+        val ingredients = createIngredients()
+        
+        // Create cocktails
+        createCocktails(ingredients)
+    }
+
+    private fun createIngredients(): Map<String, Ingredient> {
+        val ingredientsList = listOf(
+            // Spirits
+            Ingredient(name = "Vodka", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "White Rum", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "Dark Rum", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "Gin", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "Tequila", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "Whiskey", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "Bourbon", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            Ingredient(name = "Cognac", type = IngredientType.SPIRIT, abv = 40, inStock = true),
+            
+            // Liqueurs
+            Ingredient(name = "Triple Sec", type = IngredientType.LIQUEUR, abv = 40, inStock = true),
+            Ingredient(name = "Coffee Liqueur", type = IngredientType.LIQUEUR, abv = 20, inStock = true),
+            Ingredient(name = "Amaretto", type = IngredientType.LIQUEUR, abv = 28, inStock = false),
+            Ingredient(name = "Blue Curaçao", type = IngredientType.LIQUEUR, abv = 24, inStock = false),
+            Ingredient(name = "Campari", type = IngredientType.LIQUEUR, abv = 25, inStock = true),
+            Ingredient(name = "Sweet Vermouth", type = IngredientType.LIQUEUR, abv = 18, inStock = true),
+            Ingredient(name = "Dry Vermouth", type = IngredientType.LIQUEUR, abv = 18, inStock = true),
+            
+            // Juices
+            Ingredient(name = "Lime Juice", type = IngredientType.JUICE, abv = 0, inStock = true),
+            Ingredient(name = "Lemon Juice", type = IngredientType.JUICE, abv = 0, inStock = true),
+            Ingredient(name = "Orange Juice", type = IngredientType.JUICE, abv = 0, inStock = true),
+            Ingredient(name = "Pineapple Juice", type = IngredientType.JUICE, abv = 0, inStock = true),
+            Ingredient(name = "Cranberry Juice", type = IngredientType.JUICE, abv = 0, inStock = true),
+            Ingredient(name = "Tomato Juice", type = IngredientType.JUICE, abv = 0, inStock = false),
+            
+            // Sodas
+            Ingredient(name = "Club Soda", type = IngredientType.SODA, abv = 0, inStock = true),
+            Ingredient(name = "Tonic Water", type = IngredientType.SODA, abv = 0, inStock = true),
+            Ingredient(name = "Ginger Beer", type = IngredientType.SODA, abv = 0, inStock = true),
+            Ingredient(name = "Cola", type = IngredientType.SODA, abv = 0, inStock = true),
+            
+            // Syrups
+            Ingredient(name = "Simple Syrup", type = IngredientType.SYRUP, abv = 0, inStock = true),
+            Ingredient(name = "Grenadine", type = IngredientType.SYRUP, abv = 0, inStock = true),
+            
+            // Bitters
+            Ingredient(name = "Angostura Bitters", type = IngredientType.BITTERS, abv = 45, inStock = true),
+            
+            // Garnishes
+            Ingredient(name = "Mint Leaves", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            Ingredient(name = "Lime Wedge", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            Ingredient(name = "Lemon Twist", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            Ingredient(name = "Orange Slice", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            Ingredient(name = "Maraschino Cherry", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            Ingredient(name = "Olives", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            
+            // Other
+            Ingredient(name = "Sugar", type = IngredientType.OTHER, abv = 0, inStock = true),
+            Ingredient(name = "Salt", type = IngredientType.OTHER, abv = 0, inStock = true),
+            Ingredient(name = "Heavy Cream", type = IngredientType.OTHER, abv = 0, inStock = true)
+        )
+        
+        val savedIngredients = ingredientRepository.saveAll(ingredientsList)
+        return savedIngredients.associateBy { it.name }
+    }
+
+    private fun createCocktails(ingredients: Map<String, Ingredient>) {
+        val cocktails = listOf(
+            // 1. Margarita
+            Cocktail(
+                name = "Margarita",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Tequila"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Triple Sec"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Salt"]!!.id!!, "for rim")
+                ),
+                steps = mutableListOf(
+                    "Rim glass with salt",
+                    "Add tequila, triple sec, and lime juice to shaker with ice",
+                    "Shake well",
+                    "Strain into salt-rimmed glass",
+                    "Garnish with lime wedge"
+                ),
+                notes = "A classic Mexican cocktail"
+            ),
+            
+            // 2. Mojito
+            Cocktail(
+                name = "Mojito",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["White Rum"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Simple Syrup"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Mint Leaves"]!!.id!!, "8-10 leaves"),
+                    CocktailIngredient(ingredients["Club Soda"]!!.id!!, "top")
+                ),
+                steps = mutableListOf(
+                    "Muddle mint leaves with simple syrup and lime juice in glass",
+                    "Add rum and ice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with mint sprig"
+                ),
+                notes = "A refreshing Cuban classic"
+            ),
+            
+            // 3. Old Fashioned
+            Cocktail(
+                name = "Old Fashioned",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Bourbon"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Simple Syrup"]!!.id!!, "0.25 oz"),
+                    CocktailIngredient(ingredients["Angostura Bitters"]!!.id!!, "2 dashes")
+                ),
+                steps = mutableListOf(
+                    "Add simple syrup and bitters to glass",
+                    "Add bourbon and ice",
+                    "Stir well",
+                    "Garnish with orange slice and cherry"
+                ),
+                notes = "A timeless whiskey cocktail"
+            ),
+            
+            // 4. Cosmopolitan
+            Cocktail(
+                name = "Cosmopolitan",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Vodka"]!!.id!!, "1.5 oz"),
+                    CocktailIngredient(ingredients["Triple Sec"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Cranberry Juice"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into martini glass",
+                    "Garnish with lime wedge"
+                ),
+                notes = "Made famous by Sex and the City"
+            ),
+            
+            // 5. Daiquiri
+            Cocktail(
+                name = "Daiquiri",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["White Rum"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Simple Syrup"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into chilled coupe glass",
+                    "Garnish with lime wheel"
+                ),
+                notes = "Ernest Hemingway's favorite"
+            ),
+            
+            // 6. Moscow Mule
+            Cocktail(
+                name = "Moscow Mule",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Vodka"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Ginger Beer"]!!.id!!, "4 oz")
+                ),
+                steps = mutableListOf(
+                    "Add vodka and lime juice to copper mug with ice",
+                    "Top with ginger beer",
+                    "Stir gently",
+                    "Garnish with lime wedge"
+                ),
+                notes = "Traditionally served in a copper mug"
+            ),
+            
+            // 7. Piña Colada
+            Cocktail(
+                name = "Piña Colada",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["White Rum"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Pineapple Juice"]!!.id!!, "3 oz"),
+                    CocktailIngredient(ingredients["Heavy Cream"]!!.id!!, "1 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to blender with ice",
+                    "Blend until smooth",
+                    "Pour into hurricane glass",
+                    "Garnish with pineapple wedge and cherry"
+                ),
+                notes = "The official drink of Puerto Rico"
+            ),
+            
+            // 8. Gin and Tonic
+            Cocktail(
+                name = "Gin and Tonic",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Gin"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Tonic Water"]!!.id!!, "4 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add gin",
+                    "Top with tonic water",
+                    "Stir gently",
+                    "Garnish with lime wedge"
+                ),
+                notes = "A simple and refreshing classic"
+            ),
+            
+            // 9. Mai Tai
+            Cocktail(
+                name = "Mai Tai",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["White Rum"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Dark Rum"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Triple Sec"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "0.75 oz"),
+                    CocktailIngredient(ingredients["Simple Syrup"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients except dark rum to shaker with ice",
+                    "Shake well",
+                    "Strain into glass with crushed ice",
+                    "Float dark rum on top",
+                    "Garnish with mint and lime"
+                ),
+                notes = "A Tiki classic from the 1940s"
+            ),
+            
+            // 10. Whiskey Sour
+            Cocktail(
+                name = "Whiskey Sour",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Bourbon"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Lemon Juice"]!!.id!!, "0.75 oz"),
+                    CocktailIngredient(ingredients["Simple Syrup"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into rocks glass with ice",
+                    "Garnish with cherry and orange slice"
+                ),
+                notes = "A perfect balance of sweet and sour"
+            ),
+            
+            // 11. Cuba Libre
+            Cocktail(
+                name = "Cuba Libre",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["White Rum"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Cola"]!!.id!!, "4 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add rum and lime juice",
+                    "Top with cola",
+                    "Stir gently",
+                    "Garnish with lime wedge"
+                ),
+                notes = "Rum and Coke with a twist"
+            ),
+            
+            // 12. White Russian
+            Cocktail(
+                name = "White Russian",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Vodka"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Coffee Liqueur"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Heavy Cream"]!!.id!!, "1 oz")
+                ),
+                steps = mutableListOf(
+                    "Add vodka and coffee liqueur to glass with ice",
+                    "Float heavy cream on top",
+                    "Stir gently before drinking"
+                ),
+                notes = "The Dude's favorite drink"
+            ),
+            
+            // 13. Negroni
+            Cocktail(
+                name = "Negroni",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Gin"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Campari"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Sweet Vermouth"]!!.id!!, "1 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to glass with ice",
+                    "Stir well",
+                    "Garnish with orange slice"
+                ),
+                notes = "A bitter Italian aperitif"
+            ),
+            
+            // 14. Martini
+            Cocktail(
+                name = "Martini",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Gin"]!!.id!!, "2.5 oz"),
+                    CocktailIngredient(ingredients["Dry Vermouth"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add gin and vermouth to mixing glass with ice",
+                    "Stir well",
+                    "Strain into chilled martini glass",
+                    "Garnish with olives or lemon twist"
+                ),
+                notes = "Shaken or stirred - your choice"
+            ),
+            
+            // 15. Manhattan
+            Cocktail(
+                name = "Manhattan",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Bourbon"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Sweet Vermouth"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Angostura Bitters"]!!.id!!, "2 dashes")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to mixing glass with ice",
+                    "Stir well",
+                    "Strain into chilled coupe glass",
+                    "Garnish with cherry"
+                ),
+                notes = "A sophisticated whiskey cocktail"
+            ),
+            
+            // 16. Sidecar
+            Cocktail(
+                name = "Sidecar",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Cognac"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Triple Sec"]!!.id!!, "0.75 oz"),
+                    CocktailIngredient(ingredients["Lemon Juice"]!!.id!!, "0.75 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into coupe glass",
+                    "Garnish with lemon twist"
+                ),
+                notes = "A classic brandy cocktail"
+            ),
+            
+            // 17. Tom Collins
+            Cocktail(
+                name = "Tom Collins",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Gin"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Lemon Juice"]!!.id!!, "1 oz"),
+                    CocktailIngredient(ingredients["Simple Syrup"]!!.id!!, "0.5 oz"),
+                    CocktailIngredient(ingredients["Club Soda"]!!.id!!, "top")
+                ),
+                steps = mutableListOf(
+                    "Add gin, lemon juice, and simple syrup to shaker with ice",
+                    "Shake well",
+                    "Strain into Collins glass with ice",
+                    "Top with club soda",
+                    "Garnish with lemon slice and cherry"
+                ),
+                notes = "A refreshing gin fizz"
+            ),
+            
+            // 18. Screwdriver
+            Cocktail(
+                name = "Screwdriver",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Vodka"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Orange Juice"]!!.id!!, "4 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add vodka",
+                    "Top with orange juice",
+                    "Stir well"
+                ),
+                notes = "Simple and delicious"
+            ),
+            
+            // 19. Tequila Sunrise
+            Cocktail(
+                name = "Tequila Sunrise",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Tequila"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Orange Juice"]!!.id!!, "4 oz"),
+                    CocktailIngredient(ingredients["Grenadine"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add tequila and orange juice",
+                    "Stir well",
+                    "Slowly pour grenadine to create sunrise effect",
+                    "Garnish with orange slice and cherry"
+                ),
+                notes = "Beautiful gradient effect"
+            ),
+            
+            // 20. Dark and Stormy
+            Cocktail(
+                name = "Dark and Stormy",
+                ingredients = mutableListOf(
+                    CocktailIngredient(ingredients["Dark Rum"]!!.id!!, "2 oz"),
+                    CocktailIngredient(ingredients["Ginger Beer"]!!.id!!, "4 oz"),
+                    CocktailIngredient(ingredients["Lime Juice"]!!.id!!, "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add lime juice and ginger beer",
+                    "Float dark rum on top",
+                    "Garnish with lime wedge"
+                ),
+                notes = "The national drink of Bermuda"
+            )
+        )
+        
+        cocktailRepository.saveAll(cocktails)
+    }
+}
