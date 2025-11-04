@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Cocktail, CocktailIngredient, Ingredient } from '../models/models';
+import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
 import { ModalComponent } from './modal.component';
 
@@ -40,6 +40,18 @@ export class CocktailsComponent implements OnInit {
   newStep = '';
   newTag = '';
   customTag = '';
+  
+  // Ingredient search filter
+  ingredientSearchFilter = '';
+  
+  // Nested ingredient creation modal
+  isIngredientModalOpen = false;
+  newIngredientForCocktail: Ingredient = {
+    name: '',
+    type: IngredientType.SPIRIT,
+    abv: 0,
+    inStock: false
+  };
 
   constructor(private apiService: ApiService) {}
 
@@ -233,5 +245,52 @@ export class CocktailsComponent implements OnInit {
       cocktail.tags.forEach(tag => tags.add(tag));
     });
     return Array.from(tags).sort();
+  }
+  
+  get filteredIngredients(): Ingredient[] {
+    if (!this.ingredientSearchFilter) {
+      return this.ingredients;
+    }
+    return this.ingredients.filter(ingredient =>
+      ingredient.name.toLowerCase().includes(this.ingredientSearchFilter.toLowerCase())
+    );
+  }
+  
+  get ingredientTypes(): string[] {
+    return Object.values(IngredientType);
+  }
+  
+  openIngredientModal(): void {
+    this.isIngredientModalOpen = true;
+  }
+  
+  closeIngredientModal(): void {
+    this.isIngredientModalOpen = false;
+    this.resetNewIngredientForCocktail();
+  }
+  
+  createIngredientFromCocktail(): void {
+    this.apiService.createIngredient(this.newIngredientForCocktail).subscribe({
+      next: (createdIngredient: Ingredient) => {
+        this.loadIngredients();
+        // Auto-select the newly created ingredient
+        if (createdIngredient.id) {
+          this.newIngredientEntry.ingredientId = createdIngredient.id;
+        }
+        this.closeIngredientModal();
+      },
+      error: (error: any) => {
+        console.error('Error creating ingredient:', error);
+      }
+    });
+  }
+  
+  resetNewIngredientForCocktail(): void {
+    this.newIngredientForCocktail = {
+      name: '',
+      type: IngredientType.SPIRIT,
+      abv: 0,
+      inStock: false
+    };
   }
 }
