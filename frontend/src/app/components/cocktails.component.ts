@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
+import { ExportService, ExportFormat, ExportType } from '../services/export.service';
 import { ModalComponent } from './modal.component';
 
 @Component({
@@ -52,8 +53,14 @@ export class CocktailsComponent implements OnInit {
     abv: 0,
     inStock: false
   };
+  
+  // Export modal
+  isExportModalOpen = false;
+  exportType: ExportType = ExportType.MENU;
+  exportFormat: ExportFormat = ExportFormat.HTML;
+  exportGroupBy: 'spirit' | 'tags' = 'spirit';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private exportService: ExportService) {}
 
   ngOnInit(): void {
     this.loadCocktails();
@@ -296,5 +303,40 @@ export class CocktailsComponent implements OnInit {
       abv: 0,
       inStock: false
     };
+  }
+  
+  openExportModal(): void {
+    this.isExportModalOpen = true;
+  }
+  
+  closeExportModal(): void {
+    this.isExportModalOpen = false;
+  }
+  
+  performExport(): void {
+    const cocktailsToExport = this.displayedCocktails;
+    
+    if (cocktailsToExport.length === 0) {
+      alert('No cocktails to export. Please adjust your filters.');
+      return;
+    }
+    
+    this.exportService.exportCocktails(
+      cocktailsToExport,
+      this.ingredients,
+      this.exportType,
+      this.exportFormat,
+      this.exportGroupBy
+    );
+    
+    this.closeExportModal();
+  }
+  
+  get ExportType() {
+    return ExportType;
+  }
+  
+  get ExportFormat() {
+    return ExportFormat;
   }
 }
