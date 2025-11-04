@@ -4,6 +4,25 @@
     <button class="btn-primary" (click)="openModal()">Add New Ingredient</button>
   </div>
   
+  <div class="filter-section">
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label>Search by Name:</label>
+        <input type="text" [(ngModel)]="nameFilter" placeholder="Filter by name...">
+      </div>
+      
+      <div class="filter-group">
+        <label>Filter by Type:</label>
+        <select [(ngModel)]="typeFilter">
+          <option value="">All Types</option>
+          <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+      
+      <button class="btn-secondary clear-btn" (click)="clearFilters()">Clear Filters</button>
+    </div>
+  </div>
+  
   <app-modal [isOpen]="isModalOpen" [title]="'Add New Ingredient'" (closed)="closeModal()">
     <form #ingredientForm="ngForm" (ngSubmit)="createIngredient()">
       <div class="form-group">
@@ -45,15 +64,30 @@
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>ABV</th>
+          <th class="sortable" (click)="setSortBy('name')">
+            Name 
+            <span class="sort-indicator" *ngIf="sortBy === 'name'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th class="sortable" (click)="setSortBy('type')">
+            Type 
+            <span class="sort-indicator" *ngIf="sortBy === 'type'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th class="sortable" (click)="setSortBy('abv')">
+            ABV 
+            <span class="sort-indicator" *ngIf="sortBy === 'abv'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
           <th>In Stock</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ingredient of ingredients">
+        <tr *ngFor="let ingredient of displayedIngredients">
           <td>{{ ingredient.name }}</td>
           <td>{{ ingredient.type }}</td>
           <td>{{ ingredient.abv }}%</td>
