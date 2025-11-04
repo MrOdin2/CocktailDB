@@ -113,3 +113,18 @@ table th.sortable:hover {
   margin-left: 5px;
   font-size: 12px;
 }
+
+.edit-input {
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+table td {
+  vertical-align: middle;
+}
+
+table td button {
+  margin-right: 5px;
+}
