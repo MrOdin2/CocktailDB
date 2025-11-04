@@ -29,6 +29,7 @@ class CocktailService(
         existing.ingredients = cocktail.ingredients
         existing.steps = cocktail.steps
         existing.notes = cocktail.notes
+        existing.tags = cocktail.tags
         return cocktailRepository.save(existing)
     }
     
@@ -45,6 +46,36 @@ class CocktailService(
         return allCocktails.filter { cocktail ->
             val requiredIngredientIds = cocktail.ingredients.map { it.ingredientId }.toSet()
             inStockIngredientIds.containsAll(requiredIngredientIds)
+        }
+    }
+    
+    fun searchCocktails(name: String? = null, spirit: String? = null, tags: List<String>? = null): List<Cocktail> {
+        val allCocktails = cocktailRepository.findAll()
+        
+        return allCocktails.filter { cocktail ->
+            var matches = true
+            
+            // Filter by name (case-insensitive partial match)
+            if (!name.isNullOrBlank()) {
+                matches = matches && cocktail.name.contains(name, ignoreCase = true)
+            }
+            
+            // Filter by spirit (check if any ingredient is the specified spirit)
+            if (!spirit.isNullOrBlank()) {
+                val hasSpirit = cocktail.ingredients.any { cocktailIng ->
+                    val ingredient = ingredientRepository.findById(cocktailIng.ingredientId).orElse(null)
+                    ingredient != null && ingredient.name.equals(spirit, ignoreCase = true)
+                }
+                matches = matches && hasSpirit
+            }
+            
+            // Filter by tags (cocktail must have all specified tags)
+            if (!tags.isNullOrEmpty()) {
+                val cocktailTags = cocktail.tags.map { it.lowercase() }
+                matches = matches && tags.all { tag -> cocktailTags.contains(tag.lowercase()) }
+            }
+            
+            matches
         }
     }
 }

@@ -9,6 +9,28 @@
       <input type="checkbox" [(ngModel)]="showOnlyAvailable" (change)="toggleAvailableOnly()">
       Show only cocktails I can make (with available ingredients)
     </label>
+    
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label>Search by Name:</label>
+        <input type="text" [(ngModel)]="nameFilter" placeholder="Filter by name...">
+      </div>
+      
+      <div class="filter-group">
+        <label>Filter by Spirit:</label>
+        <select [(ngModel)]="spiritFilter">
+          <option value="">All Spirits</option>
+          <option *ngFor="let spirit of uniqueSpirits" [value]="spirit">{{ spirit }}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Filter by Tag:</label>
+        <input type="text" [(ngModel)]="tagFilter" placeholder="Filter by tag...">
+      </div>
+      
+      <button class="btn-secondary" (click)="clearFilters()">Clear Filters</button>
+    </div>
   </div>
 
   <app-modal [isOpen]="isModalOpen" [title]="'Add New Cocktail'" (closed)="closeModal()">
@@ -63,6 +85,20 @@
         <textarea [(ngModel)]="newCocktail.notes" name="notes" rows="3"></textarea>
       </div>
 
+      <div class="form-group">
+        <label>Tags:</label>
+        <div class="tag-inputs">
+          <input type="text" [(ngModel)]="newTag" name="newTag" placeholder="Add a tag (e.g., sweet, sour)">
+          <button type="button" class="btn-secondary" (click)="addTag()">Add Tag</button>
+        </div>
+        <div class="tag-list">
+          <span *ngFor="let tag of newCocktail.tags; let i = index" class="tag-badge">
+            {{ tag }}
+            <button type="button" class="tag-remove" (click)="removeTag(i)">×</button>
+          </span>
+        </div>
+      </div>
+
       <div class="modal-actions">
         <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
         <button type="submit" class="btn-primary" [disabled]="cocktailForm.invalid || newCocktail.ingredients.length === 0">Add Cocktail</button>
@@ -75,6 +111,12 @@
     <div class="cocktail-cards">
       <div *ngFor="let cocktail of displayedCocktails" class="cocktail-card">
         <h4>{{ cocktail.name }}</h4>
+        
+        <div class="card-section" *ngIf="cocktail.tags && cocktail.tags.length > 0">
+          <div class="tags-display">
+            <span *ngFor="let tag of cocktail.tags" class="tag-badge">{{ tag }}</span>
+          </div>
+        </div>
         
         <div class="card-section">
           <strong>Ingredients:</strong>

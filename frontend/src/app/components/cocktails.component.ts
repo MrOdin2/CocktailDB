@@ -19,11 +19,17 @@ export class CocktailsComponent implements OnInit {
   showOnlyAvailable = false;
   isModalOpen = false;
   
+  // Filter properties
+  nameFilter = '';
+  spiritFilter = '';
+  tagFilter = '';
+  
   newCocktail: Cocktail = {
     name: '',
     ingredients: [],
     steps: [],
-    notes: ''
+    notes: '',
+    tags: []
   };
   
   newIngredientEntry: CocktailIngredient = {
@@ -32,6 +38,7 @@ export class CocktailsComponent implements OnInit {
   };
   
   newStep = '';
+  newTag = '';
 
   constructor(private apiService: ApiService) {}
 
@@ -75,7 +82,41 @@ export class CocktailsComponent implements OnInit {
   }
 
   get displayedCocktails(): Cocktail[] {
-    return this.showOnlyAvailable ? this.availableCocktails : this.cocktails;
+    if (this.showOnlyAvailable) {
+      return this.availableCocktails;
+    }
+    
+    // Apply filters
+    if (!this.nameFilter && !this.spiritFilter && !this.tagFilter) {
+      return this.cocktails;
+    }
+    
+    return this.cocktails.filter(cocktail => {
+      let matches = true;
+      
+      // Name filter
+      if (this.nameFilter) {
+        matches = matches && cocktail.name.toLowerCase().includes(this.nameFilter.toLowerCase());
+      }
+      
+      // Spirit filter
+      if (this.spiritFilter) {
+        const hasSpirit = cocktail.ingredients.some(ing => {
+          const ingredient = this.ingredients.find(i => i.id === ing.ingredientId);
+          return ingredient && ingredient.name.toLowerCase() === this.spiritFilter.toLowerCase();
+        });
+        matches = matches && hasSpirit;
+      }
+      
+      // Tag filter
+      if (this.tagFilter) {
+        matches = matches && cocktail.tags.some(tag => 
+          tag.toLowerCase().includes(this.tagFilter.toLowerCase())
+        );
+      }
+      
+      return matches;
+    });
   }
 
   openModal(): void {
@@ -107,6 +148,17 @@ export class CocktailsComponent implements OnInit {
 
   removeStep(index: number): void {
     this.newCocktail.steps.splice(index, 1);
+  }
+
+  addTag(): void {
+    if (this.newTag.trim() && !this.newCocktail.tags.includes(this.newTag.trim())) {
+      this.newCocktail.tags.push(this.newTag.trim());
+      this.newTag = '';
+    }
+  }
+
+  removeTag(index: number): void {
+    this.newCocktail.tags.splice(index, 1);
   }
 
   createCocktail(): void {
@@ -148,11 +200,26 @@ export class CocktailsComponent implements OnInit {
       name: '',
       ingredients: [],
       steps: [],
-      notes: ''
+      notes: '',
+      tags: []
     };
   }
 
   toggleAvailableOnly(): void {
     this.showOnlyAvailable = !this.showOnlyAvailable;
+  }
+
+  clearFilters(): void {
+    this.nameFilter = '';
+    this.spiritFilter = '';
+    this.tagFilter = '';
+  }
+
+  get uniqueSpirits(): string[] {
+    const spirits = new Set<string>();
+    this.ingredients
+      .filter(ing => ing.type === 'SPIRIT')
+      .forEach(ing => spirits.add(ing.name));
+    return Array.from(spirits).sort();
   }
 }
