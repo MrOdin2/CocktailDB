@@ -145,6 +145,8 @@ export class CocktailsComponent implements OnInit {
     if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measure) {
       this.newCocktail.ingredients.push({ ...this.newIngredientEntry });
       this.newIngredientEntry = { ingredientId: 0, measure: '' };
+      // Clear search filter after adding ingredient
+      this.ingredientSearchFilter = '';
     }
   }
 
@@ -274,8 +276,10 @@ export class CocktailsComponent implements OnInit {
       next: (createdIngredient: Ingredient) => {
         this.loadIngredients();
         // Auto-select the newly created ingredient
-        if (createdIngredient.id) {
+        if (createdIngredient && createdIngredient.id) {
           this.newIngredientEntry.ingredientId = createdIngredient.id;
+          // Clear search filter to show the selected ingredient
+          this.ingredientSearchFilter = '';
         }
         this.closeIngredientModal();
       },
