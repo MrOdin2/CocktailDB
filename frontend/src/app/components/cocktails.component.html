@@ -51,14 +51,22 @@
       <div class="form-group">
         <label>Ingredients:</label>
         <div class="ingredient-inputs">
-          <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
-            <option value="0">Select Ingredient</option>
-            <option *ngFor="let ingredient of ingredients" [value]="ingredient.id">
-              {{ ingredient.name }}
-            </option>
-          </select>
+          <div class="ingredient-search-group">
+            <input type="text" 
+                   [(ngModel)]="ingredientSearchFilter" 
+                   name="ingredientSearch" 
+                   placeholder="Search ingredients..."
+                   class="ingredient-search">
+            <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
+              <option value="0">Select Ingredient</option>
+              <option *ngFor="let ingredient of filteredIngredients" [value]="ingredient.id">
+                {{ ingredient.name }}
+              </option>
+            </select>
+          </div>
           <input type="text" [(ngModel)]="newIngredientEntry.measure" name="measure" placeholder="Measure (e.g., 2 oz)">
           <button type="button" class="btn-secondary" (click)="addIngredientToCocktail()">Add</button>
+          <button type="button" class="btn-primary" (click)="openIngredientModal()">+ New Ingredient</button>
         </div>
         <ul class="ingredient-list">
           <li *ngFor="let ing of newCocktail.ingredients; let i = index">
@@ -113,6 +121,43 @@
         <button type="submit" class="btn-primary" [disabled]="cocktailForm.invalid || newCocktail.ingredients.length === 0">Add Cocktail</button>
       </div>
     </form>
+    
+    <!-- Nested Ingredient Creation Modal -->
+    <app-modal [isOpen]="isIngredientModalOpen" [title]="'Add New Ingredient'" (closed)="closeIngredientModal()">
+      <form #ingredientForm="ngForm" (ngSubmit)="createIngredientFromCocktail()">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" [(ngModel)]="newIngredientForCocktail.name" name="ingredientName" required #ingredientNameInput="ngModel">
+          <div *ngIf="ingredientNameInput.invalid && ingredientNameInput.touched" class="error-message">
+            Name is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Type:</label>
+          <select [(ngModel)]="newIngredientForCocktail.type" name="ingredientType" required>
+            <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>ABV (%):</label>
+          <input type="number" [(ngModel)]="newIngredientForCocktail.abv" name="ingredientAbv" min="0" max="100" required>
+        </div>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="newIngredientForCocktail.inStock" name="ingredientInStock">
+            In Stock
+          </label>
+        </div>
+        
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeIngredientModal()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="ingredientForm.invalid">Add Ingredient</button>
+        </div>
+      </form>
+    </app-modal>
   </app-modal>
 
   <div class="cocktails-list">
