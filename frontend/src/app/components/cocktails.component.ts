@@ -137,6 +137,7 @@ export class CocktailsComponent implements OnInit {
   openModal(): void {
     this.isEditMode = false;
     this.editingCocktailId = undefined;
+    this.resetNewCocktail();
     this.isModalOpen = true;
   }
 
@@ -155,6 +156,8 @@ export class CocktailsComponent implements OnInit {
 
   closeModal(): void {
     this.isModalOpen = false;
+    this.isEditMode = false;
+    this.editingCocktailId = undefined;
     this.resetNewCocktail();
   }
 
