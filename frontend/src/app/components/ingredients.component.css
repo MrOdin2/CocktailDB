@@ -15,6 +15,41 @@
   margin: 0;
 }
 
+.filter-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.filter-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.filter-group input[type="text"],
+.filter-group select {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.clear-btn {
+  margin-bottom: 0;
+}
+
 .add-form {
   padding: 20px;
   border-radius: 5px;
@@ -63,4 +98,18 @@ table td {
 
 table th {
   font-weight: bold;
+}
+
+table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+table th.sortable:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sort-indicator {
+  margin-left: 5px;
+  font-size: 12px;
 }

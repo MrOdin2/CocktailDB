@@ -23,6 +23,14 @@ export class IngredientsComponent implements OnInit {
   ingredientTypes = Object.values(IngredientType);
   editingIngredient: Ingredient | null = null;
   isModalOpen = false;
+  
+  // Filter properties
+  nameFilter = '';
+  typeFilter = '';
+  
+  // Sort properties
+  sortBy: 'name' | 'type' | 'abv' = 'name';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private apiService: ApiService) {}
 
@@ -39,6 +47,58 @@ export class IngredientsComponent implements OnInit {
         console.error('Error loading ingredients:', error);
       }
     });
+  }
+  
+  get displayedIngredients(): Ingredient[] {
+    let filtered = this.ingredients;
+    
+    // Apply filters
+    if (this.nameFilter) {
+      filtered = filtered.filter(ingredient => 
+        ingredient.name.toLowerCase().includes(this.nameFilter.toLowerCase())
+      );
+    }
+    
+    if (this.typeFilter) {
+      filtered = filtered.filter(ingredient => 
+        ingredient.type === this.typeFilter
+      );
+    }
+    
+    // Apply sorting
+    return filtered.sort((a, b) => {
+      let comparison = 0;
+      
+      switch (this.sortBy) {
+        case 'name':
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case 'type':
+          comparison = a.type.localeCompare(b.type);
+          break;
+        case 'abv':
+          comparison = a.abv - b.abv;
+          break;
+      }
+      
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+  
+  setSortBy(field: 'name' | 'type' | 'abv'): void {
+    if (this.sortBy === field) {
+      // Toggle direction if clicking the same field
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      // Set new field and default to ascending
+      this.sortBy = field;
+      this.sortDirection = 'asc';
+    }
+  }
+  
+  clearFilters(): void {
+    this.nameFilter = '';
+    this.typeFilter = '';
   }
 
   openModal(): void {
