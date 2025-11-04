@@ -1,0 +1,520 @@
+/* THEME 2: Cyberpunk Magenta/Cyan - Neon Cyberpunk Aesthetic (Matrix/RoboCop) */
+/* Complete application styles */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: 'Courier New', 'Courier', monospace;
+  background-color: #0a0e27 !important;
+  color: #00ffff;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+code {
+  font-family: 'Courier New', 'Courier', monospace;
+}
+
+/* CRT scanline effect with neon glow - reduced intensity */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+    opacity: 0.8;
+  }
+}
+
+/* App Component Styles */
+.app {
+  min-height: 100vh;
+  height: 100%;
+  background-color: #0a0e27;
+}
+
+header {
+  background-color: #1a0a3e;
+  color: #00ffff;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(255, 0, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3);
+  border-bottom: 2px solid #ff00ff;
+  border-top: 2px solid #00ffff;
+}
+
+header h1 {
+  margin: 0 0 15px 0;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+  background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #00ffff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid #ff00ff;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: transparent;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+nav a:hover {
+  background-color: #ff00ff;
+  color: #0a0e27;
+  box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+  border-color: #00ffff;
+}
+
+nav a.active {
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+  color: #000000;
+  box-shadow: 0 0 25px #ff00ff, 0 0 35px #00ffff;
+  border-color: #00ffff;
+}
+
+main {
+  padding: 20px;
+  background-color: #0a0e27;
+}
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: transparent;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ff00ff;
+  border-top: 2px solid #00ffff;
+}
+
+.header-section h2 {
+  margin: 0;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+.header-section h3 {
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00ffff, 0 0 15px #ff00ff;
+}
+
+/* Filter section */
+.filter-section {
+  background: #1a0a3e;
+  padding: 15px;
+  border: 2px solid #ff00ff;
+  border-left: 4px solid #00ffff;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #00ffff;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+}
+
+.filter-section input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #00ffff;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select,
+.form-group input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #ff00ff;
+  background-color: #0a0e27;
+  color: #00ffff;
+  font-family: 'Courier New', monospace;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.form-group input[type="number"]:focus {
+  outline: none;
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff;
+  border-color: #00ffff;
+}
+
+.form-group input.ng-invalid.ng-touched,
+.form-group select.ng-invalid.ng-touched {
+  border-color: #ff0066;
+  box-shadow: 0 0 15px #ff0066;
+}
+
+.error-message {
+  color: #ff0066;
+  font-size: 12px;
+  margin-top: 4px;
+  text-shadow: 0 0 8px #ff0066;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+  color: #000000;
+  padding: 10px 20px;
+  border: 2px solid #00ffff;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px #ff00ff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 0 30px #ff00ff, 0 0 40px #00ffff;
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #00ffff, #ff00ff);
+}
+
+.btn-primary:disabled {
+  background: #2a2a4a;
+  color: #555566;
+  border-color: #555566;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #00ffff;
+  padding: 8px 15px;
+  border: 2px solid #ff00ff;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.btn-secondary:hover {
+  background-color: #ff00ff;
+  color: #0a0e27;
+  box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+  border-color: #00ffff;
+}
+
+.btn-danger {
+  background-color: #ff0066;
+  color: #ffffff;
+  padding: 8px 15px;
+  border: 2px solid #ff0066;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px #000000;
+}
+
+.btn-danger:hover {
+  box-shadow: 0 0 25px #ff0066;
+  transform: translateY(-2px);
+  background-color: #cc0052;
+}
+
+.btn-small {
+  background-color: #ff0066;
+  color: #ffffff;
+  padding: 2px 8px;
+  border: 2px solid #ff0066;
+  cursor: pointer;
+  font-size: 10px;
+  margin-left: 10px;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Modal styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 14, 39, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #0a0e27;
+  border: 3px solid #ff00ff;
+  border-right: 3px solid #00ffff;
+  border-bottom: 3px solid #00ffff;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 40px #ff00ff, 0 0 60px #00ffff;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid #ff00ff;
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #ff00ff;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 1;
+  text-shadow: 0 0 10px #ff00ff;
+}
+
+.close-button:hover {
+  color: #00ffff;
+  text-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Ingredient inputs */
+.ingredient-inputs,
+.step-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ingredient-inputs select {
+  flex: 1;
+}
+
+.ingredient-inputs input {
+  flex: 1;
+}
+
+.step-inputs input {
+  flex: 1;
+}
+
+.ingredient-list,
+.steps-list {
+  list-style-position: inside;
+  padding-left: 0;
+  color: #00ffff;
+}
+
+.ingredient-list li,
+.steps-list li {
+  padding: 5px;
+  margin-bottom: 5px;
+  border-left: 3px solid #ff00ff;
+  border-bottom: 1px solid #00ffff;
+  padding-left: 10px;
+}
+
+/* Cocktail cards */
+.cocktail-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.cocktail-card {
+  background: #1a0a3e;
+  padding: 20px;
+  border: 2px solid #ff00ff;
+  border-right: 2px solid #00ffff;
+  border-bottom: 2px solid #00ffff;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2);
+  transition: all 0.3s;
+}
+
+.cocktail-card:hover {
+  box-shadow: 0 0 35px rgba(255, 0, 255, 0.7), 0 0 50px rgba(0, 255, 255, 0.5);
+  transform: translateY(-5px);
+}
+
+.cocktail-card h4 {
+  margin-top: 0;
+  color: #00ffff;
+  border-bottom: 2px solid #ff00ff;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #00ffff, 0 0 15px #ff00ff;
+}
+
+.card-section {
+  margin-bottom: 15px;
+}
+
+.card-section strong {
+  color: #ff00ff;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px #ff00ff;
+}
+
+.card-section ul,
+.card-section ol {
+  margin: 5px 0;
+  padding-left: 20px;
+  color: #00ffff;
+}
+
+.card-section p {
+  margin: 5px 0;
+  color: #00ffff;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1a0a3e;
+  border: 2px solid #ff00ff;
+  border-right: 2px solid #00ffff;
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ff00ff;
+  color: #00ffff;
+}
+
+table th {
+  background-color: #2a1a5e;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px #ff00ff;
+  border-bottom: 2px solid #00ffff;
+}
+
+table tr:hover {
+  background-color: #251850;
+  box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.2);
+}
+
+table input[type="checkbox"] {
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0e27;
+  border: 1px solid #ff00ff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff00ff, #00ffff);
+  box-shadow: 0 0 10px #ff00ff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00ffff, #ff00ff);
+  box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff;
+}

@@ -26,7 +26,10 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/styles-theme1-terminal-green.css",
+              "src/styles-theme2-cyberpunk.css",
+              "src/styles-theme3-amber.css"
             ],
             "styles": [
               "src/styles.css"
@@ -82,7 +85,10 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/styles-theme1-terminal-green.css",
+              "src/styles-theme2-cyberpunk.css",
+              "src/styles-theme3-amber.css"
             ],
             "styles": [
               "src/styles.css"

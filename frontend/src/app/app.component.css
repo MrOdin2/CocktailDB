@@ -1,13 +1,9 @@
 .app {
   min-height: 100vh;
-  background-color: #f8f9fa;
 }
 
 header {
-  background-color: #343a40;
-  color: white;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 header h1 {
@@ -20,19 +16,9 @@ nav {
 }
 
 nav a {
-  color: white;
   text-decoration: none;
   padding: 8px 16px;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-
-nav a:hover {
-  background-color: #495057;
-}
-
-nav a.active {
-  background-color: #007bff;
+  transition: all 0.3s;
 }
 
 main {
