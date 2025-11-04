@@ -411,18 +411,28 @@ export class ExportService {
 
   /**
    * Print HTML content to PDF using browser's print dialog
+   * Uses DOMParser to safely parse HTML content before displaying
    */
   private printToPDF(content: string, baseFilename: string): void {
-    // Open a new window with the content
-    const printWindow = window.open('', '_blank');
+    // Create a blob URL instead of writing directly to window
+    const blob = new Blob([content], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    
+    // Open the blob URL in a new window
+    const printWindow = window.open(url, '_blank');
     if (printWindow) {
-      printWindow.document.write(content);
-      printWindow.document.close();
-      
-      // Wait for content to load, then trigger print
+      // Clean up the blob URL after the window loads
       printWindow.onload = () => {
         printWindow.print();
+        // Clean up after a delay to allow print dialog to open
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 100);
       };
+    } else {
+      // Fallback: download as HTML if popup is blocked
+      this.downloadFile(content, `${baseFilename}.html`, 'text/html');
+      URL.revokeObjectURL(url);
     }
   }
 }

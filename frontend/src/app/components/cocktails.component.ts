@@ -317,7 +317,7 @@ export class CocktailsComponent implements OnInit {
     const cocktailsToExport = this.displayedCocktails;
     
     if (cocktailsToExport.length === 0) {
-      alert('No cocktails to export. Please adjust your filters.');
+      console.warn('No cocktails to export. Adjust filters to include cocktails.');
       return;
     }
     
