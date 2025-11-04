@@ -5,11 +5,6 @@
   </div>
   
   <div class="filter-section">
-    <label>
-      <input type="checkbox" [(ngModel)]="showOnlyAvailable" (change)="toggleAvailableOnly()">
-      Show only cocktails I can make (with available ingredients)
-    </label>
-    
     <div class="filter-controls">
       <div class="filter-group">
         <label>Search by Name:</label>
@@ -26,10 +21,20 @@
       
       <div class="filter-group">
         <label>Filter by Tag:</label>
-        <input type="text" [(ngModel)]="tagFilter" placeholder="Filter by tag...">
+        <select [(ngModel)]="tagFilter">
+          <option value="">All Tags</option>
+          <option *ngFor="let tag of allTags" [value]="tag">{{ tag }}</option>
+        </select>
       </div>
       
-      <button class="btn-secondary" (click)="clearFilters()">Clear Filters</button>
+      <div class="filter-group checkbox-filter">
+        <label>
+          <input type="checkbox" [(ngModel)]="showOnlyAvailable" (change)="toggleAvailableOnly()">
+          Available Only
+        </label>
+      </div>
+      
+      <button class="btn-secondary clear-btn" (click)="clearFilters()">Clear Filters</button>
     </div>
   </div>
 
@@ -88,7 +93,11 @@
       <div class="form-group">
         <label>Tags:</label>
         <div class="tag-inputs">
-          <input type="text" [(ngModel)]="newTag" name="newTag" placeholder="Add a tag (e.g., sweet, sour)">
+          <select [(ngModel)]="newTag" name="newTag" class="tag-select">
+            <option value="">Select a tag or type new</option>
+            <option *ngFor="let tag of allTags" [value]="tag">{{ tag }}</option>
+          </select>
+          <input type="text" [(ngModel)]="customTag" name="customTag" placeholder="Or type a new tag">
           <button type="button" class="btn-secondary" (click)="addTag()">Add Tag</button>
         </div>
         <div class="tag-list">

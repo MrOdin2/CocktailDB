@@ -22,15 +22,9 @@
   font-size: 16px;
 }
 
-.filter-section input[type="checkbox"] {
-  margin-right: 8px;
-  transform: scale(1.2);
-}
-
 .filter-controls {
-  margin-top: 15px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 15px;
   align-items: end;
 }
@@ -51,6 +45,28 @@
   padding: 8px;
   border-radius: 4px;
   width: 100%;
+}
+
+.filter-group.checkbox-filter {
+  justify-content: flex-end;
+}
+
+.filter-group.checkbox-filter label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-group.checkbox-filter input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.clear-btn {
+  align-self: flex-end;
+  white-space: nowrap;
 }
 
 .add-form {
@@ -106,8 +122,13 @@
   margin-bottom: 10px;
 }
 
-.tag-inputs input {
+.tag-inputs input,
+.tag-inputs select {
   flex: 1;
+}
+
+.tag-select {
+  min-width: 150px;
 }
 
 .tag-list {

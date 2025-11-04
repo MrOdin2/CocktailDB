@@ -39,6 +39,7 @@ export class CocktailsComponent implements OnInit {
   
   newStep = '';
   newTag = '';
+  customTag = '';
 
   constructor(private apiService: ApiService) {}
 
@@ -151,9 +152,11 @@ export class CocktailsComponent implements OnInit {
   }
 
   addTag(): void {
-    if (this.newTag.trim() && !this.newCocktail.tags.includes(this.newTag.trim())) {
-      this.newCocktail.tags.push(this.newTag.trim());
+    const tagToAdd = this.customTag.trim() || this.newTag.trim();
+    if (tagToAdd && !this.newCocktail.tags.includes(tagToAdd)) {
+      this.newCocktail.tags.push(tagToAdd);
       this.newTag = '';
+      this.customTag = '';
     }
   }
 
@@ -213,6 +216,7 @@ export class CocktailsComponent implements OnInit {
     this.nameFilter = '';
     this.spiritFilter = '';
     this.tagFilter = '';
+    this.showOnlyAvailable = false;
   }
 
   get uniqueSpirits(): string[] {
@@ -221,5 +225,13 @@ export class CocktailsComponent implements OnInit {
       .filter(ing => ing.type === 'SPIRIT')
       .forEach(ing => spirits.add(ing.name));
     return Array.from(spirits).sort();
+  }
+
+  get allTags(): string[] {
+    const tags = new Set<string>();
+    this.cocktails.forEach(cocktail => {
+      cocktail.tags.forEach(tag => tags.add(tag));
+    });
+    return Array.from(tags).sort();
   }
 }
