@@ -60,4 +60,13 @@ export class ApiService {
   getAvailableCocktails(): Observable<Cocktail[]> {
     return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/available`);
   }
+
+  searchCocktails(name?: string, spirit?: string, tags?: string[]): Observable<Cocktail[]> {
+    let params: any = {};
+    if (name) params.name = name;
+    if (spirit) params.spirit = spirit;
+    if (tags && tags.length > 0) params.tags = tags;
+    
+    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/search`, { params });
+  }
 }

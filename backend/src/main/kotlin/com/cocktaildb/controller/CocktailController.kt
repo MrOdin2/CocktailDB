@@ -63,4 +63,13 @@ class CocktailController(
     fun getAvailableCocktails(): List<Cocktail> {
         return cocktailService.getAvailableCocktails()
     }
+    
+    @GetMapping("/search")
+    fun searchCocktails(
+        @RequestParam(required = false) name: String?,
+        @RequestParam(required = false) spirit: String?,
+        @RequestParam(required = false) tags: List<String>?
+    ): List<Cocktail> {
+        return cocktailService.searchCocktails(name, spirit, tags)
+    }
 }

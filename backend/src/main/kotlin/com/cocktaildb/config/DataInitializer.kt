@@ -109,7 +109,8 @@ class DataInitializer(
                     "Strain into salt-rimmed glass",
                     "Garnish with lime wedge"
                 ),
-                notes = "A classic Mexican cocktail"
+                notes = "A classic Mexican cocktail",
+                tags = mutableListOf("sour", "refreshing", "classic")
             ),
             
             // 2. Mojito
@@ -129,7 +130,8 @@ class DataInitializer(
                     "Stir gently",
                     "Garnish with mint sprig"
                 ),
-                notes = "A refreshing Cuban classic"
+                notes = "A refreshing Cuban classic",
+                tags = mutableListOf("refreshing", "sweet", "minty")
             ),
             
             // 3. Old Fashioned
@@ -146,7 +148,8 @@ class DataInitializer(
                     "Stir well",
                     "Garnish with orange slice and cherry"
                 ),
-                notes = "A timeless whiskey cocktail"
+                notes = "A timeless whiskey cocktail",
+                tags = mutableListOf("spirit forward", "classic", "strong")
             ),
             
             // 4. Cosmopolitan
@@ -164,7 +167,8 @@ class DataInitializer(
                     "Strain into martini glass",
                     "Garnish with lime wedge"
                 ),
-                notes = "Made famous by Sex and the City"
+                notes = "Made famous by Sex and the City",
+                tags = mutableListOf("sweet", "fruity", "modern")
             ),
             
             // 5. Daiquiri
@@ -181,7 +185,8 @@ class DataInitializer(
                     "Strain into chilled coupe glass",
                     "Garnish with lime wheel"
                 ),
-                notes = "Ernest Hemingway's favorite"
+                notes = "Ernest Hemingway's favorite",
+                tags = mutableListOf("sour", "refreshing", "classic")
             ),
             
             // 6. Moscow Mule
@@ -198,7 +203,8 @@ class DataInitializer(
                     "Stir gently",
                     "Garnish with lime wedge"
                 ),
-                notes = "Traditionally served in a copper mug"
+                notes = "Traditionally served in a copper mug",
+                tags = mutableListOf("refreshing", "spicy", "fizzy")
             ),
             
             // 7. Piña Colada
@@ -215,7 +221,8 @@ class DataInitializer(
                     "Pour into hurricane glass",
                     "Garnish with pineapple wedge and cherry"
                 ),
-                notes = "The official drink of Puerto Rico"
+                notes = "The official drink of Puerto Rico",
+                tags = mutableListOf("sweet", "creamy", "tropical")
             ),
             
             // 8. Gin and Tonic
@@ -232,7 +239,8 @@ class DataInitializer(
                     "Stir gently",
                     "Garnish with lime wedge"
                 ),
-                notes = "A simple and refreshing classic"
+                notes = "A simple and refreshing classic",
+                tags = mutableListOf("refreshing", "fizzy", "simple")
             ),
             
             // 9. Mai Tai
@@ -252,7 +260,8 @@ class DataInitializer(
                     "Float dark rum on top",
                     "Garnish with mint and lime"
                 ),
-                notes = "A Tiki classic from the 1940s"
+                notes = "A Tiki classic from the 1940s",
+                tags = mutableListOf("tropical", "sweet", "complex")
             ),
             
             // 10. Whiskey Sour
@@ -269,7 +278,8 @@ class DataInitializer(
                     "Strain into rocks glass with ice",
                     "Garnish with cherry and orange slice"
                 ),
-                notes = "A perfect balance of sweet and sour"
+                notes = "A perfect balance of sweet and sour",
+                tags = mutableListOf("sour", "classic", "balanced")
             ),
             
             // 11. Cuba Libre
@@ -287,7 +297,8 @@ class DataInitializer(
                     "Stir gently",
                     "Garnish with lime wedge"
                 ),
-                notes = "Rum and Coke with a twist"
+                notes = "Rum and Coke with a twist",
+                tags = mutableListOf("sweet", "simple", "fizzy")
             ),
             
             // 12. White Russian
@@ -303,7 +314,8 @@ class DataInitializer(
                     "Float heavy cream on top",
                     "Stir gently before drinking"
                 ),
-                notes = "The Dude's favorite drink"
+                notes = "The Dude's favorite drink",
+                tags = mutableListOf("creamy", "sweet", "dessert")
             ),
             
             // 13. Negroni
@@ -319,7 +331,8 @@ class DataInitializer(
                     "Stir well",
                     "Garnish with orange slice"
                 ),
-                notes = "A bitter Italian aperitif"
+                notes = "A bitter Italian aperitif",
+                tags = mutableListOf("bitter", "spirit forward", "classic")
             ),
             
             // 14. Martini
@@ -335,7 +348,8 @@ class DataInitializer(
                     "Strain into chilled martini glass",
                     "Garnish with olives or lemon twist"
                 ),
-                notes = "Shaken or stirred - your choice"
+                notes = "Shaken or stirred - your choice",
+                tags = mutableListOf("spirit forward", "classic", "elegant")
             ),
             
             // 15. Manhattan
@@ -352,7 +366,8 @@ class DataInitializer(
                     "Strain into chilled coupe glass",
                     "Garnish with cherry"
                 ),
-                notes = "A sophisticated whiskey cocktail"
+                notes = "A sophisticated whiskey cocktail",
+                tags = mutableListOf("spirit forward", "classic", "strong")
             ),
             
             // 16. Sidecar
@@ -369,7 +384,8 @@ class DataInitializer(
                     "Strain into coupe glass",
                     "Garnish with lemon twist"
                 ),
-                notes = "A classic brandy cocktail"
+                notes = "A classic brandy cocktail",
+                tags = mutableListOf("sour", "classic", "elegant")
             ),
             
             // 17. Tom Collins
@@ -388,7 +404,8 @@ class DataInitializer(
                     "Top with club soda",
                     "Garnish with lemon slice and cherry"
                 ),
-                notes = "A refreshing gin fizz"
+                notes = "A refreshing gin fizz",
+                tags = mutableListOf("refreshing", "fizzy", "sour")
             ),
             
             // 18. Screwdriver
@@ -404,7 +421,8 @@ class DataInitializer(
                     "Top with orange juice",
                     "Stir well"
                 ),
-                notes = "Simple and delicious"
+                notes = "Simple and delicious",
+                tags = mutableListOf("simple", "fruity", "sweet")
             ),
             
             // 19. Tequila Sunrise
@@ -422,7 +440,8 @@ class DataInitializer(
                     "Slowly pour grenadine to create sunrise effect",
                     "Garnish with orange slice and cherry"
                 ),
-                notes = "Beautiful gradient effect"
+                notes = "Beautiful gradient effect",
+                tags = mutableListOf("sweet", "fruity", "colorful")
             ),
             
             // 20. Dark and Stormy
@@ -439,7 +458,8 @@ class DataInitializer(
                     "Float dark rum on top",
                     "Garnish with lime wedge"
                 ),
-                notes = "The national drink of Bermuda"
+                notes = "The national drink of Bermuda",
+                tags = mutableListOf("refreshing", "spicy", "simple")
             )
         )
         

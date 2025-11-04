@@ -22,5 +22,10 @@ data class Cocktail(
     var steps: MutableList<String> = mutableListOf(),
     
     @Column(length = 1000)
-    var notes: String? = null
+    var notes: String? = null,
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "cocktail_tags", joinColumns = [JoinColumn(name = "cocktail_id")])
+    @Column(name = "tag")
+    var tags: MutableList<String> = mutableListOf()
 )

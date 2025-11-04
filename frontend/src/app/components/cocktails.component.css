@@ -22,9 +22,51 @@
   font-size: 16px;
 }
 
-.filter-section input[type="checkbox"] {
-  margin-right: 8px;
+.filter-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.filter-group.checkbox-filter {
+  justify-content: flex-end;
+}
+
+.filter-group.checkbox-filter label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-group.checkbox-filter input[type="checkbox"] {
   transform: scale(1.2);
+  cursor: pointer;
+}
+
+.clear-btn {
+  align-self: flex-end;
+  white-space: nowrap;
 }
 
 .add-form {
@@ -72,6 +114,60 @@
 
 .step-inputs input {
   flex: 1;
+}
+
+.tag-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tag-inputs input,
+.tag-inputs select {
+  flex: 1;
+}
+
+.tag-select {
+  min-width: 150px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  gap: 5px;
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  margin-left: 4px;
+  opacity: 0.7;
+}
+
+.tag-remove:hover {
+  opacity: 1;
+}
+
+.tags-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .modal-actions {

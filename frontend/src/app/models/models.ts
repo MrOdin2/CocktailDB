@@ -30,4 +30,5 @@ export interface Cocktail {
   ingredients: CocktailIngredient[];
   steps: string[];
   notes?: string;
+  tags: string[];
 }
