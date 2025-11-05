@@ -78,46 +78,65 @@ export class ExportService {
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
+      margin: 20px;
+      padding: 0;
       background: #f5f5f5;
     }
     h1 {
       text-align: center;
       color: #333;
-      border-bottom: 3px solid #333;
-      padding-bottom: 10px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-size: 1.5em;
     }
     h2 {
       color: #555;
-      margin-top: 30px;
-      border-bottom: 2px solid #999;
-      padding-bottom: 5px;
+      margin-top: 20px;
+      border-bottom: 1px solid #999;
+      padding-bottom: 3px;
+      font-size: 1.1em;
+      column-span: all;
+    }
+    .cocktail-container {
+      column-count: 2;
+      column-gap: 20px;
     }
     .cocktail {
       background: white;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 10px;
+      margin: 0 0 10px 0;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
     .cocktail-name {
-      font-size: 1.2em;
+      font-size: 0.95em;
       font-weight: bold;
       color: #222;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
+    }
+    .cocktail-tags {
+      font-size: 0.75em;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 5px;
     }
     .ingredients {
       color: #666;
-      line-height: 1.6;
+      line-height: 1.4;
+      font-size: 0.85em;
+      margin: 0;
+      padding-left: 20px;
     }
     .ingredients li {
-      margin: 3px 0;
+      margin: 2px 0;
     }
     @media print {
       body {
         background: white;
+        margin: 10px;
       }
       .cocktail {
         box-shadow: none;
@@ -132,19 +151,26 @@ export class ExportService {
 
     for (const [groupName, groupCocktails] of Object.entries(groups)) {
       html += `  <h2>${groupName}</h2>\n`;
+      html += `  <div class="cocktail-container">\n`;
       for (const cocktail of groupCocktails) {
-        html += `  <div class="cocktail">
-    <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
-    <ul class="ingredients">
+        html += `    <div class="cocktail">
+      <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
+`;
+        // Show tags if grouping by tags
+        if (groupBy === 'tags' && cocktail.tags && cocktail.tags.length > 0) {
+          html += `      <div class="cocktail-tags">${cocktail.tags.map(t => this.escapeHtml(t)).join(', ')}</div>\n`;
+        }
+        html += `      <ul class="ingredients">
 `;
         for (const ing of cocktail.ingredients) {
           const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-          html += `      <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(ing.measure)}</li>\n`;
+          html += `        <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(ing.measure)}</li>\n`;
         }
-        html += `    </ul>
-  </div>
+        html += `      </ul>
+    </div>
 `;
       }
+      html += `  </div>\n`;
     }
 
     html += `</body>
@@ -165,55 +191,67 @@ export class ExportService {
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
+      margin: 20px;
+      padding: 0;
       background: #f5f5f5;
     }
     h1 {
       text-align: center;
       color: #333;
-      border-bottom: 3px solid #333;
-      padding-bottom: 10px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+    .cocktail-container {
+      column-count: 2;
+      column-gap: 20px;
     }
     .cocktail {
       background: white;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 12px;
+      margin: 0 0 12px 0;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      break-inside: avoid;
       page-break-inside: avoid;
     }
     .cocktail-name {
-      font-size: 1.4em;
+      font-size: 1em;
       font-weight: bold;
       color: #222;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
     .section-title {
       font-weight: bold;
       color: #555;
-      margin-top: 12px;
-      margin-bottom: 6px;
+      margin-top: 6px;
+      margin-bottom: 3px;
+      font-size: 0.85em;
     }
     .ingredients, .steps {
       color: #666;
-      line-height: 1.8;
+      line-height: 1.4;
+      font-size: 0.8em;
+      margin: 0;
+      padding-left: 18px;
     }
     .ingredients li, .steps li {
-      margin: 5px 0;
+      margin: 2px 0;
     }
     .notes {
       color: #777;
       font-style: italic;
-      margin-top: 10px;
-      padding: 10px;
+      margin-top: 6px;
+      padding: 6px;
       background: #f9f9f9;
-      border-left: 3px solid #ddd;
+      border-left: 2px solid #ddd;
+      font-size: 0.75em;
     }
     @media print {
       body {
         background: white;
+        margin: 10px;
       }
       .cocktail {
         box-shadow: none;
@@ -224,47 +262,49 @@ export class ExportService {
 </head>
 <body>
   <h1>Cocktail Recipes CheatSheet</h1>
+  <div class="cocktail-container">
 `;
 
     for (const cocktail of cocktails) {
-      html += `  <div class="cocktail">
-    <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
-    
-    <div class="section-title">Ingredients:</div>
-    <ul class="ingredients">
+      html += `    <div class="cocktail">
+      <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
+      
+      <div class="section-title">Ingredients:</div>
+      <ul class="ingredients">
 `;
       for (const ing of cocktail.ingredients) {
         const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-        html += `      <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(ing.measure)}</li>\n`;
+        html += `        <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(ing.measure)}</li>\n`;
       }
-      html += `    </ul>
+      html += `      </ul>
 `;
 
       if (cocktail.steps && cocktail.steps.length > 0) {
-        html += `    
-    <div class="section-title">Instructions:</div>
-    <ol class="steps">
+        html += `      
+      <div class="section-title">Instructions:</div>
+      <ol class="steps">
 `;
         for (const step of cocktail.steps) {
-          html += `      <li>${this.escapeHtml(step)}</li>\n`;
+          html += `        <li>${this.escapeHtml(step)}</li>\n`;
         }
-        html += `    </ol>
+        html += `      </ol>
 `;
       }
 
       if (cocktail.notes) {
-        html += `    
-    <div class="notes">
-      <strong>Notes:</strong> ${this.escapeHtml(cocktail.notes)}
-    </div>
+        html += `      
+      <div class="notes">
+        <strong>Notes:</strong> ${this.escapeHtml(cocktail.notes)}
+      </div>
 `;
       }
 
-      html += `  </div>
+      html += `    </div>
 `;
     }
 
-    html += `</body>
+    html += `  </div>
+</body>
 </html>`;
     return html;
   }
@@ -356,21 +396,19 @@ export class ExportService {
         groups[spirit].push(cocktail);
       }
     } else {
-      // Group by tags
+      // Group by tags - use the first tag or 'Untagged' to avoid duplicates
       for (const cocktail of cocktails) {
+        let groupKey = 'Untagged';
         if (cocktail.tags && cocktail.tags.length > 0) {
-          for (const tag of cocktail.tags) {
-            if (!groups[tag]) {
-              groups[tag] = [];
-            }
-            groups[tag].push(cocktail);
-          }
-        } else {
-          if (!groups['Untagged']) {
-            groups['Untagged'] = [];
-          }
-          groups['Untagged'].push(cocktail);
+          // Sort tags alphabetically and use the first one as the group key
+          const sortedTags = [...cocktail.tags].sort();
+          groupKey = sortedTags[0];
         }
+        
+        if (!groups[groupKey]) {
+          groups[groupKey] = [];
+        }
+        groups[groupKey].push(cocktail);
       }
     }
 
