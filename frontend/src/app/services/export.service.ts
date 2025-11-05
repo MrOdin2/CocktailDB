@@ -27,7 +27,8 @@ export class ExportService {
     ingredients: Ingredient[],
     type: ExportType,
     format: ExportFormat,
-    groupBy: 'spirit' | 'tags' = 'spirit'
+    groupBy: 'spirit' | 'tags' = 'spirit',
+    selectedTags?: string[]
   ): void {
     let content: string;
     let filename: string;
@@ -39,14 +40,14 @@ export class ExportService {
     switch (format) {
       case ExportFormat.HTML:
         content = type === ExportType.MENU 
-          ? this.generateMenuHTML(cocktails, ingredients, groupBy)
+          ? this.generateMenuHTML(cocktails, ingredients, groupBy, selectedTags)
           : this.generateCheatSheetHTML(cocktails, ingredients);
         filename = `${baseFilename}.html`;
         mimeType = 'text/html';
         break;
       case ExportFormat.MARKDOWN:
         content = type === ExportType.MENU
-          ? this.generateMenuMarkdown(cocktails, ingredients, groupBy)
+          ? this.generateMenuMarkdown(cocktails, ingredients, groupBy, selectedTags)
           : this.generateCheatSheetMarkdown(cocktails, ingredients);
         filename = `${baseFilename}.md`;
         mimeType = 'text/markdown';
@@ -54,7 +55,7 @@ export class ExportService {
       case ExportFormat.PDF:
         // For PDF, we'll generate HTML and use the browser's print-to-PDF functionality
         content = type === ExportType.MENU
-          ? this.generateMenuHTML(cocktails, ingredients, groupBy)
+          ? this.generateMenuHTML(cocktails, ingredients, groupBy, selectedTags)
           : this.generateCheatSheetHTML(cocktails, ingredients);
         this.printToPDF(content, baseFilename);
         return;
@@ -66,8 +67,8 @@ export class ExportService {
   /**
    * Generate Menu HTML
    */
-  private generateMenuHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags'): string {
-    const groups = this.groupCocktails(cocktails, ingredients, groupBy);
+  private generateMenuHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
+    const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
     
     let html = `<!DOCTYPE html>
 <html lang="en">
@@ -312,8 +313,8 @@ export class ExportService {
   /**
    * Generate Menu Markdown
    */
-  private generateMenuMarkdown(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags'): string {
-    const groups = this.groupCocktails(cocktails, ingredients, groupBy);
+  private generateMenuMarkdown(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
+    const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
     
     let markdown = `# Cocktail Menu\n\n`;
 
@@ -373,7 +374,8 @@ export class ExportService {
   private groupCocktails(
     cocktails: Cocktail[], 
     ingredients: Ingredient[], 
-    groupBy: 'spirit' | 'tags'
+    groupBy: 'spirit' | 'tags',
+    selectedTags?: string[]
   ): { [key: string]: Cocktail[] } {
     const groups: { [key: string]: Cocktail[] } = {};
 
@@ -396,13 +398,23 @@ export class ExportService {
         groups[spirit].push(cocktail);
       }
     } else {
-      // Group by tags - use the first tag or 'Untagged' to avoid duplicates
+      // Group by tags - use the first matching selected tag or 'Untagged' to avoid duplicates
       for (const cocktail of cocktails) {
         let groupKey = 'Untagged';
         if (cocktail.tags && cocktail.tags.length > 0) {
-          // Sort tags alphabetically and use the first one as the group key
-          const sortedTags = [...cocktail.tags].sort();
-          groupKey = sortedTags[0];
+          if (selectedTags && selectedTags.length > 0) {
+            // Find the first tag from selectedTags that exists in cocktail.tags
+            for (const selectedTag of selectedTags) {
+              if (cocktail.tags.includes(selectedTag)) {
+                groupKey = selectedTag;
+                break;
+              }
+            }
+          } else {
+            // If no selected tags, use alphabetically first tag
+            const sortedTags = [...cocktail.tags].sort();
+            groupKey = sortedTags[0];
+          }
         }
         
         if (!groups[groupKey]) {

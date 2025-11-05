@@ -59,6 +59,11 @@ export class CocktailsComponent implements OnInit {
   exportType: ExportType = ExportType.MENU;
   exportFormat: ExportFormat = ExportFormat.HTML;
   exportGroupBy: 'spirit' | 'tags' = 'spirit';
+  
+  // Tag selection modal for export
+  isTagSelectionModalOpen = false;
+  availableTagsForExport: string[] = [];
+  selectedTagsForExport: string[] = [];
 
   constructor(private apiService: ApiService, private exportService: ExportService) {}
 
@@ -311,6 +316,70 @@ export class CocktailsComponent implements OnInit {
   
   closeExportModal(): void {
     this.isExportModalOpen = false;
+    this.selectedTagsForExport = [];
+  }
+  
+  proceedWithExport(): void {
+    // If grouping by tags and it's a menu export, show tag selection modal
+    if (this.exportType === ExportType.MENU && this.exportGroupBy === 'tags') {
+      this.openTagSelectionModal();
+    } else {
+      this.performExport();
+    }
+  }
+  
+  openTagSelectionModal(): void {
+    // Get all tags from displayed cocktails
+    const tagsInDisplayedCocktails = new Set<string>();
+    this.displayedCocktails.forEach(cocktail => {
+      if (cocktail.tags && cocktail.tags.length > 0) {
+        cocktail.tags.forEach(tag => tagsInDisplayedCocktails.add(tag));
+      }
+    });
+    
+    this.availableTagsForExport = Array.from(tagsInDisplayedCocktails).sort();
+    this.selectedTagsForExport = [...this.availableTagsForExport]; // Select all by default
+    this.isTagSelectionModalOpen = true;
+  }
+  
+  closeTagSelectionModal(): void {
+    this.isTagSelectionModalOpen = false;
+  }
+  
+  toggleTagSelection(tag: string): void {
+    const index = this.selectedTagsForExport.indexOf(tag);
+    if (index > -1) {
+      this.selectedTagsForExport.splice(index, 1);
+    } else {
+      // Add tag in alphabetical order
+      this.selectedTagsForExport.push(tag);
+      this.selectedTagsForExport.sort();
+    }
+  }
+  
+  moveTagUp(index: number): void {
+    if (index > 0) {
+      const temp = this.selectedTagsForExport[index];
+      this.selectedTagsForExport[index] = this.selectedTagsForExport[index - 1];
+      this.selectedTagsForExport[index - 1] = temp;
+    }
+  }
+  
+  moveTagDown(index: number): void {
+    if (index < this.selectedTagsForExport.length - 1) {
+      const temp = this.selectedTagsForExport[index];
+      this.selectedTagsForExport[index] = this.selectedTagsForExport[index + 1];
+      this.selectedTagsForExport[index + 1] = temp;
+    }
+  }
+  
+  isTagSelected(tag: string): boolean {
+    return this.selectedTagsForExport.includes(tag);
+  }
+  
+  confirmTagSelection(): void {
+    this.closeTagSelectionModal();
+    this.performExport();
   }
   
   performExport(): void {
@@ -326,7 +395,8 @@ export class CocktailsComponent implements OnInit {
       this.ingredients,
       this.exportType,
       this.exportFormat,
-      this.exportGroupBy
+      this.exportGroupBy,
+      this.selectedTagsForExport.length > 0 ? this.selectedTagsForExport : undefined
     );
     
     this.closeExportModal();

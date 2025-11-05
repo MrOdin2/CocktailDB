@@ -268,3 +268,88 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+.tag-selection-content {
+  padding: 10px 0;
+}
+
+.info-text {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.tag-selection-section {
+  margin-bottom: 25px;
+}
+
+.tag-selection-section h4 {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #333;
+}
+
+.available-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 5px;
+}
+
+.tag-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tag-checkbox:hover {
+  background: #f9f9f9;
+  border-color: #999;
+}
+
+.tag-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.selected-tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 5px;
+}
+
+.selected-tag-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.tag-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tag-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.tag-controls .btn-small {
+  padding: 4px 8px;
+  font-size: 12px;
+  min-width: 30px;
+}
