@@ -19,6 +19,8 @@ export class CocktailsComponent implements OnInit {
   ingredients: Ingredient[] = [];
   showOnlyAvailable = false;
   isModalOpen = false;
+  isEditMode = false;
+  editingCocktailId?: number;
   
   // Filter properties
   nameFilter = '';
@@ -145,11 +147,29 @@ export class CocktailsComponent implements OnInit {
   }
 
   openModal(): void {
+    this.isEditMode = false;
+    this.editingCocktailId = undefined;
+    this.resetNewCocktail();
+    this.isModalOpen = true;
+  }
+
+  openEditModal(cocktail: Cocktail): void {
+    this.isEditMode = true;
+    this.editingCocktailId = cocktail.id;
+    this.newCocktail = {
+      name: cocktail.name,
+      ingredients: [...cocktail.ingredients],
+      steps: [...cocktail.steps],
+      notes: cocktail.notes || '',
+      tags: [...cocktail.tags]
+    };
     this.isModalOpen = true;
   }
 
   closeModal(): void {
     this.isModalOpen = false;
+    this.isEditMode = false;
+    this.editingCocktailId = undefined;
     this.resetNewCocktail();
   }
 
@@ -192,16 +212,31 @@ export class CocktailsComponent implements OnInit {
 
   createCocktail(): void {
     if (this.newCocktail.name && this.newCocktail.ingredients.length > 0) {
-      this.apiService.createCocktail(this.newCocktail).subscribe({
-        next: () => {
-          this.loadCocktails();
-          this.loadAvailableCocktails();
-          this.closeModal();
-        },
-        error: (error: any) => {
-          console.error('Error creating cocktail:', error);
-        }
-      });
+      if (this.isEditMode && this.editingCocktailId) {
+        // Update existing cocktail
+        this.apiService.updateCocktail(this.editingCocktailId, this.newCocktail).subscribe({
+          next: () => {
+            this.loadCocktails();
+            this.loadAvailableCocktails();
+            this.closeModal();
+          },
+          error: (error: any) => {
+            console.error('Error updating cocktail:', error);
+          }
+        });
+      } else {
+        // Create new cocktail
+        this.apiService.createCocktail(this.newCocktail).subscribe({
+          next: () => {
+            this.loadCocktails();
+            this.loadAvailableCocktails();
+            this.closeModal();
+          },
+          error: (error: any) => {
+            console.error('Error creating cocktail:', error);
+          }
+        });
+      }
     }
   }
 

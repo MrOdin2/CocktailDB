@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <app-modal [isOpen]="isModalOpen" [title]="'Add New Cocktail'" (closed)="closeModal()">
+  <app-modal [isOpen]="isModalOpen" [title]="isEditMode ? 'Edit Cocktail' : 'Add New Cocktail'" (closed)="closeModal()">
     <form #cocktailForm="ngForm" (ngSubmit)="createCocktail()">
       <div class="form-group">
         <label>Cocktail Name:</label>
@@ -121,7 +121,9 @@
 
       <div class="modal-actions">
         <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
-        <button type="submit" class="btn-primary" [disabled]="cocktailForm.invalid || newCocktail.ingredients.length === 0">Add Cocktail</button>
+        <button type="submit" class="btn-primary" [disabled]="cocktailForm.invalid || newCocktail.ingredients.length === 0">
+          {{ isEditMode ? 'Update Cocktail' : 'Add Cocktail' }}
+        </button>
       </div>
     </form>
     
@@ -196,7 +198,10 @@
           <p>{{ cocktail.notes }}</p>
         </div>
 
-        <button class="btn-danger" (click)="deleteCocktail(cocktail.id)">Delete</button>
+        <div class="card-actions">
+          <button class="btn-secondary" (click)="openEditModal(cocktail)">Edit</button>
+          <button class="btn-danger" (click)="deleteCocktail(cocktail.id)">Delete</button>
+        </div>
       </div>
     </div>
   </div>
