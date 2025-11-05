@@ -88,17 +88,40 @@
       </thead>
       <tbody>
         <tr *ngFor="let ingredient of displayedIngredients">
-          <td>{{ ingredient.name }}</td>
-          <td>{{ ingredient.type }}</td>
-          <td>{{ ingredient.abv }}%</td>
-          <td>
-            <input type="checkbox" 
-                   [checked]="ingredient.inStock" 
-                   (change)="toggleStock(ingredient)">
-          </td>
-          <td>
-            <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
-          </td>
+          <ng-container *ngIf="editingIngredient?.id !== ingredient.id">
+            <td>{{ ingredient.name }}</td>
+            <td>{{ ingredient.type }}</td>
+            <td>{{ ingredient.abv }}%</td>
+            <td>
+              <input type="checkbox" 
+                     [checked]="ingredient.inStock" 
+                     (change)="toggleStock(ingredient)">
+            </td>
+            <td>
+              <button class="btn-secondary" (click)="startEdit(ingredient)">Edit</button>
+              <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="editingIngredient?.id === ingredient.id">
+            <td>
+              <input type="text" [(ngModel)]="editingIngredient!.name" class="edit-input">
+            </td>
+            <td>
+              <select [(ngModel)]="editingIngredient!.type" class="edit-input">
+                <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="editingIngredient!.abv" min="0" max="100" class="edit-input">
+            </td>
+            <td>
+              <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
+            </td>
+            <td>
+              <button class="btn-primary" (click)="saveEdit()">Save</button>
+              <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+            </td>
+          </ng-container>
         </tr>
       </tbody>
     </table>
