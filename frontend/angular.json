@@ -27,6 +27,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/styles-theme0-basic.css",
               "src/styles-theme1-terminal-green.css",
               "src/styles-theme2-cyberpunk.css",
               "src/styles-theme3-amber.css"
@@ -86,6 +87,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/styles-theme0-basic.css",
               "src/styles-theme1-terminal-green.css",
               "src/styles-theme2-cyberpunk.css",
               "src/styles-theme3-amber.css"
