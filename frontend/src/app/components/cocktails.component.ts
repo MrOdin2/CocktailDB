@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
+import { ExportService, ExportFormat, ExportType } from '../services/export.service';
 import { ModalComponent } from './modal.component';
 
 @Component({
@@ -54,8 +55,19 @@ export class CocktailsComponent implements OnInit {
     abv: 0,
     inStock: false
   };
+  
+  // Export modal
+  isExportModalOpen = false;
+  exportType: ExportType = ExportType.MENU;
+  exportFormat: ExportFormat = ExportFormat.HTML;
+  exportGroupBy: 'spirit' | 'tags' = 'spirit';
+  
+  // Tag selection modal for export
+  isTagSelectionModalOpen = false;
+  availableTagsForExport: string[] = [];
+  selectedTagsForExport: string[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private exportService: ExportService) {}
 
   ngOnInit(): void {
     this.loadCocktails();
@@ -331,5 +343,105 @@ export class CocktailsComponent implements OnInit {
       abv: 0,
       inStock: false
     };
+  }
+  
+  openExportModal(): void {
+    this.isExportModalOpen = true;
+  }
+  
+  closeExportModal(): void {
+    this.isExportModalOpen = false;
+    this.selectedTagsForExport = [];
+  }
+  
+  proceedWithExport(): void {
+    // If grouping by tags and it's a menu export, show tag selection modal
+    if (this.exportType === ExportType.MENU && this.exportGroupBy === 'tags') {
+      this.openTagSelectionModal();
+    } else {
+      this.performExport();
+    }
+  }
+  
+  openTagSelectionModal(): void {
+    // Get all tags from displayed cocktails
+    const tagsInDisplayedCocktails = new Set<string>();
+    this.displayedCocktails.forEach(cocktail => {
+      if (cocktail.tags && cocktail.tags.length > 0) {
+        cocktail.tags.forEach(tag => tagsInDisplayedCocktails.add(tag));
+      }
+    });
+    
+    this.availableTagsForExport = Array.from(tagsInDisplayedCocktails).sort();
+    this.selectedTagsForExport = [...this.availableTagsForExport]; // Select all by default
+    this.isTagSelectionModalOpen = true;
+  }
+  
+  closeTagSelectionModal(): void {
+    this.isTagSelectionModalOpen = false;
+  }
+  
+  toggleTagSelection(tag: string): void {
+    const index = this.selectedTagsForExport.indexOf(tag);
+    if (index > -1) {
+      this.selectedTagsForExport.splice(index, 1);
+    } else {
+      // Add tag in alphabetical order
+      this.selectedTagsForExport.push(tag);
+      this.selectedTagsForExport.sort();
+    }
+  }
+  
+  moveTagUp(index: number): void {
+    if (index > 0) {
+      const temp = this.selectedTagsForExport[index];
+      this.selectedTagsForExport[index] = this.selectedTagsForExport[index - 1];
+      this.selectedTagsForExport[index - 1] = temp;
+    }
+  }
+  
+  moveTagDown(index: number): void {
+    if (index < this.selectedTagsForExport.length - 1) {
+      const temp = this.selectedTagsForExport[index];
+      this.selectedTagsForExport[index] = this.selectedTagsForExport[index + 1];
+      this.selectedTagsForExport[index + 1] = temp;
+    }
+  }
+  
+  isTagSelected(tag: string): boolean {
+    return this.selectedTagsForExport.includes(tag);
+  }
+  
+  confirmTagSelection(): void {
+    this.closeTagSelectionModal();
+    this.performExport();
+  }
+  
+  performExport(): void {
+    const cocktailsToExport = this.displayedCocktails;
+    
+    if (cocktailsToExport.length === 0) {
+      console.warn('No cocktails to export. Adjust filters to include cocktails.');
+      return;
+    }
+    
+    this.exportService.exportCocktails(
+      cocktailsToExport,
+      this.ingredients,
+      this.exportType,
+      this.exportFormat,
+      this.exportGroupBy,
+      this.selectedTagsForExport.length > 0 ? this.selectedTagsForExport : undefined
+    );
+    
+    this.closeExportModal();
+  }
+  
+  get ExportType() {
+    return ExportType;
+  }
+  
+  get ExportFormat() {
+    return ExportFormat;
   }
 }

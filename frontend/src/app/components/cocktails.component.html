@@ -1,7 +1,10 @@
 <div class="container">
   <div class="header-section">
     <h2>Cocktails</h2>
-    <button class="btn-primary" (click)="openModal()">Add New Cocktail</button>
+    <div class="header-buttons">
+      <button class="btn-primary" (click)="openModal()">Add New Cocktail</button>
+      <button class="btn-secondary" (click)="openExportModal()">Export Cocktails</button>
+    </div>
   </div>
   
   <div class="filter-section">
@@ -202,4 +205,120 @@
       </div>
     </div>
   </div>
+  
+  <!-- Export Modal -->
+  <app-modal [isOpen]="isExportModalOpen" [title]="'Export Cocktails'" (closed)="closeExportModal()">
+    <form (ngSubmit)="proceedWithExport()">
+      <div class="form-group">
+        <label>Export Type:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.MENU">
+            Menu (Name + Ingredients only)
+          </label>
+          <label>
+            <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.CHEATSHEET">
+            CheatSheet (Full Recipe with Steps)
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-group" *ngIf="exportType === ExportType.MENU">
+        <label>Group By:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="groupBy" [(ngModel)]="exportGroupBy" value="spirit">
+            Spirit
+          </label>
+          <label>
+            <input type="radio" name="groupBy" [(ngModel)]="exportGroupBy" value="tags">
+            Tags
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Format:</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.HTML">
+            HTML
+          </label>
+          <label>
+            <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.MARKDOWN">
+            Markdown (.md)
+          </label>
+          <label>
+            <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.PDF">
+            PDF (Print to PDF)
+          </label>
+        </div>
+      </div>
+      
+      <div class="export-info">
+        <p>Exporting {{ displayedCocktails.length }} cocktail(s) based on current filters.</p>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeExportModal()">Cancel</button>
+        <button type="submit" class="btn-primary">Next</button>
+      </div>
+    </form>
+  </app-modal>
+  
+  <!-- Tag Selection Modal -->
+  <app-modal [isOpen]="isTagSelectionModalOpen" [title]="'Select Tags for Grouping'" (closed)="closeTagSelectionModal()">
+    <div class="tag-selection-content">
+      <p class="info-text">Select which tags to use for grouping and arrange them in order:</p>
+      
+      <div class="tag-selection-section">
+        <h4>Available Tags:</h4>
+        <div class="available-tags">
+          <label *ngFor="let tag of availableTagsForExport" class="tag-checkbox">
+            <input 
+              type="checkbox" 
+              [checked]="isTagSelected(tag)"
+              (change)="toggleTagSelection(tag)">
+            {{ tag }}
+          </label>
+        </div>
+      </div>
+      
+      <div class="tag-selection-section" *ngIf="selectedTagsForExport.length > 0">
+        <h4>Selected Tags (in order):</h4>
+        <div class="selected-tags-list">
+          <div *ngFor="let tag of selectedTagsForExport; let i = index" class="selected-tag-item">
+            <span class="tag-name">{{ i + 1 }}. {{ tag }}</span>
+            <div class="tag-controls">
+              <button 
+                type="button" 
+                class="btn-small" 
+                (click)="moveTagUp(i)"
+                [disabled]="i === 0">
+                ↑
+              </button>
+              <button 
+                type="button" 
+                class="btn-small" 
+                (click)="moveTagDown(i)"
+                [disabled]="i === selectedTagsForExport.length - 1">
+                ↓
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeTagSelectionModal()">Back</button>
+        <button 
+          type="button" 
+          class="btn-primary" 
+          (click)="confirmTagSelection()"
+          [disabled]="selectedTagsForExport.length === 0">
+          Export
+        </button>
+      </div>
+    </div>
+  </app-modal>
 </div>

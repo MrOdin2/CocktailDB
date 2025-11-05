@@ -15,6 +15,11 @@
   margin: 0;
 }
 
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
 .filter-section {
   padding: 15px;
   border-radius: 5px;
@@ -242,4 +247,134 @@
   display: flex;
   gap: 10px;
   margin-top: 15px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.radio-group input[type="radio"] {
+  cursor: pointer;
+}
+
+.export-info {
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tag-selection-content {
+  padding: 10px 0;
+}
+
+.info-text {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #9f9;
+}
+
+.tag-selection-section {
+  margin-bottom: 25px;
+}
+
+.tag-selection-section h4 {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #0f0;
+}
+
+.available-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  background: #0a0f0d;
+  border: 1px solid #0f0;
+  border-radius: 5px;
+}
+
+.tag-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: #1a1f1d;
+  border: 1px solid #0f0;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tag-checkbox:hover {
+  background: #2a2f2d;
+  border-color: #0f0;
+  box-shadow: 0 0 5px #0f0;
+}
+
+.tag-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.selected-tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #0a0f0d;
+  border: 1px solid #0f0;
+  border-radius: 5px;
+}
+
+.selected-tag-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #1a1f1d;
+  border: 1px solid #0f0;
+  border-radius: 3px;
+}
+
+.tag-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f0;
+}
+
+.tag-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.tag-controls .btn-small {
+  padding: 4px 12px;
+  font-size: 14px;
+  min-width: 35px;
+  background: #0a0f0d;
+  border: 1px solid #0f0;
+  color: #0f0;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.tag-controls .btn-small:hover:not(:disabled) {
+  background: #0f0;
+  color: #0a0f0d;
+}
+
+.tag-controls .btn-small:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
