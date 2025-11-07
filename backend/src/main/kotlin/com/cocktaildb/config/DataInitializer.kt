@@ -47,7 +47,7 @@ class DataInitializer(
             Ingredient(name = "Pisco", type = IngredientType.SPIRIT, abv = 40, inStock = true),
             Ingredient(name = "Cachaca", type = IngredientType.SPIRIT, abv = 40, inStock = true),
             Ingredient(name = "Absinthe", type = IngredientType.SPIRIT, abv = 60, inStock = true),
-            Ingredient(name = "Sake", type = IngredientType.SPIRIT, abv = 15, inStock = true),
+            Ingredient(name = "Sake", type = IngredientType.WINE, abv = 15, inStock = true),
             
             // Liqueurs
             Ingredient(name = "Triple Sec", type = IngredientType.LIQUEUR, abv = 25, inStock = true),
@@ -62,7 +62,6 @@ class DataInitializer(
             Ingredient(name = "Elderflower Liqueur", type = IngredientType.LIQUEUR, abv = 20, inStock = true),
             Ingredient(name = "Baileys Irish Cream", type = IngredientType.LIQUEUR, abv = 17, inStock = true),
             Ingredient(name = "Frangelico", type = IngredientType.LIQUEUR, abv = 20, inStock = true),
-            Ingredient(name = "Chartreuse", type = IngredientType.LIQUEUR, abv = 55, inStock = true),
             Ingredient(name = "Benedictine", type = IngredientType.LIQUEUR, abv = 40, inStock = true),
             Ingredient(name = "Galliano", type = IngredientType.LIQUEUR, abv = 30, inStock = true),
             Ingredient(name = "Maraschino Liqueur", type = IngredientType.LIQUEUR, abv = 32, inStock = true),
@@ -931,7 +930,7 @@ class DataInitializer(
                 name = "Last Word",
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Gin"), "0.75 oz"),
-                    CocktailIngredient(getIngredientId("Chartreuse"), "0.75 oz"),
+                    CocktailIngredient(getIngredientId("Green Chartreuse"), "0.75 oz"),
                     CocktailIngredient(getIngredientId("Maraschino Liqueur"), "0.75 oz"),
                     CocktailIngredient(getIngredientId("Lime Juice"), "0.75 oz")
                 ),
@@ -1752,22 +1751,20 @@ class DataInitializer(
                 notes = "A Basque Country favorite",
                 tags = mutableListOf("sweet", "unusual", "simple")
             ),            
-            // 89. New York Sour
+            // 89. Kalimotxo
             Cocktail(
-                name = "New York Sour",
+                name = "Kalimotxo",
                 ingredients = mutableListOf(
-                    CocktailIngredient(getIngredientId("Bourbon"), "2 oz"),
-                    CocktailIngredient(getIngredientId("Lemon Juice"), "1 oz"),
-                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.75 oz"),
-                    CocktailIngredient(getIngredientId("Red Wine"), "float")
+                    CocktailIngredient(getIngredientId("Red Wine"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Cola"), "4 oz")
                 ),
                 steps = mutableListOf(
-                    "Shake bourbon, lemon, and syrup with ice",
-                    "Strain into rocks glass",
-                    "Float red wine on top"
+                    "Fill glass with ice",
+                    "Add red wine and cola",
+                    "Stir well"
                 ),
-                notes = "A whiskey sour with wine",
-                tags = mutableListOf("complex", "sour", "beautiful")
+                notes = "A Basque Country favorite",
+                tags = mutableListOf("sweet", "unusual", "simple")
             ),            
             // 90. Death in the Afternoon
             Cocktail(
