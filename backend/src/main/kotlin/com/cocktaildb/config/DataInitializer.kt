@@ -1751,20 +1751,22 @@ class DataInitializer(
                 notes = "A Basque Country favorite",
                 tags = mutableListOf("sweet", "unusual", "simple")
             ),            
-            // 89. Kalimotxo
+            // 89. Sherry Cobbler
             Cocktail(
-                name = "Kalimotxo",
+                name = "Sherry Cobbler",
                 ingredients = mutableListOf(
-                    CocktailIngredient(getIngredientId("Red Wine"), "4 oz"),
-                    CocktailIngredient(getIngredientId("Cola"), "4 oz")
+                    CocktailIngredient(getIngredientId("Sherry"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Orange Slice"), "2")
                 ),
                 steps = mutableListOf(
-                    "Fill glass with ice",
-                    "Add red wine and cola",
-                    "Stir well"
+                    "Muddle orange slices with syrup",
+                    "Add sherry and fill glass with crushed ice",
+                    "Stir well",
+                    "Garnish with berries and mint"
                 ),
-                notes = "A Basque Country favorite",
-                tags = mutableListOf("sweet", "unusual", "simple")
+                notes = "A refreshing sherry drink",
+                tags = mutableListOf("refreshing", "fruity", "classic")
             ),            
             // 90. Death in the Afternoon
             Cocktail(
