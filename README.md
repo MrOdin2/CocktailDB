@@ -177,30 +177,38 @@ cd CocktailDB
 cp .env.example .env
 ```
 
-3. Start all services:
+3. Build the application:
 ```bash
-docker-compose up -d
+./build.sh
+```
+
+This script will:
+- Build the backend JAR file using Gradle
+- Build the frontend production bundle using npm
+
+4. Start all services:
+```bash
+docker compose up -d
 ```
 
 This will:
-- Build the backend Spring Boot application
-- Build the frontend Angular application
+- Build and start the backend Docker container
+- Build and start the frontend Docker container (with nginx)
 - Start a PostgreSQL database for persistent storage
-- Start nginx to serve the frontend and proxy API requests
 
-4. Access the application:
+5. Access the application:
 - **Frontend**: http://localhost
 - **Backend API**: http://localhost:8080/api
 - **PostgreSQL**: localhost:5432
 
-5. Stop the services:
+6. Stop the services:
 ```bash
-docker-compose down
+docker compose down
 ```
 
-6. To remove all data (including the database):
+7. To remove all data (including the database):
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 #### Docker Architecture
