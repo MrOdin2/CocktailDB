@@ -10,9 +10,15 @@ import { ThemeService, Theme } from '../services/theme.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  currentTheme: Theme = 'terminal-green';
+  currentTheme: Theme = 'basic';
 
   themes = [
+    {
+      id: 'basic' as Theme,
+      name: 'Basic',
+      description: 'Professional and unremarkable appearance',
+      preview: 'White background with standard dark gray text and minimal styling'
+    },
     {
       id: 'terminal-green' as Theme,
       name: 'Terminal Green',
