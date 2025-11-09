@@ -1,14 +1,9 @@
-# Build stage
-FROM gradle:8.4-jdk17 AS build
-WORKDIR /app
-COPY build.gradle.kts settings.gradle.kts gradle.properties ./
-COPY src ./src
-RUN gradle build --no-daemon -x test
-
-# Runtime stage
+# Build stage - use the local build artifacts
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
+
+# Copy the built JAR file
+COPY build/libs/*.jar app.jar
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S appgroup && adduser -u 1001 -S appuser -G appgroup
