@@ -53,6 +53,8 @@ CocktailDB/
 
 ### Running the Backend
 
+#### Option 1: With H2 In-Memory Database (Default)
+
 1. Navigate to the backend directory and build/run the Spring Boot application:
 ```bash
 cd backend
@@ -60,6 +62,27 @@ cd backend
 ```
 
 The backend API will be available at `http://localhost:8080`
+
+#### Option 2: With PostgreSQL (Local Development)
+
+1. Start a local PostgreSQL database:
+```bash
+docker run -d \
+  --name cocktaildb-dev-postgres \
+  -e POSTGRES_DB=cocktaildb \
+  -e POSTGRES_USER=cocktaildb \
+  -e POSTGRES_PASSWORD=cocktaildb \
+  -p 5432:5432 \
+  postgres:15-alpine
+```
+
+2. Run the backend with the `dev-postgres` profile:
+```bash
+cd backend
+./gradlew bootRun --args='--spring.profiles.active=dev-postgres'
+```
+
+The backend API will be available at `http://localhost:8080` with data persisted in PostgreSQL.
 
 ### Running the Frontend
 
@@ -84,10 +107,16 @@ The frontend will be available at `http://localhost:4200`
 
 For the full experience, run both the backend and frontend simultaneously:
 
-**Terminal 1 - Backend:**
+**Terminal 1 - Backend (with H2):**
 ```bash
 cd backend
 ./gradlew bootRun
+```
+
+Or with PostgreSQL:
+```bash
+cd backend
+./gradlew bootRun --args='--spring.profiles.active=dev-postgres'
 ```
 
 **Terminal 2 - Frontend:**
