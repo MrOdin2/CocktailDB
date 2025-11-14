@@ -47,13 +47,22 @@ CocktailDB/
 
 ## Getting Started
 
+### Database Profiles
+
+The application supports three database profiles:
+
+- **dev** (default): H2 in-memory database - Quick start, no setup required
+- **dev-postgres**: PostgreSQL on localhost - Local development with data persistence
+- **prod**: PostgreSQL in Docker - Production deployment (automatically used in Docker)
+
 ### Prerequisites
 - Java 17 or higher
 - Node.js 16+ and npm
+- Docker (for PostgreSQL options)
 
 ### Running the Backend
 
-#### Option 1: With H2 In-Memory Database (Default)
+#### Option 1: With H2 In-Memory Database (Default - `dev` profile)
 
 1. Navigate to the backend directory and build/run the Spring Boot application:
 ```bash
@@ -63,7 +72,7 @@ cd backend
 
 The backend API will be available at `http://localhost:8080`
 
-#### Option 2: With PostgreSQL (Local Development)
+#### Option 2: With PostgreSQL (Local Development - `dev-postgres` profile)
 
 1. Start a local PostgreSQL database:
 ```bash
