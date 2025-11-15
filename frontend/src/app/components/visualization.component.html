@@ -26,134 +26,19 @@
 
   @if (activeTab === 'ingredients') {
     <div class="tab-content">
-      <div class="stats-section">
-        <div class="stat-card">
-          <div class="stat-value">{{ totalIngredients }}</div>
-          <div class="stat-label">Total Ingredients</div>
-        </div>
-        <div class="stat-card in-stock">
-          <div class="stat-value">{{ inStockCount }}</div>
-          <div class="stat-label">In Stock</div>
-        </div>
-        <div class="stat-card not-in-stock">
-          <div class="stat-value">{{ notInStockCount }}</div>
-          <div class="stat-label">Not Available</div>
-        </div>
-        <div class="stat-card percentage">
-          <div class="stat-value">{{ stockPercentage | number:'1.0-1' }}%</div>
-          <div class="stat-label">Stock Rate</div>
-        </div>
-      </div>
-
-      <div class="chart-section">
-        <h3>Ingredient Availability</h3>
-        <div class="chart-container">
-          @if (pieChartData.length > 0) {
-            <ngx-charts-pie-chart
-              [view]="view"
-              [results]="pieChartData"
-              [legend]="true"
-              [legendPosition]="legendPosition"
-              [labels]="true"
-              [doughnut]="isDoughnut"
-              [scheme]="colorScheme"
-              (select)="onSelect($event)">
-            </ngx-charts-pie-chart>
-          } @else {
-            <div class="no-data">
-              <p>No ingredient data available. Add some ingredients to see statistics!</p>
-            </div>
-          }
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h3>About Ingredient Statistics</h3>
-        <p>This tab provides insights into your ingredient collection:</p>
-        <ul>
-          <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need to purchase.</li>
-        </ul>
-      </div>
+      <app-ingredient-statistics />
     </div>
   }
 
   @if (activeTab === 'cocktails') {
     <div class="tab-content">
-      <div class="graph-controls">
-        <div class="control-group">
-          <label for="groupBy">Group by:</label>
-          <select id="groupBy" [(ngModel)]="groupBy" (change)="onGroupByChange()">
-            <option value="none">None</option>
-            <option value="spirit">Primary Spirit</option>
-            <option value="tags">Tags</option>
-            <option value="ingredient-count">Ingredient Count</option>
-          </select>
-        </div>
-        
-        <div class="control-group">
-          <label for="minShared">Min shared ingredients:</label>
-          <input 
-            type="number" 
-            id="minShared" 
-            [(ngModel)]="minSharedIngredients" 
-            (change)="onMinSharedChange()"
-            min="1" 
-            max="10"
-          />
-        </div>
-        
-        <div class="control-group">
-          <label>
-            <input 
-              type="checkbox" 
-              [(ngModel)]="showLabels" 
-              (change)="onLabelsToggle()"
-            />
-            Show labels
-          </label>
-        </div>
-      </div>
-
-      @if (cocktails.length > 0) {
-        <div class="graph-section">
-          <h3>Cocktail Relationship Graph</h3>
-          <div class="graph-info">
-            <p>
-              This interactive graph shows relationships between cocktails based on shared ingredients.
-              Each node represents a cocktail, sized by the number of ingredients.
-              Lines connect cocktails that share ingredients, with thickness indicating how many ingredients are shared.
-            </p>
-            <p>
-              <strong>Interactions:</strong> Drag nodes to rearrange • Scroll to zoom • Click and drag background to pan
-            </p>
-          </div>
-          <div #graphContainer class="graph-container"></div>
-          <div class="graph-stats">
-            <span class="stat">Cocktails: {{ graphNodes.length }}</span>
-            <span class="stat">Connections: {{ graphLinks.length }}</span>
-          </div>
-        </div>
-      } @else {
-        <div class="placeholder-section">
-          <h3>Cocktail Statistics</h3>
-          <p>No cocktails found. Add some cocktails to see the relationship graph!</p>
-        </div>
-      }
+      <app-cocktail-statistics />
     </div>
   }
 
   @if (activeTab === 'trends') {
     <div class="tab-content">
-      <div class="placeholder-section">
-        <h3>Trends & Analysis</h3>
-        <p>Coming soon! This section will display advanced analytics and trends.</p>
-        <p>Planned visualizations:</p>
-        <ul>
-          <li>Ingredient usage over time</li>
-          <li>Cocktail creation trends</li>
-          <li>Popular ingredient combinations</li>
-        </ul>
-      </div>
+      <app-trends-analysis />
     </div>
   }
 </div>

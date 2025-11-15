@@ -1,0 +1,48 @@
+<div class="stats-section">
+  <div class="stat-card">
+    <div class="stat-value">{{ totalIngredients }}</div>
+    <div class="stat-label">Total Ingredients</div>
+  </div>
+  <div class="stat-card in-stock">
+    <div class="stat-value">{{ inStockCount }}</div>
+    <div class="stat-label">In Stock</div>
+  </div>
+  <div class="stat-card not-in-stock">
+    <div class="stat-value">{{ notInStockCount }}</div>
+    <div class="stat-label">Not Available</div>
+  </div>
+  <div class="stat-card percentage">
+    <div class="stat-value">{{ stockPercentage | number:'1.0-1' }}%</div>
+    <div class="stat-label">Stock Rate</div>
+  </div>
+</div>
+
+<div class="chart-section">
+  <h3>Ingredient Availability</h3>
+  <div class="chart-container">
+    @if (pieChartData.length > 0) {
+      <ngx-charts-pie-chart
+        [view]="view"
+        [results]="pieChartData"
+        [legend]="true"
+        [legendPosition]="legendPosition"
+        [labels]="true"
+        [doughnut]="isDoughnut"
+        [scheme]="colorScheme"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-chart>
+    } @else {
+      <div class="no-data">
+        <p>No ingredient data available. Add some ingredients to see statistics!</p>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="info-section">
+  <h3>About Ingredient Statistics</h3>
+  <p>This tab provides insights into your ingredient collection:</p>
+  <ul>
+    <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need to purchase.</li>
+  </ul>
+</div>

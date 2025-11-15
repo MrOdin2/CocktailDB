@@ -1,0 +1,32 @@
+.placeholder-section {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  padding: 40px;
+  text-align: center;
+  min-height: 400px;
+}
+
+.placeholder-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: var(--primary-color);
+}
+
+.placeholder-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.placeholder-section ul {
+  text-align: left;
+  max-width: 500px;
+  margin: 20px auto;
+  padding-left: 20px;
+}
+
+.placeholder-section li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
