@@ -207,9 +207,13 @@ export class VisualizationComponent implements OnInit, OnDestroy, AfterViewInit 
 
   setActiveTab(tab: 'ingredients' | 'cocktails' | 'trends'): void {
     this.activeTab = tab;
-    if (tab === 'cocktails' && this.graphContainer) {
+    if (tab === 'cocktails') {
       // Initialize graph when switching to cocktails tab
-      setTimeout(() => this.initializeGraph(), 100);
+      setTimeout(() => {
+        if (this.graphContainer && this.graphNodes.length > 0) {
+          this.initializeGraph();
+        }
+      }, 100);
     }
   }
 
