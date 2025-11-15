@@ -18,6 +18,9 @@ interface ChartData {
 export class VisualizationComponent implements OnInit {
   ingredients: Ingredient[] = [];
   
+  // Active tab
+  activeTab: 'ingredients' | 'cocktails' | 'trends' = 'ingredients';
+  
   // Pie chart data
   pieChartData: ChartData[] = [];
 
@@ -77,5 +80,9 @@ export class VisualizationComponent implements OnInit {
 
   onSelect(event: any): void {
     console.log('Chart selection:', event);
+  }
+
+  setActiveTab(tab: 'ingredients' | 'cocktails' | 'trends'): void {
+    this.activeTab = tab;
   }
 }

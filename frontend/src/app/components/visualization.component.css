@@ -5,12 +5,59 @@
 }
 
 .header-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .header-section h2 {
   margin: 0;
   font-size: 2em;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tab {
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid var(--border-color);
+  border-bottom: none;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 1em;
+  font-family: inherit;
+  transition: all 0.2s;
+  position: relative;
+  bottom: -2px;
+}
+
+.tab:hover {
+  background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+}
+
+.tab.active {
+  background: var(--card-bg);
+  border-bottom: 2px solid var(--card-bg);
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .stats-section {
@@ -118,6 +165,39 @@
   color: var(--primary-color);
 }
 
+.placeholder-section {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  padding: 40px;
+  text-align: center;
+  min-height: 400px;
+}
+
+.placeholder-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: var(--primary-color);
+}
+
+.placeholder-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.placeholder-section ul {
+  text-align: left;
+  max-width: 500px;
+  margin: 20px auto;
+  padding-left: 20px;
+}
+
+.placeholder-section li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .stats-section {
@@ -131,10 +211,26 @@
   .chart-container {
     padding: 10px;
   }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px 16px;
+    font-size: 0.9em;
+  }
 }
 
 @media (max-width: 480px) {
   .stats-section {
     grid-template-columns: 1fr;
+  }
+
+  .tab {
+    font-size: 0.85em;
+    padding: 8px 12px;
   }
 }
