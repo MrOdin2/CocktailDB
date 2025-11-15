@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxChartsModule, LegendPosition } from '@swimlane/ngx-charts';
+import { NgxChartsModule, LegendPosition, Color, ScaleType } from '@swimlane/ngx-charts';
 import { Ingredient } from '../models/models';
 import { ApiService } from '../services/api.service';
+import { ThemeService, Theme } from '../services/theme.service';
+import { Subscription } from 'rxjs';
 
 interface ChartData {
   name: string;
@@ -15,7 +17,7 @@ interface ChartData {
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.css']
 })
-export class VisualizationComponent implements OnInit {
+export class VisualizationComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[] = [];
   
   // Active tab
@@ -31,12 +33,72 @@ export class VisualizationComponent implements OnInit {
   isDoughnut = false;
   legendPosition: LegendPosition = LegendPosition.Below;
 
-  colorScheme = 'vivid';
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#4bc0c0', '#ff6384']
+  };
 
-  constructor(private apiService: ApiService) {}
+  private themeSubscription?: Subscription;
+
+  constructor(
+    private apiService: ApiService,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
     this.loadIngredients();
+    this.updateColorScheme(this.themeService.getCurrentTheme());
+    
+    // Subscribe to theme changes
+    this.themeSubscription = this.themeService.currentTheme$.subscribe(theme => {
+      this.updateColorScheme(theme);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
+  }
+
+  private updateColorScheme(theme: Theme): void {
+    switch (theme) {
+      case 'terminal-green':
+        this.colorScheme = {
+          name: 'terminal-green',
+          selectable: true,
+          group: ScaleType.Ordinal,
+          domain: ['#00ff00', '#008800']
+        };
+        break;
+      case 'cyberpunk':
+        this.colorScheme = {
+          name: 'cyberpunk',
+          selectable: true,
+          group: ScaleType.Ordinal,
+          domain: ['#00ffff', '#ff00ff']
+        };
+        break;
+      case 'amber':
+        this.colorScheme = {
+          name: 'amber',
+          selectable: true,
+          group: ScaleType.Ordinal,
+          domain: ['#ffb000', '#ff8800']
+        };
+        break;
+      case 'basic':
+      default:
+        this.colorScheme = {
+          name: 'basic',
+          selectable: true,
+          group: ScaleType.Ordinal,
+          domain: ['#5a9', '#e67']
+        };
+        break;
+    }
   }
 
   loadIngredients(): void {
