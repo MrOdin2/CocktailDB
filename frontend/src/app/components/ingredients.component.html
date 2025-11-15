@@ -142,8 +142,12 @@
             <canvas #typeChart></canvas>
           </div>
           
-          <div class="chart-container chart-wide">
-            <canvas #pairingChart></canvas>
+          <div class="chart-container chart-wide heatmap-container">
+            <div #heatmapContainer class="d3-visualization"></div>
+          </div>
+
+          <div class="chart-container chart-wide force-graph-container">
+            <div #forceGraphContainer class="d3-visualization"></div>
           </div>
         </div>
       }

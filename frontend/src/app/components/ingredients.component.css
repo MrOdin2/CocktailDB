@@ -204,6 +204,30 @@ table td button {
   max-height: 400px;
 }
 
+/* D3 Visualizations */
+.d3-visualization {
+  width: 100%;
+  min-height: 600px;
+  position: relative;
+  overflow: visible;
+}
+
+.heatmap-container {
+  min-height: 700px;
+  overflow-x: auto;
+}
+
+.force-graph-container {
+  min-height: 650px;
+}
+
+.d3-visualization svg {
+  display: block;
+  margin: 0 auto;
+}
+
+/* D3 Tooltip styling is handled inline via D3 */
+
 .no-data-message {
   text-align: center;
   padding: 60px 20px;
