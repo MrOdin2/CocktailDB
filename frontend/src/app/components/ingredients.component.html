@@ -109,35 +109,35 @@
                 <input type="checkbox"
                   [checked]="ingredient.inStock"
                   (change)="toggleStock(ingredient)">
-                </td>
-                <td>
-                  <button class="btn-secondary" (click)="startEdit(ingredient)">Edit</button>
-                  <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
-                </td>
-              }
-              @if (editingIngredient?.id === ingredient.id) {
-                <td>
-                  <input type="text" [(ngModel)]="editingIngredient!.name" class="edit-input">
-                </td>
-                <td>
-                  <select [(ngModel)]="editingIngredient!.type" class="edit-input">
-                    @for (type of ingredientTypes; track type) {
-                      <option [value]="type">{{ type }}</option>
-                    }
-                  </select>
-                </td>
-                <td>
-                  <input type="number" [(ngModel)]="editingIngredient!.abv" min="0" max="100" class="edit-input">
-                </td>
-                <td>
-                  <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
-                </td>
-                <td>
-                  <button class="btn-primary" (click)="saveEdit()">Save</button>
-                  <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
-                </td>
-              }
-            </tr>
+              </td>
+              <td>
+                <button class="btn-secondary" (click)="startEdit(ingredient)">Edit</button>
+                <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
+              </td>
+            }
+            @if (editingIngredient?.id === ingredient.id) {
+              <td>
+                <input type="text" [(ngModel)]="editingIngredient!.name" class="edit-input">
+              </td>
+              <td>
+                <select [(ngModel)]="editingIngredient!.type" class="edit-input">
+                  @for (type of ingredientTypes; track type) {
+                    <option [value]="type">{{ type }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="editingIngredient!.abv" min="0" max="100" class="edit-input">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
+              </td>
+              <td>
+                <button class="btn-primary" (click)="saveEdit()">Save</button>
+                <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+              </td>
+            }
+          </tr>
           }
         </tbody>
       </table>
