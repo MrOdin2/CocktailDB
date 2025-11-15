@@ -190,7 +190,7 @@
     <div class="cocktails-list">
       <h3>{{ showOnlyAvailable ? 'Available Cocktails' : 'All Cocktails' }}</h3>
       <div class="cocktail-cards">
-        @for (cocktail of displayedCocktails; track cocktail) {
+        @for (cocktail of displayedCocktails; track cocktail.id) {
           <div class="cocktail-card">
             <h4>{{ cocktail.name }}</h4>
             @if (cocktail.tags && cocktail.tags.length > 0) {
