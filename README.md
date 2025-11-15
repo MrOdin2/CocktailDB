@@ -13,13 +13,19 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 ### Backend
 - **Spring Boot 3.1.5** with Kotlin
 - **Spring Data JPA** for database access
-- **H2 Database** for in-memory storage
+- **PostgreSQL** for production data storage
+- **H2 Database** for development/testing
 - **Gradle** for build management
 
 ### Frontend
 - **Angular 18** with TypeScript
 - **Standalone Components**
 - **Reactive Forms** for data management
+- **nginx** for production deployment
+
+### Deployment
+- **Docker & Docker Compose** for containerization
+- **PostgreSQL 15** for persistent data storage
 
 ## Project Structure
 
@@ -41,11 +47,22 @@ CocktailDB/
 
 ## Getting Started
 
+### Database Profiles
+
+The application supports three database profiles:
+
+- **dev** (default): H2 in-memory database - Quick start, no setup required
+- **dev-postgres**: PostgreSQL on localhost - Local development with data persistence
+- **prod**: PostgreSQL in Docker - Production deployment (automatically used in Docker)
+
 ### Prerequisites
 - Java 17 or higher
 - Node.js 16+ and npm
+- Docker (for PostgreSQL options)
 
 ### Running the Backend
+
+#### Option 1: With H2 In-Memory Database (Default - `dev` profile)
 
 1. Navigate to the backend directory and build/run the Spring Boot application:
 ```bash
@@ -54,6 +71,27 @@ cd backend
 ```
 
 The backend API will be available at `http://localhost:8080`
+
+#### Option 2: With PostgreSQL (Local Development - `dev-postgres` profile)
+
+1. Start a local PostgreSQL database:
+```bash
+docker run -d \
+  --name cocktaildb-dev-postgres \
+  -e POSTGRES_DB=cocktaildb \
+  -e POSTGRES_USER=cocktaildb \
+  -e POSTGRES_PASSWORD=cocktaildb \
+  -p 5432:5432 \
+  postgres:15-alpine
+```
+
+2. Run the backend with the `dev-postgres` profile:
+```bash
+cd backend
+./gradlew bootRun --args='--spring.profiles.active=dev-postgres'
+```
+
+The backend API will be available at `http://localhost:8080` with data persisted in PostgreSQL.
 
 ### Running the Frontend
 
@@ -78,10 +116,16 @@ The frontend will be available at `http://localhost:4200`
 
 For the full experience, run both the backend and frontend simultaneously:
 
-**Terminal 1 - Backend:**
+**Terminal 1 - Backend (with H2):**
 ```bash
 cd backend
 ./gradlew bootRun
+```
+
+Or with PostgreSQL:
+```bash
+cd backend
+./gradlew bootRun --args='--spring.profiles.active=dev-postgres'
 ```
 
 **Terminal 2 - Frontend:**
@@ -149,16 +193,82 @@ Then open your browser to `http://localhost:4200`
 
 4. **Update Stock**: As you use ingredients or buy new ones, update their stock status on the Ingredients page.
 
-## Building for Production
+## Deployment
 
-### Backend
+### Using Docker (Recommended)
+
+The easiest way to deploy CocktailDB is using Docker Compose, which sets up all services including the PostgreSQL database for persistent data storage.
+
+#### Prerequisites
+- Docker and Docker Compose installed on your system
+
+#### Quick Start
+
+1. Clone the repository:
+```bash
+git clone https://github.com/MrOdin2/CocktailDB.git
+cd CocktailDB
+```
+
+2. (Optional) Create a `.env` file from the example and customize if needed:
+```bash
+cp .env.example .env
+```
+
+3. Build the application:
+```bash
+./build.sh
+```
+
+This script will:
+- Build the backend JAR file using Gradle
+- Build the frontend production bundle using npm
+
+4. Start all services:
+```bash
+docker compose up -d
+```
+
+This will:
+- Build and start the backend Docker container
+- Build and start the frontend Docker container (with nginx)
+- Start a PostgreSQL database for persistent storage
+
+5. Access the application:
+- **Frontend**: http://localhost
+- **Backend API**: http://localhost:8080/api
+- **PostgreSQL**: localhost:5432
+
+6. Stop the services:
+```bash
+docker compose down
+```
+
+7. To remove all data (including the database):
+```bash
+docker compose down -v
+```
+
+#### Docker Architecture
+
+The Docker setup consists of three services:
+
+1. **postgres**: PostgreSQL 15 database for persistent data storage
+2. **backend**: Spring Boot application running on port 8080
+3. **frontend**: Angular application served by nginx on port 80
+
+Data is persisted in a Docker volume named `postgres_data`, so your cocktails and ingredients will be preserved even when containers are stopped.
+
+### Manual Build for Production
+
+#### Backend
 ```bash
 cd backend
 ./gradlew build
 java -jar build/libs/cocktaildb-0.0.1-SNAPSHOT.jar
 ```
 
-### Frontend
+#### Frontend
 ```bash
 cd frontend
 npm run build
