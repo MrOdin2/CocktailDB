@@ -205,7 +205,7 @@
             <div class="card-section">
               <strong>Ingredients:</strong>
               <ul>
-                @for (ing of cocktail.ingredients; track ing) {
+                @for (ing of cocktail.ingredients; track ing.ingredientId) {
                   <li>
                     {{ getIngredientName(ing.ingredientId) }} - {{ ing.measure }}
                   </li>
