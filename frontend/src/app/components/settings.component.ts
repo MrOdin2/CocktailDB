@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ThemeService, Theme } from '../services/theme.service';
 
 @Component({
     selector: 'app-settings',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.css']
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
@@ -7,7 +7,7 @@ import { ModalComponent } from './modal.component';
 
 @Component({
     selector: 'app-ingredients',
-    imports: [CommonModule, FormsModule, ModalComponent],
+    imports: [FormsModule, ModalComponent],
     templateUrl: './ingredients.component.html',
     styleUrls: ['./ingredients.component.css']
 })
