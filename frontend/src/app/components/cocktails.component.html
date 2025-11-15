@@ -68,7 +68,7 @@
               class="ingredient-search">
               <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
                 <option value="0">Select Ingredient</option>
-                @for (ingredient of filteredIngredients; track ingredient) {
+                @for (ingredient of filteredIngredients; track ingredient.id) {
                   <option [value]="ingredient.id">
                     {{ ingredient.name }}
                   </option>
