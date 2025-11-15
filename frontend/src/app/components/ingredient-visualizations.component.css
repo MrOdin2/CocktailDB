@@ -1,0 +1,71 @@
+/* Visualizations */
+.visualizations-content {
+  padding: 20px 0;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.chart-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+  position: relative;
+}
+
+.chart-container.chart-wide {
+  grid-column: span 2;
+}
+
+.chart-container canvas {
+  max-height: 400px;
+}
+
+/* D3 Visualizations */
+.d3-visualization {
+  width: 100%;
+  min-height: 600px;
+  position: relative;
+  overflow: visible;
+}
+
+.heatmap-container {
+  min-height: 700px;
+  overflow-x: auto;
+}
+
+.force-graph-container {
+  min-height: 650px;
+}
+
+.d3-visualization svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.no-data-message p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container.chart-wide {
+    grid-column: span 1;
+  }
+}
