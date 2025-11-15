@@ -1,0 +1,114 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+}
+
+.header-section h2 {
+  margin: 0;
+}
+
+.error-message {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 2px solid;
+  background-color: rgba(255, 99, 132, 0.1);
+  border-color: rgba(255, 99, 132, 0.5);
+}
+
+.loading-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.visualizations-section {
+  margin-top: 20px;
+}
+
+.intro-text {
+  margin-bottom: 30px;
+  padding: 15px;
+  border: 2px solid;
+  background-color: rgba(54, 162, 235, 0.05);
+}
+
+.intro-text p {
+  margin: 0;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.chart-container {
+  padding: 20px;
+  border: 2px solid;
+  height: 400px;
+  position: relative;
+}
+
+.chart-container canvas {
+  max-height: 100%;
+}
+
+.info-section {
+  padding: 20px;
+  border: 2px solid;
+  margin-bottom: 30px;
+}
+
+.info-section h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-section ul {
+  margin: 10px 0;
+  padding-left: 25px;
+}
+
+.info-section li {
+  margin: 8px 0;
+}
+
+.plugin-section {
+  padding: 20px;
+  border: 2px solid;
+  background-color: rgba(153, 102, 255, 0.05);
+}
+
+.plugin-section h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.plugin-section ul {
+  margin: 10px 0;
+  padding-left: 25px;
+}
+
+.plugin-section li {
+  margin: 8px 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}

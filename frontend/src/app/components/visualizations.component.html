@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="header-section">
+    <h2>Visualizations</h2>
+    <button class="btn-primary" (click)="refreshCharts()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh Charts' }}
+    </button>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="loading-message" *ngIf="isLoading">
+    <p>Loading visualization data...</p>
+  </div>
+
+  <div class="visualizations-section" *ngIf="!isLoading && !errorMessage">
+    <div class="intro-text">
+      <p>Explore your cocktail database through interactive visualizations. These charts provide insights into your ingredient collection and cocktail recipes.</p>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-container">
+        <canvas #ingredientTypeChart></canvas>
+      </div>
+
+      <div class="chart-container">
+        <canvas #stockStatusChart></canvas>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3>About Visualizations</h3>
+      <p>This tab provides visual insights into your CocktailDB data:</p>
+      <ul>
+        <li><strong>Ingredients by Type:</strong> Shows the distribution of your ingredients across different categories (spirits, liqueurs, juices, etc.)</li>
+        <li><strong>Stock Status:</strong> Displays the proportion of ingredients you currently have in stock versus those you need to purchase</li>
+      </ul>
+      <p>More visualization types will be added in future updates to help you better understand your cocktail collection.</p>
+    </div>
+
+    <div class="plugin-section">
+      <h3>Visualization Plugins</h3>
+      <p>This section is prepared to host additional visualization plugins. Future enhancements may include:</p>
+      <ul>
+        <li>Cocktail complexity analysis</li>
+        <li>Most common ingredients in recipes</li>
+        <li>ABV (Alcohol by Volume) distribution</li>
+        <li>Cocktail creation timeline</li>
+        <li>Ingredient usage frequency</li>
+      </ul>
+    </div>
+  </div>
+</div>
