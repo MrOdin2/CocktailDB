@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ThemeService, Theme } from '../services/theme.service';
 
 @Component({
-  selector: 'app-settings',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+    selector: 'app-settings',
+    imports: [CommonModule],
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
   currentTheme: Theme = 'basic';

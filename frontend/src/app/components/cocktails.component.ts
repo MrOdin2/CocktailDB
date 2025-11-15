@@ -7,11 +7,10 @@ import { ExportService, ExportFormat, ExportType } from '../services/export.serv
 import { ModalComponent } from './modal.component';
 
 @Component({
-  selector: 'app-cocktails',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
-  templateUrl: './cocktails.component.html',
-  styleUrls: ['./cocktails.component.css']
+    selector: 'app-cocktails',
+    imports: [CommonModule, FormsModule, ModalComponent],
+    templateUrl: './cocktails.component.html',
+    styleUrls: ['./cocktails.component.css']
 })
 export class CocktailsComponent implements OnInit {
   cocktails: Cocktail[] = [];

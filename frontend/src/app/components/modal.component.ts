@@ -2,10 +2,9 @@ import { Component, EventEmitter, Input, Output, HostListener } from '@angular/c
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-modal',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-modal',
+    imports: [CommonModule],
+    template: `
     <div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick()">
       <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
         <div class="modal-header">
@@ -18,7 +17,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-  styles: []
+    styles: []
 })
 export class ModalComponent {
   @Input() isOpen = false;

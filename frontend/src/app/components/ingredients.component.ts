@@ -6,11 +6,10 @@ import { ApiService } from '../services/api.service';
 import { ModalComponent } from './modal.component';
 
 @Component({
-  selector: 'app-ingredients',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
-  templateUrl: './ingredients.component.html',
-  styleUrls: ['./ingredients.component.css']
+    selector: 'app-ingredients',
+    imports: [CommonModule, FormsModule, ModalComponent],
+    templateUrl: './ingredients.component.html',
+    styleUrls: ['./ingredients.component.css']
 })
 export class IngredientsComponent implements OnInit {
   ingredients: Ingredient[] = [];
