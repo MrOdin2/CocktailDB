@@ -99,7 +99,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (ingredient of displayedIngredients; track ingredient) {
+        @for (ingredient of displayedIngredients; track ingredient.id) {
           <tr>
             @if (editingIngredient?.id !== ingredient.id) {
               <td>{{ ingredient.name }}</td>
