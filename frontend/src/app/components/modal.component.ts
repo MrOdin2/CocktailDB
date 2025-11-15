@@ -1,24 +1,25 @@
 import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
-  selector: 'app-modal',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick()">
-      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h3 id="modal-title">{{ title }}</h3>
-          <button type="button" class="close-button" aria-label="Close modal" (click)="close()">&times;</button>
-        </div>
-        <div class="modal-body">
-          <ng-content></ng-content>
+    selector: 'app-modal',
+    imports: [],
+    template: `
+    @if (isOpen) {
+      <div class="modal-backdrop" (click)="onBackdropClick()">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3 id="modal-title">{{ title }}</h3>
+            <button type="button" class="close-button" aria-label="Close modal" (click)="close()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <ng-content></ng-content>
+          </div>
         </div>
       </div>
-    </div>
-  `,
-  styles: []
+    }
+    `,
+    styles: []
 })
 export class ModalComponent {
   @Input() isOpen = false;

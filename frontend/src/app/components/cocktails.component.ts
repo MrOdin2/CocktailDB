@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
@@ -7,11 +7,10 @@ import { ExportService, ExportFormat, ExportType } from '../services/export.serv
 import { ModalComponent } from './modal.component';
 
 @Component({
-  selector: 'app-cocktails',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
-  templateUrl: './cocktails.component.html',
-  styleUrls: ['./cocktails.component.css']
+    selector: 'app-cocktails',
+    imports: [FormsModule, ModalComponent],
+    templateUrl: './cocktails.component.html',
+    styleUrls: ['./cocktails.component.css']
 })
 export class CocktailsComponent implements OnInit {
   cocktails: Cocktail[] = [];

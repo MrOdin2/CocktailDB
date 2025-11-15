@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Ingredient, IngredientType } from '../models/models';
 import { ApiService } from '../services/api.service';
 import { ModalComponent } from './modal.component';
 
 @Component({
-  selector: 'app-ingredients',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
-  templateUrl: './ingredients.component.html',
-  styleUrls: ['./ingredients.component.css']
+    selector: 'app-ingredients',
+    imports: [FormsModule, ModalComponent],
+    templateUrl: './ingredients.component.html',
+    styleUrls: ['./ingredients.component.css']
 })
 export class IngredientsComponent implements OnInit {
   ingredients: Ingredient[] = [];

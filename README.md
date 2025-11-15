@@ -18,7 +18,7 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 - **Gradle** for build management
 
 ### Frontend
-- **Angular 18** with TypeScript
+- **Angular 20** with TypeScript
 - **Standalone Components**
 - **Reactive Forms** for data management
 - **nginx** for production deployment
@@ -57,7 +57,7 @@ The application supports three database profiles:
 
 ### Prerequisites
 - Java 17 or higher
-- Node.js 16+ and npm
+- Node.js 20+ and npm
 - Docker (for PostgreSQL options)
 
 ### Running the Backend
@@ -275,21 +275,6 @@ npm run build
 ```
 
 The production build will be in `frontend/dist/cocktaildb-frontend`
-
-## Security Notes
-
-The frontend uses Angular 18, which includes recent security updates. When running `npm install`, you may see some npm audit warnings about vulnerabilities in development dependencies (esbuild, tmp, etc.). These are:
-
-- **Development-only dependencies**: The reported vulnerabilities are in packages used only during development (dev server, CLI tools), not in the production build.
-- **Low to moderate severity**: All vulnerabilities are rated as low to moderate, affecting only the development environment.
-- **Not affecting production**: The production build (`npm run build`) does not include these development dependencies.
-
-To completely eliminate all warnings, you may need to upgrade to a newer Angular version (such as Angular 19) when it becomes available and compatible. The current setup with Angular 18 provides a good balance between security and stability.
-
-If you're concerned about development environment security:
-- Only run the development server on trusted networks
-- Don't expose the dev server (port 4200) to the public internet
-- Use the production build for any deployment
 
 
 ## License

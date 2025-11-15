@@ -8,22 +8,26 @@
     <p>Choose your preferred theme:</p>
 
     <div class="theme-grid">
-      <div *ngFor="let theme of themes" 
-           class="theme-card" 
-           [class.active]="currentTheme === theme.id"
-           (click)="selectTheme(theme.id)">
-        <div class="theme-header">
-          <h4>{{ theme.name }}</h4>
-          <span class="active-badge" *ngIf="currentTheme === theme.id">ACTIVE</span>
+      @for (theme of themes; track theme.id) {
+        <div
+          class="theme-card"
+          [class.active]="currentTheme === theme.id"
+          (click)="selectTheme(theme.id)">
+          <div class="theme-header">
+            <h4>{{ theme.name }}</h4>
+            @if (currentTheme === theme.id) {
+              <span class="active-badge">ACTIVE</span>
+            }
+          </div>
+          <p class="theme-description">{{ theme.description }}</p>
+          <p class="theme-preview">{{ theme.preview }}</p>
+          <button class="btn-primary"
+            [disabled]="currentTheme === theme.id"
+            (click)="selectTheme(theme.id)">
+            {{ currentTheme === theme.id ? 'Current Theme' : 'Apply Theme' }}
+          </button>
         </div>
-        <p class="theme-description">{{ theme.description }}</p>
-        <p class="theme-preview">{{ theme.preview }}</p>
-        <button class="btn-primary" 
-                [disabled]="currentTheme === theme.id"
-                (click)="selectTheme(theme.id)">
-          {{ currentTheme === theme.id ? 'Current Theme' : 'Apply Theme' }}
-        </button>
-      </div>
+      }
     </div>
   </div>
 

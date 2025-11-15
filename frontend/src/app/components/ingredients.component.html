@@ -3,55 +3,61 @@
     <h2>Ingredients</h2>
     <button class="btn-primary" (click)="openModal()">Add New Ingredient</button>
   </div>
-  
+
   <div class="filter-section">
     <div class="filter-controls">
       <div class="filter-group">
         <label>Search by Name:</label>
         <input type="text" [(ngModel)]="nameFilter" placeholder="Filter by name...">
       </div>
-      
+
       <div class="filter-group">
         <label>Filter by Type:</label>
         <select [(ngModel)]="typeFilter">
           <option value="">All Types</option>
-          <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
+          @for (type of ingredientTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
         </select>
       </div>
-      
+
       <button class="btn-secondary clear-btn" (click)="clearFilters()">Clear Filters</button>
     </div>
   </div>
-  
+
   <app-modal [isOpen]="isModalOpen" [title]="'Add New Ingredient'" (closed)="closeModal()">
     <form #ingredientForm="ngForm" (ngSubmit)="createIngredient()">
       <div class="form-group">
         <label>Name:</label>
         <input type="text" [(ngModel)]="newIngredient.name" name="name" required #nameInput="ngModel">
-        <div *ngIf="nameInput.invalid && nameInput.touched" class="error-message">
-          Name is required
-        </div>
+        @if (nameInput.invalid && nameInput.touched) {
+          <div class="error-message">
+            Name is required
+          </div>
+        }
       </div>
-      
+
       <div class="form-group">
         <label>Type:</label>
         <select [(ngModel)]="newIngredient.type" name="type" required>
-          <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
+          @for (type of ingredientTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
         </select>
       </div>
-      
+
       <div class="form-group">
         <label>ABV (%):</label>
         <input type="number" [(ngModel)]="newIngredient.abv" name="abv" min="0" max="100" required>
       </div>
-      
+
       <div class="form-group">
         <label>
           <input type="checkbox" [(ngModel)]="newIngredient.inStock" name="inStock">
           In Stock
         </label>
       </div>
-      
+
       <div class="modal-actions">
         <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
         <button type="submit" class="btn-primary" [disabled]="ingredientForm.invalid">Add Ingredient</button>
@@ -65,65 +71,75 @@
       <thead>
         <tr>
           <th class="sortable" (click)="setSortBy('name')">
-            Name 
-            <span class="sort-indicator" *ngIf="sortBy === 'name'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
+            Name
+            @if (sortBy === 'name') {
+              <span class="sort-indicator">
+                {{ sortDirection === 'asc' ? '▲' : '▼' }}
+              </span>
+            }
           </th>
           <th class="sortable" (click)="setSortBy('type')">
-            Type 
-            <span class="sort-indicator" *ngIf="sortBy === 'type'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
+            Type
+            @if (sortBy === 'type') {
+              <span class="sort-indicator">
+                {{ sortDirection === 'asc' ? '▲' : '▼' }}
+              </span>
+            }
           </th>
           <th class="sortable" (click)="setSortBy('abv')">
-            ABV 
-            <span class="sort-indicator" *ngIf="sortBy === 'abv'">
-              {{ sortDirection === 'asc' ? '▲' : '▼' }}
-            </span>
+            ABV
+            @if (sortBy === 'abv') {
+              <span class="sort-indicator">
+                {{ sortDirection === 'asc' ? '▲' : '▼' }}
+              </span>
+            }
           </th>
           <th>In Stock</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ingredient of displayedIngredients">
-          <ng-container *ngIf="editingIngredient?.id !== ingredient.id">
-            <td>{{ ingredient.name }}</td>
-            <td>{{ ingredient.type }}</td>
-            <td>{{ ingredient.abv }}%</td>
-            <td>
-              <input type="checkbox" 
-                     [checked]="ingredient.inStock" 
-                     (change)="toggleStock(ingredient)">
-            </td>
-            <td>
-              <button class="btn-secondary" (click)="startEdit(ingredient)">Edit</button>
-              <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="editingIngredient?.id === ingredient.id">
-            <td>
-              <input type="text" [(ngModel)]="editingIngredient!.name" class="edit-input">
-            </td>
-            <td>
-              <select [(ngModel)]="editingIngredient!.type" class="edit-input">
-                <option *ngFor="let type of ingredientTypes" [value]="type">{{ type }}</option>
-              </select>
-            </td>
-            <td>
-              <input type="number" [(ngModel)]="editingIngredient!.abv" min="0" max="100" class="edit-input">
-            </td>
-            <td>
-              <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
-            </td>
-            <td>
-              <button class="btn-primary" (click)="saveEdit()">Save</button>
-              <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
-            </td>
-          </ng-container>
-        </tr>
-      </tbody>
-    </table>
+        @for (ingredient of displayedIngredients; track ingredient.id) {
+          <tr>
+            @if (editingIngredient?.id !== ingredient.id) {
+              <td>{{ ingredient.name }}</td>
+              <td>{{ ingredient.type }}</td>
+              <td>{{ ingredient.abv }}%</td>
+              <td>
+                <input type="checkbox"
+                  [checked]="ingredient.inStock"
+                  (change)="toggleStock(ingredient)">
+              </td>
+              <td>
+                <button class="btn-secondary" (click)="startEdit(ingredient)">Edit</button>
+                <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
+              </td>
+            }
+            @if (editingIngredient?.id === ingredient.id) {
+              <td>
+                <input type="text" [(ngModel)]="editingIngredient!.name" class="edit-input">
+              </td>
+              <td>
+                <select [(ngModel)]="editingIngredient!.type" class="edit-input">
+                  @for (type of ingredientTypes; track type) {
+                    <option [value]="type">{{ type }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="editingIngredient!.abv" min="0" max="100" class="edit-input">
+              </td>
+              <td>
+                <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
+              </td>
+              <td>
+                <button class="btn-primary" (click)="saveEdit()">Save</button>
+                <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+              </td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
