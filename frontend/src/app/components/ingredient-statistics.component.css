@@ -52,8 +52,15 @@
 
 .chart-section h3 {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 1.5em;
+}
+
+.chart-description {
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
 .chart-container {
@@ -64,6 +71,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.heatmap-container {
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
 }
 
 /* Chart label customization for better readability */
@@ -81,17 +97,61 @@
 .chart-container ::ng-deep .legend-label {
   font-size: 16px !important;
   fill: var(--text-color, #333) !important;
+  paint-order: stroke;
+  stroke: var(--card-bg, #fff) !important;
+  stroke-width: 3px !important;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
 }
 
 .chart-container ::ng-deep .legend-title {
   font-size: 18px !important;
   font-weight: bold !important;
   fill: var(--text-color, #333) !important;
+  paint-order: stroke;
+  stroke: var(--card-bg, #fff) !important;
+  stroke-width: 3px !important;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
 }
 
 .chart-container ::ng-deep .pie-label-line {
   stroke: var(--text-color, #333) !important;
   stroke-width: 2px !important;
+}
+
+.chart-container ::ng-deep .x-axis text,
+.chart-container ::ng-deep .y-axis text {
+  fill: var(--text-color, #333) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  paint-order: stroke;
+  stroke: var(--card-bg, #fff) !important;
+  stroke-width: 3px !important;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
+.chart-container ::ng-deep .x-axis .axis-label,
+.chart-container ::ng-deep .y-axis .axis-label {
+  fill: var(--text-color, #333) !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  paint-order: stroke;
+  stroke: var(--card-bg, #fff) !important;
+  stroke-width: 3px !important;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
+.chart-container ::ng-deep .gridline-path {
+  stroke: var(--border-color, #ddd) !important;
+  opacity: 0.3 !important;
+}
+
+.chart-container ::ng-deep .tick line {
+  stroke: var(--border-color, #ddd) !important;
+  opacity: 0.3 !important;
 }
 
 .no-data {
