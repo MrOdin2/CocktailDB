@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule, LegendPosition, Color, ScaleType } from '@swimlane/ngx-charts';
 import { Ingredient, Cocktail } from '../models/models';
@@ -24,9 +24,7 @@ interface IngredientPair {
   templateUrl: './ingredient-statistics.component.html',
   styleUrls: ['./ingredient-statistics.component.css']
 })
-export class IngredientStatisticsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('heatmapContainer', { static: false }) heatmapContainer?: ElementRef;
-  
+export class IngredientStatisticsComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[] = [];
   cocktails: Cocktail[] = [];
   pieChartData: ChartData[] = [];
@@ -77,13 +75,6 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy, AfterVi
     this.themeSubscription = this.themeService.currentTheme$.subscribe(theme => {
       this.updateColorScheme(theme);
     });
-  }
-
-  ngAfterViewInit(): void {
-    // Heatmap will be initialized when data is loaded
-    if (this.ingredientPairs.length > 0) {
-      setTimeout(() => this.initializeHeatmap(), 100);
-    }
   }
 
   ngOnDestroy(): void {
@@ -243,9 +234,7 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy, AfterVi
     
     // Initialize heatmap after data is ready
     setTimeout(() => {
-      if (this.heatmapContainer && this.ingredientPairs.length > 0) {
-        this.initializeHeatmap();
-      }
+      this.initializeHeatmap();
     }, 100);
   }
 
@@ -284,11 +273,15 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy, AfterVi
   }
 
   initializeHeatmap(): void {
-    if (!this.heatmapContainer || !this.ingredientPairs.length) {
+    if (!this.ingredientPairs.length) {
       return;
     }
 
-    const element = this.heatmapContainer.nativeElement;
+    // Query the element directly since ViewChild may not update after @if block renders
+    const element = document.querySelector('.heatmap-container');
+    if (!element) {
+      return;
+    }
     const width = 700;
     const height = Math.min(500, this.ingredientPairs.length * 25 + 60);
     const margin = { top: 20, right: 20, bottom: 60, left: 150 };
