@@ -37,11 +37,13 @@ export class IngredientVisualizationsComponent implements OnInit, AfterViewInit 
   // Chart references
   @ViewChild('usageChart') usageChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('typeChart') typeChartRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('pairingChart') pairingChartRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('heatmapContainer') heatmapContainerRef!: ElementRef<HTMLDivElement>;
   @ViewChild('forceGraphContainer') forceGraphContainerRef!: ElementRef<HTMLDivElement>;
   
   private usageChart?: Chart;
   private typeChart?: Chart;
+  private pairingChart?: Chart;
 
   constructor(private apiService: ApiService) {}
 
@@ -84,6 +86,7 @@ export class IngredientVisualizationsComponent implements OnInit, AfterViewInit 
   private initializeCharts(): void {
     this.createUsageChart();
     this.createTypeDistributionChart();
+    this.createIngredientPairingChart();
     this.createHeatmap();
     this.createForceDirectedGraph();
   }
@@ -221,6 +224,90 @@ export class IngredientVisualizationsComponent implements OnInit, AfterViewInit 
     };
 
     this.typeChart = new Chart(this.typeChartRef.nativeElement, config);
+  }
+
+  private createIngredientPairingChart(): void {
+    if (!this.pairingChartRef) return;
+
+    // Destroy existing chart
+    if (this.pairingChart) {
+      this.pairingChart.destroy();
+    }
+
+    // Calculate ingredient co-occurrences
+    const pairingMap = new Map<string, number>();
+
+    this.cocktails.forEach(cocktail => {
+      const ingredientIds = cocktail.ingredients.map(i => i.ingredientId);
+      
+      // Find all pairs in this cocktail
+      for (let i = 0; i < ingredientIds.length; i++) {
+        for (let j = i + 1; j < ingredientIds.length; j++) {
+          const id1 = ingredientIds[i];
+          const id2 = ingredientIds[j];
+          
+          // Create a consistent key for the pair
+          const key = id1 < id2 ? `${id1}-${id2}` : `${id2}-${id1}`;
+          pairingMap.set(key, (pairingMap.get(key) || 0) + 1);
+        }
+      }
+    });
+
+    // Get top 10 most common pairings
+    const sortedPairings = Array.from(pairingMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10);
+
+    const labels = sortedPairings.map(([key]) => {
+      const [id1, id2] = key.split('-').map(Number);
+      const ing1 = this.ingredients.find(i => i.id === id1)?.name || 'Unknown';
+      const ing2 = this.ingredients.find(i => i.id === id2)?.name || 'Unknown';
+      return `${ing1} + ${ing2}`;
+    });
+
+    const data = sortedPairings.map(([, count]) => count);
+
+    const config: ChartConfiguration = {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Times Used Together',
+          data: data,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Most Common Ingredient Pairings',
+            font: {
+              size: 16
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    };
+
+    this.pairingChart = new Chart(this.pairingChartRef.nativeElement, config);
   }
 
   private createHeatmap(): void {
