@@ -39,10 +39,61 @@
   </div>
 </div>
 
+@if (cocktails.length > 0 && usageChartData.length > 0) {
+  <div class="chart-section">
+    <h3>Most Used Ingredients</h3>
+    <p class="chart-description">Shows which ingredients appear most frequently across all cocktails</p>
+    <div class="chart-container">
+      <ngx-charts-bar-horizontal
+        [view]="barChartView"
+        [results]="usageChartData"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="yAxisLabel"
+        [yAxisLabel]="xAxisLabel"
+        [scheme]="barColorScheme"
+        (select)="onBarSelect($event)">
+      </ngx-charts-bar-horizontal>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <h3>Ingredient Usage by Type</h3>
+    <p class="chart-description">Distribution of ingredient types across all cocktails</p>
+    <div class="chart-container">
+      <ngx-charts-bar-vertical
+        [view]="barChartView"
+        [results]="typeUsageChartData"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="'Ingredient Type'"
+        [yAxisLabel]="yAxisLabel"
+        [scheme]="barColorScheme"
+        (select)="onBarSelect($event)">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+
+  @if (ingredientPairs.length > 0) {
+    <div class="chart-section">
+      <h3>Ingredient Combinations</h3>
+      <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
+      <div class="heatmap-container" #heatmapContainer></div>
+    </div>
+  }
+}
+
 <div class="info-section">
   <h3>About Ingredient Statistics</h3>
   <p>This tab provides insights into your ingredient collection:</p>
   <ul>
     <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need to purchase.</li>
+    <li><strong>Most Used Ingredients:</strong> Identifies which ingredients appear most frequently across your cocktail recipes.</li>
+    <li><strong>Ingredient Usage by Type:</strong> Shows the distribution of ingredient types (spirits, liqueurs, juices, etc.) used in your cocktails.</li>
+    <li><strong>Ingredient Combinations:</strong> Reveals which ingredients are commonly paired together in recipes, helping you understand flavor combinations.</li>
   </ul>
 </div>
