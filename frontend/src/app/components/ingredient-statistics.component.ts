@@ -58,6 +58,9 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
     domain: ['#5aa454', '#a10a28', '#c7b42c', '#aae3f5']
   };
 
+  // New data for unlock potential graph
+  unlockPotentialData: ChartData[] = [];
+
   private themeSubscription?: Subscription;
   private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
 
@@ -90,13 +93,13 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
           name: 'terminal-green',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#00ff00', '#008800']
+          domain: ['#00ff00', '#00cc00']
         };
         this.barColorScheme = {
           name: 'terminal-green',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#00ff00', '#00cc00', '#009900', '#006600']
+          domain: ['#00ff00', '#00dd00', '#00bb00', '#009900', '#00ff00', '#33ff33', '#00cc00', '#00aa00', '#008800', '#00ff44', '#00ee00', '#00bb33', '#00ff66', '#00dd33', '#00cc44']
         };
         break;
       case 'cyberpunk':
@@ -110,7 +113,7 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
           name: 'cyberpunk',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#00ffff', '#ff00ff', '#ffff00', '#00ff00']
+          domain: ['#00ffff', '#ff00ff', '#00ff88', '#ff00aa', '#00ddff', '#ff44ff', '#00ffaa', '#ff00cc', '#33ffff', '#ff33ff', '#00eeee', '#ff66ff', '#00ccdd', '#ff00dd', '#00ffcc']
         };
         break;
       case 'amber':
@@ -118,13 +121,13 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
           name: 'amber',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#ffb000', '#ff8800']
+          domain: ['#ffb000', '#ff9500']
         };
         this.barColorScheme = {
           name: 'amber',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#ffb000', '#ff9500', '#ff7a00', '#ff5f00']
+          domain: ['#ffb000', '#ffa500', '#ff9500', '#ff8500', '#ffaa00', '#ffb033', '#ffa033', '#ff9033', '#ffb500', '#ffa000', '#ff9a00', '#ffb533', '#ffa533', '#ff9533', '#ffaa33']
         };
         break;
       case 'basic':
@@ -133,13 +136,13 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
           name: 'basic',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#5a9', '#e67']
+          domain: ['#5aa454', '#e67e22']
         };
         this.barColorScheme = {
           name: 'basic',
           selectable: true,
           group: ScaleType.Ordinal,
-          domain: ['#5aa454', '#a10a28', '#c7b42c', '#aae3f5']
+          domain: ['#5aa454', '#e74c3c', '#3498db', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e', '#16a085', '#27ae60', '#2980b9', '#8e44ad', '#2c3e50', '#c0392b', '#d35400']
         };
         break;
     }
@@ -229,6 +232,9 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
       .map(([type, count]) => ({ name: type, value: count }))
       .sort((a, b) => b.value - a.value);
 
+    // Calculate ingredient unlock potential (which unavailable ingredients would unlock most recipes)
+    this.calculateUnlockPotential();
+
     // Calculate ingredient co-occurrence (which ingredients are used together)
     this.calculateIngredientPairs();
     
@@ -236,6 +242,50 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.initializeHeatmap();
     }, 100);
+  }
+
+  calculateUnlockPotential(): void {
+    // Find ingredients that are NOT in stock
+    const unavailableIngredients = this.ingredients.filter(i => !i.inStock);
+    
+    // For each unavailable ingredient, count how many currently unavailable cocktails it would unlock
+    const unlockMap = new Map<string, number>();
+    
+    unavailableIngredients.forEach(unavailableIng => {
+      let unlockCount = 0;
+      
+      // Check each cocktail
+      this.cocktails.forEach(cocktail => {
+        const cocktailIngredientIds = cocktail.ingredients.map(ci => ci.ingredientId);
+        
+        // Check if cocktail is currently unavailable
+        const canMakeNow = cocktailIngredientIds.every(id => 
+          this.ingredients.find(i => i.id === id)?.inStock
+        );
+        
+        if (!canMakeNow) {
+          // Check if adding this unavailable ingredient would unlock it
+          const missingIngredients = cocktailIngredientIds.filter(id => 
+            !this.ingredients.find(i => i.id === id)?.inStock
+          );
+          
+          // If this is the only missing ingredient, it would unlock the cocktail
+          if (missingIngredients.length === 1 && missingIngredients[0] === unavailableIng.id) {
+            unlockCount++;
+          }
+        }
+      });
+      
+      if (unlockCount > 0) {
+        unlockMap.set(unavailableIng.name, unlockCount);
+      }
+    });
+    
+    // Convert to chart data and sort
+    this.unlockPotentialData = Array.from(unlockMap.entries())
+      .map(([name, count]) => ({ name, value: count }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10); // Top 10 ingredients by unlock potential
   }
 
   calculateIngredientPairs(): void {
@@ -328,7 +378,7 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
       .append('title')
       .text(d => `${d.ingredient1} + ${d.ingredient2}: ${d.count} cocktails`);
 
-    // Add labels
+    // Add labels with better contrast
     g.selectAll('text.pair-label')
       .data(this.ingredientPairs)
       .join('text')
@@ -337,11 +387,17 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
       .attr('x', -5)
       .attr('text-anchor', 'end')
       .attr('dominant-baseline', 'middle')
-      .attr('fill', 'var(--text-color, #333)')
       .attr('font-size', '11px')
+      .attr('font-weight', '500')
+      .style('fill', this.getThemeTextColor())
+      .style('paint-order', 'stroke')
+      .style('stroke', this.getThemeBackgroundColor())
+      .style('stroke-width', '3px')
+      .style('stroke-linecap', 'butt')
+      .style('stroke-linejoin', 'miter')
       .text(d => `${d.ingredient1} + ${d.ingredient2}`);
 
-    // Add count labels on bars
+    // Add count labels on bars with better contrast
     g.selectAll('text.count-label')
       .data(this.ingredientPairs)
       .join('text')
@@ -350,20 +406,55 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
       .attr('x', d => Math.max((d.count / maxCount) * innerWidth + 5, 20))
       .attr('text-anchor', 'start')
       .attr('dominant-baseline', 'middle')
-      .attr('fill', 'var(--text-color, #333)')
       .attr('font-size', '11px')
       .attr('font-weight', 'bold')
+      .style('fill', this.getThemeTextColor())
+      .style('paint-order', 'stroke')
+      .style('stroke', this.getThemeBackgroundColor())
+      .style('stroke-width', '3px')
+      .style('stroke-linecap', 'butt')
+      .style('stroke-linejoin', 'miter')
       .text(d => d.count);
 
-    // Add title
+    // Add title with theme-aware colors
     this.svg.append('text')
       .attr('x', width / 2)
       .attr('y', 15)
       .attr('text-anchor', 'middle')
-      .attr('fill', 'var(--text-color, #333)')
       .attr('font-size', '14px')
       .attr('font-weight', 'bold')
+      .style('fill', this.getThemeTextColor())
       .text('Top Ingredient Combinations');
+  }
+
+  private getThemeTextColor(): string {
+    const theme = this.themeService.getCurrentTheme();
+    
+    switch (theme) {
+      case 'terminal-green':
+        return '#00ff00';
+      case 'cyberpunk':
+        return '#00ffff';
+      case 'amber':
+        return '#ffb000';
+      default:
+        return '#333333';
+    }
+  }
+
+  private getThemeBackgroundColor(): string {
+    const theme = this.themeService.getCurrentTheme();
+    
+    switch (theme) {
+      case 'terminal-green':
+        return '#000000';
+      case 'cyberpunk':
+        return '#0a0e27';
+      case 'amber':
+        return '#1a0a00';
+      default:
+        return '#ffffff';
+    }
   }
 
   private getHeatmapColorInterpolator(): (t: number) => string {

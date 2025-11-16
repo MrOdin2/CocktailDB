@@ -59,6 +59,27 @@
     </div>
   </div>
 
+  @if (unlockPotentialData.length > 0) {
+    <div class="chart-section">
+      <h3>Ingredient Unlock Potential</h3>
+      <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you acquired them</p>
+      <div class="chart-container">
+        <ngx-charts-bar-horizontal
+          [view]="barChartView"
+          [results]="unlockPotentialData"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="'New Recipes Unlocked'"
+          [yAxisLabel]="xAxisLabel"
+          [scheme]="barColorScheme"
+          (select)="onBarSelect($event)">
+        </ngx-charts-bar-horizontal>
+      </div>
+    </div>
+  }
+
   <div class="chart-section">
     <h3>Ingredient Usage by Type</h3>
     <p class="chart-description">Distribution of ingredient types across all cocktails</p>
@@ -93,6 +114,7 @@
   <ul>
     <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need to purchase.</li>
     <li><strong>Most Used Ingredients:</strong> Identifies which ingredients appear most frequently across your cocktail recipes.</li>
+    <li><strong>Ingredient Unlock Potential:</strong> Shows which unavailable ingredients would unlock the most new cocktail recipes if acquired - helping you prioritize shopping.</li>
     <li><strong>Ingredient Usage by Type:</strong> Shows the distribution of ingredient types (spirits, liqueurs, juices, etc.) used in your cocktails.</li>
     <li><strong>Ingredient Combinations:</strong> Reveals which ingredients are commonly paired together in recipes, helping you understand flavor combinations.</li>
   </ul>
