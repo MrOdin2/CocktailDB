@@ -1,0 +1,164 @@
+.graph-controls {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-group label {
+  font-weight: bold;
+  color: var(--text-color);
+  white-space: nowrap;
+}
+
+.control-group select,
+.control-group input[type="number"] {
+  padding: 8px 12px;
+  border: 2px solid var(--border-color);
+  background: var(--body-bg);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.control-group select:hover,
+.control-group input[type="number"]:hover {
+  border-color: var(--primary-color);
+}
+
+.control-group select:focus,
+.control-group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(90, 170, 153, 0.2);
+}
+
+.control-group input[type="number"] {
+  width: 80px;
+}
+
+.control-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.graph-section {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  padding: 30px;
+}
+
+.graph-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+  color: var(--primary-color);
+}
+
+.graph-info {
+  background: var(--body-bg);
+  border: 2px solid var(--border-color);
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.graph-info p {
+  margin: 0 0 10px 0;
+  line-height: 1.6;
+}
+
+.graph-info p:last-child {
+  margin-bottom: 0;
+}
+
+.graph-info strong {
+  color: var(--primary-color);
+}
+
+.graph-container {
+  width: 100%;
+  min-height: 600px;
+  background: var(--body-bg);
+  border: 2px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+
+.graph-stats {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--body-bg);
+  border: 2px solid var(--border-color);
+}
+
+.graph-stats .stat {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.placeholder-section {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  padding: 40px;
+  text-align: center;
+  min-height: 400px;
+}
+
+.placeholder-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: var(--primary-color);
+}
+
+.placeholder-section p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .graph-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .control-group {
+    justify-content: space-between;
+  }
+  
+  .graph-container {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .graph-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .graph-info p {
+    font-size: 0.9em;
+  }
+}
