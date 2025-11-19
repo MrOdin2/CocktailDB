@@ -18,7 +18,7 @@ import { Ingredient, Cocktail } from '../../../../models/models';
 
         .heatmap-container {
             width: 100%;
-            min-height: 600px;
+            min-height: 400px;
             position: relative;
             overflow: visible;
         }

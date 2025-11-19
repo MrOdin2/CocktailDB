@@ -108,19 +108,15 @@
   }
 }
 
-<div class="chart-container chart-wide heatmap-container">
-    <app-ingredient-heatmap
-            [ingredients]="ingredients"
-            [cocktails]="cocktails">
-    </app-ingredient-heatmap>
-</div>
+<app-ingredient-heatmap
+        [ingredients]="ingredients"
+        [cocktails]="cocktails">
+</app-ingredient-heatmap>
 
-<div class="chart-container chart-wide force-graph-container">
-    <app-ingredient-network-graph
-            [ingredients]="ingredients"
-            [cocktails]="cocktails">
-    </app-ingredient-network-graph>
-</div>
+<app-ingredient-network-graph
+        [ingredients]="ingredients"
+        [cocktails]="cocktails">
+</app-ingredient-network-graph>
 
 <div class="info-section">
   <h3>About Ingredient Statistics</h3>
