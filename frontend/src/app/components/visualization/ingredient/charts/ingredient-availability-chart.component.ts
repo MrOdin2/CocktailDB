@@ -31,6 +31,7 @@ interface ChartData {
     standalone: true,
     styles: [`
         :host {
+            align-content: center;
             display: block;
             width: 100%;
             height: 100%;

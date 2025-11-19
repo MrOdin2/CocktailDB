@@ -31,7 +31,7 @@ interface ChartData {
     standalone: true,
     styles: [`
         :host {
-            display: block;
+            display: flex;
             width: 100%;
             height: 100%;
         }
@@ -81,6 +81,6 @@ export class MostUsedIngredientsNgxChartComponent implements OnChanges {
         };
       })
       .sort((a, b) => b.value - a.value)
-      .slice(0, 15); // Top 15 ingredients
+      .slice(0, 20); // Top 15 ingredients
   }
 }
