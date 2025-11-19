@@ -108,6 +108,20 @@
   }
 }
 
+<div class="chart-container chart-wide heatmap-container">
+    <app-ingredient-heatmap
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
+    </app-ingredient-heatmap>
+</div>
+
+<div class="chart-container chart-wide force-graph-container">
+    <app-ingredient-network-graph
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
+    </app-ingredient-network-graph>
+</div>
+
 <div class="info-section">
   <h3>About Ingredient Statistics</h3>
   <p>This tab provides insights into your ingredient collection:</p>

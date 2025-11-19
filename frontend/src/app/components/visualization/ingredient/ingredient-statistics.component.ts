@@ -6,6 +6,8 @@ import { ApiService } from '../../../services/api.service';
 import { ThemeService, Theme } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
+import { IngredientHeatmapComponent } from './charts/ingredient-heatmap.component';
+import { IngredientNetworkGraphComponent } from './charts/ingredient-network-graph.component';
 
 interface ChartData {
   name: string;
@@ -20,7 +22,8 @@ interface IngredientPair {
 
 @Component({
   selector: 'app-ingredient-statistics',
-  imports: [CommonModule, NgxChartsModule],
+    imports: [CommonModule, NgxChartsModule, IngredientHeatmapComponent,
+        IngredientNetworkGraphComponent],
   templateUrl: './ingredient-statistics.component.html',
   styleUrls: ['./ingredient-statistics.component.css']
 })
