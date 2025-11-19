@@ -1,0 +1,60 @@
+@if (cocktails.length > 0) {
+  <div class="graph-controls">
+    <div class="control-group">
+      <label for="groupBy">Group by:</label>
+      <select id="groupBy" [(ngModel)]="groupBy" (change)="onGroupByChange()">
+        <option value="none">None</option>
+        <option value="spirit">Primary Spirit</option>
+        <option value="tags">Tags</option>
+        <option value="ingredient-count">Ingredient Count</option>
+      </select>
+    </div>
+    
+    <div class="control-group">
+      <label for="minShared">Min shared ingredients:</label>
+      <input 
+        type="number" 
+        id="minShared" 
+        [(ngModel)]="minSharedIngredients" 
+        (change)="onMinSharedChange()"
+        min="1" 
+        max="10"
+      />
+    </div>
+    
+    <div class="control-group">
+      <label>
+        <input 
+          type="checkbox" 
+          [(ngModel)]="showLabels" 
+          (change)="onLabelsToggle()"
+        />
+        Show labels
+      </label>
+    </div>
+  </div>
+
+  <div class="graph-section">
+    <h3>Cocktail Relationship Graph</h3>
+    <div class="graph-info">
+      <p>
+        This interactive graph shows relationships between cocktails based on shared ingredients.
+        Each node represents a cocktail, sized by the number of ingredients.
+        Lines connect cocktails that share ingredients, with thickness indicating how many ingredients are shared.
+      </p>
+      <p>
+        <strong>Interactions:</strong> Drag nodes to rearrange • Scroll to zoom • Click and drag background to pan
+      </p>
+    </div>
+    <div #graphContainer class="graph-container"></div>
+    <div class="graph-stats">
+      <span class="stat">Cocktails: {{ graphNodes.length }}</span>
+      <span class="stat">Connections: {{ graphLinks.length }}</span>
+    </div>
+  </div>
+} @else {
+  <div class="placeholder-section">
+    <h3>Cocktail Statistics</h3>
+    <p>No cocktails found. Add some cocktails to see the relationship graph!</p>
+  </div>
+}

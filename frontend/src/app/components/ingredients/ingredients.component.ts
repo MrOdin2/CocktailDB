@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { Ingredient, IngredientType } from '../models/models';
-import { ApiService } from '../services/api.service';
-import { ModalComponent } from './modal.component';
+import { Ingredient, IngredientType } from '../../models/models';
+import { ApiService } from '../../services/api.service';
+import { ModalComponent } from '../util/modal.component';
 
 @Component({
     selector: 'app-ingredients',

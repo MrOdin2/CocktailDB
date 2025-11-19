@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="header-section">
+    <h2>📊 Visualization</h2>
+  </div>
+
+  <div class="tabs">
+    <button 
+      class="tab"
+      [class.active]="activeTab === 'ingredients'"
+      (click)="setActiveTab('ingredients')">
+      Ingredient Statistics
+    </button>
+    <button 
+      class="tab"
+      [class.active]="activeTab === 'cocktails'"
+      (click)="setActiveTab('cocktails')">
+      Cocktail Statistics
+    </button>
+    <button 
+      class="tab"
+      [class.active]="activeTab === 'trends'"
+      (click)="setActiveTab('trends')">
+      Trends & Analysis
+    </button>
+  </div>
+
+  @if (activeTab === 'ingredients') {
+    <div class="tab-content">
+      <app-ingredient-statistics />
+    </div>
+  }
+
+  @if (activeTab === 'cocktails') {
+    <div class="tab-content">
+      <app-cocktail-statistics />
+    </div>
+  }
+
+  @if (activeTab === 'trends') {
+    <div class="tab-content">
+      <app-trends-analysis />
+    </div>
+  }
+</div>

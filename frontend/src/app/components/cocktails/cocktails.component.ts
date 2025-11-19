@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../models/models';
-import { ApiService } from '../services/api.service';
-import { ExportService, ExportFormat, ExportType } from '../services/export.service';
-import { ModalComponent } from './modal.component';
+import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../../models/models';
+import { ApiService } from '../../services/api.service';
+import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
+import { ModalComponent } from '../util/modal.component';
 
 @Component({
     selector: 'app-cocktails',
