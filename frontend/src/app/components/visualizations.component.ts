@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IngredientVisualizationsComponent } from './ingredient-visualizations.component';
+import { IngredientVisualizationsComponent } from './visualization/more-vis/ingredient-visualizations.component';
 
 @Component({
   selector: 'app-visualizations',

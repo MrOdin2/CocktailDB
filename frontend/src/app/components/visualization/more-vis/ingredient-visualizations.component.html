@@ -1,5 +1,9 @@
 <div class="visualizations-content">
-  @if (ingredients.length === 0 || cocktails.length === 0) {
+  @if (isLoading) {
+    <div class="loading-message">
+      <p>Loading visualizations...</p>
+    </div>
+  } @else if (ingredients.length === 0 || cocktails.length === 0) {
     <div class="no-data-message">
       <p>No data available for visualizations.</p>
       <p>Add ingredients and cocktails to see insights!</p>
@@ -7,23 +11,37 @@
   } @else {
     <div class="charts-grid">
       <div class="chart-container">
-        <canvas #usageChart></canvas>
+        <app-most-used-ingredients-chart 
+          [ingredients]="ingredients" 
+          [cocktails]="cocktails">
+        </app-most-used-ingredients-chart>
       </div>
       
       <div class="chart-container">
-        <canvas #typeChart></canvas>
+        <app-ingredient-type-distribution-chart 
+          [ingredients]="ingredients">
+        </app-ingredient-type-distribution-chart>
       </div>
       
       <div class="chart-container chart-wide">
-        <canvas #pairingChart></canvas>
+        <app-ingredient-pairing-chart 
+          [ingredients]="ingredients" 
+          [cocktails]="cocktails">
+        </app-ingredient-pairing-chart>
       </div>
       
       <div class="chart-container chart-wide heatmap-container">
-        <div #heatmapContainer class="d3-visualization"></div>
+        <app-ingredient-heatmap 
+          [ingredients]="ingredients" 
+          [cocktails]="cocktails">
+        </app-ingredient-heatmap>
       </div>
 
       <div class="chart-container chart-wide force-graph-container">
-        <div #forceGraphContainer class="d3-visualization"></div>
+        <app-ingredient-network-graph 
+          [ingredients]="ingredients" 
+          [cocktails]="cocktails">
+        </app-ingredient-network-graph>
       </div>
     </div>
   }
