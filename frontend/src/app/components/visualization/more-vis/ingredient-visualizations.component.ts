@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import * as d3 from 'd3';
-import { Ingredient, Cocktail } from '../models/models';
-import { ApiService } from '../services/api.service';
+import { Ingredient, Cocktail } from '../../../models/models';
+import { ApiService } from '../../../services/api.service';
 
 // Register Chart.js components
 Chart.register(...registerables);
