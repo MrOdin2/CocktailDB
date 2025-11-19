@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Ingredient, Cocktail, IngredientType } from '../models/models';
-import { ApiService } from '../services/api.service';
-import { ThemeService, Theme } from '../services/theme.service';
+import { Ingredient, Cocktail, IngredientType } from '../../../models/models';
+import { ApiService } from '../../../services/api.service';
+import { ThemeService, Theme } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
 
