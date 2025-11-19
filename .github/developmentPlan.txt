@@ -1,0 +1,22 @@
+I want to fundamentally change how this website works. I want it to now contain three kinds of usage:
+
+1: administrative usage: mostly what is currently available:
+    - full access to all content
+    - ability to create, edit, and delete cocktails and ingredients
+    - should be password protected (not exactly sure how to handle this, i don't really want user management, just a simple admin account)
+
+2: barkeeper usage: a more limited access level for bartenders:
+    - ability to view all cocktails and ingredients
+    - allowed to set ingredients as available or unavailable
+    - fast way to access cocktail recipes, only for those creatable with current ingredients (simplified interface, maybe 24 large buttons for first letter of cocktail name, then easily navigable list)
+    - pick random cocktail button (some filtering, like alcoholic/non-alcoholic, main ingredient, sour/sweet, etc)
+    - should also be password protected, different from admin password
+
+3: visitor usage: the public side of the website
+    - ability to view only cocktails that can be made with currently available ingredients
+    - simplified interface:
+        - search by name or main ingredient
+        - browse by categories (e.g. alcoholic, non-alcoholic, sour, sweet, etc.)
+        - pick random cocktail button (some filtering, like alcoholic/non-alcoholic, main ingredient, sour/sweet, etc.)
+        - later quiz and other ways to find new cocktails
+    - no password protection, open to everyone
