@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IngredientStatisticsComponent } from './ingredient-statistics.component';
-import { CocktailStatisticsComponent } from './cocktail-statistics.component';
-import { TrendsAnalysisComponent } from './trends-analysis.component';
+import { IngredientStatisticsComponent } from './ingredient/ingredient-statistics.component';
+import { CocktailStatisticsComponent } from './cocktail/cocktail-statistics.component';
+import { TrendsAnalysisComponent } from './trends/trends-analysis.component';
 
 @Component({
   selector: 'app-visualization',
