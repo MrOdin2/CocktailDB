@@ -20,102 +20,68 @@
 <div class="chart-section">
   <h3>Ingredient Availability</h3>
   <div class="chart-container">
-    @if (pieChartData.length > 0) {
-      <ngx-charts-pie-chart
-        [view]="view"
-        [results]="pieChartData"
-        [legend]="true"
-        [legendPosition]="legendPosition"
-        [labels]="true"
-        [doughnut]="isDoughnut"
-        [scheme]="colorScheme"
-        (select)="onSelect($event)">
-      </ngx-charts-pie-chart>
-    } @else {
-      <div class="no-data">
-        <p>No ingredient data available. Add some ingredients to see statistics!</p>
-      </div>
-    }
+    <app-ingredient-availability-chart
+      [ingredients]="ingredients"
+      [colorScheme]="pieColorScheme">
+    </app-ingredient-availability-chart>
   </div>
 </div>
 
-@if (cocktails.length > 0 && usageChartData.length > 0) {
+@if (cocktails.length > 0 && ingredients.length > 0) {
   <div class="chart-section">
     <h3>Most Used Ingredients</h3>
     <p class="chart-description">Shows which ingredients appear most frequently across all cocktails</p>
     <div class="chart-container">
-      <ngx-charts-bar-horizontal
-        [view]="barChartView"
-        [results]="usageChartData"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="yAxisLabel"
-        [yAxisLabel]="xAxisLabel"
-        [scheme]="barColorScheme"
-        (select)="onBarSelect($event)">
-      </ngx-charts-bar-horizontal>
+      <app-most-used-ingredients-ngx-chart
+        [ingredients]="ingredients"
+        [cocktails]="cocktails"
+        [colorScheme]="barColorScheme">
+      </app-most-used-ingredients-ngx-chart>
     </div>
   </div>
 
-  @if (unlockPotentialData.length > 0) {
-    <div class="chart-section">
-      <h3>Ingredient Unlock Potential</h3>
-      <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you acquired them</p>
-      <div class="chart-container">
-        <ngx-charts-bar-horizontal
-          [view]="barChartView"
-          [results]="unlockPotentialData"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="'New Recipes Unlocked'"
-          [yAxisLabel]="xAxisLabel"
-          [scheme]="barColorScheme"
-          (select)="onBarSelect($event)">
-        </ngx-charts-bar-horizontal>
-      </div>
+  <div class="chart-section">
+    <h3>Ingredient Unlock Potential</h3>
+    <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you acquired them</p>
+    <div class="chart-container">
+      <app-ingredient-unlock-potential-chart
+        [ingredients]="ingredients"
+        [cocktails]="cocktails"
+        [colorScheme]="barColorScheme">
+      </app-ingredient-unlock-potential-chart>
     </div>
-  }
+  </div>
 
   <div class="chart-section">
     <h3>Ingredient Usage by Type</h3>
     <p class="chart-description">Distribution of ingredient types across all cocktails</p>
     <div class="chart-container">
-      <ngx-charts-bar-vertical
-        [view]="barChartView"
-        [results]="typeUsageChartData"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="'Ingredient Type'"
-        [yAxisLabel]="yAxisLabel"
-        [scheme]="barColorScheme"
-        (select)="onBarSelect($event)">
-      </ngx-charts-bar-vertical>
+      <app-ingredient-usage-by-type-chart
+        [ingredients]="ingredients"
+        [cocktails]="cocktails"
+        [colorScheme]="barColorScheme">
+      </app-ingredient-usage-by-type-chart>
     </div>
   </div>
 
-  @if (ingredientPairs.length > 0) {
-    <div class="chart-section">
-      <h3>Ingredient Combinations</h3>
-      <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
-      <div class="heatmap-container" #heatmapContainer></div>
-    </div>
-  }
+  <div class="chart-section">
+    <h3>Ingredient Combinations</h3>
+    <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
+    <app-ingredient-combinations-heatmap
+      [ingredients]="ingredients"
+      [cocktails]="cocktails">
+    </app-ingredient-combinations-heatmap>
+  </div>
 }
 
 <app-ingredient-heatmap
-        [ingredients]="ingredients"
-        [cocktails]="cocktails">
+  [ingredients]="ingredients"
+  [cocktails]="cocktails">
 </app-ingredient-heatmap>
 
 <app-ingredient-network-graph
-        [ingredients]="ingredients"
-        [cocktails]="cocktails">
+  [ingredients]="ingredients"
+  [cocktails]="cocktails">
 </app-ingredient-network-graph>
 
 <div class="info-section">
