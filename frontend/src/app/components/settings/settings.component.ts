@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ThemeService, Theme } from '../services/theme.service';
+
+import { ThemeService, Theme } from '../../services/theme.service';
 
 @Component({
-  selector: 'app-settings',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+    selector: 'app-settings',
+    imports: [],
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  currentTheme: Theme = 'terminal-green';
+  currentTheme: Theme = 'basic';
 
   themes = [
+    {
+      id: 'basic' as Theme,
+      name: 'Basic',
+      description: 'Professional and unremarkable appearance',
+      preview: 'White background with standard dark gray text and minimal styling'
+    },
     {
       id: 'terminal-green' as Theme,
       name: 'Terminal Green',

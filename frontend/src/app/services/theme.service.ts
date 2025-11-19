@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export type Theme = 'terminal-green' | 'cyberpunk' | 'amber';
+export type Theme = 'basic' | 'terminal-green' | 'cyberpunk' | 'amber';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private currentThemeSubject = new BehaviorSubject<Theme>('terminal-green');
+  private currentThemeSubject = new BehaviorSubject<Theme>('basic');
   currentTheme$ = this.currentThemeSubject.asObservable();
 
   constructor() {
@@ -41,6 +41,8 @@ export class ThemeService {
 
   private getThemeFileName(theme: Theme): string {
     switch (theme) {
+      case 'basic':
+        return '0-basic';
       case 'terminal-green':
         return '1-terminal-green';
       case 'cyberpunk':
@@ -48,7 +50,7 @@ export class ThemeService {
       case 'amber':
         return '3-amber';
       default:
-        return '1-terminal-green';
+        return '0-basic';
     }
   }
 

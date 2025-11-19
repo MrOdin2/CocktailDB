@@ -53,3 +53,7 @@ frontend/typings/
 .DS_Store
 Thumbs.db
 *.tmp
+
+# Docker
+.env
+docker-compose.override.yml
