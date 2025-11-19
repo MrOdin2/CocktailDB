@@ -7,6 +7,7 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 - **Cocktail Recipes**: Store your favorite cocktail recipes with ingredients, measurements, and step-by-step instructions
 - **Smart Filtering**: Instantly see which cocktails you can make with ingredients currently in stock
 - **Full CRUD Operations**: Create, read, update, and delete both ingredients and cocktails
+- **Access Control**: Three access modes (Admin, Barkeeper, Visitor) with role-based permissions - see [SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)
 
 ## Technology Stack
 
@@ -276,6 +277,17 @@ npm run build
 
 The production build will be in `frontend/dist/cocktaildb-frontend`
 
+## Security & Access Control
+
+CocktailDB supports three access modes with different permission levels:
+
+1. **Admin Mode**: Full access to all features (CRUD operations on cocktails and ingredients)
+2. **Barkeeper Mode**: Limited access (view all, modify ingredient stock only)
+3. **Visitor Mode**: Read-only access (view available cocktails only, no authentication required)
+
+For detailed information about the security architecture, authentication setup, and implementation:
+- **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Complete security concept and design principles
+- **[docs/authentication-guide.md](docs/authentication-guide.md)** - Implementation guide with code examples
 
 ## License
 
