@@ -9,37 +9,39 @@ interface ChartData {
 }
 
 @Component({
-  selector: 'app-ingredient-unlock-potential-chart',
-  imports: [CommonModule, NgxChartsModule],
-  template: `
-    <div class="chart-container">
-      @if (chartData.length > 0) {
-        <ngx-charts-bar-horizontal
-          [view]="view"
-          [results]="chartData"
-          [xAxis]="true"
-          [yAxis]="true"
-          [showXAxisLabel]="true"
-          [showYAxisLabel]="true"
-          [xAxisLabel]="'New Recipes Unlocked'"
-          [yAxisLabel]="'Ingredient'"
-          [scheme]="colorScheme">
-        </ngx-charts-bar-horizontal>
-      }
-    </div>
-  `,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .chart-container {
-      width: 100%;
-      height: 100%;
-      min-height: 400px;
-    }
-  `]
+    selector: 'app-ingredient-unlock-potential-chart',
+    imports: [CommonModule, NgxChartsModule],
+    template: `
+        <div class="chart-container">
+            @if (chartData.length > 0) {
+                <ngx-charts-bar-horizontal
+                        [view]="view"
+                        [results]="chartData"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxisLabel]="'New Recipes Unlocked'"
+                        [yAxisLabel]="'Ingredient'"
+                        [scheme]="colorScheme">
+                </ngx-charts-bar-horizontal>
+            }
+        </div>
+    `,
+    standalone: true,
+    styles: [`
+        :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+    `]
 })
 export class IngredientUnlockPotentialChartComponent implements OnChanges {
   @Input() ingredients: Ingredient[] = [];

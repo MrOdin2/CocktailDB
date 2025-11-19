@@ -14,19 +14,20 @@ import { IngredientHeatmapComponent } from './charts/ingredient-heatmap.componen
 import { IngredientNetworkGraphComponent } from './charts/ingredient-network-graph.component';
 
 @Component({
-  selector: 'app-ingredient-statistics',
-  imports: [
-    CommonModule,
-    IngredientAvailabilityChartComponent,
-    MostUsedIngredientsNgxChartComponent,
-    IngredientUnlockPotentialChartComponent,
-    IngredientUsageByTypeChartComponent,
-    IngredientCombinationsHeatmapComponent,
-    IngredientHeatmapComponent,
-    IngredientNetworkGraphComponent
-  ],
-  templateUrl: './ingredient-statistics.component.html',
-  styleUrls: ['./ingredient-statistics.component.css']
+    selector: 'app-ingredient-statistics',
+    imports: [
+        CommonModule,
+        IngredientAvailabilityChartComponent,
+        MostUsedIngredientsNgxChartComponent,
+        IngredientUnlockPotentialChartComponent,
+        IngredientUsageByTypeChartComponent,
+        IngredientCombinationsHeatmapComponent,
+        IngredientHeatmapComponent,
+        IngredientNetworkGraphComponent
+    ],
+    templateUrl: './ingredient-statistics.component.html',
+    standalone: true,
+    styleUrls: ['./ingredient-statistics.component.css']
 })
 export class IngredientStatisticsComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[] = [];

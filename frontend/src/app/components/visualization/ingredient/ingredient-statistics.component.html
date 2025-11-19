@@ -1,97 +1,110 @@
 <div class="stats-section">
-  <div class="stat-card">
-    <div class="stat-value">{{ totalIngredients }}</div>
-    <div class="stat-label">Total Ingredients</div>
-  </div>
-  <div class="stat-card in-stock">
-    <div class="stat-value">{{ inStockCount }}</div>
-    <div class="stat-label">In Stock</div>
-  </div>
-  <div class="stat-card not-in-stock">
-    <div class="stat-value">{{ notInStockCount }}</div>
-    <div class="stat-label">Not Available</div>
-  </div>
-  <div class="stat-card percentage">
-    <div class="stat-value">{{ stockPercentage | number:'1.0-1' }}%</div>
-    <div class="stat-label">Stock Rate</div>
-  </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ totalIngredients }}</div>
+        <div class="stat-label">Total Ingredients</div>
+    </div>
+    <div class="stat-card in-stock">
+        <div class="stat-value">{{ inStockCount }}</div>
+        <div class="stat-label">In Stock</div>
+    </div>
+    <div class="stat-card not-in-stock">
+        <div class="stat-value">{{ notInStockCount }}</div>
+        <div class="stat-label">Not Available</div>
+    </div>
+    <div class="stat-card percentage">
+        <div class="stat-value">{{ stockPercentage | number:'1.0-1' }}%</div>
+        <div class="stat-label">Stock Rate</div>
+    </div>
 </div>
 
 <div class="chart-section">
-  <h3>Ingredient Availability</h3>
-  <div class="chart-container">
-    <app-ingredient-availability-chart
-      [ingredients]="ingredients"
-      [colorScheme]="pieColorScheme">
-    </app-ingredient-availability-chart>
-  </div>
+    <h3>Ingredient Availability</h3>
+    <div class="chart-container">
+        <app-ingredient-availability-chart
+                [ingredients]="ingredients"
+                [colorScheme]="pieColorScheme">
+        </app-ingredient-availability-chart>
+    </div>
 </div>
 
-@if (cocktails.length > 0 && ingredients.length > 0) {
-  <div class="chart-section">
+<div class="chart-section">
     <h3>Most Used Ingredients</h3>
     <p class="chart-description">Shows which ingredients appear most frequently across all cocktails</p>
     <div class="chart-container">
-      <app-most-used-ingredients-ngx-chart
-        [ingredients]="ingredients"
-        [cocktails]="cocktails"
-        [colorScheme]="barColorScheme">
-      </app-most-used-ingredients-ngx-chart>
+        <app-most-used-ingredients-ngx-chart
+                [ingredients]="ingredients"
+                [cocktails]="cocktails"
+                [colorScheme]="barColorScheme">
+        </app-most-used-ingredients-ngx-chart>
     </div>
-  </div>
+</div>
 
-  <div class="chart-section">
+<div class="chart-section">
     <h3>Ingredient Unlock Potential</h3>
-    <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you acquired them</p>
+    <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you
+        acquired them</p>
     <div class="chart-container">
-      <app-ingredient-unlock-potential-chart
-        [ingredients]="ingredients"
-        [cocktails]="cocktails"
-        [colorScheme]="barColorScheme">
-      </app-ingredient-unlock-potential-chart>
+        <app-ingredient-unlock-potential-chart
+                [ingredients]="ingredients"
+                [cocktails]="cocktails"
+                [colorScheme]="barColorScheme">
+        </app-ingredient-unlock-potential-chart>
     </div>
-  </div>
+</div>
 
-  <div class="chart-section">
+<div class="chart-section">
     <h3>Ingredient Usage by Type</h3>
     <p class="chart-description">Distribution of ingredient types across all cocktails</p>
     <div class="chart-container">
-      <app-ingredient-usage-by-type-chart
-        [ingredients]="ingredients"
-        [cocktails]="cocktails"
-        [colorScheme]="barColorScheme">
-      </app-ingredient-usage-by-type-chart>
+        <app-ingredient-usage-by-type-chart
+                [ingredients]="ingredients"
+                [cocktails]="cocktails"
+                [colorScheme]="barColorScheme">
+        </app-ingredient-usage-by-type-chart>
     </div>
-  </div>
+</div>
 
-  <div class="chart-section">
+<div class="chart-section">
     <h3>Ingredient Combinations</h3>
     <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
     <app-ingredient-combinations-heatmap
-      [ingredients]="ingredients"
-      [cocktails]="cocktails">
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
     </app-ingredient-combinations-heatmap>
-  </div>
-}
+</div>
 
-<app-ingredient-heatmap
-  [ingredients]="ingredients"
-  [cocktails]="cocktails">
-</app-ingredient-heatmap>
+<div class="chart-section">
+    <app-ingredient-heatmap
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
+    </app-ingredient-heatmap>
+</div>
 
-<app-ingredient-network-graph
-  [ingredients]="ingredients"
-  [cocktails]="cocktails">
-</app-ingredient-network-graph>
+<div class="chart-section">
+    <app-ingredient-network-graph
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
+    </app-ingredient-network-graph>
+</div>
 
 <div class="info-section">
-  <h3>About Ingredient Statistics</h3>
-  <p>This tab provides insights into your ingredient collection:</p>
-  <ul>
-    <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need to purchase.</li>
-    <li><strong>Most Used Ingredients:</strong> Identifies which ingredients appear most frequently across your cocktail recipes.</li>
-    <li><strong>Ingredient Unlock Potential:</strong> Shows which unavailable ingredients would unlock the most new cocktail recipes if acquired - helping you prioritize shopping.</li>
-    <li><strong>Ingredient Usage by Type:</strong> Shows the distribution of ingredient types (spirits, liqueurs, juices, etc.) used in your cocktails.</li>
-    <li><strong>Ingredient Combinations:</strong> Reveals which ingredients are commonly paired together in recipes, helping you understand flavor combinations.</li>
-  </ul>
+    <h3>About Ingredient Statistics</h3>
+    <p>This tab provides insights into your ingredient collection:</p>
+    <ul>
+        <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need
+            to purchase.
+        </li>
+        <li><strong>Most Used Ingredients:</strong> Identifies which ingredients appear most frequently across your
+            cocktail recipes.
+        </li>
+        <li><strong>Ingredient Unlock Potential:</strong> Shows which unavailable ingredients would unlock the most new
+            cocktail recipes if acquired - helping you prioritize shopping.
+        </li>
+        <li><strong>Ingredient Usage by Type:</strong> Shows the distribution of ingredient types (spirits, liqueurs,
+            juices, etc.) used in your cocktails.
+        </li>
+        <li><strong>Ingredient Combinations:</strong> Reveals which ingredients are commonly paired together in recipes,
+            helping you understand flavor combinations.
+        </li>
+    </ul>
 </div>

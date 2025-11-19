@@ -9,37 +9,39 @@ interface ChartData {
 }
 
 @Component({
-  selector: 'app-ingredient-usage-by-type-chart',
-  imports: [CommonModule, NgxChartsModule],
-  template: `
-    <div class="chart-container">
-      @if (chartData.length > 0) {
-        <ngx-charts-bar-vertical
-          [view]="view"
-          [results]="chartData"
-          [xAxis]="true"
-          [yAxis]="true"
-          [showXAxisLabel]="true"
-          [showYAxisLabel]="true"
-          [xAxisLabel]="'Ingredient Type'"
-          [yAxisLabel]="'Usage Count'"
-          [scheme]="colorScheme">
-        </ngx-charts-bar-vertical>
-      }
-    </div>
-  `,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .chart-container {
-      width: 100%;
-      height: 100%;
-      min-height: 400px;
-    }
-  `]
+    selector: 'app-ingredient-usage-by-type-chart',
+    imports: [CommonModule, NgxChartsModule],
+    template: `
+        <div class="chart-container">
+            @if (chartData.length > 0) {
+                <ngx-charts-bar-vertical
+                        [view]="view"
+                        [results]="chartData"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxisLabel]="'Ingredient Type'"
+                        [yAxisLabel]="'Usage Count'"
+                        [scheme]="colorScheme">
+                </ngx-charts-bar-vertical>
+            }
+        </div>
+    `,
+    standalone: true,
+    styles: [`
+        :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+    `]
 })
 export class IngredientUsageByTypeChartComponent implements OnChanges {
   @Input() ingredients: Ingredient[] = [];

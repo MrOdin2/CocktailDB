@@ -12,21 +12,24 @@ interface IngredientPair {
 }
 
 @Component({
-  selector: 'app-ingredient-combinations-heatmap',
-  imports: [CommonModule],
-  template: `<div class="heatmap-container" #heatmapContainer></div>`,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .heatmap-container {
-      width: 100%;
-      min-height: 400px;
-      position: relative;
-    }
-  `]
+    selector: 'app-ingredient-combinations-heatmap',
+    imports: [CommonModule],
+    template: `
+        <div class="heatmap-container" #heatmapContainer></div>`,
+    standalone: true,
+    styles: [`
+        :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .heatmap-container {
+            width: 100%;
+            min-height: 400px;
+            position: relative;
+        }
+    `]
 })
 export class IngredientCombinationsHeatmapComponent implements OnChanges, OnDestroy {
   @Input() ingredients: Ingredient[] = [];

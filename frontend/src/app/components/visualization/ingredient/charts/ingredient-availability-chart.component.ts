@@ -9,37 +9,39 @@ interface ChartData {
 }
 
 @Component({
-  selector: 'app-ingredient-availability-chart',
-  imports: [CommonModule, NgxChartsModule],
-  template: `
-    @if (chartData.length > 0) {
-      <ngx-charts-pie-chart
-        [view]="view"
-        [results]="chartData"
-        [legend]="true"
-        [legendPosition]="legendPosition"
-        [labels]="true"
-        [doughnut]="isDoughnut"
-        [scheme]="colorScheme">
-      </ngx-charts-pie-chart>
-    } @else {
-      <div class="no-data">
-        <p>No ingredient data available. Add some ingredients to see statistics!</p>
-      </div>
-    }
-  `,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .no-data {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-    }
-  `]
+    selector: 'app-ingredient-availability-chart',
+    imports: [CommonModule, NgxChartsModule],
+    template: `
+        @if (chartData.length > 0) {
+            <ngx-charts-pie-chart
+                    [view]="view"
+                    [results]="chartData"
+                    [legend]="true"
+                    [legendPosition]="legendPosition"
+                    [labels]="true"
+                    [doughnut]="isDoughnut"
+                    [scheme]="colorScheme">
+            </ngx-charts-pie-chart>
+        } @else {
+            <div class="no-data">
+                <p>No ingredient data available. Add some ingredients to see statistics!</p>
+            </div>
+        }
+    `,
+    standalone: true,
+    styles: [`
+        :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    `]
 })
 export class IngredientAvailabilityChartComponent implements OnChanges {
   @Input() ingredients: Ingredient[] = [];
