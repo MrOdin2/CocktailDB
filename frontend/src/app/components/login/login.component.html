@@ -1,0 +1,35 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>🍸 CocktailDB</h1>
+    <h2>Admin Login</h2>
+    
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="password">Admin Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          [disabled]="isLoading"
+          placeholder="Enter admin password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="isLoading" class="login-button">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <div class="info-text">
+      <p>Default password: <code>admin</code></p>
+      <p class="small">Change this in production by setting the ADMIN_PASSWORD_HASH environment variable.</p>
+    </div>
+  </div>
+</div>
