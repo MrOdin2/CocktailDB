@@ -39,18 +39,20 @@
     </div>
 </div>
 
-<div class="chart-section">
-    <h3>Ingredient Unlock Potential</h3>
-    <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you
-        acquired them</p>
-    <div class="chart-container">
-        <app-ingredient-unlock-potential-chart
-                [ingredients]="ingredients"
-                [cocktails]="cocktails"
-                [colorScheme]="barColorScheme">
-        </app-ingredient-unlock-potential-chart>
+@if (stockPercentage < 100) {
+    <div class="chart-section">
+        <h3>Ingredient Unlock Potential</h3>
+        <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you
+            acquired them</p>
+        <div class="chart-container">
+            <app-ingredient-unlock-potential-chart
+                    [ingredients]="ingredients"
+                    [cocktails]="cocktails"
+                    [colorScheme]="barColorScheme">
+            </app-ingredient-unlock-potential-chart>
+        </div>
     </div>
-</div>
+}
 
 <div class="chart-section">
     <h3>Ingredient Usage by Type</h3>
@@ -67,13 +69,6 @@
 <div class="chart-section">
     <h3>Ingredient Combinations</h3>
     <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
-    <app-ingredient-combinations-heatmap
-            [ingredients]="ingredients"
-            [cocktails]="cocktails">
-    </app-ingredient-combinations-heatmap>
-</div>
-
-<div class="chart-section">
     <app-ingredient-heatmap
             [ingredients]="ingredients"
             [cocktails]="cocktails">

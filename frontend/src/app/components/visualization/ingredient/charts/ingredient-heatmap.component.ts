@@ -80,7 +80,7 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
 
     const topIngredients = Array.from(usageMap.entries())
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 15)
+      .slice(0, 20)
       .map(([id]) => id);
 
     const ingredientNames = topIngredients.map(id => 
@@ -113,7 +113,7 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
     }
 
     // Setup dimensions
-    const margin = { top: 100, right: 50, bottom: 150, left: 150 };
+    const margin = { top: 100, right: 50, bottom: 150, left: 100 };
     const cellSize = 35;
     const width = cellSize * topIngredients.length + margin.left + margin.right;
     const height = cellSize * topIngredients.length + margin.top + margin.bottom;
@@ -206,6 +206,5 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
       .attr('text-anchor', 'middle')
       .style('font-size', '16px')
       .style('font-weight', 'bold')
-      .text('Ingredient Combination Heatmap');
   }
 }
