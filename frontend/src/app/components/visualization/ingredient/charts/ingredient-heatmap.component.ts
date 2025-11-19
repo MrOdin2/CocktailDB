@@ -4,22 +4,25 @@ import * as d3 from 'd3';
 import { Ingredient, Cocktail } from '../../../../models/models';
 
 @Component({
-  selector: 'app-ingredient-heatmap',
-  imports: [CommonModule],
-  template: `<div #heatmapContainer class="heatmap-container"></div>`,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .heatmap-container {
-      width: 100%;
-      min-height: 600px;
-      position: relative;
-      overflow: visible;
-    }
-  `]
+    selector: 'app-ingredient-heatmap',
+    imports: [CommonModule],
+    template: `
+        <div #heatmapContainer class="heatmap-container"></div>`,
+    standalone: true,
+    styles: [`
+        :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .heatmap-container {
+            width: 100%;
+            min-height: 600px;
+            position: relative;
+            overflow: visible;
+        }
+    `]
 })
 export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
   @Input() ingredients: Ingredient[] = [];

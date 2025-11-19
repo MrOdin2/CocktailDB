@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { NgxChartsModule, LegendPosition, Color, ScaleType } from '@swimlane/ngx-charts';
 import { Ingredient, Cocktail } from '../../../models/models';
 import { ApiService } from '../../../services/api.service';
@@ -21,11 +21,12 @@ interface IngredientPair {
 }
 
 @Component({
-  selector: 'app-ingredient-statistics',
+    selector: 'app-ingredient-statistics',
     imports: [CommonModule, NgxChartsModule, IngredientHeatmapComponent,
         IngredientNetworkGraphComponent],
-  templateUrl: './ingredient-statistics.component.html',
-  styleUrls: ['./ingredient-statistics.component.css']
+    templateUrl: './ingredient-statistics.component.html',
+    standalone: true,
+    styleUrls: ['./ingredient-statistics.component.css']
 })
 export class IngredientStatisticsComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[] = [];

@@ -20,22 +20,25 @@ interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
 }
 
 @Component({
-  selector: 'app-ingredient-network-graph',
-  imports: [CommonModule],
-  template: `<div #graphContainer class="graph-container"></div>`,
-  styles: [`
-    :host {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .graph-container {
-      width: 100%;
-      min-height: 600px;
-      position: relative;
-      overflow: visible;
-    }
-  `]
+    selector: 'app-ingredient-network-graph',
+    imports: [CommonModule],
+    template: `
+        <div #graphContainer class="graph-container"></div>`,
+    standalone: true,
+    styles: [`
+        :host {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .graph-container {
+            width: 100%;
+            min-height: 600px;
+            position: relative;
+            overflow: visible;
+        }
+    `]
 })
 export class IngredientNetworkGraphComponent implements AfterViewInit, OnChanges {
   @Input() ingredients: Ingredient[] = [];
