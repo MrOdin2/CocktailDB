@@ -1,121 +1,105 @@
 <div class="stats-section">
-  <div class="stat-card">
-    <div class="stat-value">{{ totalIngredients }}</div>
-    <div class="stat-label">Total Ingredients</div>
-  </div>
-  <div class="stat-card in-stock">
-    <div class="stat-value">{{ inStockCount }}</div>
-    <div class="stat-label">In Stock</div>
-  </div>
-  <div class="stat-card not-in-stock">
-    <div class="stat-value">{{ notInStockCount }}</div>
-    <div class="stat-label">Not Available</div>
-  </div>
-  <div class="stat-card percentage">
-    <div class="stat-value">{{ stockPercentage | number:'1.0-1' }}%</div>
-    <div class="stat-label">Stock Rate</div>
-  </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ totalIngredients }}</div>
+        <div class="stat-label">Total Ingredients</div>
+    </div>
+    <div class="stat-card in-stock">
+        <div class="stat-value">{{ inStockCount }}</div>
+        <div class="stat-label">In Stock</div>
+    </div>
+    <div class="stat-card not-in-stock">
+        <div class="stat-value">{{ notInStockCount }}</div>
+        <div class="stat-label">Not Available</div>
+    </div>
+    <div class="stat-card percentage">
+        <div class="stat-value">{{ stockPercentage | number:'1.0-1' }}%</div>
+        <div class="stat-label">Stock Rate</div>
+    </div>
 </div>
 
 <div class="chart-section">
-  <h3>Ingredient Availability</h3>
-  <div class="chart-container">
-    @if (pieChartData.length > 0) {
-      <ngx-charts-pie-chart
-        [view]="view"
-        [results]="pieChartData"
-        [legend]="true"
-        [legendPosition]="legendPosition"
-        [labels]="true"
-        [doughnut]="isDoughnut"
-        [scheme]="colorScheme"
-        (select)="onSelect($event)">
-      </ngx-charts-pie-chart>
-    } @else {
-      <div class="no-data">
-        <p>No ingredient data available. Add some ingredients to see statistics!</p>
-      </div>
-    }
-  </div>
+    <h3>Ingredient Availability</h3>
+    <div class="chart-container">
+        <app-ingredient-availability-chart
+                [ingredients]="ingredients"
+                [colorScheme]="pieColorScheme">
+        </app-ingredient-availability-chart>
+    </div>
 </div>
 
-@if (cocktails.length > 0 && usageChartData.length > 0) {
-  <div class="chart-section">
+<div class="chart-section">
     <h3>Most Used Ingredients</h3>
     <p class="chart-description">Shows which ingredients appear most frequently across all cocktails</p>
     <div class="chart-container">
-      <ngx-charts-bar-horizontal
-        [view]="barChartView"
-        [results]="usageChartData"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="yAxisLabel"
-        [yAxisLabel]="xAxisLabel"
-        [scheme]="barColorScheme"
-        (select)="onBarSelect($event)">
-      </ngx-charts-bar-horizontal>
+        <app-most-used-ingredients-ngx-chart
+                [ingredients]="ingredients"
+                [cocktails]="cocktails"
+                [colorScheme]="barColorScheme">
+        </app-most-used-ingredients-ngx-chart>
     </div>
-  </div>
+</div>
 
-  @if (unlockPotentialData.length > 0) {
+@if (stockPercentage < 100) {
     <div class="chart-section">
-      <h3>Ingredient Unlock Potential</h3>
-      <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you acquired them</p>
-      <div class="chart-container">
-        <ngx-charts-bar-horizontal
-          [view]="barChartView"
-          [results]="unlockPotentialData"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="'New Recipes Unlocked'"
-          [yAxisLabel]="xAxisLabel"
-          [scheme]="barColorScheme"
-          (select)="onBarSelect($event)">
-        </ngx-charts-bar-horizontal>
-      </div>
+        <h3>Ingredient Unlock Potential</h3>
+        <p class="chart-description">Which unavailable ingredients would unlock the most new cocktail recipes if you
+            acquired them</p>
+        <div class="chart-container">
+            <app-ingredient-unlock-potential-chart
+                    [ingredients]="ingredients"
+                    [cocktails]="cocktails"
+                    [colorScheme]="barColorScheme">
+            </app-ingredient-unlock-potential-chart>
+        </div>
     </div>
-  }
+}
 
-  <div class="chart-section">
+<div class="chart-section">
     <h3>Ingredient Usage by Type</h3>
     <p class="chart-description">Distribution of ingredient types across all cocktails</p>
     <div class="chart-container">
-      <ngx-charts-bar-vertical
-        [view]="barChartView"
-        [results]="typeUsageChartData"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="'Ingredient Type'"
-        [yAxisLabel]="yAxisLabel"
-        [scheme]="barColorScheme"
-        (select)="onBarSelect($event)">
-      </ngx-charts-bar-vertical>
+        <app-ingredient-usage-by-type-chart
+                [ingredients]="ingredients"
+                [cocktails]="cocktails"
+                [colorScheme]="barColorScheme">
+        </app-ingredient-usage-by-type-chart>
     </div>
-  </div>
+</div>
 
-  @if (ingredientPairs.length > 0) {
-    <div class="chart-section">
-      <h3>Ingredient Combinations</h3>
-      <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
-      <div class="heatmap-container" #heatmapContainer></div>
-    </div>
-  }
-}
+<div class="chart-section">
+    <h3>Ingredient Combinations</h3>
+    <p class="chart-description">Shows which ingredients are most commonly used together in cocktails</p>
+    <app-ingredient-heatmap
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
+    </app-ingredient-heatmap>
+</div>
+
+<div class="chart-section">
+    <app-ingredient-network-graph
+            [ingredients]="ingredients"
+            [cocktails]="cocktails">
+    </app-ingredient-network-graph>
+</div>
 
 <div class="info-section">
-  <h3>About Ingredient Statistics</h3>
-  <p>This tab provides insights into your ingredient collection:</p>
-  <ul>
-    <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need to purchase.</li>
-    <li><strong>Most Used Ingredients:</strong> Identifies which ingredients appear most frequently across your cocktail recipes.</li>
-    <li><strong>Ingredient Unlock Potential:</strong> Shows which unavailable ingredients would unlock the most new cocktail recipes if acquired - helping you prioritize shopping.</li>
-    <li><strong>Ingredient Usage by Type:</strong> Shows the distribution of ingredient types (spirits, liqueurs, juices, etc.) used in your cocktails.</li>
-    <li><strong>Ingredient Combinations:</strong> Reveals which ingredients are commonly paired together in recipes, helping you understand flavor combinations.</li>
-  </ul>
+    <h3>About Ingredient Statistics</h3>
+    <p>This tab provides insights into your ingredient collection:</p>
+    <ul>
+        <li><strong>Ingredient Availability:</strong> A breakdown of ingredients you have in stock versus those you need
+            to purchase.
+        </li>
+        <li><strong>Most Used Ingredients:</strong> Identifies which ingredients appear most frequently across your
+            cocktail recipes.
+        </li>
+        <li><strong>Ingredient Unlock Potential:</strong> Shows which unavailable ingredients would unlock the most new
+            cocktail recipes if acquired - helping you prioritize shopping.
+        </li>
+        <li><strong>Ingredient Usage by Type:</strong> Shows the distribution of ingredient types (spirits, liqueurs,
+            juices, etc.) used in your cocktails.
+        </li>
+        <li><strong>Ingredient Combinations:</strong> Reveals which ingredients are commonly paired together in recipes,
+            helping you understand flavor combinations.
+        </li>
+    </ul>
 </div>

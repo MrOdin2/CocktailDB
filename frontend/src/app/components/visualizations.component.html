@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="header-section">
+    <h2>Data Visualizations</h2>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'ingredients'"
+      (click)="switchTab('ingredients')">
+      Ingredients
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'cocktails'"
+      (click)="switchTab('cocktails')">
+      Cocktails
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    @if (activeTab === 'ingredients') {
+      <app-ingredient-visualizations></app-ingredient-visualizations>
+    }
+    
+    @if (activeTab === 'cocktails') {
+      <div class="coming-soon">
+        <p>Cocktail visualizations coming soon!</p>
+      </div>
+    }
+  </div>
+</div>
