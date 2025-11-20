@@ -59,7 +59,7 @@ export class ApiService {
   }
 
   getAvailableCocktails(): Observable<Cocktail[]> {
-    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/available`, { withCredentials: true });
+    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/available`);
   }
 
   searchCocktails(name?: string, spirit?: string, tags?: string[]): Observable<Cocktail[]> {
