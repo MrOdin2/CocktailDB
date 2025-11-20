@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
@@ -8,7 +9,7 @@ import { Cocktail, Ingredient } from '../../models/models';
 @Component({
   selector: 'app-barkeeper',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './barkeeper.component.html',
   styleUrls: ['./barkeeper.component.css']
 })
@@ -21,6 +22,7 @@ export class BarkeeperComponent implements OnInit {
   selectedCocktail: Cocktail | null = null;
   selectedLetter: string = '';
   isLoading = false;
+  showOnlyAvailable = false;
   
   // Filter options for random cocktail
   filterAlcoholic: 'all' | 'alcoholic' | 'non-alcoholic' = 'all';
@@ -92,7 +94,8 @@ export class BarkeeperComponent implements OnInit {
 
   selectLetter(letter: string): void {
     this.selectedLetter = letter;
-    this.filteredCocktails = this.cocktails.filter(c => 
+    const baseList = this.showOnlyAvailable ? this.availableCocktails : this.cocktails;
+    this.filteredCocktails = baseList.filter(c => 
       c.name.toUpperCase().startsWith(letter)
     );
     this.currentView = 'cocktails';
@@ -104,7 +107,7 @@ export class BarkeeperComponent implements OnInit {
   }
 
   pickRandomCocktail(): void {
-    let pool = this.cocktails;
+    let pool = this.showOnlyAvailable ? this.availableCocktails : this.cocktails;
     
     if (this.filterAlcoholic === 'alcoholic') {
       pool = pool.filter(c => this.isAlcoholic(c));

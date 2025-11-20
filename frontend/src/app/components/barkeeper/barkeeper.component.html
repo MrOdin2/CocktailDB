@@ -11,6 +11,18 @@
   <!-- Main Menu -->
   <div *ngIf="currentView === 'menu'" class="menu-view">
     <h2>Barkeeper Menu</h2>
+    
+    <!-- Toggle for Available Only Mode -->
+    <div class="menu-options">
+      <div class="toggle-option">
+        <span class="toggle-label">Show Only Available Cocktails</span>
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="showOnlyAvailable">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    
     <div class="menu-grid">
       <button class="menu-btn" (click)="showAlphabetNav()">
         <div class="btn-icon">🔤</div>
