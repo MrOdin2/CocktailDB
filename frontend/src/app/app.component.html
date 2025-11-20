@@ -1,5 +1,5 @@
 <div class="app">
-  <header *ngIf="isAuthenticated">
+  <header *ngIf="isAuthenticated && isAdmin()">
     <div class="header-content">
       <h1>🍸 {{ title }}</h1>
       <div class="admin-badge">Admin Mode</div>

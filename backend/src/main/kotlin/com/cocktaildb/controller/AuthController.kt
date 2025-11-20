@@ -11,7 +11,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 data class LoginRequest(
-    val password: String
+    val password: String,
+    val role: String? = null
 )
 
 data class LoginResponse(
@@ -32,7 +33,9 @@ class AuthController(
     private val passwordService: PasswordService,
     private val sessionService: SessionService,
     @Value("\${admin.password.hash}")
-    private val adminPasswordHash: String
+    private val adminPasswordHash: String,
+    @Value("\${barkeeper.password.hash}")
+    private val barkeeperPasswordHash: String
 ) {
     
     @PostMapping("/login")
@@ -40,14 +43,25 @@ class AuthController(
         @RequestBody request: LoginRequest,
         response: HttpServletResponse
     ): ResponseEntity<LoginResponse> {
-        // Verify admin password
-        if (!passwordService.verifyPassword(request.password, adminPasswordHash)) {
+        // Determine which role to authenticate
+        val role = when (request.role?.uppercase()) {
+            "BARKEEPER" -> UserRole.BARKEEPER
+            else -> UserRole.ADMIN
+        }
+        
+        // Verify password based on role
+        val passwordHash = when (role) {
+            UserRole.ADMIN -> adminPasswordHash
+            UserRole.BARKEEPER -> barkeeperPasswordHash
+        }
+        
+        if (!passwordService.verifyPassword(request.password, passwordHash)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(LoginResponse(success = false, message = "Invalid password"))
         }
         
         // Create session
-        val sessionId = sessionService.createSession(UserRole.ADMIN)
+        val sessionId = sessionService.createSession(role)
         
         // Set session cookie
         val cookie = Cookie("sessionId", sessionId).apply {
@@ -61,7 +75,7 @@ class AuthController(
         return ResponseEntity.ok(LoginResponse(
             success = true,
             message = "Login successful",
-            role = "ADMIN"
+            role = role.name
         ))
     }
     
