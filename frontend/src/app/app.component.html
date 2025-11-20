@@ -1,11 +1,15 @@
 <div class="app">
-  <header>
-    <h1>🍸 {{ title }}</h1>
+  <header *ngIf="isAuthenticated">
+    <div class="header-content">
+      <h1>🍸 {{ title }}</h1>
+      <div class="admin-badge">Admin Mode</div>
+    </div>
     <nav>
       <a routerLink="/ingredients" routerLinkActive="active">Ingredients</a>
       <a routerLink="/cocktails" routerLinkActive="active">Cocktails</a>
       <a routerLink="/visualizations" routerLinkActive="active">Visualizations</a>
       <a routerLink="/settings" routerLinkActive="active">Settings</a>
+      <button (click)="logout()" class="logout-button">Logout</button>
     </nav>
   </header>
   

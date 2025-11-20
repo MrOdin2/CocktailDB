@@ -1,0 +1,30 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>🍸 CocktailDB</h1>
+    <h2>Admin Login</h2>
+    
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          [disabled]="isLoading"
+          placeholder="Enter admin password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="isLoading" class="btn-primary">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+  </div>
+</div>
