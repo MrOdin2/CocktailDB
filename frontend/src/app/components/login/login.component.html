@@ -5,7 +5,6 @@
     
     <form (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="password">Admin Password</label>
         <input
           type="password"
           id="password"
@@ -22,14 +21,10 @@
         {{ errorMessage }}
       </div>
 
-      <button type="submit" [disabled]="isLoading" class="login-button">
+      <button type="submit" [disabled]="isLoading" class="btn-primary">
         {{ isLoading ? 'Logging in...' : 'Login' }}
       </button>
     </form>
 
-    <div class="info-text">
-      <p>Default password: <code>admin</code></p>
-      <p class="small">Change this in production by setting the ADMIN_PASSWORD_HASH environment variable.</p>
-    </div>
   </div>
 </div>

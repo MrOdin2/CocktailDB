@@ -3,12 +3,9 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-color) 0%, var(--card-bg) 100%);
 }
 
 .login-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 2rem;
   max-width: 400px;
@@ -19,14 +16,12 @@
 .login-card h1 {
   text-align: center;
   margin: 0 0 0.5rem 0;
-  color: var(--text-color);
   font-size: 2rem;
 }
 
 .login-card h2 {
   text-align: center;
   margin: 0 0 2rem 0;
-  color: var(--text-muted);
   font-size: 1.25rem;
   font-weight: 400;
 }
@@ -44,23 +39,19 @@
 }
 
 .form-group label {
-  color: var(--text-color);
   font-weight: 500;
 }
 
 .form-group input {
   padding: 0.75rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid;
   border-radius: 4px;
-  background: var(--bg-color);
-  color: var(--text-color);
   font-size: 1rem;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+  box-shadow: 0 0 0 2px;
 }
 
 .form-group input:disabled {
@@ -77,24 +68,6 @@
   text-align: center;
 }
 
-.login-button {
-  padding: 0.75rem 1.5rem;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.login-button:hover:not(:disabled) {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 .login-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -104,25 +77,21 @@
 .info-text {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid;
   text-align: center;
 }
 
 .info-text p {
   margin: 0.5rem 0;
-  color: var(--text-muted);
 }
 
 .info-text code {
-  background: var(--bg-color);
   padding: 0.25rem 0.5rem;
   border-radius: 3px;
   font-family: monospace;
-  color: var(--primary-color);
 }
 
 .info-text .small {
   font-size: 0.875rem;
-  color: var(--text-muted);
   opacity: 0.8;
 }
