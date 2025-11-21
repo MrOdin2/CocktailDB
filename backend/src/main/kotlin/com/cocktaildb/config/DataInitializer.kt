@@ -171,7 +171,8 @@ class DataInitializer(
             Ingredient(name = "Orange Blossom Water", type = IngredientType.OTHER, abv = 0, inStock = true),
             Ingredient(name = "Peach Purée", type = IngredientType.OTHER, abv = 0, inStock = true),
             Ingredient(name = "Strawberry Purée", type = IngredientType.OTHER, abv = 0, inStock = true),
-            Ingredient(name = "Watermelon Juice", type = IngredientType.OTHER, abv = 0, inStock = true)
+            Ingredient(name = "Watermelon Juice", type = IngredientType.OTHER, abv = 0, inStock = true),
+            Ingredient(name = "Iced Tea", type = IngredientType.OTHER, abv = 0, inStock = true)
         )
         
         val savedIngredients = ingredientRepository.saveAll(ingredientsList)
@@ -202,7 +203,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "A classic Mexican cocktail",
-                tags = mutableListOf("sour", "refreshing", "classic")
+                tags = mutableListOf("sour", "refreshing", "classic"),
+                abv = 27,
+                baseSpirit = "tequila"
             ),
             
             // 2. Mojito
@@ -223,7 +226,9 @@ class DataInitializer(
                     "Garnish with mint sprig"
                 ),
                 notes = "A refreshing Cuban classic",
-                tags = mutableListOf("refreshing", "sweet", "minty")
+                tags = mutableListOf("refreshing", "sweet", "minty"),
+                abv = 13,
+                baseSpirit = "rum"
             ),
             
             // 3. Old Fashioned
@@ -241,7 +246,9 @@ class DataInitializer(
                     "Garnish with orange slice and cherry"
                 ),
                 notes = "A timeless whiskey cocktail",
-                tags = mutableListOf("spirit forward", "classic", "strong")
+                tags = mutableListOf("spirit forward", "classic", "strong"),
+                abv = 32,
+                baseSpirit = "bourbon"
             ),
             
             // 4. Cosmopolitan
@@ -260,7 +267,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "Made famous by Sex and the City",
-                tags = mutableListOf("sweet", "fruity", "modern")
+                tags = mutableListOf("sweet", "fruity", "modern"),
+                abv = 18,
+                baseSpirit = "vodka"
             ),
             
             // 5. Daiquiri
@@ -278,7 +287,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "Ernest Hemingway's favorite",
-                tags = mutableListOf("sour", "refreshing", "classic")
+                tags = mutableListOf("sour", "refreshing", "classic"),
+                abv = 20,
+                baseSpirit = "rum"
             ),
             
             // 6. Moscow Mule
@@ -296,7 +307,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "Traditionally served in a copper mug",
-                tags = mutableListOf("refreshing", "spicy", "fizzy")
+                tags = mutableListOf("refreshing", "spicy", "fizzy"),
+                abv = 11,
+                baseSpirit = "vodka"
             ),
             
             // 7. Piña Colada
@@ -314,7 +327,9 @@ class DataInitializer(
                     "Garnish with pineapple wedge and cherry"
                 ),
                 notes = "The official drink of Puerto Rico",
-                tags = mutableListOf("sweet", "creamy", "tropical")
+                tags = mutableListOf("sweet", "creamy", "tropical"),
+                abv = 12,
+                baseSpirit = "rum"
             ),
             
             // 8. Gin and Tonic
@@ -332,7 +347,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "A simple and refreshing classic",
-                tags = mutableListOf("refreshing", "fizzy", "simple")
+                tags = mutableListOf("refreshing", "fizzy", "simple"),
+                abv = 11,
+                baseSpirit = "gin"
             ),
             
             // 9. Mai Tai
@@ -353,7 +370,9 @@ class DataInitializer(
                     "Garnish with mint and lime"
                 ),
                 notes = "A Tiki classic from the 1940s",
-                tags = mutableListOf("tropical", "sweet", "complex")
+                tags = mutableListOf("tropical", "sweet", "complex"),
+                abv = 17,
+                baseSpirit = "rum"
             ),
             
             // 10. Whiskey Sour
@@ -371,7 +390,9 @@ class DataInitializer(
                     "Garnish with cherry and orange slice"
                 ),
                 notes = "A perfect balance of sweet and sour",
-                tags = mutableListOf("sour", "classic", "balanced")
+                tags = mutableListOf("sour", "classic", "balanced"),
+                abv = 18,
+                baseSpirit = "bourbon"
             ),
             
             // 11. Cuba Libre
@@ -390,7 +411,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "Rum and Coke with a twist",
-                tags = mutableListOf("sweet", "simple", "fizzy")
+                tags = mutableListOf("sweet", "simple", "fizzy"),
+                abv = 12,
+                baseSpirit = "rum"
             ),
             
             // 12. White Russian
@@ -407,7 +430,9 @@ class DataInitializer(
                     "Stir gently before drinking"
                 ),
                 notes = "The Dude's favorite drink",
-                tags = mutableListOf("creamy", "sweet", "dessert")
+                tags = mutableListOf("creamy", "sweet", "dessert"),
+                abv = 16,
+                baseSpirit = "vodka"
             ),
             
             // 13. Negroni
@@ -424,7 +449,9 @@ class DataInitializer(
                     "Garnish with orange slice"
                 ),
                 notes = "A bitter Italian aperitif",
-                tags = mutableListOf("bitter", "spirit forward", "classic")
+                tags = mutableListOf("bitter", "spirit forward", "classic"),
+                abv = 24,
+                baseSpirit = "gin"
             ),
             
             // 14. Martini
@@ -441,7 +468,9 @@ class DataInitializer(
                     "Garnish with olives or lemon twist"
                 ),
                 notes = "Shaken or stirred - your choice",
-                tags = mutableListOf("spirit forward", "classic", "elegant")
+                tags = mutableListOf("spirit forward", "classic", "elegant"),
+                abv = 28,
+                baseSpirit = "gin"
             ),
             
             // 15. Manhattan
@@ -459,7 +488,9 @@ class DataInitializer(
                     "Garnish with cherry"
                 ),
                 notes = "A sophisticated whiskey cocktail",
-                tags = mutableListOf("spirit forward", "classic", "strong")
+                tags = mutableListOf("spirit forward", "classic", "strong"),
+                abv = 28,
+                baseSpirit = "bourbon"
             ),
             
             // 16. Sidecar
@@ -477,7 +508,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A classic brandy cocktail",
-                tags = mutableListOf("sour", "classic", "elegant")
+                tags = mutableListOf("sour", "classic", "elegant"),
+                abv = 22,
+                baseSpirit = "cognac"
             ),
             
             // 17. Tom Collins
@@ -497,7 +530,9 @@ class DataInitializer(
                     "Garnish with lemon slice and cherry"
                 ),
                 notes = "A refreshing gin fizz",
-                tags = mutableListOf("refreshing", "fizzy", "sour")
+                tags = mutableListOf("refreshing", "fizzy", "sour"),
+                abv = 12,
+                baseSpirit = "gin"
             ),
             
             // 18. Screwdriver
@@ -514,7 +549,9 @@ class DataInitializer(
                     "Stir well"
                 ),
                 notes = "Simple and delicious",
-                tags = mutableListOf("simple", "fruity", "sweet")
+                tags = mutableListOf("simple", "fruity", "sweet"),
+                abv = 12,
+                baseSpirit = "vodka"
             ),
             
             // 19. Tequila Sunrise
@@ -533,7 +570,9 @@ class DataInitializer(
                     "Garnish with orange slice and cherry"
                 ),
                 notes = "Beautiful gradient effect",
-                tags = mutableListOf("sweet", "fruity", "colorful")
+                tags = mutableListOf("sweet", "fruity", "colorful"),
+                abv = 14,
+                baseSpirit = "tequila"
             ),
             
             // 20. Dark and Stormy
@@ -551,7 +590,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "The national drink of Bermuda",
-                tags = mutableListOf("refreshing", "spicy", "simple")
+                tags = mutableListOf("refreshing", "spicy", "simple"),
+                abv = 12,
+                baseSpirit = "rum"
             ),
             
             // 21. Bloody Mary
@@ -572,7 +613,9 @@ class DataInitializer(
                     "Garnish with celery stalk and lemon wedge"
                 ),
                 notes = "The ultimate brunch cocktail",
-                tags = mutableListOf("savory", "brunch", "spicy")
+                tags = mutableListOf("savory", "brunch", "spicy"),
+                abv = 12,
+                baseSpirit = "vodka"
             ),
             
             // 22. Espresso Martini
@@ -591,7 +634,9 @@ class DataInitializer(
                     "Garnish with coffee beans"
                 ),
                 notes = "Created by Dick Bradsell in London",
-                tags = mutableListOf("coffee", "dessert", "energizing")
+                tags = mutableListOf("coffee", "dessert", "energizing"),
+                abv = 15,
+                baseSpirit = "vodka"
             ),
             
             // 23. Vodka Gimlet
@@ -609,7 +654,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "A clean and simple vodka cocktail",
-                tags = mutableListOf("sour", "simple", "classic")
+                tags = mutableListOf("sour", "simple", "classic"),
+                abv = 22,
+                baseSpirit = "vodka"
             ),
             
             // 24. Sea Breeze
@@ -627,7 +674,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "A refreshing fruity vodka cocktail",
-                tags = mutableListOf("fruity", "refreshing", "simple")
+                tags = mutableListOf("fruity", "refreshing", "simple"),
+                abv = 9,
+                baseSpirit = "vodka"
             ),
             
             // 25. Bay Breeze
@@ -645,7 +694,9 @@ class DataInitializer(
                     "Garnish with pineapple wedge"
                 ),
                 notes = "Also known as a Hawaiian Sea Breeze",
-                tags = mutableListOf("fruity", "tropical", "simple")
+                tags = mutableListOf("fruity", "tropical", "simple"),
+                abv = 9,
+                baseSpirit = "vodka"
             ),
             
             // 26. Lemon Drop
@@ -666,7 +717,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A sweet and sour vodka cocktail",
-                tags = mutableListOf("sweet", "sour", "citrus")
+                tags = mutableListOf("sweet", "sour", "citrus"),
+                abv = 18,
+                baseSpirit = "vodka"
             ),            
             // 27. Appletini
             Cocktail(
@@ -684,7 +737,9 @@ class DataInitializer(
                     "Garnish with apple slice"
                 ),
                 notes = "A fruity martini variation",
-                tags = mutableListOf("sweet", "fruity", "modern")
+                tags = mutableListOf("sweet", "fruity", "modern"),
+                abv = 16,
+                baseSpirit = "vodka"
             ),            
             // 28. Chi-Chi
             Cocktail(
@@ -701,7 +756,9 @@ class DataInitializer(
                     "Garnish with pineapple wedge"
                 ),
                 notes = "Vodka version of Piña Colada",
-                tags = mutableListOf("tropical", "creamy", "sweet")
+                tags = mutableListOf("tropical", "creamy", "sweet"),
+                abv = 12,
+                baseSpirit = "vodka"
             ),            
             // 29. Harvey Wallbanger
             Cocktail(
@@ -719,7 +776,9 @@ class DataInitializer(
                     "Garnish with orange slice"
                 ),
                 notes = "A 1970s classic",
-                tags = mutableListOf("sweet", "fruity", "retro")
+                tags = mutableListOf("sweet", "fruity", "retro"),
+                abv = 12,
+                baseSpirit = "vodka"
             ),            
             // 30. Kamikaze
             Cocktail(
@@ -735,7 +794,9 @@ class DataInitializer(
                     "Strain into shot glass or rocks glass"
                 ),
                 notes = "A strong citrus shot or cocktail",
-                tags = mutableListOf("strong", "citrus", "sharp")
+                tags = mutableListOf("strong", "citrus", "sharp"),
+                abv = 22,
+                baseSpirit = "vodka"
             ),            
             // 31. Vodka Tonic
             Cocktail(
@@ -752,7 +813,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "Simple and refreshing",
-                tags = mutableListOf("simple", "refreshing", "fizzy")
+                tags = mutableListOf("simple", "refreshing", "fizzy"),
+                abv = 12,
+                baseSpirit = "vodka"
             ),            
             // 32. Cape Codder
             Cocktail(
@@ -768,7 +831,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "Also known as Vodka Cranberry",
-                tags = mutableListOf("fruity", "simple", "tart")
+                tags = mutableListOf("fruity", "simple", "tart"),
+                abv = 9,
+                baseSpirit = "vodka"
             ),            
             // 33. Madras
             Cocktail(
@@ -785,7 +850,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "Cranberry and orange vodka mix",
-                tags = mutableListOf("fruity", "refreshing", "simple")
+                tags = mutableListOf("fruity", "refreshing", "simple"),
+                abv = 10,
+                baseSpirit = "vodka"
             ),            
             // 34. Vesper
             Cocktail(
@@ -802,7 +869,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "James Bond's signature drink",
-                tags = mutableListOf("strong", "classic", "elegant")
+                tags = mutableListOf("strong", "classic", "elegant"),
+                abv = 24,
+                baseSpirit = "vodka"
             ),            
             // 35. Black Russian
             Cocktail(
@@ -816,7 +885,9 @@ class DataInitializer(
                     "Stir well"
                 ),
                 notes = "Simple and strong coffee cocktail",
-                tags = mutableListOf("strong", "coffee", "simple")
+                tags = mutableListOf("strong", "coffee", "simple"),
+                abv = 24,
+                baseSpirit = "vodka"
             ),            
             // 36. Aviation
             Cocktail(
@@ -833,7 +904,9 @@ class DataInitializer(
                     "Garnish with cherry"
                 ),
                 notes = "A pre-Prohibition classic",
-                tags = mutableListOf("floral", "sour", "elegant")
+                tags = mutableListOf("floral", "sour", "elegant"),
+                abv = 20,
+                baseSpirit = "gin"
             ),            
             // 37. Bee's Knees
             Cocktail(
@@ -850,7 +923,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A Prohibition-era classic",
-                tags = mutableListOf("sweet", "sour", "balanced")
+                tags = mutableListOf("sweet", "sour", "balanced"),
+                abv = 18,
+                baseSpirit = "gin"
             ),            
             // 38. Bramble
             Cocktail(
@@ -868,7 +943,9 @@ class DataInitializer(
                     "Garnish with berries"
                 ),
                 notes = "Created by Dick Bradsell",
-                tags = mutableListOf("fruity", "refreshing", "modern")
+                tags = mutableListOf("fruity", "refreshing", "modern"),
+                abv = 14,
+                baseSpirit = "gin"
             ),            
             // 39. Corpse Reviver #2
             Cocktail(
@@ -887,7 +964,9 @@ class DataInitializer(
                     "Strain into absinthe-rinsed glass"
                 ),
                 notes = "Hair of the dog cocktail",
-                tags = mutableListOf("complex", "herbal", "strong")
+                tags = mutableListOf("complex", "herbal", "strong"),
+                abv = 22,
+                baseSpirit = "gin"
             ),            
             // 40. French 75
             Cocktail(
@@ -906,7 +985,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "Named after a WWI French field gun",
-                tags = mutableListOf("elegant", "bubbly", "refreshing")
+                tags = mutableListOf("elegant", "bubbly", "refreshing"),
+                abv = 15,
+                baseSpirit = "gin"
             ),            
             // 41. Gimlet
             Cocktail(
@@ -923,7 +1004,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "A naval officer's drink",
-                tags = mutableListOf("sour", "simple", "classic")
+                tags = mutableListOf("sour", "simple", "classic"),
+                abv = 22,
+                baseSpirit = "gin"
             ),            
             // 42. Last Word
             Cocktail(
@@ -941,7 +1024,9 @@ class DataInitializer(
                     "Garnish with cherry"
                 ),
                 notes = "A pre-Prohibition equal parts cocktail",
-                tags = mutableListOf("herbal", "complex", "balanced")
+                tags = mutableListOf("herbal", "complex", "balanced"),
+                abv = 25,
+                baseSpirit = "gin"
             ),            
             // 43. Southside
             Cocktail(
@@ -960,7 +1045,9 @@ class DataInitializer(
                     "Garnish with mint"
                 ),
                 notes = "A minty gin sour",
-                tags = mutableListOf("minty", "refreshing", "herbal")
+                tags = mutableListOf("minty", "refreshing", "herbal"),
+                abv = 16,
+                baseSpirit = "gin"
             ),            
             // 44. Singapore Sling
             Cocktail(
@@ -981,7 +1068,9 @@ class DataInitializer(
                     "Garnish with pineapple and cherry"
                 ),
                 notes = "Created at Raffles Hotel Singapore",
-                tags = mutableListOf("tropical", "complex", "sweet")
+                tags = mutableListOf("tropical", "complex", "sweet"),
+                abv = 14,
+                baseSpirit = "gin"
             ),            
             // 45. Clover Club
             Cocktail(
@@ -999,7 +1088,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "A frothy pre-Prohibition cocktail",
-                tags = mutableListOf("frothy", "sour", "elegant")
+                tags = mutableListOf("frothy", "sour", "elegant"),
+                abv = 15,
+                baseSpirit = "gin"
             ),            
             // 46. Caipirinha
             Cocktail(
@@ -1016,7 +1107,9 @@ class DataInitializer(
                     "Stir well"
                 ),
                 notes = "Brazil's national cocktail",
-                tags = mutableListOf("refreshing", "simple", "tangy")
+                tags = mutableListOf("refreshing", "simple", "tangy"),
+                abv = 18,
+                baseSpirit = "cachaça"
             ),            
             // 47. Hurricane
             Cocktail(
@@ -1037,7 +1130,9 @@ class DataInitializer(
                     "Garnish with orange and cherry"
                 ),
                 notes = "New Orleans party drink",
-                tags = mutableListOf("tropical", "fruity", "strong")
+                tags = mutableListOf("tropical", "fruity", "strong"),
+                abv = 20,
+                baseSpirit = "rum"
             ),            
             // 48. Painkiller
             Cocktail(
@@ -1055,7 +1150,9 @@ class DataInitializer(
                     "Garnish with nutmeg and pineapple"
                 ),
                 notes = "Pusser's Rum signature cocktail",
-                tags = mutableListOf("tropical", "creamy", "sweet")
+                tags = mutableListOf("tropical", "creamy", "sweet"),
+                abv = 13,
+                baseSpirit = "rum"
             ),            
             // 49. Planter's Punch
             Cocktail(
@@ -1073,7 +1170,9 @@ class DataInitializer(
                     "Garnish with orange slice and cherry"
                 ),
                 notes = "One of sour, two of sweet, three of strong, four of weak",
-                tags = mutableListOf("balanced", "refreshing", "classic")
+                tags = mutableListOf("balanced", "refreshing", "classic"),
+                abv = 15,
+                baseSpirit = "rum"
             ),            
             // 50. Zombie
             Cocktail(
@@ -1095,7 +1194,9 @@ class DataInitializer(
                     "Float dark rum on top"
                 ),
                 notes = "Limit two per customer",
-                tags = mutableListOf("strong", "tropical", "dangerous")
+                tags = mutableListOf("strong", "tropical", "dangerous"),
+                abv = 22,
+                baseSpirit = "rum"
             ),            
             // 51. Between the Sheets
             Cocktail(
@@ -1113,7 +1214,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A sophisticated equal parts cocktail",
-                tags = mutableListOf("strong", "citrus", "elegant")
+                tags = mutableListOf("strong", "citrus", "elegant"),
+                abv = 24,
+                baseSpirit = "rum"
             ),            
             // 52. El Presidente
             Cocktail(
@@ -1131,7 +1234,9 @@ class DataInitializer(
                     "Garnish with orange twist"
                 ),
                 notes = "A Cuban classic from the 1920s",
-                tags = mutableListOf("elegant", "balanced", "aromatic")
+                tags = mutableListOf("elegant", "balanced", "aromatic"),
+                abv = 23,
+                baseSpirit = "rum"
             ),            
             // 53. Mary Pickford
             Cocktail(
@@ -1149,7 +1254,9 @@ class DataInitializer(
                     "Garnish with cherry"
                 ),
                 notes = "Named after the silent film star",
-                tags = mutableListOf("sweet", "fruity", "classic")
+                tags = mutableListOf("sweet", "fruity", "classic"),
+                abv = 15,
+                baseSpirit = "rum"
             ),            
             // 54. Hot Buttered Rum
             Cocktail(
@@ -1167,7 +1274,9 @@ class DataInitializer(
                     "Garnish with cinnamon stick"
                 ),
                 notes = "A warming winter cocktail",
-                tags = mutableListOf("hot", "comforting", "spiced")
+                tags = mutableListOf("hot", "comforting", "spiced"),
+                abv = 14,
+                baseSpirit = "rum"
             ),            
             // 55. Rum Punch
             Cocktail(
@@ -1186,7 +1295,9 @@ class DataInitializer(
                     "Garnish with fruit"
                 ),
                 notes = "A fruity Caribbean classic",
-                tags = mutableListOf("tropical", "fruity", "sweet")
+                tags = mutableListOf("tropical", "fruity", "sweet"),
+                abv = 13,
+                baseSpirit = "rum"
             ),            
             // 56. Paloma
             Cocktail(
@@ -1206,7 +1317,9 @@ class DataInitializer(
                     "Garnish with grapefruit wedge"
                 ),
                 notes = "Mexico's most popular cocktail",
-                tags = mutableListOf("refreshing", "citrus", "classic")
+                tags = mutableListOf("refreshing", "citrus", "classic"),
+                abv = 13,
+                baseSpirit = "tequila"
             ),            
             // 57. Tommy's Margarita
             Cocktail(
@@ -1223,7 +1336,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "A modern margarita variation",
-                tags = mutableListOf("sour", "simple", "agave")
+                tags = mutableListOf("sour", "simple", "agave"),
+                abv = 28,
+                baseSpirit = "tequila"
             ),            
             // 58. Frozen Margarita
             Cocktail(
@@ -1241,7 +1356,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "A frozen version of the classic",
-                tags = mutableListOf("frozen", "refreshing", "fun")
+                tags = mutableListOf("frozen", "refreshing", "fun"),
+                abv = 20,
+                baseSpirit = "tequila"
             ),            
             // 59. Tequila Old Fashioned
             Cocktail(
@@ -1258,7 +1375,9 @@ class DataInitializer(
                     "Garnish with orange peel"
                 ),
                 notes = "A tequila twist on the classic",
-                tags = mutableListOf("spirit forward", "aromatic", "smooth")
+                tags = mutableListOf("spirit forward", "aromatic", "smooth"),
+                abv = 32,
+                baseSpirit = "tequila"
             ),            
             // 60. Mexican Mule
             Cocktail(
@@ -1276,7 +1395,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "A tequila version of Moscow Mule",
-                tags = mutableListOf("spicy", "refreshing", "fizzy")
+                tags = mutableListOf("spicy", "refreshing", "fizzy"),
+                abv = 12,
+                baseSpirit = "tequila"
             ),            
             // 61. Oaxaca Old Fashioned
             Cocktail(
@@ -1294,7 +1415,9 @@ class DataInitializer(
                     "Garnish with orange peel"
                 ),
                 notes = "A smoky variation",
-                tags = mutableListOf("smoky", "complex", "strong")
+                tags = mutableListOf("smoky", "complex", "strong"),
+                abv = 30,
+                baseSpirit = "mezcal"
             ),            
             // 62. Mezcal Margarita
             Cocktail(
@@ -1313,7 +1436,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "Smoky twist on margarita",
-                tags = mutableListOf("smoky", "sour", "bold")
+                tags = mutableListOf("smoky", "sour", "bold"),
+                abv = 20,
+                baseSpirit = "mezcal"
             ),            
             // 63. Batanga
             Cocktail(
@@ -1332,7 +1457,9 @@ class DataInitializer(
                     "Garnish with lime wedge"
                 ),
                 notes = "A Mexican tequila and coke",
-                tags = mutableListOf("simple", "refreshing", "savory")
+                tags = mutableListOf("simple", "refreshing", "savory"),
+                abv = 12,
+                baseSpirit = "tequila"
             ),            
             // 64. Brave Bull
             Cocktail(
@@ -1347,7 +1474,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A simple two-ingredient cocktail",
-                tags = mutableListOf("strong", "coffee", "smooth")
+                tags = mutableListOf("strong", "coffee", "smooth"),
+                abv = 25,
+                baseSpirit = "tequila"
             ),            
             // 65. Toreador
             Cocktail(
@@ -1364,7 +1493,9 @@ class DataInitializer(
                     "Garnish with lime wheel"
                 ),
                 notes = "A fruity tequila cocktail",
-                tags = mutableListOf("fruity", "balanced", "smooth")
+                tags = mutableListOf("fruity", "balanced", "smooth"),
+                abv = 24,
+                baseSpirit = "tequila"
             ),            
             // 66. Mint Julep
             Cocktail(
@@ -1383,7 +1514,9 @@ class DataInitializer(
                     "Garnish with mint bouquet"
                 ),
                 notes = "The Kentucky Derby cocktail",
-                tags = mutableListOf("minty", "refreshing", "southern")
+                tags = mutableListOf("minty", "refreshing", "southern"),
+                abv = 22,
+                baseSpirit = "bourbon"
             ),            
             // 67. Sazerac
             Cocktail(
@@ -1403,7 +1536,9 @@ class DataInitializer(
                     "Garnish with lemon peel"
                 ),
                 notes = "New Orleans' official cocktail",
-                tags = mutableListOf("aromatic", "strong", "historic")
+                tags = mutableListOf("aromatic", "strong", "historic"),
+                abv = 31,
+                baseSpirit = "rye"
             ),            
             // 68. Rob Roy
             Cocktail(
@@ -1420,7 +1555,9 @@ class DataInitializer(
                     "Garnish with cherry"
                 ),
                 notes = "The Scottish Manhattan",
-                tags = mutableListOf("strong", "aromatic", "classic")
+                tags = mutableListOf("strong", "aromatic", "classic"),
+                abv = 28,
+                baseSpirit = "scotch"
             ),            
             // 69. Rusty Nail
             Cocktail(
@@ -1435,7 +1572,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A simple Scotch cocktail",
-                tags = mutableListOf("strong", "sweet", "smooth")
+                tags = mutableListOf("strong", "sweet", "smooth"),
+                abv = 28,
+                baseSpirit = "scotch"
             ),            
             // 70. Godfather
             Cocktail(
@@ -1449,7 +1588,9 @@ class DataInitializer(
                     "Stir well"
                 ),
                 notes = "A smooth two-ingredient cocktail",
-                tags = mutableListOf("strong", "nutty", "sweet")
+                tags = mutableListOf("strong", "nutty", "sweet"),
+                abv = 26,
+                baseSpirit = "whiskey"
             ),            
             // 71. Irish Coffee
             Cocktail(
@@ -1467,7 +1608,9 @@ class DataInitializer(
                     "Do not stir"
                 ),
                 notes = "A warming coffee cocktail",
-                tags = mutableListOf("hot", "coffee", "creamy")
+                tags = mutableListOf("hot", "coffee", "creamy"),
+                abv = 8,
+                baseSpirit = "whiskey"
             ),            
             // 72. Blood and Sand
             Cocktail(
@@ -1484,7 +1627,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "An equal parts Scotch cocktail",
-                tags = mutableListOf("fruity", "complex", "balanced")
+                tags = mutableListOf("fruity", "complex", "balanced"),
+                abv = 18,
+                baseSpirit = "scotch"
             ),            
             // 73. Boulevardier
             Cocktail(
@@ -1501,7 +1646,9 @@ class DataInitializer(
                     "Garnish with orange peel"
                 ),
                 notes = "A bourbon Negroni variation",
-                tags = mutableListOf("bitter", "strong", "aromatic")
+                tags = mutableListOf("bitter", "strong", "aromatic"),
+                abv = 26,
+                baseSpirit = "bourbon"
             ),            
             // 74. New York Sour
             Cocktail(
@@ -1519,7 +1666,9 @@ class DataInitializer(
                     "Float red wine on top"
                 ),
                 notes = "A whiskey sour with wine float",
-                tags = mutableListOf("complex", "sour", "elegant")
+                tags = mutableListOf("complex", "sour", "elegant"),
+                abv = 16,
+                baseSpirit = "bourbon"
             ),            
             // 75. Paper Plane
             Cocktail(
@@ -1536,7 +1685,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "A modern equal parts cocktail",
-                tags = mutableListOf("balanced", "bitter", "refreshing")
+                tags = mutableListOf("balanced", "bitter", "refreshing"),
+                abv = 22,
+                baseSpirit = "bourbon"
             ),            
             // 76. French Connection
             Cocktail(
@@ -1550,7 +1701,9 @@ class DataInitializer(
                     "Stir well"
                 ),
                 notes = "A simple cognac cocktail",
-                tags = mutableListOf("strong", "nutty", "smooth")
+                tags = mutableListOf("strong", "nutty", "smooth"),
+                abv = 26,
+                baseSpirit = "cognac"
             ),            
             // 77. Stinger
             Cocktail(
@@ -1565,7 +1718,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "A classic after-dinner drink",
-                tags = mutableListOf("minty", "strong", "refreshing")
+                tags = mutableListOf("minty", "strong", "refreshing"),
+                abv = 24,
+                baseSpirit = "cognac"
             ),            
             // 78. Pisco Sour
             Cocktail(
@@ -1584,7 +1739,9 @@ class DataInitializer(
                     "Garnish with Angostura bitters drops"
                 ),
                 notes = "Peru's national cocktail",
-                tags = mutableListOf("frothy", "sour", "elegant")
+                tags = mutableListOf("frothy", "sour", "elegant"),
+                abv = 16,
+                baseSpirit = "pisco"
             ),            
             // 79. Brandy Alexander
             Cocktail(
@@ -1601,7 +1758,9 @@ class DataInitializer(
                     "Garnish with nutmeg"
                 ),
                 notes = "A creamy dessert cocktail",
-                tags = mutableListOf("creamy", "dessert", "rich")
+                tags = mutableListOf("creamy", "dessert", "rich"),
+                abv = 16,
+                baseSpirit = "brandy"
             ),            
             // 80. Vieux Carré
             Cocktail(
@@ -1621,7 +1780,9 @@ class DataInitializer(
                     "Garnish with lemon peel"
                 ),
                 notes = "A New Orleans classic",
-                tags = mutableListOf("complex", "aromatic", "strong")
+                tags = mutableListOf("complex", "aromatic", "strong"),
+                abv = 27,
+                baseSpirit = "rye"
             ),            
             // 81. Mimosa
             Cocktail(
@@ -1636,7 +1797,9 @@ class DataInitializer(
                     "Stir gently"
                 ),
                 notes = "A classic brunch cocktail",
-                tags = mutableListOf("bubbly", "refreshing", "brunch")
+                tags = mutableListOf("bubbly", "refreshing", "brunch"),
+                abv = 6,
+                baseSpirit = "champagne"
             ),            
             // 82. Bellini
             Cocktail(
@@ -1651,7 +1814,9 @@ class DataInitializer(
                     "Stir gently"
                 ),
                 notes = "Created at Harry's Bar in Venice",
-                tags = mutableListOf("sweet", "fruity", "elegant")
+                tags = mutableListOf("sweet", "fruity", "elegant"),
+                abv = 6,
+                baseSpirit = "prosecco"
             ),            
             // 83. Kir Royale
             Cocktail(
@@ -1666,7 +1831,9 @@ class DataInitializer(
                     "Stir gently"
                 ),
                 notes = "A French aperitif",
-                tags = mutableListOf("elegant", "berry", "bubbly")
+                tags = mutableListOf("elegant", "berry", "bubbly"),
+                abv = 9,
+                baseSpirit = "champagne"
             ),            
             // 84. Aperol Spritz
             Cocktail(
@@ -1684,7 +1851,9 @@ class DataInitializer(
                     "Garnish with orange slice"
                 ),
                 notes = "An Italian summer favorite",
-                tags = mutableListOf("bitter", "refreshing", "light")
+                tags = mutableListOf("bitter", "refreshing", "light"),
+                abv = 8,
+                baseSpirit = "prosecco"
             ),            
             // 85. Hugo
             Cocktail(
@@ -1702,7 +1871,9 @@ class DataInitializer(
                     "Garnish with lime"
                 ),
                 notes = "A popular Austrian aperitif",
-                tags = mutableListOf("floral", "refreshing", "light")
+                tags = mutableListOf("floral", "refreshing", "light"),
+                abv = 7,
+                baseSpirit = "prosecco"
             ),            
             // 86. Rossini
             Cocktail(
@@ -1717,7 +1888,9 @@ class DataInitializer(
                     "Stir gently"
                 ),
                 notes = "A strawberry Bellini variation",
-                tags = mutableListOf("sweet", "berry", "elegant")
+                tags = mutableListOf("sweet", "berry", "elegant"),
+                abv = 6,
+                baseSpirit = "prosecco"
             ),            
             // 87. Tinto de Verano
             Cocktail(
@@ -1734,7 +1907,9 @@ class DataInitializer(
                     "Garnish with lemon"
                 ),
                 notes = "A Spanish summer drink",
-                tags = mutableListOf("light", "refreshing", "simple")
+                tags = mutableListOf("light", "refreshing", "simple"),
+                abv = 6,
+                baseSpirit = "wine"
             ),            
             // 88. Kalimotxo
             Cocktail(
@@ -1749,7 +1924,9 @@ class DataInitializer(
                     "Stir well"
                 ),
                 notes = "A Basque Country favorite",
-                tags = mutableListOf("sweet", "unusual", "simple")
+                tags = mutableListOf("sweet", "unusual", "simple"),
+                abv = 6,
+                baseSpirit = "wine"
             ),            
             // 89. Sherry Cobbler
             Cocktail(
@@ -1766,7 +1943,9 @@ class DataInitializer(
                     "Garnish with berries and mint"
                 ),
                 notes = "A refreshing sherry drink",
-                tags = mutableListOf("refreshing", "fruity", "classic")
+                tags = mutableListOf("refreshing", "fruity", "classic"),
+                abv = 12,
+                baseSpirit = "sherry"
             ),            
             // 90. Death in the Afternoon
             Cocktail(
@@ -1780,7 +1959,9 @@ class DataInitializer(
                     "Top slowly with champagne"
                 ),
                 notes = "Created by Ernest Hemingway",
-                tags = mutableListOf("strong", "herbal", "potent")
+                tags = mutableListOf("strong", "herbal", "potent"),
+                abv = 18,
+                baseSpirit = "absinthe"
             ),            
             // 91. Blue Hawaiian
             Cocktail(
@@ -1799,7 +1980,9 @@ class DataInitializer(
                     "Garnish with pineapple and cherry"
                 ),
                 notes = "A blue tropical delight",
-                tags = mutableListOf("tropical", "sweet", "colorful")
+                tags = mutableListOf("tropical", "sweet", "colorful"),
+                abv = 13,
+                baseSpirit = "rum"
             ),            
             // 92. Bahama Mama
             Cocktail(
@@ -1818,7 +2001,9 @@ class DataInitializer(
                     "Garnish with fruit"
                 ),
                 notes = "A fruity Caribbean cocktail",
-                tags = mutableListOf("tropical", "sweet", "fruity")
+                tags = mutableListOf("tropical", "sweet", "fruity"),
+                abv = 14,
+                baseSpirit = "rum"
             ),            
             // 93. Jungle Bird
             Cocktail(
@@ -1837,7 +2022,9 @@ class DataInitializer(
                     "Garnish with pineapple"
                 ),
                 notes = "A bitter tiki cocktail",
-                tags = mutableListOf("tropical", "bitter", "complex")
+                tags = mutableListOf("tropical", "bitter", "complex"),
+                abv = 15,
+                baseSpirit = "rum"
             ),            
             // 94. Suffering Bastard
             Cocktail(
@@ -1857,7 +2044,9 @@ class DataInitializer(
                     "Garnish with mint and cucumber"
                 ),
                 notes = "A hangover cure from Cairo",
-                tags = mutableListOf("spicy", "refreshing", "complex")
+                tags = mutableListOf("spicy", "refreshing", "complex"),
+                abv = 13,
+                baseSpirit = "gin"
             ),            
             // 95. Scorpion Bowl
             Cocktail(
@@ -1876,7 +2065,9 @@ class DataInitializer(
                     "Serve with long straws"
                 ),
                 notes = "A shareable tiki punch",
-                tags = mutableListOf("tropical", "strong", "communal")
+                tags = mutableListOf("tropical", "strong", "communal"),
+                abv = 16,
+                baseSpirit = "rum"
             ),            
             // 96. Navy Grog
             Cocktail(
@@ -1896,7 +2087,9 @@ class DataInitializer(
                     "Garnish with lime"
                 ),
                 notes = "A three-rum tiki classic",
-                tags = mutableListOf("strong", "tropical", "citrus")
+                tags = mutableListOf("strong", "tropical", "citrus"),
+                abv = 20,
+                baseSpirit = "rum"
             ),            
             // 97. Fog Cutter
             Cocktail(
@@ -1918,7 +2111,9 @@ class DataInitializer(
                     "Garnish with mint"
                 ),
                 notes = "Cuts through the fog",
-                tags = mutableListOf("strong", "complex", "tropical")
+                tags = mutableListOf("strong", "complex", "tropical"),
+                abv = 18,
+                baseSpirit = "rum"
             ),            
             // 98. Saturn
             Cocktail(
@@ -1937,7 +2132,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A space-age tiki drink",
-                tags = mutableListOf("tropical", "complex", "balanced")
+                tags = mutableListOf("tropical", "complex", "balanced"),
+                abv = 16,
+                baseSpirit = "gin"
             ),            
             // 99. Missionary's Downfall
             Cocktail(
@@ -1957,7 +2154,9 @@ class DataInitializer(
                     "Garnish with mint and pineapple"
                 ),
                 notes = "A tropical frozen delight",
-                tags = mutableListOf("tropical", "minty", "frozen")
+                tags = mutableListOf("tropical", "minty", "frozen"),
+                abv = 14,
+                baseSpirit = "rum"
             ),            
             // 100. Three Dots and a Dash
             Cocktail(
@@ -1978,7 +2177,9 @@ class DataInitializer(
                     "Garnish with cherries and pineapple"
                 ),
                 notes = "Named in Morse code for V (victory)",
-                tags = mutableListOf("tropical", "complex", "spiced")
+                tags = mutableListOf("tropical", "complex", "spiced"),
+                abv = 17,
+                baseSpirit = "rum"
             ),            
             // 101. Penicillin
             Cocktail(
@@ -1997,7 +2198,9 @@ class DataInitializer(
                     "Float Islay scotch on top"
                 ),
                 notes = "Created by Sam Ross in 2005",
-                tags = mutableListOf("smoky", "spicy", "modern")
+                tags = mutableListOf("smoky", "spicy", "modern"),
+                abv = 17,
+                baseSpirit = "scotch"
             ),            
             // 102. Naked and Famous
             Cocktail(
@@ -2014,7 +2217,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "A modern equal parts cocktail",
-                tags = mutableListOf("smoky", "herbal", "balanced")
+                tags = mutableListOf("smoky", "herbal", "balanced"),
+                abv = 22,
+                baseSpirit = "mezcal"
             ),            
             // 103. Division Bell
             Cocktail(
@@ -2031,7 +2236,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "Named after a Pink Floyd album",
-                tags = mutableListOf("smoky", "fruity", "modern")
+                tags = mutableListOf("smoky", "fruity", "modern"),
+                abv = 19,
+                baseSpirit = "mezcal"
             ),            
             // 104. Illegal
             Cocktail(
@@ -2050,7 +2257,9 @@ class DataInitializer(
                     "Strain into coupe"
                 ),
                 notes = "A smoky Mezcal sour",
-                tags = mutableListOf("smoky", "frothy", "complex")
+                tags = mutableListOf("smoky", "frothy", "complex"),
+                abv = 17,
+                baseSpirit = "mezcal"
             ),            
             // 105. Gold Rush
             Cocktail(
@@ -2066,7 +2275,9 @@ class DataInitializer(
                     "Strain into rocks glass with ice"
                 ),
                 notes = "A modern whiskey sour variation",
-                tags = mutableListOf("sweet", "sour", "smooth")
+                tags = mutableListOf("sweet", "sour", "smooth"),
+                abv = 18,
+                baseSpirit = "bourbon"
             ),            
             // 106. Trinidad Sour
             Cocktail(
@@ -2083,7 +2294,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "A bitters-forward modern classic",
-                tags = mutableListOf("bitter", "unique", "complex")
+                tags = mutableListOf("bitter", "unique", "complex"),
+                abv = 20,
+                baseSpirit = "rye"
             ),            
             // 107. Enzoni
             Cocktail(
@@ -2102,7 +2315,9 @@ class DataInitializer(
                     "Strain into rocks glass with ice"
                 ),
                 notes = "A fruity Negroni variation",
-                tags = mutableListOf("fruity", "bitter", "modern")
+                tags = mutableListOf("fruity", "bitter", "modern"),
+                abv = 16,
+                baseSpirit = "gin"
             ),            
             // 108. Corn n Oil
             Cocktail(
@@ -2119,7 +2334,9 @@ class DataInitializer(
                     "Stir"
                 ),
                 notes = "A Barbadian classic",
-                tags = mutableListOf("spiced", "strong", "tropical")
+                tags = mutableListOf("spiced", "strong", "tropical"),
+                abv = 18,
+                baseSpirit = "rum"
             ),            
             // 109. Industry Sour
             Cocktail(
@@ -2136,7 +2353,9 @@ class DataInitializer(
                     "Strain into coupe glass"
                 ),
                 notes = "A bartender's favorite",
-                tags = mutableListOf("herbal", "sour", "strong")
+                tags = mutableListOf("herbal", "sour", "strong"),
+                abv = 18,
+                baseSpirit = "whiskey"
             ),            
             // 110. Jasmine
             Cocktail(
@@ -2154,7 +2373,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "A pink gin sour",
-                tags = mutableListOf("citrus", "bitter", "elegant")
+                tags = mutableListOf("citrus", "bitter", "elegant"),
+                abv = 20,
+                baseSpirit = "gin"
             ),            
             // 111. Vodka Martini
             Cocktail(
@@ -2170,7 +2391,9 @@ class DataInitializer(
                     "Garnish with olives or lemon twist"
                 ),
                 notes = "James Bond's preferred martini base",
-                tags = mutableListOf("strong", "clean", "classic")
+                tags = mutableListOf("strong", "clean", "classic"),
+                abv = 27,
+                baseSpirit = "vodka"
             ),            
             // 112. Dirty Martini
             Cocktail(
@@ -2187,7 +2410,9 @@ class DataInitializer(
                     "Garnish with olives"
                 ),
                 notes = "A savory martini variation",
-                tags = mutableListOf("savory", "strong", "bold")
+                tags = mutableListOf("savory", "strong", "bold"),
+                abv = 26,
+                baseSpirit = "vodka"
             ),            
             // 113. Perfect Martini
             Cocktail(
@@ -2204,7 +2429,9 @@ class DataInitializer(
                     "Garnish with lemon twist"
                 ),
                 notes = "Equal parts dry and sweet vermouth",
-                tags = mutableListOf("balanced", "aromatic", "classic")
+                tags = mutableListOf("balanced", "aromatic", "classic"),
+                abv = 27,
+                baseSpirit = "gin"
             ),            
             // 114. Gibson
             Cocktail(
@@ -2220,7 +2447,9 @@ class DataInitializer(
                     "Garnish with cocktail onions"
                 ),
                 notes = "A martini with onions",
-                tags = mutableListOf("savory", "strong", "classic")
+                tags = mutableListOf("savory", "strong", "classic"),
+                abv = 28,
+                baseSpirit = "gin"
             ),            
             // 115. Vodka Collins
             Cocktail(
@@ -2239,7 +2468,9 @@ class DataInitializer(
                     "Garnish with lemon"
                 ),
                 notes = "Vodka version of Tom Collins",
-                tags = mutableListOf("refreshing", "fizzy", "citrus")
+                tags = mutableListOf("refreshing", "fizzy", "citrus"),
+                abv = 12,
+                baseSpirit = "vodka"
             ),            
             // 116. John Collins
             Cocktail(
@@ -2258,7 +2489,9 @@ class DataInitializer(
                     "Garnish with lemon"
                 ),
                 notes = "Bourbon version of Tom Collins",
-                tags = mutableListOf("refreshing", "fizzy", "citrus")
+                tags = mutableListOf("refreshing", "fizzy", "citrus"),
+                abv = 12,
+                baseSpirit = "bourbon"
             ),            
             // 117. Rye Old Fashioned
             Cocktail(
@@ -2275,7 +2508,9 @@ class DataInitializer(
                     "Garnish with orange peel"
                 ),
                 notes = "Rye variation of Old Fashioned",
-                tags = mutableListOf("spicy", "strong", "classic")
+                tags = mutableListOf("spicy", "strong", "classic"),
+                abv = 32,
+                baseSpirit = "rye"
             ),            
             // 118. Rum Old Fashioned
             Cocktail(
@@ -2292,7 +2527,9 @@ class DataInitializer(
                     "Garnish with orange peel"
                 ),
                 notes = "Rum variation of Old Fashioned",
-                tags = mutableListOf("rich", "strong", "tropical")
+                tags = mutableListOf("rich", "strong", "tropical"),
+                abv = 32,
+                baseSpirit = "rum"
             ),            
             // 119. Blackberry Bramble
             Cocktail(
@@ -2310,7 +2547,9 @@ class DataInitializer(
                     "Garnish with berries"
                 ),
                 notes = "Berry variation of Bramble",
-                tags = mutableListOf("fruity", "refreshing", "modern")
+                tags = mutableListOf("fruity", "refreshing", "modern"),
+                abv = 14,
+                baseSpirit = "gin"
             ),            
             // 120. Pink Lady
             Cocktail(
@@ -2329,7 +2568,557 @@ class DataInitializer(
                     "Strain into coupe"
                 ),
                 notes = "A frothy pink cocktail",
-                tags = mutableListOf("frothy", "sweet", "elegant")
+                tags = mutableListOf("frothy", "sweet", "elegant"),
+                abv = 15,
+                baseSpirit = "gin"
+            ),
+            
+            // ALCOHOL-FREE COCKTAILS / MOCKTAILS
+            
+            // 121. Virgin Mojito
+            Cocktail(
+                name = "Virgin Mojito",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lime Juice"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.75 oz"),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), "10-12 leaves"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "top")
+                ),
+                steps = mutableListOf(
+                    "Muddle mint leaves with simple syrup and lime juice in glass",
+                    "Fill glass with ice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with mint sprig and lime wedge"
+                ),
+                notes = "Refreshing non-alcoholic version of the classic Mojito",
+                tags = mutableListOf("refreshing", "minty", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 122. Virgin Piña Colada
+            Cocktail(
+                name = "Virgin Piña Colada",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Pineapple Juice"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Coconut Cream"), "2 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to blender with ice",
+                    "Blend until smooth",
+                    "Pour into hurricane glass",
+                    "Garnish with pineapple wedge and cherry"
+                ),
+                notes = "A tropical delight without the rum",
+                tags = mutableListOf("tropical", "creamy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 123. Shirley Temple
+            Cocktail(
+                name = "Shirley Temple",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Ginger Ale"), "6 oz"),
+                    CocktailIngredient(getIngredientId("Grenadine"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add ginger ale",
+                    "Add grenadine",
+                    "Stir gently",
+                    "Garnish with cherry and orange slice"
+                ),
+                notes = "A classic kid-friendly mocktail",
+                tags = mutableListOf("sweet", "fizzy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 124. Roy Rogers
+            Cocktail(
+                name = "Roy Rogers",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Cola"), "6 oz"),
+                    CocktailIngredient(getIngredientId("Grenadine"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add cola",
+                    "Add grenadine",
+                    "Stir gently",
+                    "Garnish with cherry"
+                ),
+                notes = "The cola version of Shirley Temple",
+                tags = mutableListOf("sweet", "fizzy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 125. Virgin Mary
+            Cocktail(
+                name = "Virgin Mary",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Tomato Juice"), "6 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Worcestershire Sauce"), "2 dashes"),
+                    CocktailIngredient(getIngredientId("Tabasco Sauce"), "2 dashes"),
+                    CocktailIngredient(getIngredientId("Salt"), "pinch"),
+                    CocktailIngredient(getIngredientId("Black Pepper"), "pinch")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to glass with ice",
+                    "Stir well",
+                    "Garnish with celery stalk and lemon wedge"
+                ),
+                notes = "All the flavor of a Bloody Mary without the vodka",
+                tags = mutableListOf("savory", "spicy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 126. Cinderella
+            Cocktail(
+                name = "Cinderella",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Orange Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Pineapple Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Grenadine"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into glass with ice",
+                    "Garnish with orange slice and cherry"
+                ),
+                notes = "A fruity and refreshing mocktail",
+                tags = mutableListOf("fruity", "sweet", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 127. Arnold Palmer
+            Cocktail(
+                name = "Arnold Palmer",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Water"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Iced Tea"), "4 oz")
+                ),
+                steps = mutableListOf(
+                    "Mix lemon juice, simple syrup, and water in glass",
+                    "Add iced tea",
+                    "Fill glass with ice",
+                    "Stir well",
+                    "Garnish with lemon wedge"
+                ),
+                notes = "Half lemonade, half iced tea - named after the golf legend",
+                tags = mutableListOf("refreshing", "citrus", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 128. Virgin Daiquiri
+            Cocktail(
+                name = "Virgin Daiquiri",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lime Juice"), "1.5 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "1 oz")
+                ),
+                steps = mutableListOf(
+                    "Add lime juice and simple syrup to shaker with ice",
+                    "Shake well",
+                    "Strain into chilled coupe glass",
+                    "Garnish with lime wheel"
+                ),
+                notes = "Crisp and tart lime refreshment",
+                tags = mutableListOf("tart", "refreshing", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 129. Sunrise Mocktail
+            Cocktail(
+                name = "Sunrise Mocktail",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Orange Juice"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Grenadine"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add orange juice",
+                    "Slowly pour grenadine to create sunrise effect",
+                    "Garnish with orange slice and cherry"
+                ),
+                notes = "Beautiful gradient effect without tequila",
+                tags = mutableListOf("sweet", "fruity", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 130. Lemon Lime Bitters
+            Cocktail(
+                name = "Lemon Lime Bitters",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Lime Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Lemon-Lime Soda"), "6 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add lemon and lime juice",
+                    "Top with lemon-lime soda",
+                    "Stir gently",
+                    "Garnish with lemon and lime wedges"
+                ),
+                notes = "Light and refreshing citrus drink",
+                tags = mutableListOf("citrus", "refreshing", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 131. Virgin Moscow Mule
+            Cocktail(
+                name = "Virgin Moscow Mule",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lime Juice"), "0.75 oz"),
+                    CocktailIngredient(getIngredientId("Ginger Beer"), "6 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill copper mug with ice",
+                    "Add lime juice",
+                    "Top with ginger beer",
+                    "Stir gently",
+                    "Garnish with lime wedge and mint"
+                ),
+                notes = "Spicy ginger kick without the vodka",
+                tags = mutableListOf("spicy", "refreshing", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 132. Tropical Punch
+            Cocktail(
+                name = "Tropical Punch",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Pineapple Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Orange Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Cranberry Juice"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Grenadine"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Pour into glass",
+                    "Garnish with pineapple and cherry"
+                ),
+                notes = "A fruity tropical paradise",
+                tags = mutableListOf("tropical", "fruity", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 133. Cucumber Mint Cooler
+            Cocktail(
+                name = "Cucumber Mint Cooler",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Cucumber"), "4 slices"),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), "8 leaves"),
+                    CocktailIngredient(getIngredientId("Lime Juice"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.75 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "top")
+                ),
+                steps = mutableListOf(
+                    "Muddle cucumber and mint with lime juice and syrup",
+                    "Fill glass with ice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with cucumber slice and mint"
+                ),
+                notes = "Cool and refreshing garden flavors",
+                tags = mutableListOf("refreshing", "herbal", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 134. Strawberry Lemonade
+            Cocktail(
+                name = "Strawberry Lemonade",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Strawberry Purée"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Water"), "2 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into glass with ice",
+                    "Garnish with strawberry and lemon"
+                ),
+                notes = "Sweet berries meet tangy lemon",
+                tags = mutableListOf("fruity", "sweet", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 135. Watermelon Cooler
+            Cocktail(
+                name = "Watermelon Cooler",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Watermelon Juice"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Lime Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "2 oz")
+                ),
+                steps = mutableListOf(
+                    "Add watermelon juice, lime juice, and syrup to glass with ice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with watermelon wedge"
+                ),
+                notes = "Summer in a glass",
+                tags = mutableListOf("fruity", "refreshing", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 136. Citrus Sparkler
+            Cocktail(
+                name = "Citrus Sparkler",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Orange Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Grapefruit Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "top")
+                ),
+                steps = mutableListOf(
+                    "Add citrus juices to glass with ice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with citrus wheel"
+                ),
+                notes = "Bright and bubbly citrus medley",
+                tags = mutableListOf("citrus", "fizzy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 137. Ginger Lemonade
+            Cocktail(
+                name = "Ginger Lemonade",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Ginger Syrup"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Water"), "3 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to glass with ice",
+                    "Stir well",
+                    "Garnish with lemon wedge and candied ginger"
+                ),
+                notes = "Zesty lemon with a spicy ginger kick",
+                tags = mutableListOf("spicy", "citrus", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 138. Virgin Pina
+            Cocktail(
+                name = "Virgin Pina",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Pineapple Juice"), "3 oz"),
+                    CocktailIngredient(getIngredientId("Lime Juice"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Add all ingredients to shaker with ice",
+                    "Shake well",
+                    "Strain into glass with ice",
+                    "Garnish with pineapple wedge"
+                ),
+                notes = "Tropical pineapple refreshment",
+                tags = mutableListOf("tropical", "tangy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 139. Basil Lemonade
+            Cocktail(
+                name = "Basil Lemonade",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Basil"), "6-8 leaves"),
+                    CocktailIngredient(getIngredientId("Water"), "3 oz")
+                ),
+                steps = mutableListOf(
+                    "Muddle basil with simple syrup",
+                    "Add lemon juice and water",
+                    "Fill glass with ice",
+                    "Stir well",
+                    "Garnish with basil sprig"
+                ),
+                notes = "Herbal twist on classic lemonade",
+                tags = mutableListOf("herbal", "refreshing", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 140. Cranberry Spritzer
+            Cocktail(
+                name = "Cranberry Spritzer",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Cranberry Juice"), "3 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "3 oz"),
+                    CocktailIngredient(getIngredientId("Lime Juice"), "0.5 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add cranberry juice and lime juice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with lime wheel"
+                ),
+                notes = "Light and bubbly cranberry drink",
+                tags = mutableListOf("tart", "fizzy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 141. Apple Ginger Fizz
+            Cocktail(
+                name = "Apple Ginger Fizz",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Apple Juice"), "3 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Ginger Beer"), "2 oz")
+                ),
+                steps = mutableListOf(
+                    "Fill glass with ice",
+                    "Add apple juice and lemon juice",
+                    "Top with ginger beer",
+                    "Stir gently",
+                    "Garnish with apple slice"
+                ),
+                notes = "Crisp apple with spicy ginger",
+                tags = mutableListOf("fruity", "spicy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 142. Pineapple Mint Cooler
+            Cocktail(
+                name = "Pineapple Mint Cooler",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Pineapple Juice"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), "8 leaves"),
+                    CocktailIngredient(getIngredientId("Lime Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "2 oz")
+                ),
+                steps = mutableListOf(
+                    "Muddle mint with lime juice",
+                    "Add pineapple juice",
+                    "Fill glass with ice",
+                    "Top with club soda",
+                    "Garnish with mint and pineapple"
+                ),
+                notes = "Tropical pineapple with fresh mint",
+                tags = mutableListOf("tropical", "minty", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 143. Orange Cream Soda
+            Cocktail(
+                name = "Orange Cream Soda",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Orange Juice"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Vanilla Syrup"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "4 oz"),
+                    CocktailIngredient(getIngredientId("Heavy Cream"), "1 oz")
+                ),
+                steps = mutableListOf(
+                    "Add orange juice, vanilla syrup, and cream to glass",
+                    "Fill with ice",
+                    "Top with club soda",
+                    "Stir gently",
+                    "Garnish with orange slice"
+                ),
+                notes = "Creamy dreamsicle in a glass",
+                tags = mutableListOf("creamy", "sweet", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 144. Berry Fizz
+            Cocktail(
+                name = "Berry Fizz",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Strawberry Purée"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "top")
+                ),
+                steps = mutableListOf(
+                    "Add strawberry purée, lemon juice, and syrup to shaker with ice",
+                    "Shake well",
+                    "Strain into glass with ice",
+                    "Top with club soda",
+                    "Garnish with fresh berries"
+                ),
+                notes = "Bubbly berry refreshment",
+                tags = mutableListOf("fruity", "fizzy", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 145. Peach Iced Tea
+            Cocktail(
+                name = "Peach Iced Tea",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Peach Purée"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "1 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Iced Tea"), "4 oz")
+                ),
+                steps = mutableListOf(
+                    "Mix peach purée, lemon juice, and simple syrup in glass",
+                    "Add iced tea",
+                    "Fill with ice",
+                    "Stir well",
+                    "Garnish with peach slice"
+                ),
+                notes = "Sweet peach meets refreshing tea",
+                tags = mutableListOf("fruity", "refreshing", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
+            ),
+            
+            // 146. Rosemary Citrus Cooler
+            Cocktail(
+                name = "Rosemary Citrus Cooler",
+                ingredients = mutableListOf(
+                    CocktailIngredient(getIngredientId("Grapefruit Juice"), "3 oz"),
+                    CocktailIngredient(getIngredientId("Lemon Juice"), "0.5 oz"),
+                    CocktailIngredient(getIngredientId("Simple Syrup"), "0.75 oz"),
+                    CocktailIngredient(getIngredientId("Rosemary"), "1 sprig"),
+                    CocktailIngredient(getIngredientId("Club Soda"), "2 oz")
+                ),
+                steps = mutableListOf(
+                    "Muddle rosemary with simple syrup",
+                    "Add grapefruit and lemon juice",
+                    "Fill glass with ice",
+                    "Top with club soda",
+                    "Garnish with rosemary sprig"
+                ),
+                notes = "Herbaceous and citrusy",
+                tags = mutableListOf("herbal", "citrus", "non-alcoholic"),
+                abv = 0,
+                baseSpirit = "none"
             ),
         )
         

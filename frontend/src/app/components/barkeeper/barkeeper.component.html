@@ -1,0 +1,206 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+  <header class="barkeeper-header">
+    <h1>🍸 CocktailDB</h1>
+    <div class="header-info">
+      <span class="role-badge">Barkeeper Mode</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- Main Menu -->
+  <div *ngIf="currentView === 'menu'" class="menu-view">
+    <h2>Barkeeper Menu</h2>
+    
+    <!-- Toggle for Available Only Mode -->
+    <div class="menu-options">
+      <div class="toggle-option">
+        <span class="toggle-label">Show Only Available Cocktails</span>
+        <label class="toggle-switch" for="showOnlyAvailable">
+          <input type="checkbox" id="showOnlyAvailable" [(ngModel)]="showOnlyAvailable">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    
+    <div class="menu-grid">
+      <button class="menu-btn" (click)="showAlphabetNav()">
+        <div class="btn-icon">🔤</div>
+        <div class="btn-text">Find by Letter</div>
+      </button>
+      <button class="menu-btn" (click)="showAvailableCocktails()">
+        <div class="btn-icon">✅</div>
+        <div class="btn-text">Available Cocktails</div>
+      </button>
+      <button class="menu-btn" (click)="showRandomCocktail()">
+        <div class="btn-icon">🎲</div>
+        <div class="btn-text">Random Cocktail</div>
+      </button>
+      <button class="menu-btn" (click)="showIngredients()">
+        <div class="btn-icon">📦</div>
+        <div class="btn-text">Manage Stock</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Alphabet Navigation -->
+  <div *ngIf="currentView === 'alphabet'" class="alphabet-view">
+    <div class="view-header">
+      <button class="back-btn" (click)="showMenu()">← Back</button>
+      <h2>Select First Letter</h2>
+    </div>
+    <div class="alphabet-grid">
+      <button 
+        *ngFor="let letter of alphabet" 
+        class="alphabet-btn"
+        (click)="selectLetter(letter)">
+        {{ letter }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Cocktails List -->
+  <div *ngIf="currentView === 'cocktails'" class="cocktails-view">
+    <div class="view-header">
+      <button class="back-btn" (click)="showAlphabetNav()">← Back</button>
+      <h2>Cocktails: {{ selectedLetter }}</h2>
+    </div>
+    <div class="cocktails-list">
+      <button 
+        *ngFor="let cocktail of filteredCocktails" 
+        class="cocktail-btn"
+        (click)="selectCocktail(cocktail)">
+        {{ cocktail.name }}
+      </button>
+      <div *ngIf="filteredCocktails.length === 0" class="no-results">
+        No cocktails found starting with "{{ selectedLetter }}"
+      </div>
+    </div>
+  </div>
+
+  <!-- Available Cocktails -->
+  <div *ngIf="currentView === 'available'" class="cocktails-view">
+    <div class="view-header">
+      <button class="back-btn" (click)="showMenu()">← Back</button>
+      <h2>Available Now ({{ availableCocktails.length }})</h2>
+    </div>
+    <div class="cocktails-list">
+      <button 
+        *ngFor="let cocktail of availableCocktails" 
+        class="cocktail-btn"
+        (click)="selectCocktail(cocktail)">
+        {{ cocktail.name }}
+      </button>
+      <div *ngIf="availableCocktails.length === 0" class="no-results">
+        No cocktails available with current stock
+      </div>
+    </div>
+  </div>
+
+  <!-- Random Cocktail Picker -->
+  <div *ngIf="currentView === 'random'" class="random-view">
+    <div class="view-header">
+      <button class="back-btn" (click)="showMenu()">← Back</button>
+      <h2>Random Cocktail</h2>
+    </div>
+    <div class="random-content">
+      <div class="filter-section">
+        <h3>Filter By:</h3>
+        <div class="filter-buttons">
+          <button 
+            class="filter-btn"
+            [class.active]="filterAlcoholic === 'all'"
+            (click)="filterAlcoholic = 'all'">
+            All
+          </button>
+          <button 
+            class="filter-btn"
+            [class.active]="filterAlcoholic === 'alcoholic'"
+            (click)="filterAlcoholic = 'alcoholic'">
+            Alcoholic
+          </button>
+          <button 
+            class="filter-btn"
+            [class.active]="filterAlcoholic === 'non-alcoholic'"
+            (click)="filterAlcoholic = 'non-alcoholic'">
+            Non-Alcoholic
+          </button>
+        </div>
+        <div class="filter-group">
+          <label>Base Spirit:</label>
+          <select [(ngModel)]="filterBaseSpirit" class="spirit-select">
+            <option value="all">All Spirits</option>
+            <option *ngFor="let spirit of availableBaseSpirits" [value]="spirit">
+              {{ spirit | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <button class="pick-random-btn" (click)="pickRandomCocktail()">
+        🎲 Pick Random Cocktail
+      </button>
+    </div>
+  </div>
+
+  <!-- Ingredients Management -->
+  <div *ngIf="currentView === 'ingredients'" class="ingredients-view">
+    <div class="view-header">
+      <button class="back-btn" (click)="showMenu()">← Back</button>
+      <h2>Manage Stock</h2>
+    </div>
+    <div class="ingredients-list">
+      <div 
+        *ngFor="let ingredient of ingredients" 
+        class="ingredient-item"
+        [class.in-stock]="ingredient.inStock"
+        (click)="toggleIngredientStock(ingredient)">
+        <div class="ingredient-info">
+          <div class="ingredient-name">{{ ingredient.name }}</div>
+          <div class="ingredient-type">{{ ingredient.type }}</div>
+        </div>
+        <div class="stock-indicator">
+          {{ ingredient.inStock ? '✓ In Stock' : '✗ Out of Stock' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recipe View -->
+  <div *ngIf="currentView === 'recipe' && selectedCocktail" class="recipe-view">
+    <div class="view-header">
+      <button class="back-btn" (click)="goBackFromRecipe()">← Back</button>
+      <h2>{{ selectedCocktail.name }}</h2>
+    </div>
+    <div class="recipe-content">
+      <div class="recipe-info">
+        <div class="info-badge">
+          <span class="info-label">ABV:</span>
+          <span class="info-value">{{ selectedCocktail.abv }}%</span>
+        </div>
+        <div class="info-badge">
+          <span class="info-label">Base Spirit:</span>
+          <span class="info-value">{{ selectedCocktail.baseSpirit | titlecase }}</span>
+        </div>
+      </div>
+      <div class="recipe-section">
+        <h3>Ingredients:</h3>
+        <ul class="ingredients-list-recipe">
+          <li *ngFor="let ing of selectedCocktail.ingredients">
+            <span class="measure">{{ ing.measure }}</span>
+            <span class="name">{{ getIngredientName(ing.ingredientId) }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="recipe-section">
+        <h3>Instructions:</h3>
+        <ol class="steps-list">
+          <li *ngFor="let step of selectedCocktail.steps">{{ step }}</li>
+        </ol>
+      </div>
+      <div *ngIf="selectedCocktail.notes" class="recipe-section">
+        <h3>Notes:</h3>
+        <p class="notes">{{ selectedCocktail.notes }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+  <div class="view-header">
+    <a routerLink="/barkeeper/menu" class="back-btn">← Back</a>
+    <h2>Manage Stock</h2>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">Loading ingredients...</div>
+
+  <!-- Ingredients List -->
+  <div class="ingredients-list">
+    <div 
+      *ngFor="let ingredient of ingredients" 
+      class="ingredient-item"
+      [class.in-stock]="ingredient.inStock"
+      [class.out-of-stock]="!ingredient.inStock"
+      (click)="toggleIngredientStock(ingredient)">
+      <div class="ingredient-info">
+        <div class="ingredient-name">{{ ingredient.name }}</div>
+        <div class="ingredient-type">{{ ingredient.type }}</div>
+      </div>
+      <div class="stock-indicator">
+        {{ ingredient.inStock ? '✓ In Stock' : '✗ Out of Stock' }}
+      </div>
+    </div>
+  </div>
+</div>

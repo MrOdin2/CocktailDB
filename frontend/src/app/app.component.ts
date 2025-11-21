@@ -14,6 +14,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   title = 'CocktailDB';
   isAuthenticated = false;
+  userRole: string | undefined;
 
   constructor(
     private themeService: ThemeService,
@@ -27,10 +28,19 @@ export class AppComponent implements OnInit {
     // Subscribe to auth status
     this.authService.authStatus$.subscribe(status => {
       this.isAuthenticated = status.authenticated;
+      this.userRole = status.role;
     });
   }
   
   logout(): void {
     this.authService.logout().subscribe();
+  }
+
+  isAdmin(): boolean {
+    return this.userRole === 'ADMIN';
+  }
+
+  isBarkeeper(): boolean {
+    return this.userRole === 'BARKEEPER';
   }
 }

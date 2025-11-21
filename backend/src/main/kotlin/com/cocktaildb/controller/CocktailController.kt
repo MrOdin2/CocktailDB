@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/cocktails")
-@CrossOrigin(origins = ["http://localhost:4200"])
 class CocktailController(
     private val cocktailService: CocktailService,
     private val cocktailRepository: CocktailRepository

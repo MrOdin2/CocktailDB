@@ -15,7 +15,7 @@ cd ..
 echo "Building frontend production bundle..."
 cd frontend
 npm ci
-npm run build -- --configuration production
+npm run build:prod
 cd ..
 
 echo "Build complete! You can now run 'docker compose up -d' to start the application."

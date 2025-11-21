@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 
 export interface LoginRequest {
   password: string;
+  role?: string;
 }
 
 export interface LoginResponse {
@@ -30,10 +31,10 @@ export class AuthService {
     this.checkAuthStatus();
   }
 
-  login(password: string): Observable<LoginResponse> {
+  login(password: string, role?: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
       `${this.baseUrl}/auth/login`,
-      { password },
+      { password, role },
       { withCredentials: true }
     ).pipe(
       tap(response => {
@@ -73,5 +74,13 @@ export class AuthService {
 
   getRole(): string | undefined {
     return this.authStatusSubject.value.role;
+  }
+
+  isAdmin(): boolean {
+    return this.authStatusSubject.value.role === 'ADMIN';
+  }
+
+  isBarkeeper(): boolean {
+    return this.authStatusSubject.value.role === 'BARKEEPER';
   }
 }

@@ -31,4 +31,6 @@ export interface Cocktail {
   steps: string[];
   notes?: string;
   tags: string[];
+  abv: number;
+  baseSpirit: string;
 }

@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   password: string = '';
+  selectedRole: string = 'ADMIN';
   errorMessage: string = '';
   isLoading: boolean = false;
 
@@ -29,10 +30,15 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.authService.login(this.password).subscribe({
+    this.authService.login(this.password, this.selectedRole).subscribe({
       next: (response) => {
         if (response.success) {
-          this.router.navigate(['/cocktails']);
+          // Navigate based on role
+          if (response.role === 'BARKEEPER') {
+            this.router.navigate(['/barkeeper']);
+          } else {
+            this.router.navigate(['/cocktails']);
+          }
         } else {
           this.errorMessage = response.message || 'Login failed';
           this.isLoading = false;
