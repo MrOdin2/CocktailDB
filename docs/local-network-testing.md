@@ -13,7 +13,16 @@ CocktailDB is now configured to support access from multiple devices (phones, ta
 
 ### 1. Find Your Server's IP Address
 
-First, find the IP address of the machine running CocktailDB:
+First, find the IP address of the machine running CocktailDB.
+
+**Easy Method (Linux/macOS):**
+```bash
+./find-ip.sh
+```
+
+This helper script will automatically detect and display your local network IP address(es).
+
+**Manual Method:**
 
 **On Linux/macOS:**
 ```bash

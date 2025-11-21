@@ -269,7 +269,7 @@ CocktailDB is configured to support access from multiple devices on your local n
 For detailed setup instructions, troubleshooting, and firewall configuration, see the [Local Network Testing Guide](docs/local-network-testing.md).
 
 **Quick Summary:**
-1. Find your server's IP address (e.g., `192.168.1.100`)
+1. Find your server's IP address: Run `./find-ip.sh` (or manually check with `ip addr` or `ifconfig`)
 2. Deploy using Docker Compose as described above
 3. Access from other devices using `http://[SERVER_IP]` (e.g., `http://192.168.1.100`)
 4. CORS is configured to allow all origins by default for local testing
