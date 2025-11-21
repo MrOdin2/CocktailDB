@@ -182,20 +182,22 @@
           <span class="info-value">{{ selectedCocktail.baseSpirit | titlecase }}</span>
         </div>
       </div>
-      <div class="recipe-section">
-        <h3>Ingredients:</h3>
-        <ul class="ingredients-list-recipe">
-          <li *ngFor="let ing of selectedCocktail.ingredients">
-            <span class="measure">{{ ing.measure }}</span>
-            <span class="name">{{ getIngredientName(ing.ingredientId) }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="recipe-section">
-        <h3>Instructions:</h3>
-        <ol class="steps-list">
-          <li *ngFor="let step of selectedCocktail.steps">{{ step }}</li>
-        </ol>
+      <div class="recipe-main">
+        <div class="recipe-section">
+          <h3>Ingredients:</h3>
+          <ul class="ingredients-list-recipe">
+            <li *ngFor="let ing of selectedCocktail.ingredients">
+              <span class="measure">{{ ing.measure }}</span>
+              <span class="name">{{ getIngredientName(ing.ingredientId) }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="recipe-section">
+          <h3>Instructions:</h3>
+          <ol class="steps-list">
+            <li *ngFor="let step of selectedCocktail.steps">{{ step }}</li>
+          </ol>
+        </div>
       </div>
       <div *ngIf="selectedCocktail.notes" class="recipe-section">
         <h3>Notes:</h3>

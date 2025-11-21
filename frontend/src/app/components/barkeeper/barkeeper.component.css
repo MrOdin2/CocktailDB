@@ -470,6 +470,12 @@ input:checked + .slider:before {
   flex-wrap: wrap;
 }
 
+.recipe-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 .info-badge {
   background: #2d2d2d;
   border-radius: 12px;
@@ -702,6 +708,54 @@ input:checked + .slider:before {
   .notes {
     font-size: 1.1rem;
   }
+}
+
+/* Landscape mode - side by side layout for recipe */
+@media (min-width: 568px) and (orientation: landscape) {
+  .recipe-content {
+    max-width: 100%;
+    padding: 1rem 1.5rem;
+  }
+  
+  .recipe-main {
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  
+  .recipe-main .recipe-section {
+    flex: 1;
+    margin-bottom: 0;
+  }
+  
+  .recipe-main .recipe-section:first-child {
+    max-width: 45%;
+  }
+  
+  .recipe-main .recipe-section:last-child {
+    max-width: 55%;
+  }
+}
+
+/* Tablet landscape - optimize layout further */
+@media (min-width: 768px) and (orientation: landscape) {
+  .recipe-content {
+    max-width: 95%;
+    padding: 1.5rem 2rem;
+  }
+  
+  .recipe-main {
+    gap: 2rem;
+  }
+  
+  .recipe-section {
+    padding: 1.5rem;
+  }
+  
+  .recipe-section h3 {
+    font-size: 1.5rem;
+  }
+}
 }
 
 /* Desktop (large) */
