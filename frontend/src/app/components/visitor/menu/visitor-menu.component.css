@@ -106,6 +106,25 @@
   color: #00ff00;
 }
 
+.login-link-text {
+  margin: 1rem 0 0 0;
+  color: #00cc00;
+  font-size: 0.95rem;
+}
+
+.login-link {
+  color: #00ff00;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.login-link:hover,
+.login-link:focus {
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+}
+
 /* Tablet and up */
 @media (min-width: 768px) {
   .visitor-container {
