@@ -24,9 +24,11 @@ class CorsConfig {
             allowedOrigins.split(",").map { it.trim() }
         }
         
-        configuration.allowedOrigins = origins
+        // Use allowedOriginPatterns instead of deprecated allowedOrigins
+        configuration.allowedOriginPatterns = origins
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
         configuration.allowedHeaders = listOf("*")
+        // allowCredentials must be false when using wildcard origins
         configuration.allowCredentials = origins.none { it == "*" }
         configuration.maxAge = 3600L
         

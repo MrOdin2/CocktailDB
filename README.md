@@ -240,6 +240,8 @@ This will:
 - **Backend API**: http://localhost:8080/api
 - **PostgreSQL**: localhost:5432
 
+**For Local Network Access**: Replace `localhost` with your server's IP address (e.g., `http://192.168.1.100`). See [Local Network Testing Guide](docs/local-network-testing.md) for detailed instructions on accessing from multiple devices.
+
 6. Stop the services:
 ```bash
 docker compose down
@@ -259,6 +261,18 @@ The Docker setup consists of three services:
 3. **frontend**: Angular application served by nginx on port 80
 
 Data is persisted in a Docker volume named `postgres_data`, so your cocktails and ingredients will be preserved even when containers are stopped.
+
+### Local Network Testing
+
+CocktailDB is configured to support access from multiple devices on your local network (phones, tablets, laptops). This makes it easy to test the application on different devices or allow multiple users to access the same instance.
+
+For detailed setup instructions, troubleshooting, and firewall configuration, see the [Local Network Testing Guide](docs/local-network-testing.md).
+
+**Quick Summary:**
+1. Find your server's IP address (e.g., `192.168.1.100`)
+2. Deploy using Docker Compose as described above
+3. Access from other devices using `http://[SERVER_IP]` (e.g., `http://192.168.1.100`)
+4. CORS is configured to allow all origins by default for local testing
 
 ### Manual Build for Production
 
