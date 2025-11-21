@@ -16,15 +16,17 @@
   top: 0;
   z-index: 100;
   display: flex;
-    align-items: center;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .view-header h2 {
-  text-align: center;
   font-size: 2rem;
-  margin-right: 3rem;
-  margin-left: 2rem;
+  margin: 0;
   color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .back-btn {
@@ -48,12 +50,12 @@
     background: #2d2d2d;
     border-radius: 12px;
     padding: 1rem;
-    align-self: flex-end;
     min-width: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     border: 2px solid #ffa500;
+    margin-left: auto;
 }
 
 .info-label {
