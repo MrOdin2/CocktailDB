@@ -10,7 +10,7 @@
 /* Header */
 .barkeeper-header {
   background: #2d2d2d;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   position: sticky;
   top: 0;
@@ -19,7 +19,7 @@
 
 .barkeeper-header h1 {
   margin: 0 0 0.5rem 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: center;
   color: #fff;
 }
@@ -29,6 +29,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .role-badge {
@@ -37,7 +38,7 @@
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .logout-btn {
@@ -58,19 +59,19 @@
 
 /* Menu View */
 .menu-view {
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
 }
 
 .menu-view h2 {
   text-align: center;
-  font-size: 2rem;
-  margin: 0 0 2rem 0;
+  font-size: 1.75rem;
+  margin: 0 0 1.5rem 0;
   color: #fff;
 }
 
 .menu-options {
   max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 1.5rem auto;
   padding: 1rem;
   background: #2d2d2d;
   border-radius: 12px;
@@ -86,7 +87,7 @@
 }
 
 .toggle-label {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #fff;
 }
@@ -138,7 +139,7 @@ input:checked + .slider:before {
 .menu-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -148,8 +149,8 @@ input:checked + .slider:before {
   color: white;
   border: none;
   border-radius: 16px;
-  padding: 2rem 1rem;
-  font-size: 1.2rem;
+  padding: 1.5rem 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
@@ -157,8 +158,8 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  min-height: 160px;
+  gap: 0.75rem;
+  min-height: 140px;
 }
 
 .menu-btn:active {
@@ -166,24 +167,25 @@ input:checked + .slider:before {
 }
 
 .btn-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 .btn-text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.3;
+  text-align: center;
 }
 
 /* View Header */
 .view-header {
-  padding: 1.5rem;
+  padding: 1rem;
   background: #2d2d2d;
   margin-bottom: 1rem;
 }
 
 .view-header h2 {
   margin: 0.5rem 0 0 0;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #fff;
   text-align: center;
 }
@@ -192,9 +194,9 @@ input:checked + .slider:before {
   background: #444;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 0.5rem;
@@ -212,8 +214,8 @@ input:checked + .slider:before {
 .alphabet-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  padding: 1.5rem;
+  gap: 0.75rem;
+  padding: 1rem;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -223,8 +225,8 @@ input:checked + .slider:before {
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 1.5rem;
-  font-size: 2rem;
+  padding: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
@@ -249,7 +251,7 @@ input:checked + .slider:before {
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.875rem;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -259,8 +261,8 @@ input:checked + .slider:before {
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 1.5rem;
-  font-size: 1.5rem;
+  padding: 1.25rem;
+  font-size: 1.25rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -275,8 +277,8 @@ input:checked + .slider:before {
 
 .no-results {
   text-align: center;
-  padding: 3rem 1rem;
-  font-size: 1.2rem;
+  padding: 2.5rem 1rem;
+  font-size: 1.125rem;
   color: #999;
 }
 
@@ -286,17 +288,17 @@ input:checked + .slider:before {
 }
 
 .random-content {
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
   max-width: 600px;
   margin: 0 auto;
 }
 
 .filter-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .filter-section h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin: 0 0 1rem 0;
   color: #fff;
 }
@@ -304,7 +306,7 @@ input:checked + .slider:before {
 .filter-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .filter-btn {
@@ -312,8 +314,8 @@ input:checked + .slider:before {
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 1rem;
-  font-size: 1rem;
+  padding: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -333,7 +335,7 @@ input:checked + .slider:before {
 
 .filter-group label {
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #f0f0f0;
@@ -346,7 +348,7 @@ input:checked + .slider:before {
   border: 2px solid #555;
   border-radius: 8px;
   padding: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -370,8 +372,8 @@ input:checked + .slider:before {
   color: white;
   border: none;
   border-radius: 16px;
-  padding: 2rem;
-  font-size: 1.8rem;
+  padding: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
@@ -400,12 +402,13 @@ input:checked + .slider:before {
   background: #3a3a3a;
   border: none;
   border-radius: 8px;
-  padding: 1.25rem;
+  padding: 1.125rem;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .ingredient-item.in-stock {
@@ -421,23 +424,24 @@ input:checked + .slider:before {
 }
 
 .ingredient-name {
-  font-size: 1.2rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: #fff;
   margin-bottom: 0.25rem;
 }
 
 .ingredient-type {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #aaa;
 }
 
 .stock-indicator {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.875rem;
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
 }
 
 .ingredient-item.in-stock .stock-indicator {
@@ -454,7 +458,7 @@ input:checked + .slider:before {
 }
 
 .recipe-content {
-  padding: 1.5rem;
+  padding: 1rem;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -464,6 +468,12 @@ input:checked + .slider:before {
   gap: 1rem;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
+}
+
+.recipe-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .info-badge {
@@ -479,13 +489,13 @@ input:checked + .slider:before {
 }
 
 .info-label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #aaa;
   margin-bottom: 0.25rem;
 }
 
 .info-value {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #ffa500;
 }
@@ -493,12 +503,12 @@ input:checked + .slider:before {
 .recipe-section {
   background: #2d2d2d;
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .recipe-section h3 {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   margin: 0 0 1rem 0;
   color: #ffa500;
 }
@@ -512,9 +522,10 @@ input:checked + .slider:before {
 .ingredients-list-recipe li {
   padding: 0.75rem 0;
   border-bottom: 1px solid #444;
-  font-size: 1.2rem;
+  font-size: 1.125rem;
   display: flex;
-  gap: 1rem;
+  gap: 0.875rem;
+  flex-wrap: wrap;
 }
 
 .ingredients-list-recipe li:last-child {
@@ -524,7 +535,7 @@ input:checked + .slider:before {
 .ingredients-list-recipe .measure {
   font-weight: 600;
   color: #ffa500;
-  min-width: 100px;
+  min-width: 90px;
 }
 
 .ingredients-list-recipe .name {
@@ -532,39 +543,239 @@ input:checked + .slider:before {
 }
 
 .steps-list {
-  padding-left: 1.5rem;
+  padding-left: 1.25rem;
   margin: 0;
 }
 
 .steps-list li {
   padding: 0.75rem 0;
-  font-size: 1.2rem;
+  font-size: 1.125rem;
   line-height: 1.6;
   color: #f0f0f0;
 }
 
 .notes {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   line-height: 1.6;
   color: #ccc;
   margin: 0;
   font-style: italic;
 }
 
-/* Tablet and larger */
+/* Tablet (medium) */
 @media (min-width: 768px) {
-  .menu-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .barkeeper-header {
+    padding: 1.25rem 1.5rem;
   }
-
+  
+  .barkeeper-header h1 {
+    font-size: 2rem;
+  }
+  
+  .role-badge {
+    padding: 0.625rem 1.25rem;
+    font-size: 1rem;
+  }
+  
+  .logout-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 1.125rem;
+  }
+  
+  .menu-view {
+    padding: 2rem 1.5rem;
+  }
+  
+  .menu-view h2 {
+    font-size: 2rem;
+  }
+  
+  .menu-grid {
+    max-width: 700px;
+    gap: 1.5rem;
+  }
+  
+  .menu-btn {
+    padding: 2rem 1rem;
+    font-size: 1.2rem;
+    min-height: 160px;
+  }
+  
+  .btn-icon {
+    font-size: 3rem;
+  }
+  
+  .btn-text {
+    font-size: 1.1rem;
+  }
+  
   .alphabet-grid {
     grid-template-columns: repeat(6, 1fr);
+    max-width: 700px;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .alphabet-btn {
+    padding: 1.5rem;
+    font-size: 2rem;
+  }
+  
+  .cocktails-list {
+    max-width: 700px;
+    gap: 1rem;
+  }
+  
+  .cocktail-btn {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .random-content {
+    max-width: 700px;
+    padding: 2rem 1.5rem;
+  }
+  
+  .filter-section h3 {
+    font-size: 1.5rem;
+  }
+  
+  .filter-buttons {
+    gap: 1rem;
+  }
+  
+  .filter-btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  .spirit-select {
+    padding: 1.125rem;
+    font-size: 1.2rem;
+  }
+  
+  .pick-random-btn {
+    padding: 2rem;
+    font-size: 1.8rem;
+  }
+  
+  .ingredients-list {
+    max-width: 700px;
+  }
+  
+  .ingredient-item {
+    padding: 1.25rem;
+  }
+  
+  .ingredient-name {
+    font-size: 1.2rem;
+  }
+  
+  .ingredient-type {
+    font-size: 0.9rem;
+  }
+  
+  .stock-indicator {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .recipe-content {
+    max-width: 700px;
+    padding: 1.5rem;
+  }
+  
+  .recipe-section {
+    padding: 1.5rem;
+  }
+  
+  .recipe-section h3 {
+    font-size: 1.5rem;
+  }
+  
+  .ingredients-list-recipe li {
+    font-size: 1.2rem;
+  }
+  
+  .ingredients-list-recipe .measure {
+    min-width: 100px;
+  }
+  
+  .steps-list li {
+    font-size: 1.2rem;
+  }
+  
+  .notes {
+    font-size: 1.1rem;
   }
 }
 
-/* Desktop */
+/* Landscape mode - side by side layout for recipe */
+@media (min-width: 568px) and (orientation: landscape) {
+  .recipe-content {
+    max-width: 100%;
+    padding: 1rem 1.5rem;
+  }
+  
+  .recipe-main {
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  
+  .recipe-main .recipe-section {
+    flex: 1;
+    margin-bottom: 0;
+  }
+  
+  .recipe-main .recipe-section:first-child {
+    max-width: 45%;
+  }
+  
+  .recipe-main .recipe-section:last-child {
+    max-width: 55%;
+  }
+}
+
+/* Tablet landscape - optimize layout further */
+@media (min-width: 768px) and (orientation: landscape) {
+  .recipe-content {
+    max-width: 95%;
+    padding: 1.5rem 2rem;
+  }
+  
+  .recipe-main {
+    gap: 2rem;
+  }
+  
+  .recipe-section {
+    padding: 1.5rem;
+  }
+  
+  .recipe-section h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Desktop (large) */
 @media (min-width: 1024px) {
+  .barkeeper-header {
+    padding: 1.5rem 2rem;
+  }
+  
   .alphabet-grid {
     grid-template-columns: repeat(8, 1fr);
+    max-width: 900px;
+  }
+  
+  .cocktails-list,
+  .random-content,
+  .ingredients-list,
+  .recipe-content {
+    max-width: 900px;
+  }
+  
+  .menu-grid {
+    max-width: 800px;
   }
 }

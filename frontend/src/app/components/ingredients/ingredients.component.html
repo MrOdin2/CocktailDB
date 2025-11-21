@@ -67,7 +67,9 @@
 
   <div class="ingredients-list">
     <h3>All Ingredients</h3>
-    <table>
+    
+    <!-- Table view for tablet and desktop -->
+    <table class="tablet-up">
       <thead>
         <tr>
           <th class="sortable" (click)="setSortBy('name')">
@@ -138,8 +140,67 @@
               </td>
             }
           </tr>
+        }
+      </tbody>
+    </table>
+    
+    <!-- Card view for mobile -->
+    <div class="mobile-only">
+      @for (ingredient of displayedIngredients; track ingredient.id) {
+        <div class="ingredient-card">
+          @if (editingIngredient?.id !== ingredient.id) {
+            <div class="ingredient-card-header">
+              <div class="ingredient-card-name">{{ ingredient.name }}</div>
+            </div>
+            <div class="ingredient-card-info">
+              <div class="ingredient-card-field">
+                <strong>Type:</strong>
+                {{ ingredient.type }}
+              </div>
+              <div class="ingredient-card-field">
+                <strong>ABV:</strong>
+                {{ ingredient.abv }}%
+              </div>
+              <div class="ingredient-card-field">
+                <strong>In Stock:</strong>
+                <input type="checkbox"
+                  [checked]="ingredient.inStock"
+                  (change)="toggleStock(ingredient)">
+              </div>
+            </div>
+            <div class="ingredient-card-actions">
+              <button class="btn-secondary" (click)="startEdit(ingredient)">Edit</button>
+              <button class="btn-danger" (click)="deleteIngredient(ingredient.id)">Delete</button>
+            </div>
           }
-        </tbody>
-      </table>
+          @if (editingIngredient?.id === ingredient.id) {
+            <div class="form-group">
+              <label>Name:</label>
+              <input type="text" [(ngModel)]="editingIngredient!.name" class="edit-input">
+            </div>
+            <div class="form-group">
+              <label>Type:</label>
+              <select [(ngModel)]="editingIngredient!.type" class="edit-input">
+                @for (type of ingredientTypes; track type) {
+                  <option [value]="type">{{ type }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group">
+              <label>ABV:</label>
+              <input type="number" [(ngModel)]="editingIngredient!.abv" min="0" max="100" class="edit-input">
+            </div>
+            <div class="form-group">
+              <label>In Stock:</label>
+              <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
+            </div>
+            <div class="ingredient-card-actions">
+              <button class="btn-primary" (click)="saveEdit()">Save</button>
+              <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+            </div>
+          }
+        </div>
+      }
     </div>
+  </div>
   </div>

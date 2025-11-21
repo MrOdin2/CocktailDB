@@ -10,18 +10,23 @@
 /* View Header */
 .view-header {
   background: #2d2d2d;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   position: sticky;
   top: 0;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .view-header h2 {
-  text-align: center;
   font-size: 2rem;
-  margin: 1rem 0 0 0;
+  margin: 0;
   color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .back-btn {
@@ -41,49 +46,50 @@
   transform: scale(0.95);
 }
 
-/* Recipe Content */
-.recipe-content {
-  padding: 1.5rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.recipe-info {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-
 .info-badge {
-  background: #2d2d2d;
-  border-radius: 12px;
-  padding: 1rem;
-  flex: 1;
-  min-width: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 2px solid #ffa500;
+    background: #2d2d2d;
+    border-radius: 12px;
+    padding: 1rem;
+    min-width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    border: 2px solid #ffa500;
+    margin-left: auto;
 }
 
 .info-label {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-bottom: 0.25rem;
+    font-size: 0.7rem;
+    color: #aaa;
+    margin-bottom: 0.25rem;
 }
 
 .info-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ffa500;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffa500;
+}
+
+/* Recipe Content */
+.recipe-content {
+  padding: 0.5rem;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+
+.important-section{
+    display: flex;
+    min-width: 100%;
 }
 
 .recipe-section {
   background: #2d2d2d;
   border-radius: 12px;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
+    margin: 1rem;
+  margin-bottom: 0.5rem;
+  max-width: 50%;
 }
 
 .recipe-section h3 {
