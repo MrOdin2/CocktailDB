@@ -1,0 +1,19 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+  <div class="view-header">
+    <a routerLink="/barkeeper/menu" class="back-btn">← Back</a>
+    <h2>Select First Letter</h2>
+  </div>
+
+  <!-- Alphabet Grid -->
+  <div class="alphabet-grid">
+    <button 
+      *ngFor="let letter of alphabet"
+      class="alphabet-btn"
+      (click)="selectLetter(letter)">
+      {{ letter }}
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">Loading cocktails...</div>
+</div>

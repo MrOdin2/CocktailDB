@@ -69,6 +69,29 @@ CocktailDB/
 - Components should be focused and reusable
 - Use Angular's reactive forms for form handling
 
+### Component Design Principles
+- **Single Responsibility**: Each component should have one clear purpose
+- **Small and Focused**: Components should be small (< 300 lines of TypeScript)
+- **Modularity**: Break down large components into smaller subcomponents
+- **Reusability**: Design components to be reusable across different contexts
+- **Router Integration**: Use Angular Router for navigation to enable browser back/forward buttons
+- **Accessibility**: Always include proper ARIA labels, semantic HTML, and keyboard navigation
+  - Use `<button>` for actions, `<a>` for navigation
+  - Include `aria-label` for icon-only buttons
+  - Associate form labels with inputs using `for` and `id` attributes
+  - Ensure sufficient color contrast (WCAG AA: 4.5:1 for text)
+  - Make interactive elements keyboard accessible
+- **Mobile-First**: Design for mobile screens first, then enhance for larger screens
+- **Performance**: Use OnPush change detection when possible, avoid unnecessary subscriptions
+- **Navigation**: Prefer router-based navigation over internal view switching for better UX
+
+### Component Organization
+When creating feature areas (like barkeeper mode):
+- Create a feature directory (e.g., `components/barkeeper/`)
+- Split functionality into focused subcomponents (e.g., `menu/`, `recipe/`, `stock-management/`)
+- Each subcomponent gets its own route for browser navigation support
+- Share state through services or route parameters, not parent components
+
 ## Database Configuration
 
 ### Profiles

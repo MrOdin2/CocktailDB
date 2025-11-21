@@ -1,0 +1,50 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+  <div class="view-header">
+    <a routerLink="/barkeeper/menu" class="back-btn">← Back</a>
+    <h2>Random Cocktail</h2>
+  </div>
+
+  <!-- Random Picker -->
+  <div class="random-view">
+    <div class="filters">
+      <div class="filter-group">
+        <label>Type:</label>
+        <div class="filter-buttons">
+          <button 
+            class="filter-btn"
+            [class.active]="filterAlcoholic === 'all'"
+            (click)="filterAlcoholic = 'all'">
+            All
+          </button>
+          <button 
+            class="filter-btn"
+            [class.active]="filterAlcoholic === 'alcoholic'"
+            (click)="filterAlcoholic = 'alcoholic'">
+            Alcoholic
+          </button>
+          <button 
+            class="filter-btn"
+            [class.active]="filterAlcoholic === 'non-alcoholic'"
+            (click)="filterAlcoholic = 'non-alcoholic'">
+            Non-Alcoholic
+          </button>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label>Base Spirit:</label>
+        <select [(ngModel)]="filterBaseSpirit" class="spirit-select">
+          <option value="all">All Spirits</option>
+          <option *ngFor="let spirit of availableBaseSpirits" [value]="spirit">
+            {{ spirit | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+    
+    <button class="pick-random-btn" (click)="pickRandomCocktail()" [disabled]="isLoading">
+      🎲 Pick Random Cocktail
+    </button>
+  </div>
+</div>

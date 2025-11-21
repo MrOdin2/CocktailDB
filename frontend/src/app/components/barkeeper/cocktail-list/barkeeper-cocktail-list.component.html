@@ -1,0 +1,24 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+  <div class="view-header">
+    <a [routerLink]="getBackRoute()" class="back-btn">← Back</a>
+    <h2>{{ getTitle() }}</h2>
+  </div>
+
+  <!-- Cocktails List -->
+  <div class="cocktails-list">
+    <div *ngIf="isLoading" class="loading">Loading cocktails...</div>
+    
+    <div *ngIf="!isLoading && filteredCocktails.length === 0" class="empty">
+      No cocktails found
+    </div>
+    
+    <button 
+      *ngFor="let cocktail of filteredCocktails"
+      class="cocktail-btn"
+      (click)="selectCocktail(cocktail)">
+      <span class="cocktail-name">{{ cocktail.name }}</span>
+      <span class="cocktail-arrow">→</span>
+    </button>
+  </div>
+</div>
