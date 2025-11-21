@@ -15,6 +15,7 @@ import { Cocktail, Ingredient } from '../../models/models';
 })
 export class BarkeeperComponent implements OnInit {
   currentView: 'menu' | 'alphabet' | 'cocktails' | 'available' | 'random' | 'ingredients' | 'recipe' = 'menu';
+  previousView: 'menu' | 'alphabet' | 'cocktails' | 'available' | 'random' | 'ingredients' = 'menu';
   cocktails: Cocktail[] = [];
   availableCocktails: Cocktail[] = [];
   ingredients: Ingredient[] = [];
@@ -28,6 +29,9 @@ export class BarkeeperComponent implements OnInit {
   filterAlcoholic: 'all' | 'alcoholic' | 'non-alcoholic' = 'all';
   
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  
+  // Performance optimization: Map for O(1) ingredient lookups
+  private ingredientMap: Map<number, Ingredient> = new Map();
 
   constructor(
     private apiService: ApiService,
@@ -55,6 +59,8 @@ export class BarkeeperComponent implements OnInit {
     this.apiService.getAllIngredients().subscribe({
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
+        // Build ingredient map for O(1) lookups
+        this.ingredientMap = new Map(ingredients.map(i => [i.id!, i]));
       },
       error: (error: any) => {
         console.error('Error loading ingredients:', error);
@@ -98,12 +104,18 @@ export class BarkeeperComponent implements OnInit {
     this.filteredCocktails = baseList.filter(c => 
       c.name.toUpperCase().startsWith(letter)
     );
+    this.previousView = 'alphabet';
     this.currentView = 'cocktails';
   }
 
   selectCocktail(cocktail: Cocktail): void {
     this.selectedCocktail = cocktail;
+    this.previousView = this.currentView as any;
     this.currentView = 'recipe';
+  }
+  
+  goBackFromRecipe(): void {
+    this.currentView = this.previousView;
   }
 
   pickRandomCocktail(): void {
@@ -123,7 +135,7 @@ export class BarkeeperComponent implements OnInit {
 
   isAlcoholic(cocktail: Cocktail): boolean {
     return cocktail.ingredients.some(ci => {
-      const ingredient = this.ingredients.find(i => i.id === ci.ingredientId);
+      const ingredient = this.ingredientMap.get(ci.ingredientId);
       return ingredient && ingredient.abv > 0;
     });
   }
@@ -147,7 +159,7 @@ export class BarkeeperComponent implements OnInit {
   }
 
   getIngredientName(ingredientId: number): string {
-    const ingredient = this.ingredients.find(i => i.id === ingredientId);
+    const ingredient = this.ingredientMap.get(ingredientId);
     return ingredient ? ingredient.name : 'Unknown';
   }
 
