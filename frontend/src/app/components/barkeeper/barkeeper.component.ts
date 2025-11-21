@@ -27,6 +27,8 @@ export class BarkeeperComponent implements OnInit {
   
   // Filter options for random cocktail
   filterAlcoholic: 'all' | 'alcoholic' | 'non-alcoholic' = 'all';
+  filterBaseSpirit: string = 'all';  // Added for base spirit filtering
+  availableBaseSpirits: string[] = [];  // Will be populated from cocktails
   
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   
@@ -48,6 +50,9 @@ export class BarkeeperComponent implements OnInit {
     this.apiService.getAllCocktails().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.cocktails = cocktails;
+        // Extract unique base spirits
+        const spiritsSet = new Set(cocktails.map(c => c.baseSpirit || 'none'));
+        this.availableBaseSpirits = Array.from(spiritsSet).sort();
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -121,10 +126,16 @@ export class BarkeeperComponent implements OnInit {
   pickRandomCocktail(): void {
     let pool = this.showOnlyAvailable ? this.availableCocktails : this.cocktails;
     
+    // Filter by alcoholic/non-alcoholic
     if (this.filterAlcoholic === 'alcoholic') {
-      pool = pool.filter(c => this.isAlcoholic(c));
+      pool = pool.filter(c => c.abv > 0);
     } else if (this.filterAlcoholic === 'non-alcoholic') {
-      pool = pool.filter(c => !this.isAlcoholic(c));
+      pool = pool.filter(c => c.abv === 0);
+    }
+    
+    // Filter by base spirit
+    if (this.filterBaseSpirit !== 'all') {
+      pool = pool.filter(c => c.baseSpirit === this.filterBaseSpirit);
     }
     
     if (pool.length > 0) {

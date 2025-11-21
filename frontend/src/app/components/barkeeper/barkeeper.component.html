@@ -126,6 +126,15 @@
             Non-Alcoholic
           </button>
         </div>
+        <div class="filter-group">
+          <label>Base Spirit:</label>
+          <select [(ngModel)]="filterBaseSpirit" class="spirit-select">
+            <option value="all">All Spirits</option>
+            <option *ngFor="let spirit of availableBaseSpirits" [value]="spirit">
+              {{ spirit | titlecase }}
+            </option>
+          </select>
+        </div>
       </div>
       <button class="pick-random-btn" (click)="pickRandomCocktail()">
         🎲 Pick Random Cocktail
@@ -163,6 +172,16 @@
       <h2>{{ selectedCocktail.name }}</h2>
     </div>
     <div class="recipe-content">
+      <div class="recipe-info">
+        <div class="info-badge">
+          <span class="info-label">ABV:</span>
+          <span class="info-value">{{ selectedCocktail.abv }}%</span>
+        </div>
+        <div class="info-badge">
+          <span class="info-label">Base Spirit:</span>
+          <span class="info-value">{{ selectedCocktail.baseSpirit | titlecase }}</span>
+        </div>
+      </div>
       <div class="recipe-section">
         <h3>Ingredients:</h3>
         <ul class="ingredients-list-recipe">

@@ -327,6 +327,43 @@ input:checked + .slider:before {
   transform: scale(0.95);
 }
 
+.filter-group {
+  margin: 1rem 0;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #f0f0f0;
+}
+
+.spirit-select {
+  width: 100%;
+  background: #3a3a3a;
+  color: white;
+  border: 2px solid #555;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.spirit-select:focus {
+  outline: none;
+  border-color: #667eea;
+  background: #454545;
+}
+
+.spirit-select option {
+  background: #2d2d2d;
+  color: white;
+  padding: 0.5rem;
+}
+
 .pick-random-btn {
   width: 100%;
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -420,6 +457,37 @@ input:checked + .slider:before {
   padding: 1.5rem;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.recipe-info {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.info-badge {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 1rem;
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #ffa500;
+}
+
+.info-label {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 0.25rem;
+}
+
+.info-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffa500;
 }
 
 .recipe-section {

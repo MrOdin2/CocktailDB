@@ -31,7 +31,9 @@ export class CocktailsComponent implements OnInit {
     ingredients: [],
     steps: [],
     notes: '',
-    tags: []
+    tags: [],
+    abv: 0,
+    baseSpirit: 'none'
   };
   
   newIngredientEntry: CocktailIngredient = {
@@ -160,7 +162,9 @@ export class CocktailsComponent implements OnInit {
       ingredients: [...cocktail.ingredients],
       steps: [...cocktail.steps],
       notes: cocktail.notes || '',
-      tags: [...cocktail.tags]
+      tags: [...cocktail.tags],
+      abv: cocktail.abv,
+      baseSpirit: cocktail.baseSpirit
     };
     this.isModalOpen = true;
   }
@@ -264,7 +268,9 @@ export class CocktailsComponent implements OnInit {
       ingredients: [],
       steps: [],
       notes: '',
-      tags: []
+      tags: [],
+      abv: 0,
+      baseSpirit: 'none'
     };
   }
 
