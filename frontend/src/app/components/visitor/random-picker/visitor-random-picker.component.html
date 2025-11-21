@@ -1,0 +1,108 @@
+<div class="visitor-container">
+  <!-- Header -->
+  <div class="page-header">
+    <button class="back-btn" (click)="goBack()" aria-label="Go back to menu">
+      ← Back
+    </button>
+    <h1>🎲 Surprise Me!</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <p>Loading cocktails...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading" class="content">
+    <!-- Filters Section -->
+    <div class="filters-card">
+      <h2 class="filters-title">Filter Options</h2>
+      
+      <div class="filter-group">
+        <label for="filter-alcoholic" class="filter-label">Type:</label>
+        <select
+          id="filter-alcoholic"
+          [(ngModel)]="filterAlcoholic"
+          class="filter-select"
+          aria-label="Filter by alcoholic type"
+        >
+          <option value="all">All Cocktails</option>
+          <option value="alcoholic">Alcoholic Only</option>
+          <option value="non-alcoholic">Non-Alcoholic Only</option>
+        </select>
+      </div>
+
+      <div class="filter-group" *ngIf="availableSpirits.length > 0">
+        <label for="filter-spirit" class="filter-label">Base Spirit:</label>
+        <select
+          id="filter-spirit"
+          [(ngModel)]="filterSpirit"
+          class="filter-select"
+          aria-label="Filter by base spirit"
+        >
+          <option value="">Any Spirit</option>
+          <option *ngFor="let spirit of availableSpirits" [value]="spirit">
+            {{ spirit }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button (click)="resetFilters()" class="reset-btn">
+          Reset Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Pick Button -->
+    <div class="pick-section">
+      <button (click)="pickRandom()" class="pick-btn" [disabled]="availableCocktails.length === 0">
+        🎲 Pick Random Cocktail
+      </button>
+      <p class="available-count">
+        {{ getFilteredCocktails().length }} cocktails available with current filters
+      </p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Selected Cocktail -->
+    <div *ngIf="currentCocktail && !error" class="result-card">
+      <div class="result-header">
+        <h2 class="cocktail-name">{{ currentCocktail.name }}</h2>
+        <div class="badge-group">
+          <span class="alcohol-badge" [ngClass]="getAlcoholClass(currentCocktail.abv)">
+            {{ getAlcoholType(currentCocktail.abv) }}
+          </span>
+        </div>
+      </div>
+
+      <div class="cocktail-details">
+        <div class="detail-row">
+          <span class="detail-label">Base Spirit:</span>
+          <span class="detail-value">{{ currentCocktail.baseSpirit }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">ABV:</span>
+          <span class="detail-value">{{ currentCocktail.abv }}%</span>
+        </div>
+        <div *ngIf="currentCocktail.tags && currentCocktail.tags.length > 0" class="tags-section">
+          <span class="tag" *ngFor="let tag of currentCocktail.tags">{{ tag }}</span>
+        </div>
+      </div>
+
+      <button (click)="viewRecipe()" class="view-recipe-btn">
+        View Full Recipe →
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!currentCocktail && !error && !loading && availableCocktails.length === 0" class="empty-state">
+      <p>No cocktails are currently available.</p>
+      <p class="hint">Come back later when we have ingredients in stock!</p>
+    </div>
+  </div>
+</div>

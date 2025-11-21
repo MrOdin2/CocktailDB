@@ -1,0 +1,97 @@
+<div class="visitor-container">
+  <!-- Header -->
+  <div class="page-header">
+    <button class="back-btn" (click)="goBack()" *ngIf="!selectedCategory" aria-label="Go back to menu">
+      ← Back
+    </button>
+    <button class="back-btn" (click)="backToCategories()" *ngIf="selectedCategory" aria-label="Back to categories">
+      ← Categories
+    </button>
+    <h1>{{ selectedCategory ? selectedCategory.name : 'Browse Categories' }}</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <p>Loading categories...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="loadCocktails()" class="retry-btn">Retry</button>
+  </div>
+
+  <!-- Categories Grid -->
+  <div *ngIf="!loading && !error && !selectedCategory" class="categories-grid">
+    <div
+      *ngFor="let category of categories"
+      (click)="selectCategory(category)"
+      (keydown.enter)="selectCategory(category)"
+      class="category-card"
+      tabindex="0"
+      role="button"
+      [attr.aria-label]="'Browse ' + category.name + ' cocktails'"
+    >
+      <div class="category-icon">{{ category.icon }}</div>
+      <h2 class="category-name">{{ category.name }}</h2>
+      <p class="category-description">{{ category.description }}</p>
+      <div class="category-count">
+        {{ getCategoryCount(category) }} cocktails
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Results -->
+  <div *ngIf="!loading && !error && selectedCategory" class="results-section">
+    <div class="results-info">
+      <p>
+        Found <strong>{{ filteredCocktails.length }}</strong> {{ selectedCategory.name.toLowerCase() }} cocktails
+      </p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredCocktails.length === 0" class="empty-state">
+      <p>No cocktails found in this category.</p>
+    </div>
+
+    <!-- Cocktails Grid -->
+    <div *ngIf="filteredCocktails.length > 0" class="cocktails-grid">
+      <div *ngFor="let cocktail of filteredCocktails" class="cocktail-card">
+        <div class="cocktail-header">
+          <h3 class="cocktail-name">{{ cocktail.name }}</h3>
+          <span class="alcohol-badge" [ngClass]="getAlcoholClass(cocktail.abv)">
+            {{ getAlcoholType(cocktail.abv) }}
+          </span>
+        </div>
+        
+        <div class="cocktail-info">
+          <div class="info-row">
+            <span class="label">Base Spirit:</span>
+            <span class="value">{{ cocktail.baseSpirit }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">ABV:</span>
+            <span class="value">{{ cocktail.abv }}%</span>
+          </div>
+          <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="tags-section">
+            <span class="tag" *ngFor="let tag of cocktail.tags">{{ tag }}</span>
+          </div>
+        </div>
+
+        <button
+          (click)="viewRecipe(cocktail.id)"
+          class="view-recipe-btn"
+          aria-label="View recipe for {{ cocktail.name }}"
+        >
+          View Recipe →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State for No Cocktails -->
+  <div *ngIf="!loading && !error && !selectedCategory && allCocktails.length === 0" class="empty-state">
+    <p>No cocktails are currently available.</p>
+    <p class="hint">Come back later when we have ingredients in stock!</p>
+  </div>
+</div>
