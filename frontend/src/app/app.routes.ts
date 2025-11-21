@@ -5,7 +5,6 @@ import { VisualizationComponent } from './components/visualization/visualization
 import { SettingsComponent } from './components/settings/settings.component';
 import { LoginComponent } from './components/login/login.component';
 import { BarkeeperComponent } from './components/barkeeper/barkeeper.component';
-import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { barkeeperGuard } from './guards/barkeeper.guard';
 
