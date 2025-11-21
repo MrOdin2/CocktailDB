@@ -146,7 +146,57 @@ table td button {
   margin-bottom: 0.25rem;
 }
 
-/* Card layout for mobile */
+/* Card styles - visible only on mobile via utility class */
+.ingredient-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.ingredient-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+}
+
+.ingredient-card-name {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #0f0;
+}
+
+.ingredient-card-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ingredient-card-field {
+  font-size: 0.875rem;
+}
+
+.ingredient-card-field strong {
+  display: block;
+  color: #0f0;
+  margin-bottom: 0.25rem;
+}
+
+.ingredient-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ingredient-card-actions button {
+  flex: 1;
+  min-width: 80px;
+}
+
+/* Mobile responsive adjustments */
 @media (max-width: 767px) {
   .container {
     padding: 0.75rem;
@@ -167,65 +217,6 @@ table td button {
   
   .filter-group {
     min-width: 100%;
-  }
-  
-  /* Hide table, show cards instead */
-  table {
-    display: none;
-  }
-  
-  .ingredients-list {
-    display: grid;
-    gap: 1rem;
-  }
-  
-  .ingredient-card {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 1rem;
-  }
-  
-  .ingredient-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-    gap: 0.5rem;
-  }
-  
-  .ingredient-card-name {
-    font-size: 1.125rem;
-    font-weight: bold;
-    color: #0f0;
-  }
-  
-  .ingredient-card-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .ingredient-card-field {
-    font-size: 0.875rem;
-  }
-  
-  .ingredient-card-field strong {
-    display: block;
-    color: #0f0;
-    margin-bottom: 0.25rem;
-  }
-  
-  .ingredient-card-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  .ingredient-card-actions button {
-    flex: 1;
-    min-width: 80px;
   }
   
   .modal-actions {
