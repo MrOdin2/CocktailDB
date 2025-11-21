@@ -11,7 +11,7 @@
   <!-- Main Menu -->
   <div *ngIf="currentView === 'menu'" class="menu-view">
     <h2>Barkeeper Menu</h2>
-    
+
     <!-- Toggle for Available Only Mode -->
     <div class="menu-options">
       <div class="toggle-option">
@@ -22,7 +22,7 @@
         </label>
       </div>
     </div>
-    
+
     <div class="menu-grid">
       <button class="menu-btn" (click)="showAlphabetNav()">
         <div class="btn-icon">🔤</div>
@@ -50,8 +50,8 @@
       <h2>Select First Letter</h2>
     </div>
     <div class="alphabet-grid">
-      <button 
-        *ngFor="let letter of alphabet" 
+      <button
+        *ngFor="let letter of alphabet"
         class="alphabet-btn"
         (click)="selectLetter(letter)">
         {{ letter }}
@@ -66,8 +66,8 @@
       <h2>Cocktails: {{ selectedLetter }}</h2>
     </div>
     <div class="cocktails-list">
-      <button 
-        *ngFor="let cocktail of filteredCocktails" 
+      <button
+        *ngFor="let cocktail of filteredCocktails"
         class="cocktail-btn"
         (click)="selectCocktail(cocktail)">
         {{ cocktail.name }}
@@ -85,8 +85,8 @@
       <h2>Available Now ({{ availableCocktails.length }})</h2>
     </div>
     <div class="cocktails-list">
-      <button 
-        *ngFor="let cocktail of availableCocktails" 
+      <button
+        *ngFor="let cocktail of availableCocktails"
         class="cocktail-btn"
         (click)="selectCocktail(cocktail)">
         {{ cocktail.name }}
@@ -107,19 +107,19 @@
       <div class="filter-section">
         <h3>Filter By:</h3>
         <div class="filter-buttons">
-          <button 
+          <button
             class="filter-btn"
             [class.active]="filterAlcoholic === 'all'"
             (click)="filterAlcoholic = 'all'">
             All
           </button>
-          <button 
+          <button
             class="filter-btn"
             [class.active]="filterAlcoholic === 'alcoholic'"
             (click)="filterAlcoholic = 'alcoholic'">
             Alcoholic
           </button>
-          <button 
+          <button
             class="filter-btn"
             [class.active]="filterAlcoholic === 'non-alcoholic'"
             (click)="filterAlcoholic = 'non-alcoholic'">
@@ -149,8 +149,8 @@
       <h2>Manage Stock</h2>
     </div>
     <div class="ingredients-list">
-      <div 
-        *ngFor="let ingredient of ingredients" 
+      <div
+        *ngFor="let ingredient of ingredients"
         class="ingredient-item"
         [class.in-stock]="ingredient.inStock"
         (click)="toggleIngredientStock(ingredient)">
@@ -206,3 +206,4 @@
     </div>
   </div>
 </div>
+

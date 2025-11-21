@@ -756,7 +756,6 @@ input:checked + .slider:before {
     font-size: 1.5rem;
   }
 }
-}
 
 /* Desktop (large) */
 @media (min-width: 1024px) {
