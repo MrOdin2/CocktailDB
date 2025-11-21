@@ -30,6 +30,8 @@ class CocktailService(
         existing.steps = cocktail.steps
         existing.notes = cocktail.notes
         existing.tags = cocktail.tags
+        existing.abv = cocktail.abv
+        existing.baseSpirit = cocktail.baseSpirit
         return cocktailRepository.save(existing)
     }
     
