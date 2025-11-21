@@ -171,7 +171,8 @@ class DataInitializer(
             Ingredient(name = "Orange Blossom Water", type = IngredientType.OTHER, abv = 0, inStock = true),
             Ingredient(name = "Peach Purée", type = IngredientType.OTHER, abv = 0, inStock = true),
             Ingredient(name = "Strawberry Purée", type = IngredientType.OTHER, abv = 0, inStock = true),
-            Ingredient(name = "Watermelon Juice", type = IngredientType.OTHER, abv = 0, inStock = true)
+            Ingredient(name = "Watermelon Juice", type = IngredientType.OTHER, abv = 0, inStock = true),
+            Ingredient(name = "Iced Tea", type = IngredientType.OTHER, abv = 0, inStock = true)
         )
         
         val savedIngredients = ingredientRepository.saveAll(ingredientsList)
@@ -2704,11 +2705,12 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Lemon Juice"), "2 oz"),
                     CocktailIngredient(getIngredientId("Simple Syrup"), "1 oz"),
-                    CocktailIngredient(getIngredientId("Water"), "2 oz")
+                    CocktailIngredient(getIngredientId("Water"), "2 oz"),
+                    CocktailIngredient(getIngredientId("Iced Tea"), "4 oz")
                 ),
                 steps = mutableListOf(
                     "Mix lemon juice, simple syrup, and water in glass",
-                    "Add iced tea (4 oz)",
+                    "Add iced tea",
                     "Fill glass with ice",
                     "Stir well",
                     "Garnish with lemon wedge"
@@ -3081,10 +3083,10 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Peach Purée"), "2 oz"),
                     CocktailIngredient(getIngredientId("Lemon Juice"), "1 oz"),
                     CocktailIngredient(getIngredientId("Simple Syrup"), "0.5 oz"),
-                    CocktailIngredient(getIngredientId("Water"), "3 oz")
+                    CocktailIngredient(getIngredientId("Iced Tea"), "4 oz")
                 ),
                 steps = mutableListOf(
-                    "Mix all ingredients in glass",
+                    "Mix peach purée, lemon juice, and simple syrup in glass",
                     "Add iced tea",
                     "Fill with ice",
                     "Stir well",
