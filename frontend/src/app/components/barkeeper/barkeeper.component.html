@@ -159,7 +159,7 @@
   <!-- Recipe View -->
   <div *ngIf="currentView === 'recipe' && selectedCocktail" class="recipe-view">
     <div class="view-header">
-      <button class="back-btn" (click)="currentView = 'cocktails'">← Back</button>
+      <button class="back-btn" (click)="goBackFromRecipe()">← Back</button>
       <h2>{{ selectedCocktail.name }}</h2>
     </div>
     <div class="recipe-content">
