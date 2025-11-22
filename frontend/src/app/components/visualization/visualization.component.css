@@ -15,6 +15,7 @@
 }
 
 /* Tabs */
+.tabs {
   display: flex;
   gap: 0;
   margin-bottom: 30px;

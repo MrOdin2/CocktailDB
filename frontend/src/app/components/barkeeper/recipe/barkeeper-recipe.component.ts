@@ -10,7 +10,7 @@ import { Cocktail, Ingredient } from '../../../models/models';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './barkeeper-recipe.component.html',
-  styleUrls: ['./barkeeper-recipe.component.css']
+  styleUrls: ['../barkeeper-shared.css', './barkeeper-recipe.component.css']
 })
 export class BarkeeperRecipeComponent implements OnInit {
   cocktail: Cocktail | null = null;
