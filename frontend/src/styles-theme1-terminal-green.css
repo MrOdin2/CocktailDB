@@ -79,6 +79,10 @@ nav a {
   background-color: transparent;
 }
 
+a {
+  color: #00ff00;
+}
+
 nav a:hover {
   background-color: #00ff00;
   color: #000000;
@@ -475,4 +479,9 @@ table input[type="checkbox"] {
 ::-webkit-scrollbar-thumb:hover {
   background: #00ff00;
   box-shadow: 0 0 20px #00ff00;
+}
+
+input, button, select  {
+    background: #003300;
+    color: #00ff00;
 }

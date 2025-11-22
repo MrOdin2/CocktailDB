@@ -11,13 +11,11 @@
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #00ff00;
+  border-bottom: 2px solid;
 }
 
 .back-btn {
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  border: 1px solid;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -28,16 +26,14 @@
 
 .back-btn:hover,
 .back-btn:focus {
-  background: rgba(0, 255, 0, 0.2);
   transform: translateX(-2px);
 }
 
 .page-header h1 {
   margin: 0;
-  color: #00ff00;
   font-size: 1.8rem;
-  text-shadow: 0 0 5px #00ff00;
   flex: 1;
+  text-align: center;
 }
 
 .search-section {
@@ -52,23 +48,17 @@
 .search-input {
   width: 100%;
   padding: 0.875rem 3rem 0.875rem 1rem;
-  background: rgba(0, 255, 0, 0.05);
-  border: 2px solid #00ff00;
+  border: 2px solid;
   border-radius: 4px;
-  color: #00ff00;
   font-size: 1rem;
   font-family: 'Courier New', 'Courier', monospace;
   min-height: 48px;
 }
 
-.search-input::placeholder {
-  color: rgba(0, 255, 0, 0.5);
-}
 
 .search-input:focus {
   outline: none;
-  background: rgba(0, 255, 0, 0.1);
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 10px;
 }
 
 .clear-btn {
@@ -78,7 +68,6 @@
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  color: #00ff00;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;
@@ -101,7 +90,6 @@
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #00cc00;
 }
 
 .error-message {
@@ -115,9 +103,7 @@
 .retry-btn,
 .clear-search-btn {
   margin-top: 1rem;
-  background: rgba(0, 255, 0, 0.1);
-  border: 2px solid #00ff00;
-  color: #00ff00;
+  border: 2px solid;
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
   cursor: pointer;
@@ -130,22 +116,17 @@
 .retry-btn:focus,
 .clear-search-btn:hover,
 .clear-search-btn:focus {
-  background: rgba(0, 255, 0, 0.2);
   transform: scale(1.05);
 }
 
 .results-info {
-  color: #00cc00;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: rgba(0, 255, 0, 0.05);
+  margin-bottom: 0.1rem;
+  padding: 0.25rem;
+
   border-radius: 4px;
   text-align: center;
 }
 
-.results-info strong {
-  color: #00ff00;
-}
 
 .cocktails-grid {
   display: grid;
@@ -154,16 +135,14 @@
 }
 
 .cocktail-card {
-  background: rgba(0, 255, 0, 0.05);
-  border: 2px solid #00ff00;
+  border: 2px solid;
   border-radius: 8px;
   padding: 1.5rem;
   transition: all 0.3s ease;
 }
 
 .cocktail-card:hover {
-  background: rgba(0, 255, 0, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 255, 0, 0.2);
+  box-shadow: 0 4px 12px;
 }
 
 .cocktail-header {
@@ -177,9 +156,7 @@
 
 .cocktail-name {
   margin: 0;
-  color: #00ff00;
   font-size: 1.4rem;
-  text-shadow: 0 0 5px #00ff00;
   flex: 1;
   min-width: 150px;
 }
@@ -212,7 +189,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+  border-bottom: 1px solid;
 }
 
 .info-row:last-child {
@@ -220,13 +197,9 @@
 }
 
 .label {
-  color: #00cc00;
   font-weight: bold;
 }
 
-.value {
-  color: #00ff00;
-}
 
 .tags-section {
   margin-top: 1rem;
@@ -236,9 +209,7 @@
 }
 
 .tag {
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  border: 1px solid;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -246,9 +217,7 @@
 
 .view-recipe-btn {
   width: 100%;
-  background: rgba(0, 255, 0, 0.1);
-  border: 2px solid #00ff00;
-  color: #00ff00;
+  border: 2px solid;
   padding: 0.875rem 1.5rem;
   border-radius: 4px;
   cursor: pointer;
@@ -260,13 +229,11 @@
 
 .view-recipe-btn:hover,
 .view-recipe-btn:focus {
-  background: rgba(0, 255, 0, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 4px 8px;
 }
 
 .hint {
-  color: #00cc00;
   font-size: 0.95rem;
   margin-top: 0.5rem;
 }

@@ -8,14 +8,12 @@
 .page-header {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #00ff00;
+  border-bottom: 2px solid;
 }
 
 .back-btn,
 .back-link-btn {
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  border: 1px solid;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -28,7 +26,6 @@
 .back-btn:focus,
 .back-link-btn:hover,
 .back-link-btn:focus {
-  background: rgba(0, 255, 0, 0.2);
   transform: translateX(-2px);
 }
 
@@ -36,7 +33,6 @@
 .error-message {
   text-align: center;
   padding: 3rem 1rem;
-  color: #00cc00;
 }
 
 .error-message {
@@ -57,16 +53,13 @@
 .recipe-header {
   text-align: center;
   padding: 1.5rem;
-  background: rgba(0, 255, 0, 0.05);
-  border: 2px solid #00ff00;
+  border: 2px solid;
   border-radius: 8px;
 }
 
 .cocktail-name {
   margin: 0 0 1rem 0;
-  color: #00ff00;
   font-size: 2rem;
-  text-shadow: 0 0 10px #00ff00;
   word-wrap: break-word;
 }
 
@@ -98,30 +91,23 @@
 }
 
 .abv-badge {
-  background: rgba(0, 255, 0, 0.1);
-  color: #00ff00;
-  border: 1px solid #00ff00;
+  border: 1px solid;
 }
 
 .info-card {
-  background: rgba(0, 255, 0, 0.05);
-  border: 2px solid #00ff00;
+  border: 2px solid;
   border-radius: 8px;
   padding: 1.5rem;
 }
 
 .section-title {
   margin: 0 0 1rem 0;
-  color: #00ff00;
   font-size: 1.3rem;
-  text-shadow: 0 0 5px #00ff00;
 }
 
 .base-spirit {
   margin: 0;
-  color: #00ff00;
-  font-size: 1.2rem;
-  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .tags-container {
@@ -131,9 +117,7 @@
 }
 
 .tag {
-  background: rgba(0, 255, 0, 0.1);
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  border: 1px solid;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 0.95rem;
@@ -151,8 +135,7 @@
   gap: 1rem;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
-  background: rgba(0, 255, 0, 0.05);
-  border: 1px solid rgba(0, 255, 0, 0.3);
+  border: 1px solid;
   border-radius: 4px;
   flex-wrap: wrap;
 }
@@ -162,13 +145,11 @@
 }
 
 .ingredient-measure {
-  color: #00cc00;
   font-weight: bold;
   min-width: 80px;
 }
 
 .ingredient-name {
-  color: #00ff00;
   flex: 1;
 }
 
@@ -184,8 +165,7 @@
   gap: 1rem;
   padding: 1rem;
   margin-bottom: 1rem;
-  background: rgba(0, 255, 0, 0.05);
-  border: 1px solid rgba(0, 255, 0, 0.3);
+  border: 1px solid;
   border-radius: 4px;
   align-items: flex-start;
 }
@@ -201,34 +181,26 @@
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background: rgba(0, 255, 0, 0.2);
-  border: 2px solid #00ff00;
+  border: 2px solid;
   border-radius: 50%;
-  color: #00ff00;
   font-weight: bold;
   font-size: 1rem;
 }
 
 .step-text {
-  color: #00ff00;
   line-height: 1.6;
   flex: 1;
   padding-top: 0.25rem;
 }
 
 .notes-card {
-  background: rgba(255, 255, 0, 0.05);
-  border-color: #ffff00;
 }
 
 .notes-card .section-title {
-  color: #ffff00;
-  text-shadow: 0 0 5px #ffff00;
 }
 
 .notes-text {
   margin: 0;
-  color: #ffff00;
   line-height: 1.6;
   font-style: italic;
 }
