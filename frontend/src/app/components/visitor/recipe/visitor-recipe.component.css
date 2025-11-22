@@ -1,8 +1,7 @@
+/* Component-specific styles for visitor recipe */
+
 .visitor-container {
   max-width: 900px;
-  margin: 0 auto;
-  padding: 1rem;
-  min-height: 100vh;
 }
 
 .page-header {
@@ -11,7 +10,6 @@
   border-bottom: 2px solid;
 }
 
-.back-btn,
 .back-link-btn {
   border: 1px solid;
   padding: 0.5rem 1rem;
@@ -22,26 +20,9 @@
   min-height: 44px;
 }
 
-.back-btn:hover,
-.back-btn:focus,
 .back-link-btn:hover,
 .back-link-btn:focus {
   transform: translateX(-2px);
-}
-
-.loading,
-.error-message {
-  text-align: center;
-  padding: 3rem 1rem;
-}
-
-.error-message {
-  background: rgba(255, 0, 0, 0.1);
-  border: 2px solid #ff0000;
-  border-radius: 8px;
-  color: #ff6666;
-  margin: 2rem auto;
-  max-width: 600px;
 }
 
 .recipe-content {
@@ -70,27 +51,11 @@
   flex-wrap: wrap;
 }
 
-.alcohol-badge,
 .abv-badge {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 0.95rem;
   font-weight: bold;
-}
-
-.alcohol-badge.alcoholic {
-  background: rgba(255, 165, 0, 0.2);
-  color: #ffaa00;
-  border: 1px solid #ffaa00;
-}
-
-.alcohol-badge.non-alcoholic {
-  background: rgba(0, 200, 255, 0.2);
-  color: #00ccff;
-  border: 1px solid #00ccff;
-}
-
-.abv-badge {
   border: 1px solid;
 }
 
@@ -207,10 +172,6 @@
 
 /* Tablet and up */
 @media (min-width: 768px) {
-  .visitor-container {
-    padding: 2rem;
-  }
-
   .cocktail-name {
     font-size: 2.5rem;
   }

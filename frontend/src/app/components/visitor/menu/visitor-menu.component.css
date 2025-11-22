@@ -1,8 +1,4 @@
-.visitor-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
+/* Component-specific styles for visitor menu */
 
 .visitor-header {
   text-align: center;
@@ -89,7 +85,6 @@
   line-height: 1.6;
 }
 
-
 .login-link-text {
   margin: 1rem 0 0 0;
   font-size: 0.95rem;
@@ -101,13 +96,8 @@
   transition: all 0.2s ease;
 }
 
-
 /* Tablet and up */
 @media (min-width: 768px) {
-  .visitor-container {
-    padding: 2rem;
-  }
-
   .visitor-header {
     padding: 3rem 2rem;
   }
