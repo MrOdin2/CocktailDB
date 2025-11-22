@@ -381,6 +381,14 @@ For detailed information about the security implementation, authentication, and 
 - **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Complete security concept, design principles, and user flows
 - **[docs/authentication-guide.md](docs/authentication-guide.md)** - Implementation guide with code examples
 - **[docs/security-quick-reference.md](docs/security-quick-reference.md)** - Quick setup and troubleshooting guide
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System architecture and contributor guide
+
+## Developer Documentation
+
+For contributors and developers:
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
+- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards
+- **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Contributor guidance on access control implementation
 
 ## License
 
