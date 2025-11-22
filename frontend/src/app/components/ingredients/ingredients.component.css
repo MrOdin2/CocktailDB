@@ -104,9 +104,9 @@ table td button {
 }
 
 
-/* Mobile responsive adjustments */
+/* Mobile (small) - component-specific overrides */
 @media (max-width: 767px) {
-  /* Component-specific mobile styles only */
+  /* No component-specific mobile styles needed - inherits from admin-shared.css */
 }
 
 /* Tablet */
