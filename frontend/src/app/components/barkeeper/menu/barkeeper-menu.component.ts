@@ -12,7 +12,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['../barkeeper-shared.css', './barkeeper-menu.component.css']
 })
 export class BarkeeperMenuComponent {
-  showOnlyAvailable = false;
+  showOnlyAvailable = true;
 
   constructor(
     private authService: AuthService,

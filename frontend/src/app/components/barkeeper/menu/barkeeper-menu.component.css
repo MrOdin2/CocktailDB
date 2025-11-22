@@ -1,9 +1,5 @@
-/* Mobile-first design for barkeeper mode - optimized for dimly lit bars */
 
 .barkeeper-container {
-  min-height: 100vh;
-  background: #1a1a1a;
-  color: #f0f0f0;
   padding-bottom: 2rem;
 }
 
