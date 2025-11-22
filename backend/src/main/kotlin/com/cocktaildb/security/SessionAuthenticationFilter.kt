@@ -17,9 +17,10 @@ class SessionAuthenticationFilter(
         filterChain: FilterChain
     ) {
         val path = request.requestURI
+        val method = request.method
         
         // Allow public endpoints
-        if (isPublicEndpoint(path)) {
+        if (isPublicEndpoint(path, method)) {
             filterChain.doFilter(request, response)
             return
         }
@@ -43,9 +44,12 @@ class SessionAuthenticationFilter(
         filterChain.doFilter(request, response)
     }
     
-    private fun isPublicEndpoint(path: String): Boolean {
+    private fun isPublicEndpoint(path: String, method: String): Boolean {
         return path.startsWith("/api/auth/") ||
                path == "/api/cocktails/available" ||
+               path.startsWith("/api/cocktails/search") ||
+               (path.startsWith("/api/cocktails/") && method == "GET") ||
+               (path.startsWith("/api/ingredients") && method == "GET") ||
                path.startsWith("/actuator/")
     }
 }
