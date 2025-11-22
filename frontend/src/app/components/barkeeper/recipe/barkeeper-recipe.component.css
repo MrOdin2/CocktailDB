@@ -1,49 +1,16 @@
-/* Mobile-first design for barkeeper mode - optimized for dimly lit bars */
-
-.barkeeper-container {
-  min-height: 100vh;
-  background: #1a1a1a;
-  color: #f0f0f0;
-  padding-bottom: 1rem;
-}
-
-/* View Header */
 .view-header {
-  background: #2d2d2d;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem;
   position: sticky;
-  top: 0;
-  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .view-header h2 {
-  font-size: 2rem;
   margin: 0;
-  color: #fff;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.back-btn {
-  background: #3a3a3a;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 0.5rem;
-}
-
-.back-btn:active {
-  transform: scale(0.95);
 }
 
 .info-badge {
@@ -87,8 +54,7 @@
   background: #2d2d2d;
   border-radius: 12px;
   padding: 1.5rem;
-    margin: 1rem;
-  margin-bottom: 0.5rem;
+  margin: 1rem 1rem 0.5rem;
   max-width: 50%;
 }
 
