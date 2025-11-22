@@ -307,7 +307,9 @@ CocktailDB is designed with three distinct usage modes to serve different user n
 - Browse cocktails by categories
 - No login required - instant access
 
-**Navigation**: `http://localhost:4200/visitor` (default landing page)
+**Navigation**: `http://localhost/visitor` (default landing page)
+
+**Note**: For development, use port 4200 (`http://localhost:4200/visitor`). For production deployment with Docker, use port 80 (`http://localhost/visitor`).
 
 ### 2. 🍸 Barkeeper Mode (Authenticated)
 **Purpose**: Professional cocktail service interface for bartenders
@@ -324,7 +326,9 @@ CocktailDB is designed with three distinct usage modes to serve different user n
 
 **Authentication**: Required - login with barkeeper credentials
 
-**Navigation**: `http://localhost:4200/barkeeper/menu` (after login)
+**Navigation**: `http://localhost/barkeeper/menu` (after login)
+
+**Note**: For development, use port 4200 (`http://localhost:4200/barkeeper/menu`).
 
 ### 3. ⚙️ Admin Mode (Full Access)
 **Purpose**: Complete system administration and recipe management
@@ -341,7 +345,9 @@ CocktailDB is designed with three distinct usage modes to serve different user n
 
 **Authentication**: Required - login with admin credentials
 
-**Navigation**: `http://localhost:4200/cocktails` or `http://localhost:4200/ingredients` (after login)
+**Navigation**: `http://localhost/cocktails` or `http://localhost/ingredients` (after login)
+
+**Note**: For development, use port 4200 (`http://localhost:4200/cocktails`).
 
 ### Access Summary
 
