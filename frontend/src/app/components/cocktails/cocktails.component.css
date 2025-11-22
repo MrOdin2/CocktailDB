@@ -1,34 +1,9 @@
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.header-section h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
+/* Component-specific styles for cocktails - common styles moved to admin-shared.css */
 
 .header-buttons {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
-}
-
-.filter-section {
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
 }
 
 .filter-controls {
@@ -38,24 +13,6 @@
   align-items: end;
 }
 
-.filter-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-group label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.filter-group input,
-.filter-group select {
-  padding: 0.75rem;
-  border-radius: 4px;
-  width: 100%;
-  font-size: 1rem;
-}
 
 .filter-group.checkbox-filter {
   justify-content: flex-end;
@@ -75,40 +32,7 @@
   width: auto;
 }
 
-.clear-btn {
-  align-self: flex-end;
-  white-space: nowrap;
-}
-
-.add-form {
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1.25rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-}
-
-.error-message {
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
+/* Ingredient and Step Inputs */
 .ingredient-inputs,
 .step-inputs {
   display: flex;
@@ -194,6 +118,7 @@
   opacity: 1;
 }
 
+
 .tags-display {
   display: flex;
   flex-wrap: wrap;
@@ -201,14 +126,7 @@
   margin-bottom: 0.75rem;
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-  flex-wrap: wrap;
-}
-
+/* Ingredient and Steps Lists */
 .ingredient-list,
 .steps-list {
   list-style-position: inside;
@@ -391,31 +309,15 @@
   cursor: not-allowed;
 }
 
+
 /* Mobile (small) */
 @media (max-width: 767px) {
-  .container {
-    padding: 0.75rem;
-  }
-  
-  .header-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .header-section h2 {
-    font-size: 1.25rem;
-  }
-  
   .header-buttons {
     width: 100%;
   }
   
   .header-buttons button {
     flex: 1;
-  }
-  
-  .filter-section {
-    padding: 0.75rem;
   }
   
   .ingredient-inputs,
@@ -430,14 +332,6 @@
   .tag-inputs input,
   .tag-inputs select {
     min-width: 100%;
-  }
-  
-  .modal-actions {
-    flex-direction: column;
-  }
-  
-  .modal-actions button {
-    width: 100%;
   }
   
   .card-actions button {
@@ -458,23 +352,6 @@
 
 /* Desktop */
 @media (min-width: 1024px) {
-  .container {
-    padding: 1.5rem;
-  }
-  
-  .header-section {
-    margin-bottom: 1.5rem;
-  }
-  
-  .header-section h2 {
-    font-size: 1.75rem;
-  }
-  
-  .filter-section {
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  
   .filter-controls {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }

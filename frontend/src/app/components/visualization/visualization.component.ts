@@ -13,7 +13,7 @@ import { TrendsAnalysisComponent } from './trends/trends-analysis.component';
     TrendsAnalysisComponent
   ],
   templateUrl: './visualization.component.html',
-  styleUrls: ['./visualization.component.css']
+  styleUrls: ['../admin-shared.css', './visualization.component.css']
 })
 export class VisualizationComponent {
   // Active tab

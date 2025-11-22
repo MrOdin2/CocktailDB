@@ -1,97 +1,4 @@
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.header-section h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.filter-section {
-  margin-bottom: 1.25rem;
-  padding: 1rem;
-  border-radius: 5px;
-}
-
-.filter-controls {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  min-width: 150px;
-  flex: 1;
-}
-
-.filter-group label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  font-size: 0.875rem;
-}
-
-.filter-group input[type="text"],
-.filter-group select {
-  padding: 0.75rem;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.clear-btn {
-  margin-bottom: 0;
-  white-space: nowrap;
-}
-
-.add-form {
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-}
-
-.error-message {
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-  flex-wrap: wrap;
-}
+/* Component-specific styles for ingredients - common styles moved to admin-shared.css */
 
 /* Table responsive design */
 .ingredients-list {
@@ -196,44 +103,14 @@ table td button {
   min-width: 80px;
 }
 
+
 /* Mobile responsive adjustments */
 @media (max-width: 767px) {
-  .container {
-    padding: 0.75rem;
-  }
-  
-  .header-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .header-section h2 {
-    font-size: 1.25rem;
-  }
-  
-  .filter-section {
-    padding: 0.75rem;
-  }
-  
-  .filter-group {
-    min-width: 100%;
-  }
-  
-  .modal-actions {
-    flex-direction: column;
-  }
-  
-  .modal-actions button {
-    width: 100%;
-  }
+  /* Component-specific mobile styles only */
 }
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .container {
-    padding: 1.25rem;
-  }
-  
   table {
     min-width: 100%;
   }
@@ -244,26 +121,4 @@ table td button {
   }
 }
 
-/* Desktop */
-@media (min-width: 1024px) {
-  .container {
-    padding: 1.5rem;
-  }
-  
-  .header-section {
-    margin-bottom: 2rem;
-  }
-  
-  .header-section h2 {
-    font-size: 1.75rem;
-  }
-  
-  .filter-section {
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .filter-group {
-    min-width: 200px;
-  }
-}
+/* Desktop - no additional styles needed, inherits from admin-shared.css */

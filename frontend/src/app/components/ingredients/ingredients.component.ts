@@ -9,7 +9,7 @@ import { ModalComponent } from '../util/modal.component';
     selector: 'app-ingredients',
     imports: [FormsModule, ModalComponent],
     templateUrl: './ingredients.component.html',
-    styleUrls: ['./ingredients.component.css']
+    styleUrls: ['../admin-shared.css', './ingredients.component.css']
 })
 export class IngredientsComponent implements OnInit {
   ingredients: Ingredient[] = [];

@@ -1,22 +1,16 @@
+/* Component-specific styles for settings - common styles moved to admin-shared.css */
+
 .container {
   max-width: 1200px;
-  margin: 0 auto;
   padding: 20px;
 }
 
 .header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 30px;
   padding-bottom: 10px;
 }
 
-.header-section h2 {
-  margin: 0;
-}
-
-.settings-section {
+/* Settings Section */
   margin-bottom: 40px;
 }
 
