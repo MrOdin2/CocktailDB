@@ -6,7 +6,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
     selector: 'app-settings',
     imports: [],
     templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.css']
+    styleUrls: ['../admin-shared.css', './settings.component.css']
 })
 export class SettingsComponent implements OnInit {
   currentTheme: Theme = 'basic';

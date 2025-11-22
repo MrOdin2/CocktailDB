@@ -10,7 +10,7 @@ import { ModalComponent } from '../util/modal.component';
     selector: 'app-cocktails',
     imports: [FormsModule, ModalComponent],
     templateUrl: './cocktails.component.html',
-    styleUrls: ['./cocktails.component.css']
+    styleUrls: ['../admin-shared.css', './cocktails.component.css']
 })
 export class CocktailsComponent implements OnInit {
   cocktails: Cocktail[] = [];

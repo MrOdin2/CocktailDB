@@ -9,7 +9,7 @@ import { Cocktail } from '../../../models/models';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './barkeeper-alphabet.component.html',
-  styleUrls: ['./barkeeper-alphabet.component.css']
+  styleUrls: ['../barkeeper-shared.css', './barkeeper-alphabet.component.css']
 })
 export class BarkeeperAlphabetComponent implements OnInit {
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');

@@ -10,7 +10,7 @@ import { Cocktail } from '../../../models/models';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './barkeeper-random-picker.component.html',
-  styleUrls: ['./barkeeper-random-picker.component.css']
+  styleUrls: ['../barkeeper-shared.css', './barkeeper-random-picker.component.css']
 })
 export class BarkeeperRandomPickerComponent implements OnInit {
   cocktails: Cocktail[] = [];

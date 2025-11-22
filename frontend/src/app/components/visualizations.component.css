@@ -1,21 +1,7 @@
+/* Component-specific styles for visualizations - common styles moved to admin-shared.css */
+
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.header-section h2 {
-  margin: 0;
-  font-size: 1.5rem;
+  max-width: 1400px; /* Wider than default for visualizations */
 }
 
 /* Tab Navigation */
@@ -67,6 +53,7 @@
   }
 }
 
+
 .coming-soon {
   text-align: center;
   padding: 3rem 1.25rem;
@@ -74,21 +61,8 @@
   font-size: 1.125rem;
 }
 
-/* Mobile (small) */
+/* Mobile (small) - component-specific overrides only */
 @media (max-width: 767px) {
-  .container {
-    padding: 0.75rem;
-  }
-  
-  .header-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .header-section h2 {
-    font-size: 1.25rem;
-  }
-  
   .tab-navigation {
     gap: 0.25rem;
     margin-bottom: 1rem;
@@ -107,10 +81,6 @@
 
 /* Tablet */
 @media (min-width: 768px) {
-  .container {
-    padding: 1.25rem;
-  }
-  
   .tab-button {
     padding: 0.875rem 1.5rem;
   }
@@ -118,18 +88,6 @@
 
 /* Desktop */
 @media (min-width: 1024px) {
-  .container {
-    padding: 1.5rem;
-  }
-  
-  .header-section {
-    margin-bottom: 2rem;
-  }
-  
-  .header-section h2 {
-    font-size: 1.75rem;
-  }
-  
   .tab-navigation {
     gap: 0.75rem;
     margin-bottom: 1.5rem;

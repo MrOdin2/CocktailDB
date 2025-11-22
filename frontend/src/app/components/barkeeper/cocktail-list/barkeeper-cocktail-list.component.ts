@@ -9,7 +9,7 @@ import { Cocktail } from '../../../models/models';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './barkeeper-cocktail-list.component.html',
-  styleUrls: ['./barkeeper-cocktail-list.component.css']
+  styleUrls: ['../barkeeper-shared.css', './barkeeper-cocktail-list.component.css']
 })
 export class BarkeeperCocktailListComponent implements OnInit {
   cocktails: Cocktail[] = [];

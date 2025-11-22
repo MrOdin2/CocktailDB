@@ -9,10 +9,10 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './barkeeper-menu.component.html',
-  styleUrls: ['./barkeeper-menu.component.css']
+  styleUrls: ['../barkeeper-shared.css', './barkeeper-menu.component.css']
 })
 export class BarkeeperMenuComponent {
-  showOnlyAvailable = false;
+  showOnlyAvailable = true;
 
   constructor(
     private authService: AuthService,

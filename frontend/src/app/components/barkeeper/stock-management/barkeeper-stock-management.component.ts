@@ -9,7 +9,7 @@ import { Ingredient } from '../../../models/models';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './barkeeper-stock-management.component.html',
-  styleUrls: ['./barkeeper-stock-management.component.css']
+  styleUrls: ['../barkeeper-shared.css', './barkeeper-stock-management.component.css']
 })
 export class BarkeeperStockManagementComponent implements OnInit {
   ingredients: Ingredient[] = [];
