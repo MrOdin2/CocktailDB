@@ -25,6 +25,7 @@ export class ThemeService {
       },
       error: (error) => {
         console.error('Failed to load theme from backend, using default:', error);
+        this.currentThemeSubject.next('basic');
         this.applyTheme('basic');
       }
     });
