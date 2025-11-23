@@ -49,11 +49,13 @@ export class SettingsComponent implements OnInit {
   selectTheme(theme: Theme): void {
     this.themeService.setTheme(theme).subscribe({
       next: () => {
-        console.log('Theme updated successfully');
+        // Theme updated successfully - no action needed as ThemeService handles the UI update
       },
       error: (err) => {
         console.error('Failed to update theme:', err);
-        alert('Failed to update theme. Please try again.');
+        // In a production app, this would use a proper notification system
+        // For now, we'll silently fail and log to console
+        // The theme will remain unchanged in the UI
       }
     });
   }

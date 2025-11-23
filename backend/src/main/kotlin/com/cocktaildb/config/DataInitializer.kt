@@ -19,7 +19,15 @@ class DataInitializer(
 
     override fun run(vararg args: String?) {
         // Initialize default theme setting if not already set
-        if (appSettingsService.getTheme() == AppSettingsService.DEFAULT_THEME) {
+        // Check if theme exists by trying to get it; if it returns default, 
+        // it means no setting exists in DB yet, so we should explicitly save it
+        try {
+            val currentTheme = appSettingsService.getSetting(AppSettingsService.THEME_KEY, "")
+            if (currentTheme.isEmpty()) {
+                appSettingsService.setTheme(AppSettingsService.DEFAULT_THEME)
+            }
+        } catch (e: Exception) {
+            // If there's any error, set the default theme
             appSettingsService.setTheme(AppSettingsService.DEFAULT_THEME)
         }
         
