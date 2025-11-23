@@ -47,6 +47,14 @@ export class SettingsComponent implements OnInit {
   }
 
   selectTheme(theme: Theme): void {
-    this.themeService.setTheme(theme);
+    this.themeService.setTheme(theme).subscribe({
+      next: () => {
+        console.log('Theme updated successfully');
+      },
+      error: (err) => {
+        console.error('Failed to update theme:', err);
+        alert('Failed to update theme. Please try again.');
+      }
+    });
   }
 }

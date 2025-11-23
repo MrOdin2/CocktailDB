@@ -6,16 +6,23 @@ import com.cocktaildb.model.Ingredient
 import com.cocktaildb.model.IngredientType
 import com.cocktaildb.repository.CocktailRepository
 import com.cocktaildb.repository.IngredientRepository
+import com.cocktaildb.service.AppSettingsService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
 @Component
 class DataInitializer(
     private val ingredientRepository: IngredientRepository,
-    private val cocktailRepository: CocktailRepository
+    private val cocktailRepository: CocktailRepository,
+    private val appSettingsService: AppSettingsService
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
+        // Initialize default theme setting if not already set
+        if (appSettingsService.getTheme() == AppSettingsService.DEFAULT_THEME) {
+            appSettingsService.setTheme(AppSettingsService.DEFAULT_THEME)
+        }
+        
         // Only initialize data if the database is empty
         if (ingredientRepository.count() == 0L && cocktailRepository.count() == 0L) {
             // Create ingredients
