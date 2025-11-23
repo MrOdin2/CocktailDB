@@ -5,16 +5,33 @@
 
 set -e
 
+# Parse command line arguments
+FORCE=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -f|--force)
+            FORCE=true
+            shift
+            ;;
+        *)
+            BACKUP_FILE="$1"
+            shift
+            ;;
+    esac
+done
+
 # Check if backup file is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <backup_file.sql.gz>"
+if [ -z "$BACKUP_FILE" ]; then
+    echo "Usage: $0 [-f|--force] <backup_file.sql.gz>"
+    echo ""
+    echo "Options:"
+    echo "  -f, --force    Skip confirmation prompt (for automated restores)"
     echo ""
     echo "Available backups:"
     ls -lh /var/lib/postgresql/backups/ | grep "cocktaildb_backup"
     exit 1
 fi
 
-BACKUP_FILE="$1"
 DB_NAME="${POSTGRES_DB:-cocktaildb}"
 DB_USER="${POSTGRES_USER:-cocktaildb}"
 
@@ -28,11 +45,14 @@ echo "WARNING: This will restore the database from backup and overwrite existing
 echo "Backup file: ${BACKUP_FILE}"
 echo "Database: ${DB_NAME}"
 echo ""
-read -p "Are you sure you want to continue? (yes/no): " CONFIRM
 
-if [ "${CONFIRM}" != "yes" ]; then
-    echo "Restore cancelled"
-    exit 0
+# Skip confirmation if force flag is set
+if [ "$FORCE" = false ]; then
+    read -p "Are you sure you want to continue? (yes/no): " CONFIRM
+    if [ "${CONFIRM}" != "yes" ]; then
+        echo "Restore cancelled"
+        exit 0
+    fi
 fi
 
 # Decompress if needed

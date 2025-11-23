@@ -110,7 +110,7 @@ To access backup files from the host system:
 docker exec cocktaildb-postgres ls -lh /var/lib/postgresql/backups/
 
 # Copy a backup to host
-docker cp cocktaildb-postgres:/var/lib/postgresql/backups/cocktaildb_backup_20240115_020000.sql.gz ./
+docker cp cocktaildb-postgres:/var/lib/postgresql/backups/cocktaildb_backup_20250115_020000.sql.gz ./
 
 # Copy a backup from host to container
 docker cp ./my_backup.sql.gz cocktaildb-postgres:/var/lib/postgresql/backups/

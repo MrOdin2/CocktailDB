@@ -34,4 +34,3 @@ RUN echo '#!/bin/sh' > /docker-entrypoint-custom.sh && \
 
 ENTRYPOINT ["/docker-entrypoint-custom.sh"]
 CMD ["postgres"]
-
