@@ -14,48 +14,48 @@ export class ApiService {
 
   // Ingredient endpoints
   getAllIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(`${this.baseUrl}/ingredients`);
+    return this.http.get<Ingredient[]>(`${this.baseUrl}/ingredients`, { withCredentials: true });
   }
 
   getIngredientById(id: number): Observable<Ingredient> {
-    return this.http.get<Ingredient>(`${this.baseUrl}/ingredients/${id}`);
+    return this.http.get<Ingredient>(`${this.baseUrl}/ingredients/${id}`, { withCredentials: true });
   }
 
   createIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    return this.http.post<Ingredient>(`${this.baseUrl}/ingredients`, ingredient);
+    return this.http.post<Ingredient>(`${this.baseUrl}/ingredients`, ingredient, { withCredentials: true });
   }
 
   updateIngredient(id: number, ingredient: Ingredient): Observable<Ingredient> {
-    return this.http.put<Ingredient>(`${this.baseUrl}/ingredients/${id}`, ingredient);
+    return this.http.put<Ingredient>(`${this.baseUrl}/ingredients/${id}`, ingredient, { withCredentials: true });
   }
 
   deleteIngredient(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/ingredients/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/ingredients/${id}`, { withCredentials: true });
   }
 
   getInStockIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(`${this.baseUrl}/ingredients/in-stock`);
+    return this.http.get<Ingredient[]>(`${this.baseUrl}/ingredients/in-stock`, { withCredentials: true });
   }
 
   // Cocktail endpoints
   getAllCocktails(): Observable<Cocktail[]> {
-    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails`);
+    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails`, { withCredentials: true });
   }
 
   getCocktailById(id: number): Observable<Cocktail> {
-    return this.http.get<Cocktail>(`${this.baseUrl}/cocktails/${id}`);
+    return this.http.get<Cocktail>(`${this.baseUrl}/cocktails/${id}`, { withCredentials: true });
   }
 
   createCocktail(cocktail: Cocktail): Observable<Cocktail> {
-    return this.http.post<Cocktail>(`${this.baseUrl}/cocktails`, cocktail);
+    return this.http.post<Cocktail>(`${this.baseUrl}/cocktails`, cocktail, { withCredentials: true });
   }
 
   updateCocktail(id: number, cocktail: Cocktail): Observable<Cocktail> {
-    return this.http.put<Cocktail>(`${this.baseUrl}/cocktails/${id}`, cocktail);
+    return this.http.put<Cocktail>(`${this.baseUrl}/cocktails/${id}`, cocktail, { withCredentials: true });
   }
 
   deleteCocktail(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/cocktails/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/cocktails/${id}`, { withCredentials: true });
   }
 
   getAvailableCocktails(): Observable<Cocktail[]> {
@@ -68,6 +68,6 @@ export class ApiService {
     if (spirit) params.spirit = spirit;
     if (tags && tags.length > 0) params.tags = tags;
     
-    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/search`, { params });
+    return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/search`, { params, withCredentials: true });
   }
 }

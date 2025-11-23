@@ -1,6 +1,15 @@
 # Authentication Implementation Guide
 
-This guide provides practical instructions for implementing the security concept defined in `SECURITY_CONCEPT.md`.
+This guide provides practical instructions for implementing and using the security system defined in `SECURITY_CONCEPT.md`.
+
+## Overview
+
+CocktailDB uses a three-tier access control system:
+- **Visitor Mode**: No authentication required - public access to available cocktails
+- **Barkeeper Mode**: Password-protected access to full cocktail library and stock management
+- **Admin Mode**: Password-protected full administrative access
+
+This guide covers setup, usage, and integration details for all three modes.
 
 ## Quick Start
 
@@ -54,6 +63,167 @@ openssl rand -base64 64
 ```
 
 Copy the output to `SESSION_SECRET` in your `.env` file.
+
+## Usage Modes
+
+### Visitor Mode (No Authentication)
+
+**Purpose**: Public interface for discovering available cocktails
+
+**How to Access**: Simply navigate to the application URL:
+```
+http://localhost/
+or
+http://localhost/visitor
+```
+
+**Available Features**:
+- Browse cocktails that can be made with in-stock ingredients
+- View detailed recipes
+- Random cocktail picker with filters
+- Browse by categories
+- No login required
+
+**Example API Usage**:
+```bash
+# Get available cocktails (no authentication needed)
+curl http://localhost:8080/api/cocktails/available
+
+# Get specific cocktail details
+curl http://localhost:8080/api/cocktails/123
+
+# Search cocktails
+curl http://localhost:8080/api/cocktails/search?name=mojito
+```
+
+### Barkeeper Mode (Authentication Required)
+
+**Purpose**: Professional cocktail service interface with stock management
+
+**How to Access**:
+1. Navigate to `http://localhost/login`
+2. Select "Barkeeper" from role dropdown
+3. Enter barkeeper password
+4. Redirected to `/barkeeper/menu`
+
+**Available Features**:
+- View all cocktails (not limited to available)
+- Alphabetical cocktail index
+- Full recipe details
+- Quick stock management (toggle ingredients in/out of stock)
+- Random cocktail picker
+- Search and filter tools
+
+**Session Management**:
+- Sessions last 60 minutes (configurable via `SESSION_TIMEOUT_MINUTES`)
+- Logout button available in menu
+- Session persists across page refreshes
+- Expired sessions redirect to login
+
+**Example Workflow**:
+```bash
+# 1. Login as barkeeper
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"role": "barkeeper", "password": "barkeeper"}' \
+  -c cookies.txt
+
+# 2. View all cocktails
+curl http://localhost:8080/api/cocktails -b cookies.txt
+
+# 3. View all ingredients
+curl http://localhost:8080/api/ingredients -b cookies.txt
+
+# 4. Update ingredient stock (barkeeper can do this)
+curl -X PATCH http://localhost:8080/api/ingredients/5/stock \
+  -H "Content-Type: application/json" \
+  -d '{"inStock": false}' \
+  -b cookies.txt
+
+# 5. Logout
+curl -X POST http://localhost:8080/api/auth/logout -b cookies.txt
+```
+
+**Limitations**:
+- Cannot create new cocktails or ingredients
+- Cannot edit cocktail recipes
+- Cannot delete anything
+- Can only toggle ingredient stock status
+
+### Admin Mode (Full Access)
+
+**Purpose**: Complete database management and system administration
+
+**How to Access**:
+1. Navigate to `http://localhost/login`
+2. Select "Admin" from role dropdown
+3. Enter admin password
+4. Redirected to `/cocktails` (admin dashboard)
+
+**Available Features**:
+- Everything in barkeeper mode, plus:
+- Create, edit, and delete cocktails
+- Create, edit, and delete ingredients
+- Data visualizations and analytics
+- System settings and configuration
+- Full database management
+
+**Session Management**:
+- Same as barkeeper mode (60 min timeout)
+- Logout available via navigation menu
+- Full CRUD operations require active session
+
+**Example Workflow**:
+```bash
+# 1. Login as admin
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"role": "admin", "password": "admin"}' \
+  -c cookies.txt
+
+# 2. Create a new ingredient
+curl -X POST http://localhost:8080/api/ingredients \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Vodka",
+    "type": "SPIRIT",
+    "abv": 40,
+    "inStock": true
+  }' \
+  -b cookies.txt
+
+# 3. Create a new cocktail
+curl -X POST http://localhost:8080/api/cocktails \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Moscow Mule",
+    "ingredients": [
+      {"ingredientId": 1, "measure": "2 oz"},
+      {"ingredientId": 2, "measure": "4 oz"},
+      {"ingredientId": 3, "measure": "1/2 oz"}
+    ],
+    "steps": ["Build in glass", "Stir", "Garnish"],
+    "notes": "Serve in copper mug"
+  }' \
+  -b cookies.txt
+
+# 4. Update a cocktail
+curl -X PUT http://localhost:8080/api/cocktails/15 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Moscow Mule (Updated)",
+    "ingredients": [...],
+    "steps": [...],
+    "notes": "Updated recipe"
+  }' \
+  -b cookies.txt
+
+# 5. Delete a cocktail (admin only)
+curl -X DELETE http://localhost:8080/api/cocktails/15 -b cookies.txt
+
+# 6. Logout
+curl -X POST http://localhost:8080/api/auth/logout -b cookies.txt
+```
 
 ## API Endpoints
 

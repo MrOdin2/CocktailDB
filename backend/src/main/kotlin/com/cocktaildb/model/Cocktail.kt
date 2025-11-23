@@ -28,10 +28,10 @@ data class Cocktail(
     @CollectionTable(name = "cocktail_tags", joinColumns = [JoinColumn(name = "cocktail_id")])
     @Column(name = "tag")
     var tags: MutableList<String> = mutableListOf(),
-    
+
     @Column(nullable = false)
     var abv: Int = 0,
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 50)
     var baseSpirit: String = "none"
 )

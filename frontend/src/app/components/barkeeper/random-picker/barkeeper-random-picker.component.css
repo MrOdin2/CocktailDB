@@ -1,0 +1,104 @@
+/* Random Picker View */
+.random-view {
+  padding: 2rem 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.filters {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #f0f0f0;
+}
+
+.filter-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.filter-btn {
+  background: #3a3a3a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: #667eea;
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+}
+
+.spirit-select {
+  width: 100%;
+  background: #3a3a3a;
+  color: white;
+  border: 2px solid #555;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.spirit-select:focus {
+  outline: none;
+  border-color: #667eea;
+  background: #454545;
+}
+
+.spirit-select option {
+  background: #2d2d2d;
+  color: white;
+  padding: 0.5rem;
+}
+
+.pick-random-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pick-random-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.pick-random-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

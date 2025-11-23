@@ -20,3 +20,5 @@ I want to fundamentally change how this website works. I want it to now contain 
         - pick random cocktail button (some filtering, like alcoholic/non-alcoholic, main ingredient, sour/sweet, etc.)
         - later quiz and other ways to find new cocktails
     - no password protection, open to everyone
+
+In the end everything should be integrated into one website, hosted on a simple device like a raspberry pi or similar, only available on local network.

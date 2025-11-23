@@ -3,24 +3,97 @@
 }
 
 header {
-  padding: 20px;
+  padding: 1rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 header h1 {
-  margin: 0 0 15px 0;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.admin-badge {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 nav {
   display: flex;
-  gap: 20px;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 nav a {
   text-decoration: none;
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.logout-button {
+  margin-left: auto;
+  padding: 0.5rem 1rem;
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.logout-button:hover {
+  background: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.5);
 }
 
 main {
-  padding: 20px;
+  padding: 1rem;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  header {
+    padding: 1.25rem;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
+  
+  nav {
+    gap: 1.25rem;
+  }
+  
+  nav a {
+    padding: 0.5rem 1rem;
+  }
+  
+  main {
+    padding: 1.25rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  header {
+    padding: 1.25rem 2rem;
+  }
+  
+  main {
+    padding: 1.25rem 2rem;
+  }
 }

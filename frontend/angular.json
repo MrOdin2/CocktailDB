@@ -34,7 +34,8 @@
               "src/styles-theme3-amber.css"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/components/visitor/visitor-shared.css"
             ],
             "scripts": [],
             "browser": "src/main.ts"
@@ -50,7 +51,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kb",
-                  "maximumError": "6kb"
+                  "maximumError": "8kb"
                 }
               ],
               "outputHashing": "all",
@@ -105,7 +106,8 @@
               "src/styles-theme3-amber.css"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/components/visitor/visitor-shared.css"
             ],
             "scripts": []
           }

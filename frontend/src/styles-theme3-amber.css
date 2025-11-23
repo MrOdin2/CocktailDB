@@ -96,6 +96,10 @@ nav a.active {
   box-shadow: 0 0 20px #ffb000;
 }
 
+a {
+    color: #ffb000;
+}
+
 main {
   padding: 20px;
   background-color: #1a0f00;
@@ -481,4 +485,9 @@ table input[type="checkbox"] {
 ::-webkit-scrollbar-thumb:hover {
   background: #ffb000;
   box-shadow: 0 0 20px #ffb000;
+}
+
+input, button, select  {
+    background-color: #FFB00033;
+    color: #ffb000;
 }

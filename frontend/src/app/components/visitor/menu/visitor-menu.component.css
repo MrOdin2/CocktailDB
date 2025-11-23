@@ -1,0 +1,139 @@
+/* Component-specific styles for visitor menu */
+
+.visitor-header {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-bottom: 2px solid #3f3f3f;
+  margin-bottom: 2rem;
+}
+
+.visitor-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.menu-view {
+  padding: 1rem;
+}
+
+.menu-view h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.menu-card {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  min-height: 160px;
+}
+
+.menu-card:hover,
+.menu-card:focus {
+  transform: translateY(-4px);
+}
+
+.menu-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 8px );
+}
+
+.menu-label {
+  font-size: 1.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.menu-description {
+  font-size: 1.25rem;
+  opacity: 1;
+}
+
+.info-section {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.info-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.login-link-text {
+  margin: 1rem 0 0 0;
+  font-size: 0.95rem;
+}
+
+.login-link {
+  text-decoration: underline;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .visitor-header {
+    padding: 3rem 2rem;
+  }
+
+  .visitor-header h1 {
+    font-size: 3.5rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .menu-card {
+    padding: 2.5rem 2rem;
+  }
+
+  .menu-icon {
+    font-size: 4rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .menu-view h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Ensure touch-friendly targets on mobile */
+@media (max-width: 767px) {
+  .menu-card {
+    min-height: 180px;
+  }
+}

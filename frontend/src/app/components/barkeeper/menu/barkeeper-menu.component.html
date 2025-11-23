@@ -1,0 +1,51 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+  <div class="barkeeper-header">
+    <h1>🍸 CocktailDB</h1>
+    <div class="header-info">
+      <span class="role-badge">Barkeeper Mode</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Main Menu -->
+  <div class="menu-view">
+    <h2>Barkeeper Menu</h2>
+    
+    <!-- Available Only Toggle -->
+    <div class="toggle-container">
+      <label class="toggle-switch" for="showOnlyAvailable">
+        <input 
+          type="checkbox" 
+          id="showOnlyAvailable" 
+          [(ngModel)]="showOnlyAvailable"
+          (change)="toggleAvailableOnly()">
+        <span class="slider"></span>
+      </label>
+      <span class="toggle-label">Show Only Available Cocktails</span>
+    </div>
+
+    <!-- Menu Grid -->
+    <div class="menu-grid">
+      <a routerLink="/barkeeper/alphabet" class="menu-card">
+        <div class="menu-icon">🔤</div>
+        <div class="menu-label">Find by Letter</div>
+      </a>
+      
+      <a routerLink="/barkeeper/cocktails" [queryParams]="{mode: 'available'}" class="menu-card">
+        <div class="menu-icon">✅</div>
+        <div class="menu-label">Available Cocktails</div>
+      </a>
+      
+      <a routerLink="/barkeeper/random" class="menu-card">
+        <div class="menu-icon">🎲</div>
+        <div class="menu-label">Random Cocktail</div>
+      </a>
+      
+      <a routerLink="/barkeeper/stock" class="menu-card">
+        <div class="menu-icon">📦</div>
+        <div class="menu-label">Manage Stock</div>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,8 @@
+/* Component-specific styles for visualization - common styles moved to admin-shared.css */
+
+/* Wider container for visualization components to accommodate charts */
 .container {
   max-width: 1200px;
-  margin: 0 auto;
   padding: 20px;
 }
 
@@ -13,6 +15,7 @@
   font-size: 2em;
 }
 
+/* Tabs */
 .tabs {
   display: flex;
   gap: 0;

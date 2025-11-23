@@ -6,7 +6,7 @@ import { IngredientVisualizationsComponent } from './visualization/more-vis/ingr
   selector: 'app-visualizations',
   imports: [CommonModule, IngredientVisualizationsComponent],
   templateUrl: './visualizations.component.html',
-  styleUrls: ['./visualizations.component.css']
+  styleUrls: ['../admin-shared.css', './visualizations.component.css']
 })
 export class VisualizationsComponent {
   activeTab: 'ingredients' | 'cocktails' = 'ingredients';

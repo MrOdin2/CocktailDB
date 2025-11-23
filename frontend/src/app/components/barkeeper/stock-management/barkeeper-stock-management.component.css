@@ -1,0 +1,76 @@
+/* Ingredients List */
+.ingredients-list {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ingredient-item {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.ingredient-item:active {
+  transform: scale(0.98);
+}
+
+.ingredient-item.in-stock {
+  border-left: 4px solid #28a745;
+}
+
+.ingredient-item.out-of-stock {
+  border-left: 4px solid #dc3545;
+}
+
+.ingredient-info {
+  flex: 1;
+}
+
+.ingredient-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.ingredient-type {
+  font-size: 1rem;
+  color: #aaa;
+  text-transform: capitalize;
+}
+
+.stock-indicator {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.in-stock .stock-indicator {
+  background: #28a745;
+  color: white;
+}
+
+.out-of-stock .stock-indicator {
+  background: #dc3545;
+  color: white;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 2rem;
+  color: #aaa;
+}

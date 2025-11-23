@@ -69,6 +69,56 @@ CocktailDB/
 - Components should be focused and reusable
 - Use Angular's reactive forms for form handling
 
+### Component Design Principles
+- **Single Responsibility**: Each component should have one clear purpose
+- **Small and Focused**: Components should be small (< 300 lines of TypeScript)
+- **Modularity**: Break down large components into smaller subcomponents
+- **Reusability**: Design components to be reusable across different contexts
+- **Router Integration**: Use Angular Router for navigation to enable browser back/forward buttons
+- **Accessibility**: Always include proper ARIA labels, semantic HTML, and keyboard navigation
+  - Use `<button>` for actions, `<a>` for navigation
+  - Include `aria-label` for icon-only buttons
+  - Associate form labels with inputs using `for` and `id` attributes
+  - Ensure sufficient color contrast (WCAG AA: 4.5:1 for text)
+  - Make interactive elements keyboard accessible
+- **Mobile-First**: Design for mobile screens first, then enhance for larger screens
+- **Performance**: Use OnPush change detection when possible, avoid unnecessary subscriptions
+- **Navigation**: Prefer router-based navigation over internal view switching for better UX
+
+### Responsive Design Requirements
+The application must be fully responsive and optimized for various device sizes:
+
+**Target Devices:**
+- **Smartphones**: 1792x828 to 2556x1179 pixels (portrait and landscape)
+- **Tablets**: 2388x1668 pixels (portrait and landscape)
+- **Desktop**: 1024px and above
+
+**Breakpoints:**
+- Mobile (small): 320px - 767px
+- Tablet (medium): 768px - 1023px
+- Desktop (large): 1024px and above
+
+**Responsive Design Principles:**
+- Use CSS Grid and Flexbox for flexible layouts
+- Implement mobile-first approach with `min-width` media queries
+- Convert tables to card layouts on mobile devices (< 768px)
+- Ensure touch targets are at least 44x44 pixels for mobile
+- Use responsive typography that scales appropriately
+- Make forms stack vertically on mobile, multi-column on tablet/desktop
+- Optimize navigation for mobile (hamburger menu, simplified nav)
+- Ensure images and charts scale properly
+- Test at all breakpoints to ensure usability
+- Use `viewport` meta tag for proper mobile rendering
+- Avoid horizontal scrolling on any device size
+- Make buttons and interactive elements easily tappable on touch devices
+
+### Component Organization
+When creating feature areas (like barkeeper mode):
+- Create a feature directory (e.g., `components/barkeeper/`)
+- Split functionality into focused subcomponents (e.g., `menu/`, `recipe/`, `stock-management/`)
+- Each subcomponent gets its own route for browser navigation support
+- Share state through services or route parameters, not parent components
+
 ## Database Configuration
 
 ### Profiles

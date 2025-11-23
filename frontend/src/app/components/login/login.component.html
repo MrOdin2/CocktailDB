@@ -1,0 +1,52 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>🍸 CocktailDB</h1>
+    <h2>Login</h2>
+    
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="role">Select Role:</label>
+        <div class="role-buttons">
+          <button 
+            type="button"
+            class="role-btn"
+            [class.selected]="selectedRole === 'ADMIN'"
+            (click)="selectedRole = 'ADMIN'"
+            [disabled]="isLoading">
+            Admin
+          </button>
+          <button 
+            type="button"
+            class="role-btn"
+            [class.selected]="selectedRole === 'BARKEEPER'"
+            (click)="selectedRole = 'BARKEEPER'"
+            [disabled]="isLoading">
+            Barkeeper
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          [disabled]="isLoading"
+          [placeholder]="'Enter ' + selectedRole.toLowerCase() + ' password'"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="isLoading" class="btn-primary">
+        {{ isLoading ? 'Logging in...' : 'Login as ' + selectedRole }}
+      </button>
+    </form>
+
+  </div>
+</div>

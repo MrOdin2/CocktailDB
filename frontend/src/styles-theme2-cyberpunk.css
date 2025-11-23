@@ -110,6 +110,10 @@ nav a.active {
   border-color: #00ffff;
 }
 
+a {
+  color: #00ffff;
+}
+
 main {
   padding: 20px;
   background-color: #0a0e27;
@@ -517,4 +521,9 @@ table input[type="checkbox"] {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #00ffff, #ff00ff);
   box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff;
+}
+
+input, button, select  {
+    background: #0a0e27;
+    color: #00ffff;
 }

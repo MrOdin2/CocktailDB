@@ -1,0 +1,201 @@
+/* Component-specific styles for visitor recipe */
+
+.visitor-container {
+  max-width: 900px;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid;
+}
+
+.back-link-btn {
+  border: 1px solid;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.back-link-btn:hover,
+.back-link-btn:focus {
+  transform: translateX(-2px);
+}
+
+.recipe-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.recipe-header {
+  text-align: center;
+  padding: 1.5rem;
+  border: 2px solid;
+  border-radius: 8px;
+}
+
+.cocktail-name {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  word-wrap: break-word;
+}
+
+.badge-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.abv-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: 1px solid;
+}
+
+.info-card {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.section-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+}
+
+.base-spirit {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tag {
+  border: 1px solid;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredient-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid;
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+
+.ingredient-item:last-child {
+  margin-bottom: 0;
+}
+
+.ingredient-measure {
+  font-weight: bold;
+  min-width: 80px;
+}
+
+.ingredient-name {
+  flex: 1;
+}
+
+.steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: step-counter;
+}
+
+.step-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid;
+  border-radius: 4px;
+  align-items: flex-start;
+}
+
+.step-item:last-child {
+  margin-bottom: 0;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border: 2px solid;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.step-text {
+  line-height: 1.6;
+  flex: 1;
+  padding-top: 0.25rem;
+}
+
+.notes-card {
+}
+
+.notes-card .section-title {
+}
+
+.notes-text {
+  margin: 0;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .cocktail-name {
+    font-size: 2.5rem;
+  }
+
+  .recipe-header {
+    padding: 2rem;
+  }
+
+  .info-card {
+    padding: 2rem;
+  }
+
+  .ingredient-item {
+    flex-wrap: nowrap;
+  }
+
+  .ingredient-measure {
+    min-width: 120px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .cocktail-name {
+    font-size: 3rem;
+  }
+}

@@ -291,17 +291,110 @@ npm run build
 
 The production build will be in `frontend/dist/cocktaildb-frontend`
 
-## Security & Access Control
+## Usage Modes & Access Control
 
-CocktailDB supports three access modes with different permission levels:
+CocktailDB is designed with three distinct usage modes to serve different user needs:
 
-1. **Admin Mode**: Full access to all features (CRUD operations on cocktails and ingredients)
-2. **Barkeeper Mode**: Limited access (view all, modify ingredient stock only)
-3. **Visitor Mode**: Read-only access (view available cocktails only, no authentication required)
+### 1. 🎯 Visitor Mode (Public Access)
+**Purpose**: Public cocktail discovery and browsing without authentication
 
-For detailed information about the security architecture, authentication setup, and implementation:
-- **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Complete security concept and design principles
+**Who it's for**: Guests, friends, or anyone who wants to discover what cocktails can be made
+
+**Features**:
+- Browse available cocktails (those that can be made with in-stock ingredients)
+- View cocktail recipes with detailed instructions
+- Random cocktail picker with filters (alcoholic/non-alcoholic, by base spirit)
+- Browse cocktails by categories
+- No login required - instant access
+
+**Navigation**: `http://localhost/visitor` (default landing page)
+
+**Note**: For development, use port 4200 (`http://localhost:4200/visitor`). For production deployment with Docker, use port 80 (`http://localhost/visitor`).
+
+### 2. 🍸 Barkeeper Mode (Authenticated)
+**Purpose**: Professional cocktail service interface for bartenders
+
+**Who it's for**: Working bartenders who need quick access to recipes and stock management
+
+**Features**:
+- View complete cocktail library (all recipes, not just available ones)
+- Alphabetical cocktail browser for fast lookup
+- Advanced search and filtering
+- Stock management - update ingredient availability on the fly
+- Random cocktail suggestions with filters
+- Streamlined, mobile-friendly interface optimized for bar use
+
+**Authentication**: Required - login with barkeeper credentials
+
+**Navigation**: `http://localhost/barkeeper/menu` (after login)
+
+**Note**: For development, use port 4200 (`http://localhost:4200/barkeeper/menu`).
+
+### 3. ⚙️ Admin Mode (Full Access)
+**Purpose**: Complete system administration and recipe management
+
+**Who it's for**: Home bartenders managing their personal cocktail database
+
+**Features**:
+- Full CRUD operations on cocktails (Create, Read, Update, Delete)
+- Full CRUD operations on ingredients
+- Data visualization and analytics
+- System settings and configuration
+- Import/export functionality
+- Everything barkeeper mode offers, plus full editing capabilities
+
+**Authentication**: Required - login with admin credentials
+
+**Navigation**: `http://localhost/cocktails` or `http://localhost/ingredients` (after login)
+
+**Note**: For development, use port 4200 (`http://localhost:4200/cocktails`).
+
+### Access Summary
+
+| Feature | Visitor | Barkeeper | Admin |
+|---------|---------|-----------|-------|
+| View available cocktails | ✅ | ✅ | ✅ |
+| View all cocktails | ❌ | ✅ | ✅ |
+| View ingredients | ❌ | ✅ | ✅ |
+| Update ingredient stock | ❌ | ✅ | ✅ |
+| Create/Edit/Delete cocktails | ❌ | ❌ | ✅ |
+| Create/Edit/Delete ingredients | ❌ | ❌ | ✅ |
+| Data visualizations | ❌ | ❌ | ✅ |
+| System settings | ❌ | ❌ | ✅ |
+
+### Entry Points & User Flow
+
+**First-time visitors**: 
+1. Navigate to `http://localhost` → Automatically redirected to Visitor Mode
+2. Browse available cocktails or use random picker
+3. No login barriers
+
+**Barkeepers**:
+1. Navigate to `http://localhost/login`
+2. Select "Barkeeper" role and enter password
+3. Redirected to barkeeper menu with quick-access tools
+4. Use "Logout" button in menu to end session
+
+**Administrators**:
+1. Navigate to `http://localhost/login`
+2. Select "Admin" role and enter password
+3. Redirected to main admin interface
+4. Access all features through navigation menu
+
+### Security Architecture
+
+For detailed information about the security implementation, authentication, and session management:
+- **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Complete security concept, design principles, and user flows
 - **[docs/authentication-guide.md](docs/authentication-guide.md)** - Implementation guide with code examples
+- **[docs/security-quick-reference.md](docs/security-quick-reference.md)** - Quick setup and troubleshooting guide
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System architecture and contributor guide
+
+## Developer Documentation
+
+For contributors and developers:
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
+- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards
+- **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Contributor guidance on access control implementation
 
 ## License
 

@@ -1,0 +1,53 @@
+<div class="barkeeper-container">
+  <!-- Header -->
+    <div class="view-header">
+        <button class="back-btn" (click)="goBack()">← Back</button>
+        <h2>{{ cocktail?.name || 'Recipe' }}</h2>
+        <div class="info-badge">
+            <span class="info-value"> Base: {{ cocktail?.baseSpirit | titlecase }}</span>
+            <span class="info-value"> ABV: {{ cocktail?.abv }}%</span>
+        </div>
+    </div>
+
+  <div *ngIf="isLoading" class="loading">Loading recipe...</div>
+
+  <!-- Recipe Content -->
+  <div *ngIf="!isLoading && cocktail" class="recipe-content">
+    <!-- Recipe Info Badges -->
+
+      <div class="important-section">
+          <!-- Ingredients Section -->
+          <div class="recipe-section">
+              <h3>Ingredients:</h3>
+              <ul class="ingredients-list-recipe">
+                  <li *ngFor="let ing of cocktail.ingredients">
+                      <span class="measure">{{ ing.measure }}</span>
+                      <span class="name">{{ getIngredientName(ing.ingredientId) }}</span>
+                  </li>
+              </ul>
+          </div>
+
+          <!-- Instructions Section -->
+          <div class="recipe-section">
+              <h3>Instructions:</h3>
+              <ol class="steps-list">
+                  <li *ngFor="let step of cocktail.steps">{{ step }}</li>
+              </ol>
+          </div>
+      </div>
+
+    <!-- Notes Section -->
+    <div *ngIf="cocktail.notes" class="recipe-section">
+      <h3>Notes:</h3>
+      <p class="notes">{{ cocktail.notes }}</p>
+    </div>
+
+    <!-- Tags Section -->
+    <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="recipe-section">
+      <h3>Tags:</h3>
+      <div class="tags-list">
+        <span *ngFor="let tag of cocktail.tags" class="tag">{{ tag }}</span>
+      </div>
+    </div>
+  </div>
+</div>

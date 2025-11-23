@@ -1,0 +1,34 @@
+/* Component-specific styles for barkeeper alphabet - shared styles in barkeeper-shared.css */
+
+/* Alphabet Grid */
+.alphabet-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.alphabet-btn {
+  background: #3a3a3a;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.alphabet-btn:active {
+  transform: scale(0.95);
+  background: #667eea;
+}

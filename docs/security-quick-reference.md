@@ -1,6 +1,29 @@
 # Security Quick Reference
 
-Quick reference for common security operations in CocktailDB.
+Quick reference for CocktailDB's three-tier access control system.
+
+## Three Access Modes
+
+### 🎯 Visitor Mode
+- **Access**: Public - No login required
+- **Entry Point**: `http://localhost/` or `http://localhost/visitor`
+- **Purpose**: Browse available cocktails
+- **Features**: View available cocktails, recipes, random picker, categories
+- **Restrictions**: Cannot see all cocktails, cannot modify anything
+
+### 🍸 Barkeeper Mode  
+- **Access**: Authenticated - Barkeeper password required
+- **Entry Point**: `http://localhost/login` → Select "Barkeeper"
+- **Purpose**: Professional bar service interface
+- **Features**: All cocktails, stock management, search, random picker
+- **Restrictions**: Cannot create/edit/delete cocktails or ingredients (only toggle stock)
+
+### ⚙️ Admin Mode
+- **Access**: Authenticated - Admin password required
+- **Entry Point**: `http://localhost/login` → Select "Admin"
+- **Purpose**: Complete database management
+- **Features**: Full CRUD on cocktails and ingredients, visualizations, settings
+- **Restrictions**: None - full system access
 
 ## Default Credentials (CHANGE THESE!)
 
@@ -73,16 +96,65 @@ BARKEEPER_PASSWORD_HASH=<paste-your-barkeeper-hash-here>
 SESSION_SECRET=<paste-your-secret-here>
 ```
 
-## Access Permissions
+## Access Permissions Table
 
 | Feature | Visitor | Barkeeper | Admin |
 |---------|---------|-----------|-------|
+| **Viewing** |
 | View available cocktails | ✅ | ✅ | ✅ |
 | View all cocktails | ❌ | ✅ | ✅ |
 | View all ingredients | ❌ | ✅ | ✅ |
+| View cocktail recipe details | ✅ | ✅ | ✅ |
+| Search cocktails | ✅ (available only) | ✅ (all) | ✅ (all) |
+| Random cocktail picker | ✅ | ✅ | ✅ |
+| Browse by categories | ✅ | ✅ | ✅ |
+| **Stock Management** |
 | Update ingredient stock | ❌ | ✅ | ✅ |
-| Create/Edit/Delete cocktails | ❌ | ❌ | ✅ |
-| Create/Edit/Delete ingredients | ❌ | ❌ | ✅ |
+| **Cocktail Management** |
+| Create new cocktails | ❌ | ❌ | ✅ |
+| Edit existing cocktails | ❌ | ❌ | ✅ |
+| Delete cocktails | ❌ | ❌ | ✅ |
+| **Ingredient Management** |
+| Create new ingredients | ❌ | ❌ | ✅ |
+| Edit existing ingredients | ❌ | ❌ | ✅ |
+| Delete ingredients | ❌ | ❌ | ✅ |
+| **Admin Features** |
+| View visualizations | ❌ | ❌ | ✅ |
+| Access settings | ❌ | ❌ | ✅ |
+
+## User Flows
+
+### Visitor Flow (No Login)
+```
+1. Navigate to http://localhost/
+2. Automatically redirected to /visitor
+3. Browse available cocktails
+4. View recipes
+5. Use random picker
+6. Browse categories
+```
+
+### Barkeeper Flow
+```
+1. Navigate to http://localhost/login
+2. Select "Barkeeper" role
+3. Enter barkeeper password
+4. Redirected to /barkeeper/menu
+5. Access all cocktails and ingredients
+6. Toggle ingredient stock as needed
+7. Click "Logout" when done
+```
+
+### Admin Flow
+```
+1. Navigate to http://localhost/login
+2. Select "Admin" role
+3. Enter admin password
+4. Redirected to /cocktails
+5. Manage cocktails and ingredients (full CRUD)
+6. Access visualizations and settings
+7. Click "Logout" when done
+```
 
 ## API Quick Reference
 

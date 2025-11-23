@@ -1,56 +1,18 @@
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header-section h2 {
-  margin: 0;
-}
+/* Component-specific styles for cocktails - common styles moved to admin-shared.css */
 
 .header-buttons {
   display: flex;
-  gap: 10px;
-}
-
-.filter-section {
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  font-size: 16px;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .filter-controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
+  grid-template-columns: 1fr;
+  gap: 1rem;
   align-items: end;
 }
 
-.filter-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-group label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.filter-group input,
-.filter-group select {
-  padding: 8px;
-  border-radius: 4px;
-  width: 100%;
-}
 
 .filter-group.checkbox-filter {
   justify-content: flex-end;
@@ -59,54 +21,23 @@
 .filter-group.checkbox-filter label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 0.75rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
 .filter-group.checkbox-filter input[type="checkbox"] {
   transform: scale(1.2);
   cursor: pointer;
+  width: auto;
 }
 
-.clear-btn {
-  align-self: flex-end;
-  white-space: nowrap;
-}
-
-.add-form {
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 30px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 8px;
-}
-
-.error-message {
-  font-size: 12px;
-  margin-top: 4px;
-}
-
+/* Ingredient and Step Inputs */
 .ingredient-inputs,
 .step-inputs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
 }
 
@@ -123,15 +54,15 @@
 .ingredient-search-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.5rem;
   flex: 2;
   min-width: 200px;
 }
 
 .ingredient-search {
-  padding: 6px 8px;
+  padding: 0.75rem;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 .step-inputs input {
@@ -140,13 +71,15 @@
 
 .tag-inputs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .tag-inputs input,
 .tag-inputs select {
   flex: 1;
+  min-width: 150px;
 }
 
 .tag-select {
@@ -156,28 +89,28 @@
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .tag-badge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 0.5rem 1rem;
   border-radius: 15px;
-  font-size: 13px;
+  font-size: 0.875rem;
   font-weight: 500;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .tag-remove {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1;
   padding: 0;
-  margin-left: 4px;
+  margin-left: 0.25rem;
   opacity: 0.7;
 }
 
@@ -185,20 +118,15 @@
   opacity: 1;
 }
 
+
 .tags-display {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
-}
-
+/* Ingredient and Steps Lists */
 .ingredient-list,
 .steps-list {
   list-style-position: inside;
@@ -207,18 +135,18 @@
 
 .ingredient-list li,
 .steps-list li {
-  padding: 5px;
-  margin-bottom: 5px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .cocktail-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
 .cocktail-card {
-  padding: 20px;
+  padding: 1.25rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -226,39 +154,41 @@
 .cocktail-card h4 {
   margin-top: 0;
   border-bottom: 2px solid #007bff;
-  padding-bottom: 10px;
+  padding-bottom: 0.75rem;
+  font-size: 1.25rem;
 }
 
 .card-section {
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .card-section ul,
 .card-section ol {
-  margin: 5px 0;
-  padding-left: 20px;
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
 }
 
 .card-section p {
-  margin: 5px 0;
+  margin: 0.5rem 0;
 }
 
 .card-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .radio-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .radio-group label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
   cursor: pointer;
   font-weight: normal;
 }
@@ -268,38 +198,38 @@
 }
 
 .export-info {
-  padding: 12px;
+  padding: 1rem;
   border-radius: 4px;
-  margin: 15px 0;
-  font-size: 14px;
+  margin: 1rem 0;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
 .tag-selection-content {
-  padding: 10px 0;
+  padding: 0.75rem 0;
 }
 
 .info-text {
-  margin-bottom: 20px;
-  font-size: 14px;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
   color: #9f9;
 }
 
 .tag-selection-section {
-  margin-bottom: 25px;
+  margin-bottom: 1.5rem;
 }
 
 .tag-selection-section h4 {
-  margin-bottom: 10px;
-  font-size: 15px;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
   color: #0f0;
 }
 
 .available-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 10px;
+  gap: 0.75rem;
+  padding: 0.75rem;
   background: #0a0f0d;
   border: 1px solid #0f0;
   border-radius: 5px;
@@ -308,13 +238,13 @@
 .tag-checkbox {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
   background: #1a1f1d;
   border: 1px solid #0f0;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .tag-checkbox:hover {
@@ -330,8 +260,8 @@
 .selected-tags-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px;
+  gap: 0.75rem;
+  padding: 0.75rem;
   background: #0a0f0d;
   border: 1px solid #0f0;
   border-radius: 5px;
@@ -341,26 +271,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 0.75rem 1rem;
   background: #1a1f1d;
   border: 1px solid #0f0;
   border-radius: 3px;
 }
 
 .tag-name {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #0f0;
 }
 
 .tag-controls {
   display: flex;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .tag-controls .btn-small {
-  padding: 4px 12px;
-  font-size: 14px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
   min-width: 35px;
   background: #0a0f0d;
   border: 1px solid #0f0;
@@ -377,4 +307,56 @@
 .tag-controls .btn-small:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+
+/* Mobile (small) */
+@media (max-width: 767px) {
+  .header-buttons {
+    width: 100%;
+  }
+  
+  .header-buttons button {
+    flex: 1;
+  }
+  
+  .ingredient-inputs,
+  .step-inputs,
+  .tag-inputs {
+    flex-direction: column;
+  }
+  
+  .ingredient-inputs select,
+  .ingredient-inputs input,
+  .ingredient-search-group,
+  .tag-inputs input,
+  .tag-inputs select {
+    min-width: 100%;
+  }
+  
+  .card-actions button {
+    flex: 1;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .filter-controls {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cocktail-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .filter-controls {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  
+  .cocktail-cards {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 }
