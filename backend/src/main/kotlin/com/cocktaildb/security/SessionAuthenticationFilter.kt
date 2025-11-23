@@ -50,6 +50,7 @@ class SessionAuthenticationFilter(
                path.startsWith("/api/cocktails/search") ||
                (path.startsWith("/api/cocktails/") && method == "GET") ||
                (path.startsWith("/api/ingredients") && method == "GET") ||
+               (path == "/api/settings/theme" && method == "GET") ||
                path.startsWith("/actuator/")
     }
 }
