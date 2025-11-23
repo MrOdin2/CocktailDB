@@ -70,4 +70,13 @@ export class ApiService {
     
     return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/search`, { params, withCredentials: true });
   }
+
+  // Settings endpoints
+  getTheme(): Observable<{ theme: string }> {
+    return this.http.get<{ theme: string }>(`${this.baseUrl}/settings/theme`);
+  }
+
+  setTheme(theme: string): Observable<{ theme: string }> {
+    return this.http.put<{ theme: string }>(`${this.baseUrl}/settings/theme`, { theme }, { withCredentials: true });
+  }
 }
