@@ -238,9 +238,11 @@ For production deployment to a server, CocktailDB includes automated CI/CD pipel
    ```
 
 For detailed instructions, see:
+- **[Deployment Quick Reference](docs/DEPLOYMENT_QUICK_REFERENCE.md)** - Fast overview and common commands
 - **[Server Setup Guide](docs/SERVER_SETUP.md)** - Quick setup for Ubuntu servers
 - **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment documentation
 - **[CI/CD Documentation](docs/CI_CD.md)** - GitHub Actions pipeline details
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Problem resolution guide
 
 #### CI/CD Pipeline
 
