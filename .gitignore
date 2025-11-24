@@ -57,3 +57,7 @@ Thumbs.db
 # Docker
 .env
 docker-compose.override.yml
+
+# Backups
+backup_*.sql
+*.backup

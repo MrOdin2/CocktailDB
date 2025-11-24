@@ -198,14 +198,11 @@ Then open your browser to `http://localhost:4200`
 
 ## Deployment
 
-### Using Docker (Recommended)
+CocktailDB supports both local development and production server deployment with automated CI/CD pipelines.
 
-The easiest way to deploy CocktailDB is using Docker Compose, which sets up all services including the PostgreSQL database for persistent data storage.
+### Quick Start - Local Development
 
-#### Prerequisites
-- Docker and Docker Compose installed on your system
-
-#### Quick Start
+For local development and testing:
 
 1. Clone the repository:
 ```bash
@@ -213,48 +210,56 @@ git clone https://github.com/MrOdin2/CocktailDB.git
 cd CocktailDB
 ```
 
-2. (Optional) Create a `.env` file from the example and customize if needed:
-```bash
-cp .env.example .env
-```
-
-3. Build the application:
+2. Build and start with Docker Compose:
 ```bash
 ./build.sh
-```
-
-This script will:
-- Build the backend JAR file using Gradle
-- Build the frontend production bundle using npm
-
-4. Start all services:
-```bash
 docker compose up -d
 ```
 
-This will:
-- Build and start the backend Docker container
-- Build and start the frontend Docker container (with nginx)
-- Start a PostgreSQL database for persistent storage
-
-5. Access the application:
+3. Access the application:
 - **Frontend**: http://localhost
 - **Backend API**: http://localhost:8080/api
-- **PostgreSQL**: localhost:5432
 
-**For Local Network Access**: Replace `localhost` with your server's IP address (e.g., `http://192.168.1.100`). See [Local Network Testing Guide](docs/local-network-testing.md) for detailed instructions on accessing from multiple devices.
+See the [full development setup instructions](#getting-started) above for running without Docker.
 
-6. Stop the services:
-```bash
-docker compose down
-```
+### Production Deployment
 
-7. To remove all data (including the database):
-```bash
-docker compose down -v
-```
+For production deployment to a server, CocktailDB includes automated CI/CD pipelines and deployment scripts:
 
-#### Docker Architecture
+#### Quick Server Setup
+
+1. **Prerequisites**: Ubuntu Server with Docker installed
+2. **Setup**: Run the deployment script
+   ```bash
+   mkdir -p ~/cocktaildb && cd ~/cocktaildb
+   curl -O https://raw.githubusercontent.com/MrOdin2/CocktailDB/main/scripts/deploy.sh
+   chmod +x deploy.sh
+   ./deploy.sh
+   ```
+
+For detailed instructions, see:
+- **[Server Setup Guide](docs/SERVER_SETUP.md)** - Quick setup for Ubuntu servers
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment documentation
+- **[CI/CD Documentation](docs/CI_CD.md)** - GitHub Actions pipeline details
+
+#### CI/CD Pipeline
+
+The project includes automated GitHub Actions workflows:
+- ✅ **Backend CI** - Automated testing and building
+- ✅ **Frontend CI** - Testing, linting, and building
+- 🐳 **Docker Build** - Automated image building and publishing to GitHub Container Registry
+
+Images are automatically built and published when code is pushed to the `main` branch.
+
+#### Deployment Features
+
+- 🚀 **One-command deployment** - Single script handles everything
+- 🔄 **Automatic rollback** - Rolls back on deployment failure
+- 💾 **Database backups** - Automatic backup before deployment
+- 🏥 **Health checks** - Verifies deployment success
+- 📦 **Docker-based** - Uses pre-built images from GitHub Container Registry
+
+### Docker Architecture
 
 The Docker setup consists of three services:
 
@@ -398,6 +403,9 @@ For detailed information about the security implementation, authentication, and 
 For contributors and developers:
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
 - **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** - Database migrations with Flyway and backup/restore procedures
+- **[docs/CI_CD.md](docs/CI_CD.md)** - CI/CD pipeline documentation and GitHub Actions workflows
+- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Production deployment guide and best practices
+- **[docs/SERVER_SETUP.md](docs/SERVER_SETUP.md)** - Quick server setup instructions
 - **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards
 - **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Contributor guidance on access control implementation
 
