@@ -61,8 +61,11 @@ backup_database() {
     log_info "Creating database backup before deployment..."
     
     if docker ps --format '{{.Names}}' | grep -q "cocktaildb-postgres"; then
-        docker exec cocktaildb-postgres pg_dump -U cocktaildb cocktaildb > "backup_$(date +%Y%m%d_%H%M%S).sql" || log_warn "Backup failed, continuing anyway..."
-        log_info "Database backup completed."
+        BACKUP_DIR="${BACKUP_DIR:-./backups}"
+        mkdir -p "$BACKUP_DIR"
+        BACKUP_FILE="$BACKUP_DIR/backup_$(date +%Y%m%d_%H%M%S).sql"
+        docker exec cocktaildb-postgres pg_dump -U cocktaildb cocktaildb > "$BACKUP_FILE" || log_warn "Backup failed, continuing anyway..."
+        log_info "Database backup completed: $BACKUP_FILE"
     else
         log_info "Database container not running, skipping backup."
     fi
@@ -109,8 +112,11 @@ wait_for_health() {
     local attempt=0
     
     while [ $attempt -lt $max_attempts ]; do
-        if docker compose ps | grep -q "healthy"; then
-            log_info "Services are healthy."
+        local backend_health=$(docker inspect cocktaildb-backend --format='{{.State.Health.Status}}' 2>/dev/null || echo "not_found")
+        local postgres_health=$(docker inspect cocktaildb-postgres --format='{{.State.Health.Status}}' 2>/dev/null || echo "not_found")
+        
+        if [ "$backend_health" = "healthy" ] && [ "$postgres_health" = "healthy" ]; then
+            log_info "All critical services are healthy."
             return 0
         fi
         
@@ -177,14 +183,31 @@ rollback() {
     docker compose down
     
     # Restore from backup if available
-    local latest_backup=$(ls -t backup_*.sql 2>/dev/null | head -n1)
+    BACKUP_DIR="${BACKUP_DIR:-./backups}"
+    local latest_backup=$(ls -t "$BACKUP_DIR"/backup_*.sql 2>/dev/null | head -n1)
     if [ -n "$latest_backup" ]; then
         log_info "Restoring from backup: $latest_backup"
         # Start only postgres
         docker compose up -d postgres
-        sleep 5
-        docker exec -i cocktaildb-postgres psql -U cocktaildb cocktaildb < "$latest_backup"
-        log_info "Database restored."
+        
+        # Wait for postgres to be ready
+        local max_wait=30
+        local count=0
+        while [ $count -lt $max_wait ]; do
+            if docker exec cocktaildb-postgres pg_isready -U cocktaildb >/dev/null 2>&1; then
+                log_info "PostgreSQL is ready."
+                break
+            fi
+            count=$((count + 1))
+            sleep 1
+        done
+        
+        if [ $count -ge $max_wait ]; then
+            log_error "PostgreSQL failed to start within timeout."
+        else
+            docker exec -i cocktaildb-postgres psql -U cocktaildb cocktaildb < "$latest_backup"
+            log_info "Database restored."
+        fi
     fi
     
     log_error "Rollback completed. Please check logs and fix issues."
@@ -230,8 +253,17 @@ main() {
     show_status
     
     log_info "Deployment completed successfully!"
-    log_info "Frontend: http://$(hostname -I | awk '{print $1}')"
-    log_info "Backend API: http://$(hostname -I | awk '{print $1}'):8080/api"
+    
+    # Get primary IP address
+    local primary_ip=$(hostname -I 2>/dev/null | awk '{print $1}')
+    if [ -z "$primary_ip" ]; then
+        primary_ip="<your-server-ip>"
+    fi
+    
+    log_info "Frontend: http://$primary_ip"
+    log_info "Backend API: http://$primary_ip:8080/api"
+    log_info ""
+    log_info "To find your server's IP address, run: ip addr show | grep 'inet ' | grep -v 127.0.0.1"
 }
 
 # Run main function

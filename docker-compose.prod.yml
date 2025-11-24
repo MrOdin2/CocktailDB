@@ -29,6 +29,8 @@ services:
       DATABASE_USERNAME: cocktaildb
       DATABASE_PASSWORD: cocktaildb
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
+      # SECURITY WARNING: The default password hash below is 'admin' - CHANGE THIS IMMEDIATELY!
+      # Generate a new hash: python3 -c "import bcrypt; print(bcrypt.hashpw(b'your-password', bcrypt.gensalt(14)).decode().replace('\$2b\$', '\$2a\$'))"
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-$2a$12$kccVkkHnTRyRp9W1oQbWFun6r2DErNX6dy7K0T6d9NHyfqTwLA4VS}
       SESSION_TIMEOUT_MINUTES: ${SESSION_TIMEOUT_MINUTES:-60}
     ports:

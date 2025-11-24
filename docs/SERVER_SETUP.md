@@ -71,10 +71,12 @@ nano .env
 ```
 
 **Must change:**
-- `ADMIN_PASSWORD_HASH` - Generate with: `python3 -c "import bcrypt; print(bcrypt.hashpw(b'your-password', bcrypt.gensalt(12)).decode().replace('\$2b\$', '\$2a\$'))"`
-- `BARKEEPER_PASSWORD_HASH` - Same as above
+- `ADMIN_PASSWORD_HASH` - Generate with: `python3 -c "import bcrypt; print(bcrypt.hashpw(b'your-password', bcrypt.gensalt(14)).decode().replace('\$2b\$', '\$2a\$'))"`
+- `BARKEEPER_PASSWORD_HASH` - Same as above with a different password
 - `SESSION_SECRET` - Generate with: `openssl rand -base64 64`
 - `CORS_ALLOWED_ORIGINS` - Set to your server IP or domain
+
+**Security Note:** The cost factor (14) in the bcrypt command provides strong protection against brute force attacks. Higher values (15-16) offer more security but increase login time. Never use values below 12.
 
 ### 6. Authenticate with GitHub Container Registry
 
