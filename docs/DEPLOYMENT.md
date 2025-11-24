@@ -381,7 +381,11 @@ find . -name "backup_*.sql" -mtime +7 -delete
 
 ## Troubleshooting
 
-### Services Won't Start
+For detailed troubleshooting information, see the **[Troubleshooting Guide](TROUBLESHOOTING.md)**.
+
+### Quick Fixes
+
+#### Services Won't Start
 
 ```bash
 # Check logs
@@ -508,12 +512,13 @@ If you can't push/pull images:
 - [Security Concept](../SECURITY_CONCEPT.md)
 - [Local Network Testing](local-network-testing.md)
 - [Architecture Documentation](ARCHITECTURE.md)
+- [Troubleshooting Guide](TROUBLESHOOTING.md) - Detailed troubleshooting for all deployment issues
 
 ## Support
 
 If you encounter issues:
 
-1. Check the troubleshooting section above
+1. Check the **[Troubleshooting Guide](TROUBLESHOOTING.md)** for detailed solutions
 2. Review Docker and application logs
 3. Check GitHub Actions workflow logs
 4. Open an issue on GitHub with detailed error information

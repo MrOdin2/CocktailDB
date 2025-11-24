@@ -16,6 +16,8 @@ jobs:
   test:
     name: Test Frontend
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -39,6 +41,8 @@ jobs:
   lint:
     name: Lint Frontend
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -63,6 +67,8 @@ jobs:
     name: Build Frontend
     runs-on: ubuntu-latest
     needs: [test, lint]
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code

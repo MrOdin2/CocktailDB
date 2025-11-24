@@ -16,6 +16,8 @@ jobs:
   test:
     name: Test Backend
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
@@ -47,6 +49,8 @@ jobs:
     name: Build Backend JAR
     runs-on: ubuntu-latest
     needs: test
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
