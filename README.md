@@ -56,6 +56,8 @@ The application supports three database profiles:
 - **dev-postgres**: PostgreSQL on localhost - Local development with data persistence
 - **prod**: PostgreSQL in Docker - Production deployment (automatically used in Docker)
 
+For information about database migrations and backups, see **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)**.
+
 ### Prerequisites
 - Java 17 or higher
 - Node.js 20+ and npm
@@ -256,11 +258,13 @@ docker compose down -v
 
 The Docker setup consists of three services:
 
-1. **postgres**: PostgreSQL 15 database for persistent data storage
-2. **backend**: Spring Boot application running on port 8080
+1. **postgres**: PostgreSQL 15 database for persistent data storage with automated daily backups
+2. **backend**: Spring Boot application running on port 8080 with Flyway database migrations
 3. **frontend**: Angular application served by nginx on port 80
 
-Data is persisted in a Docker volume named `postgres_data`, so your cocktails and ingredients will be preserved even when containers are stopped.
+Data is persisted in a Docker volume named `postgres_data`, and backups are stored in `postgres_backups`. Your cocktails and ingredients will be preserved even when containers are stopped.
+
+**Database Management**: The application uses Flyway for database migrations and includes automated daily backups. See **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** for details on migrations, backups, and restoration.
 
 ### Local Network Testing
 
@@ -393,6 +397,7 @@ For detailed information about the security implementation, authentication, and 
 
 For contributors and developers:
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
+- **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** - Database migrations with Flyway and backup/restore procedures
 - **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards
 - **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Contributor guidance on access control implementation
 

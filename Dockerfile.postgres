@@ -1,0 +1,36 @@
+FROM postgres:15-alpine
+
+# Create necessary directories
+RUN mkdir -p /var/lib/postgresql/scripts \
+    && mkdir -p /var/lib/postgresql/backups \
+    && mkdir -p /var/log/postgresql
+
+# Copy backup scripts
+COPY backend/scripts/backup.sh /var/lib/postgresql/scripts/
+COPY backend/scripts/restore.sh /var/lib/postgresql/scripts/
+
+# Make scripts executable
+RUN chmod +x /var/lib/postgresql/scripts/*.sh
+
+# Set ownership
+RUN chown -R postgres:postgres /var/lib/postgresql/scripts \
+    && chown -R postgres:postgres /var/lib/postgresql/backups \
+    && chown -R postgres:postgres /var/log/postgresql
+
+# Create entrypoint script to set up cron using postgres user's crontab
+RUN echo '#!/bin/sh' > /docker-entrypoint-custom.sh && \
+    echo 'set -e' >> /docker-entrypoint-custom.sh && \
+    echo '' >> /docker-entrypoint-custom.sh && \
+    echo '# Set up crontab for postgres user' >> /docker-entrypoint-custom.sh && \
+    echo 'CRON_TIME="${BACKUP_CRON_TIME:-0 2 * * *}"' >> /docker-entrypoint-custom.sh && \
+    echo 'echo "${CRON_TIME} /var/lib/postgresql/scripts/backup.sh >> /var/log/postgresql/backup.log 2>&1" | crontab -u postgres -' >> /docker-entrypoint-custom.sh && \
+    echo '' >> /docker-entrypoint-custom.sh && \
+    echo '# Start cron daemon' >> /docker-entrypoint-custom.sh && \
+    echo 'crond -b' >> /docker-entrypoint-custom.sh && \
+    echo '' >> /docker-entrypoint-custom.sh && \
+    echo '# Execute original entrypoint' >> /docker-entrypoint-custom.sh && \
+    echo 'exec /usr/local/bin/docker-entrypoint.sh "$@"' >> /docker-entrypoint-custom.sh && \
+    chmod +x /docker-entrypoint-custom.sh
+
+ENTRYPOINT ["/docker-entrypoint-custom.sh"]
+CMD ["postgres"]
