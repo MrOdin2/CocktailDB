@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
-import { Cocktail, Ingredient } from '../../../models/models';
+import { MeasureService } from '../../../services/measure.service';
+import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-recipe',
@@ -12,14 +14,18 @@ import { Cocktail, Ingredient } from '../../../models/models';
   templateUrl: './barkeeper-recipe.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-recipe.component.css']
 })
-export class BarkeeperRecipeComponent implements OnInit {
+export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   cocktail: Cocktail | null = null;
   ingredients: Ingredient[] = [];
   ingredientMap: Map<number, Ingredient> = new Map();
   isLoading = false;
+  
+  currentUnit: MeasureUnit = MeasureUnit.ML;
+  private unitSubscription?: Subscription;
 
   constructor(
     private apiService: ApiService,
+    private measureService: MeasureService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location
@@ -31,6 +37,14 @@ export class BarkeeperRecipeComponent implements OnInit {
       this.loadRecipe(+id);
       this.loadIngredients();
     }
+    
+    this.unitSubscription = this.measureService.getUnit().subscribe(unit => {
+      this.currentUnit = unit;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.unitSubscription?.unsubscribe();
   }
 
   loadRecipe(id: number): void {
@@ -62,6 +76,10 @@ export class BarkeeperRecipeComponent implements OnInit {
   getIngredientName(ingredientId: number): string {
     const ingredient = this.ingredientMap.get(ingredientId);
     return ingredient ? ingredient.name : 'Unknown';
+  }
+  
+  formatMeasure(measureMl: number): string {
+    return this.measureService.formatMeasure(measureMl, this.currentUnit);
   }
 
   goBack(): void {

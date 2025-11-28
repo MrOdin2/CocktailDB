@@ -5,5 +5,5 @@ import jakarta.persistence.Embeddable
 @Embeddable
 data class CocktailIngredient(
     var ingredientId: Long,
-    var measure: String
+    var measureMl: Double
 )

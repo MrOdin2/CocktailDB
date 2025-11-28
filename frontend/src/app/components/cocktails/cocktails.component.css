@@ -59,6 +59,24 @@
   min-width: 200px;
 }
 
+.measure-input-group {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 150px;
+}
+
+.measure-input-group input[type="number"] {
+  flex: 2;
+  min-width: 80px;
+}
+
+.unit-select {
+  flex: 1;
+  min-width: 60px;
+  max-width: 80px;
+}
+
 .ingredient-search {
   padding: 0.75rem;
   border-radius: 4px;
