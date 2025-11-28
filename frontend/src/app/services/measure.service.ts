@@ -69,20 +69,36 @@ export class MeasureService {
   }
 
   /**
+   * Round to nearest 0.25 for oz, 0.5 for ml/cl
+   */
+  private roundToResolution(value: number, unit: MeasureUnit): number {
+    const resolution = unit === MeasureUnit.OZ ? 0.25 : 0.5;
+    return Math.round(value / resolution) * resolution;
+  }
+
+  /**
    * Format a measurement in ml to a display string in the current unit
+   * Returns empty string for -1 (non-fluid ingredients like garnishes)
    */
   formatMeasure(ml: number, unit: MeasureUnit = this.currentUnit.getValue()): string {
-    // Return empty string for 0ml (garnishes/non-liquid ingredients)
-    if (ml === 0) {
+    // Return empty string for -1 (non-fluid ingredients like garnishes, leaves, etc.)
+    if (ml < 0) {
       return '';
     }
     
     const converted = this.convertFromMl(ml, unit);
-    const decimals = unit === MeasureUnit.OZ ? 2 : 1;
-    const rounded = Number.parseFloat(converted.toFixed(decimals));
+    const rounded = this.roundToResolution(converted, unit);
     
-    // Remove trailing zeros for cleaner display
-    const formatted = rounded.toString().replace(/\.?0+$/, '');
+    // Format with appropriate decimals based on resolution
+    let formatted: string;
+    if (unit === MeasureUnit.OZ) {
+      // For oz, show up to 2 decimals (for 0.25 increments)
+      formatted = rounded.toFixed(2).replace(/\.?0+$/, '');
+    } else {
+      // For ml/cl, show up to 1 decimal (for 0.5 increments)
+      formatted = rounded.toFixed(1).replace(/\.?0+$/, '');
+    }
+    
     return `${formatted} ${unit}`;
   }
 

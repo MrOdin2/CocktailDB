@@ -1,8 +1,8 @@
 -- Migration: Rework measures from string to metric (ml)
 -- This migration converts the measure column from VARCHAR to DOUBLE PRECISION (ml)
 -- 
--- Non-liquid ingredients (garnishes, leaves, etc.) are stored as 0.0 ml
--- The frontend displays empty string for 0.0 ml measurements
+-- Non-liquid ingredients (garnishes, leaves, etc.) are stored as -1.0 ml
+-- The frontend displays no unit for -1.0 ml measurements
 
 -- Step 1: Add new column for metric measurement
 ALTER TABLE cocktail_ingredients ADD COLUMN measure_ml DOUBLE PRECISION;
@@ -11,7 +11,7 @@ ALTER TABLE cocktail_ingredients ADD COLUMN measure_ml DOUBLE PRECISION;
 -- Default value explanations:
 --   - 30ml (1 oz): Standard pour for unparseable values, common base spirit measurement
 --   - 60ml: Used for "top" instructions (e.g., "top with soda")
---   - 0ml: Used for garnishes and non-liquid ingredients (e.g., "1 sprig", "8-10 leaves")
+--   - -1ml: Used for garnishes and non-liquid ingredients (e.g., "1 sprig", "8-10 leaves")
 UPDATE cocktail_ingredients SET measure_ml = CASE
     -- Try to extract numeric part from common patterns
     WHEN measure ~ '^[0-9]+(\.[0-9]+)?\s*(ml|ML)' THEN
@@ -27,7 +27,7 @@ END;
 
 -- Step 3: Set NOT NULL constraint and default
 ALTER TABLE cocktail_ingredients ALTER COLUMN measure_ml SET NOT NULL;
-ALTER TABLE cocktail_ingredients ALTER COLUMN measure_ml SET DEFAULT 0;
+ALTER TABLE cocktail_ingredients ALTER COLUMN measure_ml SET DEFAULT -1;
 
 -- Step 4: Drop the old measure column
 ALTER TABLE cocktail_ingredients DROP COLUMN measure;

@@ -193,7 +193,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Tequila"), 59.1),
                     CocktailIngredient(getIngredientId("Triple Sec"), 29.6),
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
-                    CocktailIngredient(getIngredientId("Salt"), 1.0)
+                    CocktailIngredient(getIngredientId("Salt"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Rim glass with salt",
@@ -215,7 +215,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("White Rum"), 59.1),
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0),
                     CocktailIngredient(getIngredientId("Club Soda"), 60.0)
                 ),
                 steps = mutableListOf(
@@ -237,7 +237,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Bourbon"), 59.1),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add simple syrup and bitters to glass",
@@ -479,7 +479,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Bourbon"), 59.1),
                     CocktailIngredient(getIngredientId("Sweet Vermouth"), 29.6),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to mixing glass with ice",
@@ -602,10 +602,10 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Vodka"), 59.1),
                     CocktailIngredient(getIngredientId("Tomato Juice"), 118.3),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 14.8),
-                    CocktailIngredient(getIngredientId("Worcestershire Sauce"), 2.0),
-                    CocktailIngredient(getIngredientId("Tabasco Sauce"), 2.0),
-                    CocktailIngredient(getIngredientId("Salt"), 1.0),
-                    CocktailIngredient(getIngredientId("Black Pepper"), 1.0)
+                    CocktailIngredient(getIngredientId("Worcestershire Sauce"), -1.0),
+                    CocktailIngredient(getIngredientId("Tabasco Sauce"), -1.0),
+                    CocktailIngredient(getIngredientId("Salt"), -1.0),
+                    CocktailIngredient(getIngredientId("Black Pepper"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to glass with ice",
@@ -707,7 +707,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Lemon Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Triple Sec"), 14.8),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Sugar"), 1.0)
+                    CocktailIngredient(getIngredientId("Sugar"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Rim glass with sugar",
@@ -956,7 +956,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Cointreau"), 22.2),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 22.2),
                     CocktailIngredient(getIngredientId("Dry Vermouth"), 22.2),
-                    CocktailIngredient(getIngredientId("Absinthe"), 1.0)
+                    CocktailIngredient(getIngredientId("Absinthe"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Rinse glass with absinthe",
@@ -1036,7 +1036,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Gin"), 59.1),
                     CocktailIngredient(getIngredientId("Lime Juice"), 22.2),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0)
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Muddle mint with simple syrup",
@@ -1080,7 +1080,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Gin"), 44.4),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 22.2),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
-                    CocktailIngredient(getIngredientId("Egg White"), 0.0)
+                    CocktailIngredient(getIngredientId("Egg White"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to shaker without ice",
@@ -1098,8 +1098,8 @@ class DataInitializer(
                 name = "Caipirinha",
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Cachaca"), 59.1),
-                    CocktailIngredient(getIngredientId("Lime"), 0.0),
-                    CocktailIngredient(getIngredientId("Sugar"), 0.0)
+                    CocktailIngredient(getIngredientId("Lime"), -1.0),
+                    CocktailIngredient(getIngredientId("Sugar"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Quarter lime and muddle with sugar in glass",
@@ -1163,7 +1163,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
                     CocktailIngredient(getIngredientId("Water"), 29.6),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to glass with ice",
@@ -1186,7 +1186,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Pineapple Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Passion Fruit Juice"), 14.8),
                     CocktailIngredient(getIngredientId("Grenadine"), 14.8),
-                    CocktailIngredient(getIngredientId("Absinthe"), 1.0)
+                    CocktailIngredient(getIngredientId("Absinthe"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients except dark rum to shaker with ice",
@@ -1226,7 +1226,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("White Rum"), 44.4),
                     CocktailIngredient(getIngredientId("Dry Vermouth"), 22.2),
                     CocktailIngredient(getIngredientId("Blue Curaçao"), 14.8),
-                    CocktailIngredient(getIngredientId("Grenadine"), 0.0)
+                    CocktailIngredient(getIngredientId("Grenadine"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to mixing glass with ice",
@@ -1264,8 +1264,8 @@ class DataInitializer(
                 name = "Hot Buttered Rum",
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Dark Rum"), 59.1),
-                    CocktailIngredient(getIngredientId("Butter"), 0.0),
-                    CocktailIngredient(getIngredientId("Brown Sugar"), 0.0),
+                    CocktailIngredient(getIngredientId("Butter"), -1.0),
+                    CocktailIngredient(getIngredientId("Brown Sugar"), -1.0),
                     CocktailIngredient(getIngredientId("Hot Water"), 118.3)
                 ),
                 steps = mutableListOf(
@@ -1308,7 +1308,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Grapefruit Juice"), 118.3),
                     CocktailIngredient(getIngredientId("Lime Juice"), 14.8),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Salt"), 1.0)
+                    CocktailIngredient(getIngredientId("Salt"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Rim glass with salt",
@@ -1367,7 +1367,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Tequila"), 59.1),
                     CocktailIngredient(getIngredientId("Agave Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add syrup and bitters to glass",
@@ -1407,7 +1407,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Tequila"), 44.4),
                     CocktailIngredient(getIngredientId("Mezcal"), 14.8),
                     CocktailIngredient(getIngredientId("Agave Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add syrup and bitters to glass",
@@ -1427,7 +1427,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Mezcal"), 59.1),
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Agave Syrup"), 22.2),
-                    CocktailIngredient(getIngredientId("Salt"), 1.0)
+                    CocktailIngredient(getIngredientId("Salt"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Rim glass with salt",
@@ -1448,7 +1448,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Tequila"), 59.1),
                     CocktailIngredient(getIngredientId("Cola"), 118.3),
                     CocktailIngredient(getIngredientId("Lime Juice"), 14.8),
-                    CocktailIngredient(getIngredientId("Salt"), 1.0)
+                    CocktailIngredient(getIngredientId("Salt"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Rim glass with salt using lime",
@@ -1504,7 +1504,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Bourbon"), 73.9),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0)
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Muddle mint with syrup in julep cup",
@@ -1525,7 +1525,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Rye Whiskey"), 59.1),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Peychaud's Bitters"), 3.0),
+                    CocktailIngredient(getIngredientId("Peychaud's Bitters"), -1.0),
                     CocktailIngredient(getIngredientId("Absinthe"), 5.0)
                 ),
                 steps = mutableListOf(
@@ -1547,7 +1547,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Scotch"), 59.1),
                     CocktailIngredient(getIngredientId("Sweet Vermouth"), 29.6),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to mixing glass with ice",
@@ -1599,7 +1599,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Irish Whiskey"), 44.4),
                     CocktailIngredient(getIngredientId("Espresso"), 118.3),
-                    CocktailIngredient(getIngredientId("Sugar"), 0.0),
+                    CocktailIngredient(getIngredientId("Sugar"), -1.0),
                     CocktailIngredient(getIngredientId("Heavy Cream"), 15.0)
                 ),
                 steps = mutableListOf(
@@ -1730,7 +1730,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Pisco"), 59.1),
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
-                    CocktailIngredient(getIngredientId("Egg White"), 0.0)
+                    CocktailIngredient(getIngredientId("Egg White"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to shaker without ice",
@@ -1771,8 +1771,8 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Cognac"), 22.2),
                     CocktailIngredient(getIngredientId("Sweet Vermouth"), 22.2),
                     CocktailIngredient(getIngredientId("Benedictine"), 14.8),
-                    CocktailIngredient(getIngredientId("Peychaud's Bitters"), 1.0),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 1.0)
+                    CocktailIngredient(getIngredientId("Peychaud's Bitters"), -1.0),
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to mixing glass with ice",
@@ -1863,7 +1863,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Prosecco"), 88.7),
                     CocktailIngredient(getIngredientId("Elderflower Liqueur"), 14.8),
                     CocktailIngredient(getIngredientId("Club Soda"), 10.0),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0)
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add elderflower liqueur to glass with ice",
@@ -1935,7 +1935,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Sherry"), 118.3),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Orange Slice"), 0.0)
+                    CocktailIngredient(getIngredientId("Orange Slice"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Muddle orange slices with syrup",
@@ -2035,7 +2035,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Bourbon"), 29.6),
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Ginger Beer"), 118.3),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add gin, bourbon, and lime to glass with ice",
@@ -2145,8 +2145,8 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Peach Liqueur"), 14.8),
                     CocktailIngredient(getIngredientId("Lime Juice"), 22.2),
                     CocktailIngredient(getIngredientId("Honey Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0),
-                    CocktailIngredient(getIngredientId("Pineapple"), 0.0)
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0),
+                    CocktailIngredient(getIngredientId("Pineapple"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to blender",
@@ -2249,7 +2249,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Honey Syrup"), 14.8),
                     CocktailIngredient(getIngredientId("Maraschino Liqueur"), 14.8),
-                    CocktailIngredient(getIngredientId("Egg White"), 0.0)
+                    CocktailIngredient(getIngredientId("Egg White"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to shaker without ice",
@@ -2284,7 +2284,7 @@ class DataInitializer(
             Cocktail(
                 name = "Trinidad Sour",
                 ingredients = mutableListOf(
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 44.4),
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0),
                     CocktailIngredient(getIngredientId("Rye Whiskey"), 14.8),
                     CocktailIngredient(getIngredientId("Orgeat Syrup"), 29.6),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 22.2)
@@ -2307,7 +2307,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Campari"), 29.6),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 22.2),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Grapes"), 0.0)
+                    CocktailIngredient(getIngredientId("Grapes"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Muddle grapes in shaker",
@@ -2327,7 +2327,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Dark Rum"), 59.1),
                     CocktailIngredient(getIngredientId("Falernum"), 14.8),
                     CocktailIngredient(getIngredientId("Lime Juice"), 14.8),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 3.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add rum, falernum, and lime to glass with ice",
@@ -2500,7 +2500,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Rye Whiskey"), 59.1),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add syrup and bitters to glass",
@@ -2519,7 +2519,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Dark Rum"), 59.1),
                     CocktailIngredient(getIngredientId("Demerara Syrup"), 7.4),
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), 2.0)
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add syrup and bitters to glass",
@@ -2559,7 +2559,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Gin"), 44.4),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 22.2),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 14.8),
-                    CocktailIngredient(getIngredientId("Egg White"), 0.0),
+                    CocktailIngredient(getIngredientId("Egg White"), -1.0),
                     CocktailIngredient(getIngredientId("Grenadine"), 7.4)
                 ),
                 steps = mutableListOf(
@@ -2582,7 +2582,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0),
                     CocktailIngredient(getIngredientId("Club Soda"), 60.0)
                 ),
                 steps = mutableListOf(
@@ -2663,10 +2663,10 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Tomato Juice"), 177.4),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 14.8),
-                    CocktailIngredient(getIngredientId("Worcestershire Sauce"), 2.0),
-                    CocktailIngredient(getIngredientId("Tabasco Sauce"), 2.0),
-                    CocktailIngredient(getIngredientId("Salt"), 1.0),
-                    CocktailIngredient(getIngredientId("Black Pepper"), 1.0)
+                    CocktailIngredient(getIngredientId("Worcestershire Sauce"), -1.0),
+                    CocktailIngredient(getIngredientId("Tabasco Sauce"), -1.0),
+                    CocktailIngredient(getIngredientId("Salt"), -1.0),
+                    CocktailIngredient(getIngredientId("Black Pepper"), -1.0)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to glass with ice",
@@ -2826,8 +2826,8 @@ class DataInitializer(
             Cocktail(
                 name = "Cucumber Mint Cooler",
                 ingredients = mutableListOf(
-                    CocktailIngredient(getIngredientId("Cucumber"), 0.0),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0),
+                    CocktailIngredient(getIngredientId("Cucumber"), -1.0),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0),
                     CocktailIngredient(getIngredientId("Lime Juice"), 29.6),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
                     CocktailIngredient(getIngredientId("Club Soda"), 60.0)
@@ -2953,7 +2953,7 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Lemon Juice"), 59.1),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 29.6),
-                    CocktailIngredient(getIngredientId("Basil"), 0.0),
+                    CocktailIngredient(getIngredientId("Basil"), -1.0),
                     CocktailIngredient(getIngredientId("Water"), 88.7)
                 ),
                 steps = mutableListOf(
@@ -3016,7 +3016,7 @@ class DataInitializer(
                 name = "Pineapple Mint Cooler",
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Pineapple Juice"), 118.3),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), 0.0),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), -1.0),
                     CocktailIngredient(getIngredientId("Lime Juice"), 14.8),
                     CocktailIngredient(getIngredientId("Club Soda"), 59.1)
                 ),
@@ -3106,7 +3106,7 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Grapefruit Juice"), 88.7),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 14.8),
                     CocktailIngredient(getIngredientId("Simple Syrup"), 22.2),
-                    CocktailIngredient(getIngredientId("Rosemary"), 0.0),
+                    CocktailIngredient(getIngredientId("Rosemary"), -1.0),
                     CocktailIngredient(getIngredientId("Club Soda"), 59.1)
                 ),
                 steps = mutableListOf(
