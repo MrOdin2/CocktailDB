@@ -78,12 +78,16 @@ export class MeasureService {
 
   /**
    * Format a measurement in ml to a display string in the current unit
-   * Returns empty string for -1 (non-fluid ingredients like garnishes)
+   * Negative values represent non-fluid quantities (e.g., -8 = 8 mint leaves, -2 = 2 dashes)
+   * The absolute value is the count, displayed without a unit
    */
   formatMeasure(ml: number, unit: MeasureUnit = this.currentUnit.getValue()): string {
-    // Return empty string for -1 (non-fluid ingredients like garnishes, leaves, etc.)
+    // Negative values represent non-fluid ingredient counts (e.g., -8 for 8 mint leaves)
     if (ml < 0) {
-      return '';
+      const count = Math.abs(ml);
+      // Format without decimals if it's a whole number, otherwise show 1 decimal
+      const formatted = Number.isInteger(count) ? count.toString() : count.toFixed(1).replace(/\.?0+$/, '');
+      return formatted;
     }
     
     const converted = this.convertFromMl(ml, unit);
