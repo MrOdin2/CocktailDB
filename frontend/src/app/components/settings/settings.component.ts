@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ThemeService, Theme } from '../../services/theme.service';
+import { MeasureService } from '../../services/measure.service';
+import { MeasureUnit } from '../../models/models';
 
 @Component({
     selector: 'app-settings',
@@ -8,8 +10,10 @@ import { ThemeService, Theme } from '../../services/theme.service';
     templateUrl: './settings.component.html',
     styleUrls: ['../admin-shared.css', './settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   currentTheme: Theme = 'basic';
+  currentUnit: MeasureUnit = MeasureUnit.ML;
+  private unitSubscription?: Subscription;
 
   themes = [
     {
@@ -37,16 +41,52 @@ export class SettingsComponent implements OnInit {
       preview: 'Dark brown (#1a0f00) background with warm amber/orange (#ffb000) text'
     }
   ];
+  
+  measureUnits = [
+    {
+      id: MeasureUnit.ML,
+      name: 'Milliliters (ml)',
+      description: 'Metric system - commonly used internationally',
+      example: '30 ml, 60 ml'
+    },
+    {
+      id: MeasureUnit.OZ,
+      name: 'Ounces (oz)',
+      description: 'Imperial system - commonly used in the US',
+      example: '1 oz, 2 oz'
+    },
+    {
+      id: MeasureUnit.CL,
+      name: 'Centiliters (cl)',
+      description: 'Metric system - commonly used in Europe',
+      example: '3 cl, 6 cl'
+    }
+  ];
 
-  constructor(private themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    private measureService: MeasureService
+  ) {}
 
   ngOnInit(): void {
     this.themeService.currentTheme$.subscribe(theme => {
       this.currentTheme = theme;
     });
+    
+    this.unitSubscription = this.measureService.getUnit().subscribe(unit => {
+      this.currentUnit = unit;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.unitSubscription?.unsubscribe();
   }
 
   selectTheme(theme: Theme): void {
     this.themeService.setTheme(theme);
+  }
+  
+  selectUnit(unit: MeasureUnit): void {
+    this.measureService.setUnit(unit);
   }
 }

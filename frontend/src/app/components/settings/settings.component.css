@@ -24,6 +24,60 @@
   margin-bottom: 20px;
 }
 
+.setting-note {
+  margin-top: 15px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Unit Grid */
+.unit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.unit-card {
+  padding: 15px;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.unit-card:hover {
+  transform: translateY(-3px);
+}
+
+.unit-card.active {
+  border-width: 3px;
+}
+
+.unit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.unit-header h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.unit-description {
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.unit-example {
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* Theme Grid */
 .theme-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

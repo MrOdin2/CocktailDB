@@ -4,6 +4,30 @@
   </div>
 
   <div class="settings-section">
+    <h3>Measurement Unit</h3>
+    <p>Choose your preferred unit for displaying ingredient measurements:</p>
+
+    <div class="unit-grid">
+      @for (unit of measureUnits; track unit.id) {
+        <div
+          class="unit-card"
+          [class.active]="currentUnit === unit.id"
+          (click)="selectUnit(unit.id)">
+          <div class="unit-header">
+            <h4>{{ unit.name }}</h4>
+            @if (currentUnit === unit.id) {
+              <span class="active-badge">ACTIVE</span>
+            }
+          </div>
+          <p class="unit-description">{{ unit.description }}</p>
+          <p class="unit-example">Example: {{ unit.example }}</p>
+        </div>
+      }
+    </div>
+    <p class="setting-note"><strong>Note:</strong> This preference is saved locally in your browser.</p>
+  </div>
+
+  <div class="settings-section">
     <h3>Global Theme Selection</h3>
     <p>Choose the theme for all users (admin, barkeepers, and visitors):</p>
 
