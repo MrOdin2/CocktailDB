@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Cocktail, Ingredient } from '../models/models';
+import { Cocktail, Ingredient, MeasureUnit } from '../models/models';
+import { MeasureService } from './measure.service';
 
 export enum ExportFormat {
   HTML = 'html',
@@ -17,7 +18,7 @@ export enum ExportType {
 })
 export class ExportService {
 
-  constructor() {}
+  constructor(private measureService: MeasureService) {}
 
   /**
    * Export cocktails based on type and format
@@ -165,7 +166,8 @@ export class ExportService {
 `;
         for (const ing of cocktail.ingredients) {
           const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-          html += `        <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(ing.measure)}</li>\n`;
+          const measure = this.formatMeasure(ing.measureMl);
+          html += `        <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(measure)}</li>\n`;
         }
         html += `      </ul>
     </div>
@@ -275,7 +277,8 @@ export class ExportService {
 `;
       for (const ing of cocktail.ingredients) {
         const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-        html += `        <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(ing.measure)}</li>\n`;
+        const measure = this.formatMeasure(ing.measureMl);
+        html += `        <li>${this.escapeHtml(ingredientName)} - ${this.escapeHtml(measure)}</li>\n`;
       }
       html += `      </ul>
 `;
@@ -324,7 +327,8 @@ export class ExportService {
         markdown += `### ${cocktail.name}\n\n`;
         for (const ing of cocktail.ingredients) {
           const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-          markdown += `- ${ingredientName} - ${ing.measure}\n`;
+          const measure = this.formatMeasure(ing.measureMl);
+          markdown += `- ${ingredientName} - ${measure}\n`;
         }
         markdown += `\n`;
       }
@@ -345,7 +349,8 @@ export class ExportService {
       markdown += `### Ingredients\n\n`;
       for (const ing of cocktail.ingredients) {
         const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-        markdown += `- ${ingredientName} - ${ing.measure}\n`;
+        const measure = this.formatMeasure(ing.measureMl);
+        markdown += `- ${ingredientName} - ${measure}\n`;
       }
       markdown += `\n`;
 
@@ -433,6 +438,13 @@ export class ExportService {
   private getIngredientName(ingredientId: number, ingredients: Ingredient[]): string {
     const ingredient = ingredients.find(i => i.id === ingredientId);
     return ingredient ? ingredient.name : 'Unknown';
+  }
+  
+  /**
+   * Format a measurement in ml using the user's preferred unit
+   */
+  private formatMeasure(measureMl: number): string {
+    return this.measureService.formatMeasure(measureMl);
   }
 
   /**

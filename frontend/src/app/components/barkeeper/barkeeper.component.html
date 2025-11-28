@@ -187,7 +187,7 @@
           <h3>Ingredients:</h3>
           <ul class="ingredients-list-recipe">
             <li *ngFor="let ing of selectedCocktail.ingredients">
-              <span class="measure">{{ ing.measure }}</span>
+              <span class="measure">{{ formatMeasure(ing.measureMl) }}</span>
               <span class="name">{{ getIngredientName(ing.ingredientId) }}</span>
             </li>
           </ul>

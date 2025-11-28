@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
-import { Cocktail, Ingredient } from '../../models/models';
+import { MeasureService } from '../../services/measure.service';
+import { Cocktail, Ingredient, MeasureUnit } from '../../models/models';
 
 @Component({
   selector: 'app-barkeeper',
@@ -13,7 +15,7 @@ import { Cocktail, Ingredient } from '../../models/models';
   templateUrl: './barkeeper.component.html',
   styleUrls: ['./barkeeper.component.css']
 })
-export class BarkeeperComponent implements OnInit {
+export class BarkeeperComponent implements OnInit, OnDestroy {
   currentView: 'menu' | 'alphabet' | 'cocktails' | 'available' | 'random' | 'ingredients' | 'recipe' = 'menu';
   previousView: 'menu' | 'alphabet' | 'cocktails' | 'available' | 'random' | 'ingredients' = 'menu';
   cocktails: Cocktail[] = [];
@@ -24,6 +26,10 @@ export class BarkeeperComponent implements OnInit {
   selectedLetter: string = '';
   isLoading = false;
   showOnlyAvailable = false;
+  
+  // Measurement unit
+  currentUnit: MeasureUnit = MeasureUnit.ML;
+  private unitSubscription?: Subscription;
 
   // Filter options for random cocktail
   filterAlcoholic: 'all' | 'alcoholic' | 'non-alcoholic' = 'all';
@@ -38,11 +44,20 @@ export class BarkeeperComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
+    private measureService: MeasureService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadData();
+    
+    this.unitSubscription = this.measureService.getUnit().subscribe(unit => {
+      this.currentUnit = unit;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.unitSubscription?.unsubscribe();
   }
 
   loadData(): void {
@@ -172,6 +187,10 @@ export class BarkeeperComponent implements OnInit {
   getIngredientName(ingredientId: number): string {
     const ingredient = this.ingredientMap.get(ingredientId);
     return ingredient ? ingredient.name : 'Unknown';
+  }
+  
+  formatMeasure(measureMl: number): string {
+    return this.measureService.formatMeasure(measureMl, this.currentUnit);
   }
 
   logout(): void {

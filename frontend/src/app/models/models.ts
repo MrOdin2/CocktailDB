@@ -11,6 +11,12 @@ export enum IngredientType {
   OTHER = 'OTHER'
 }
 
+export enum MeasureUnit {
+  ML = 'ml',
+  OZ = 'oz',
+  CL = 'cl'
+}
+
 export interface Ingredient {
   id?: number;
   name: string;
@@ -21,7 +27,7 @@ export interface Ingredient {
 
 export interface CocktailIngredient {
   ingredientId: number;
-  measure: string;
+  measureMl: number;
 }
 
 export interface Cocktail {

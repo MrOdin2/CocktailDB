@@ -44,7 +44,7 @@
       <h3 class="section-title">📝 Ingredients</h3>
       <ul class="ingredients-list">
         <li *ngFor="let item of cocktail.ingredients" class="ingredient-item">
-          <span class="ingredient-measure">{{ item.measure }}</span>
+          <span class="ingredient-measure">{{ formatMeasure(item.measureMl) }}</span>
           <span class="ingredient-name">{{ getIngredientName(item.ingredientId) }}</span>
         </li>
       </ul>

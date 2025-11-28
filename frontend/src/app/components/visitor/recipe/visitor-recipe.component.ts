@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
-import { Cocktail, Ingredient } from '../../../models/models';
+import { MeasureService } from '../../../services/measure.service';
+import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 
 @Component({
   selector: 'app-visitor-recipe',
@@ -11,16 +13,20 @@ import { Cocktail, Ingredient } from '../../../models/models';
   templateUrl: './visitor-recipe.component.html',
   styleUrls: ['./visitor-recipe.component.css']
 })
-export class VisitorRecipeComponent implements OnInit {
+export class VisitorRecipeComponent implements OnInit, OnDestroy {
   cocktail: Cocktail | null = null;
   ingredients: Map<number, Ingredient> = new Map();
   loading: boolean = false;
   error: string | null = null;
+  
+  currentUnit: MeasureUnit = MeasureUnit.ML;
+  private unitSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private measureService: MeasureService
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +36,14 @@ export class VisitorRecipeComponent implements OnInit {
     } else {
       this.error = 'Invalid cocktail ID';
     }
+    
+    this.unitSubscription = this.measureService.getUnit().subscribe(unit => {
+      this.currentUnit = unit;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.unitSubscription?.unsubscribe();
   }
 
   loadCocktail(id: number): void {
@@ -71,6 +85,10 @@ export class VisitorRecipeComponent implements OnInit {
   getIngredientName(ingredientId: number): string {
     const ingredient = this.ingredients.get(ingredientId);
     return ingredient ? ingredient.name : 'Unknown ingredient';
+  }
+  
+  formatMeasure(measureMl: number): string {
+    return this.measureService.formatMeasure(measureMl, this.currentUnit);
   }
 
   goBack(): void {

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../../models/models';
+import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../models/models';
 import { ApiService } from '../../services/api.service';
 import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
+import { MeasureService } from '../../services/measure.service';
 import { ModalComponent } from '../util/modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-cocktails',
@@ -12,7 +14,7 @@ import { ModalComponent } from '../util/modal.component';
     templateUrl: './cocktails.component.html',
     styleUrls: ['../admin-shared.css', './cocktails.component.css']
 })
-export class CocktailsComponent implements OnInit {
+export class CocktailsComponent implements OnInit, OnDestroy {
   cocktails: Cocktail[] = [];
   availableCocktails: Cocktail[] = [];
   ingredients: Ingredient[] = [];
@@ -20,6 +22,10 @@ export class CocktailsComponent implements OnInit {
   isModalOpen = false;
   isEditMode = false;
   editingCocktailId?: number;
+  
+  // Measurement unit
+  currentUnit: MeasureUnit = MeasureUnit.ML;
+  private unitSubscription?: Subscription;
   
   // Filter properties
   nameFilter = '';
@@ -36,9 +42,10 @@ export class CocktailsComponent implements OnInit {
     baseSpirit: 'none'
   };
   
-  newIngredientEntry: CocktailIngredient = {
+  // For ingredient entry - store value in display unit, convert to ml on add
+  newIngredientEntry: { ingredientId: number; measureValue: number } = {
     ingredientId: 0,
-    measure: ''
+    measureValue: 0
   };
   
   newStep = '';
@@ -68,12 +75,25 @@ export class CocktailsComponent implements OnInit {
   availableTagsForExport: string[] = [];
   selectedTagsForExport: string[] = [];
 
-  constructor(private apiService: ApiService, private exportService: ExportService) {}
+  constructor(
+    private apiService: ApiService, 
+    private exportService: ExportService,
+    private measureService: MeasureService
+  ) {}
 
   ngOnInit(): void {
     this.loadCocktails();
     this.loadIngredients();
     this.loadAvailableCocktails();
+    
+    // Subscribe to unit changes
+    this.unitSubscription = this.measureService.getUnit().subscribe(unit => {
+      this.currentUnit = unit;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.unitSubscription?.unsubscribe();
   }
 
   loadCocktails(): void {
@@ -177,9 +197,14 @@ export class CocktailsComponent implements OnInit {
   }
 
   addIngredientToCocktail(): void {
-    if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measure) {
-      this.newCocktail.ingredients.push({ ...this.newIngredientEntry });
-      this.newIngredientEntry = { ingredientId: 0, measure: '' };
+    if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measureValue > 0) {
+      // Convert from current display unit to ml for storage
+      const measureMl = this.measureService.convertToMl(this.newIngredientEntry.measureValue, this.currentUnit);
+      this.newCocktail.ingredients.push({ 
+        ingredientId: this.newIngredientEntry.ingredientId, 
+        measureMl: measureMl 
+      });
+      this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
       // Clear search filter after adding ingredient
       this.ingredientSearchFilter = '';
     }
@@ -261,6 +286,18 @@ export class CocktailsComponent implements OnInit {
     const ingredient = this.ingredients.find(i => i.id === ingredientId);
     return ingredient ? ingredient.name : 'Unknown';
   }
+  
+  formatMeasure(measureMl: number): string {
+    return this.measureService.formatMeasure(measureMl, this.currentUnit);
+  }
+  
+  get availableUnits(): MeasureUnit[] {
+    return this.measureService.getAvailableUnits();
+  }
+  
+  setUnit(unit: MeasureUnit): void {
+    this.measureService.setUnit(unit);
+  }
 
   resetNewCocktail(): void {
     this.newCocktail = {
@@ -272,6 +309,7 @@ export class CocktailsComponent implements OnInit {
       abv: 0,
       baseSpirit: 'none'
     };
+    this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
   }
 
   toggleAvailableOnly(): void {

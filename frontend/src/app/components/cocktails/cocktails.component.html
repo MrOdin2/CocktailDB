@@ -75,14 +75,21 @@
                 }
               </select>
             </div>
-            <input type="text" [(ngModel)]="newIngredientEntry.measure" name="measure" placeholder="Measure (e.g., 2 oz)">
+            <div class="measure-input-group">
+              <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue" placeholder="Amount" min="0" step="0.5">
+              <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" name="measureUnit" class="unit-select">
+                @for (unit of availableUnits; track unit) {
+                  <option [value]="unit">{{ unit }}</option>
+                }
+              </select>
+            </div>
             <button type="button" class="btn-secondary" (click)="addIngredientToCocktail()">Add</button>
             <button type="button" class="btn-primary" (click)="openIngredientModal()">+ New Ingredient</button>
           </div>
           <ul class="ingredient-list">
             @for (ing of newCocktail.ingredients; track ing; let i = $index) {
               <li>
-                {{ getIngredientName(ing.ingredientId) }} - {{ ing.measure }}
+                {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
                 <button type="button" class="btn-small" (click)="removeIngredient(i)">Remove</button>
               </li>
             }
@@ -207,7 +214,7 @@
               <ul>
                 @for (ing of cocktail.ingredients; track ing.ingredientId) {
                   <li>
-                    {{ getIngredientName(ing.ingredientId) }} - {{ ing.measure }}
+                    {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
                   </li>
                 }
               </ul>
