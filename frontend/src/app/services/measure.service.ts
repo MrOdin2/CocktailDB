@@ -10,8 +10,8 @@ const STORAGE_KEY = 'cocktaildb-measure-unit';
 export class MeasureService {
   private currentUnit = new BehaviorSubject<MeasureUnit>(MeasureUnit.ML);
 
-  // Conversion constants
-  private readonly ML_PER_OZ = 29.5735;
+  // Conversion constants (exact values)
+  private readonly ML_PER_OZ = 29.5735296875;
   private readonly ML_PER_CL = 10;
 
   constructor() {
@@ -72,9 +72,14 @@ export class MeasureService {
    * Format a measurement in ml to a display string in the current unit
    */
   formatMeasure(ml: number, unit: MeasureUnit = this.currentUnit.getValue()): string {
+    // Return empty string for 0ml (garnishes/non-liquid ingredients)
+    if (ml === 0) {
+      return '';
+    }
+    
     const converted = this.convertFromMl(ml, unit);
     const decimals = unit === MeasureUnit.OZ ? 2 : 1;
-    const rounded = Math.round(converted * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    const rounded = Number.parseFloat(converted.toFixed(decimals));
     
     // Remove trailing zeros for cleaner display
     const formatted = rounded.toString().replace(/\.?0+$/, '');
