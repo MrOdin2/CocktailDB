@@ -895,7 +895,8 @@ class DataInitializer(
                 ingredients = mutableListOf(
                     CocktailIngredient(getIngredientId("Gin"), 59.1),
                     CocktailIngredient(getIngredientId("Maraschino Liqueur"), 14.8),
-                    CocktailIngredient(getIngredientId("Lemon Juice"), 22.2)
+                    CocktailIngredient(getIngredientId("Lemon Juice"), 22.2),
+                    CocktailIngredient(getIngredientId("Violet Liqueur"), 7.4)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to shaker with ice",
