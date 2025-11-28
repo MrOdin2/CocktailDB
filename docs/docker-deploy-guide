@@ -10,3 +10,18 @@ start:
 stop with:
 
     docker compose down
+
+FOR SERVER (by GEMINI):
+
+(local)
+# 1. Build the images (this automatically tags them with the 'image' name)
+docker compose -f docker-compose.registry.yml build --no-cache
+
+# 2. Push all services to your local registry
+docker compose -f docker-compose.registry.yml push
+
+# 3. SSH into your server
+cd /srv/cocktaildb/
+docker compose pull
+docker compose up -d
+    optional: --force-recreate

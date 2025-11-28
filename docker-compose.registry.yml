@@ -1,0 +1,22 @@
+# docker-compose.registry.yml (BUILD BY GEMINI)
+version: '3.8'
+services:
+  postgres:
+    image: 192.168.1.133:5000/cocktaildb-postgres:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+
+  backend:
+    image: 192.168.1.133:5000/cocktaildb-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    # ... other backend config is optional here
+
+  frontend:
+    image: 192.168.1.133:5000/cocktaildb-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    # ... other frontend config is optional here
