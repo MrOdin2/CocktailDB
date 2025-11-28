@@ -2284,7 +2284,7 @@ class DataInitializer(
             Cocktail(
                 name = "Trinidad Sour",
                 ingredients = mutableListOf(
-                    CocktailIngredient(getIngredientId("Angostura Bitters"), -1.0),
+                    CocktailIngredient(getIngredientId("Angostura Bitters"), 44.4),
                     CocktailIngredient(getIngredientId("Rye Whiskey"), 14.8),
                     CocktailIngredient(getIngredientId("Orgeat Syrup"), 29.6),
                     CocktailIngredient(getIngredientId("Lemon Juice"), 22.2)

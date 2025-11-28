@@ -2,7 +2,7 @@
 -- This migration converts the measure column from VARCHAR to DOUBLE PRECISION (ml)
 -- 
 -- Non-liquid ingredients (garnishes, leaves, etc.) are stored as -1.0 ml
--- The frontend displays no unit for -1.0 ml measurements
+-- The frontend returns an empty string for -1.0 ml (non-fluid) measurements
 
 -- Step 1: Add new column for metric measurement
 ALTER TABLE cocktail_ingredients ADD COLUMN measure_ml DOUBLE PRECISION;
