@@ -70,12 +70,12 @@
    ======================================== */
 @media (min-width: 1024px) and (max-width: 1200px) and (max-height: 900px) {
   .alphabet-grid {
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 0.75rem;
     padding: 1rem;
     max-width: 100%;
     /* Fill available height: 100vh - header (~60px) */
-    min-height: calc(100vh - 80px);
+    min-height: 80vh;
     align-content: stretch;
   }
 
