@@ -87,8 +87,8 @@ export class BarkeeperCocktailListComponent implements OnInit {
   }
 
   extractFilterOptions(cocktails: Cocktail[]): void {
-    // Extract unique base spirits
-    const spiritsSet = new Set(cocktails.map(c => c.baseSpirit || 'none'));
+    // Extract unique base spirits (use 'Other' for cocktails without a defined base spirit)
+    const spiritsSet = new Set(cocktails.map(c => c.baseSpirit || 'Other'));
     this.availableBaseSpirits = Array.from(spiritsSet).sort();
 
     // Extract unique tags
@@ -104,9 +104,13 @@ export class BarkeeperCocktailListComponent implements OnInit {
   applyFilters(): void {
     let result = [...this.availableCocktails];
 
-    // Filter by base spirit
+    // Filter by base spirit (handle 'Other' for cocktails without defined base spirit)
     if (this.filterBaseSpirit !== 'all') {
-      result = result.filter(c => c.baseSpirit === this.filterBaseSpirit);
+      if (this.filterBaseSpirit === 'Other') {
+        result = result.filter(c => !c.baseSpirit || c.baseSpirit === 'Other');
+      } else {
+        result = result.filter(c => c.baseSpirit === this.filterBaseSpirit);
+      }
     }
 
     // Filter by tag

@@ -8,8 +8,10 @@
       *ngIf="viewMode === 'available'" 
       class="filter-toggle-btn"
       [class.active]="showFilters || hasActiveFilters()"
-      (click)="toggleFilters()">
-      🔍 Filter {{ hasActiveFilters() ? '●' : '' }}
+      (click)="toggleFilters()"
+      [attr.aria-label]="hasActiveFilters() ? 'Filter (active filters applied)' : 'Filter cocktails'"
+      [attr.aria-expanded]="showFilters">
+      <span aria-hidden="true">🔍</span> Filter<span *ngIf="hasActiveFilters()" aria-hidden="true"> ●</span>
     </button>
   </div>
 

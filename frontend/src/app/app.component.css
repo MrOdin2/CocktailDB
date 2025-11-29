@@ -101,6 +101,8 @@ main {
 /* ========================================
    iPad-specific optimizations (834px x 1194px)
    Remove outer padding for barkeeper mode to use full screen
+   Note: Using :has() selector which is supported in Safari 15.4+, Chrome 105+, Edge 105+
+   For older browsers, the barkeeper-container uses its own full-height styling
    ======================================== */
 @media (min-width: 768px) and (max-width: 1024px) {
   /* When barkeeper-container is inside main, remove main padding */
