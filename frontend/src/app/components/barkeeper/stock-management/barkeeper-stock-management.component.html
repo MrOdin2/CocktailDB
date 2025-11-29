@@ -7,8 +7,45 @@
 
   <div *ngIf="isLoading" class="loading">Loading ingredients...</div>
 
-  <!-- Ingredients List -->
-  <div class="ingredients-list">
+  <!-- Ingredients organized by stock status - shown on iPad/PC -->
+  <div class="stock-sections tablet-up">
+    <!-- In Stock Section -->
+    <div class="stock-section">
+      <h3 class="section-title in-stock-title">✓ In Stock ({{ inStockIngredients.length }})</h3>
+      <div class="ingredients-grid">
+        <div 
+          *ngFor="let ingredient of inStockIngredients" 
+          class="ingredient-item in-stock"
+          (click)="toggleIngredientStock(ingredient)">
+          <div class="ingredient-info">
+            <div class="ingredient-name">{{ ingredient.name }}</div>
+            <div class="ingredient-type">{{ ingredient.type }}</div>
+          </div>
+          <div class="stock-indicator">✓</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Out of Stock Section -->
+    <div class="stock-section">
+      <h3 class="section-title out-of-stock-title">✗ Out of Stock ({{ outOfStockIngredients.length }})</h3>
+      <div class="ingredients-grid">
+        <div 
+          *ngFor="let ingredient of outOfStockIngredients" 
+          class="ingredient-item out-of-stock"
+          (click)="toggleIngredientStock(ingredient)">
+          <div class="ingredient-info">
+            <div class="ingredient-name">{{ ingredient.name }}</div>
+            <div class="ingredient-type">{{ ingredient.type }}</div>
+          </div>
+          <div class="stock-indicator">✗</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile: Single list (original layout) -->
+  <div class="ingredients-list mobile-only">
     <div 
       *ngFor="let ingredient of ingredients" 
       class="ingredient-item"

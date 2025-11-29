@@ -35,6 +35,16 @@ export class BarkeeperStockManagementComponent implements OnInit {
     });
   }
 
+  // Get ingredients that are in stock
+  get inStockIngredients(): Ingredient[] {
+    return this.ingredients.filter(i => i.inStock);
+  }
+
+  // Get ingredients that are out of stock
+  get outOfStockIngredients(): Ingredient[] {
+    return this.ingredients.filter(i => !i.inStock);
+  }
+
   toggleIngredientStock(ingredient: Ingredient): void {
     const updated = { ...ingredient, inStock: !ingredient.inStock };
     this.apiService.updateIngredient(ingredient.id!, updated).subscribe({

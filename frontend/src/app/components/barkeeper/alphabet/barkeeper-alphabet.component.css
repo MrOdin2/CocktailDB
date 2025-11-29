@@ -32,3 +32,33 @@
   transform: scale(0.95);
   background: #667eea;
 }
+
+/* ========================================
+   iPad-specific optimizations (834px x 1194px)
+   Optimized alphabet grid to fit on screen without scrolling
+   Calculate: 1194px height - header (~100px) = ~1094px available
+   With 7 rows of letters (26 letters = 7 rows x 4 cols or 5 rows x 6 cols)
+   Use 6 columns for better fit: 26 letters = 5 rows (5, 5, 5, 5, 6)
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .alphabet-grid {
+    /* 6 columns x 5 rows = 30 cells (4 empty) for 26 letters */
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+    max-width: 100%;
+    /* Calculate button size to fit on screen without scrolling */
+    /* Available height after header (~80px): ~914px (iPad logical 1194px minus 280px for header/chrome) */
+    /* 5 rows with gaps: (914 - 4*12px) / 5 ≈ 170px per button */
+  }
+
+  .alphabet-btn {
+    padding: 0;
+    font-size: 1.8rem;
+    border-radius: 10px;
+    /* Use fixed height instead of aspect-ratio for better control */
+    aspect-ratio: auto;
+    min-height: 90px;
+    height: auto;
+  }
+}
