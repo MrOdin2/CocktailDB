@@ -3,6 +3,71 @@
   <div class="view-header">
     <a [routerLink]="getBackRoute()" class="back-btn">← Back</a>
     <h2>{{ getTitle() }}</h2>
+    <!-- Filter toggle button for available mode -->
+    <button 
+      *ngIf="viewMode === 'available'" 
+      class="filter-toggle-btn"
+      [class.active]="showFilters || hasActiveFilters()"
+      (click)="toggleFilters()"
+      [attr.aria-label]="hasActiveFilters() ? 'Filter (active filters applied)' : 'Filter cocktails'"
+      [attr.aria-expanded]="showFilters">
+      <span aria-hidden="true">🔍</span> Filter<span *ngIf="hasActiveFilters()" aria-hidden="true"> ●</span>
+    </button>
+  </div>
+
+  <!-- Filters panel (only shown in available mode) -->
+  <div *ngIf="viewMode === 'available' && showFilters" class="filters-panel">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label for="spiritFilter">Base Spirit:</label>
+        <select 
+          id="spiritFilter"
+          [(ngModel)]="filterBaseSpirit" 
+          (change)="onFilterChange()" 
+          class="filter-select">
+          <option value="all">All Spirits</option>
+          <option *ngFor="let spirit of availableBaseSpirits" [value]="spirit">
+            {{ spirit | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="tagFilter">Tag:</label>
+        <select 
+          id="tagFilter"
+          [(ngModel)]="filterTag" 
+          (change)="onFilterChange()" 
+          class="filter-select">
+          <option value="all">All Tags</option>
+          <option *ngFor="let tag of availableTags" [value]="tag">
+            {{ tag }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="abvFilter">ABV:</label>
+        <select 
+          id="abvFilter"
+          [(ngModel)]="filterAbv" 
+          (change)="onFilterChange()" 
+          class="filter-select">
+          <option value="all">All ABV</option>
+          <option value="non-alcoholic">Non-Alcoholic (0%)</option>
+          <option value="low">Low (1-10%)</option>
+          <option value="medium">Medium (11-25%)</option>
+          <option value="high">High (25%+)</option>
+        </select>
+      </div>
+    </div>
+
+    <button 
+      *ngIf="hasActiveFilters()" 
+      class="clear-filters-btn" 
+      (click)="clearFilters()">
+      Clear Filters
+    </button>
   </div>
 
   <!-- Cocktails List -->

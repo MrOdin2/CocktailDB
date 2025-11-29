@@ -32,3 +32,62 @@
   transform: scale(0.95);
   background: #667eea;
 }
+
+/* ========================================
+   iPad Portrait optimizations (834px x 1194px)
+   Dynamic sizing to fill the screen
+   6 columns x 5 rows = 30 cells for 26 letters
+   ======================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .alphabet-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+    max-width: 100%;
+    /* Fill available height: 100vh - header (~80px) */
+    min-height: calc(100vh - 100px);
+    align-content: stretch;
+  }
+
+  .alphabet-btn {
+    padding: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    border-radius: 12px;
+    /* Dynamic height to fill available space */
+    aspect-ratio: auto;
+    min-height: 0;
+    height: 100%;
+    /* Ensure buttons stretch to fill their grid cell */
+    align-self: stretch;
+  }
+}
+
+/* ========================================
+   iPad Landscape optimizations (1194px x 834px)
+   9 columns x 3 rows to maximize horizontal space
+   Dynamic button sizing to fill screen height
+   ======================================== */
+@media (min-width: 1024px) and (max-width: 1200px) and (max-height: 900px) {
+  .alphabet-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+    max-width: 100%;
+    /* Fill available height: 100vh - header (~60px) */
+    min-height: 80vh;
+    align-content: stretch;
+  }
+
+  .alphabet-btn {
+    padding: 0;
+    font-size: 2rem;
+    font-weight: 800;
+    border-radius: 10px;
+    /* Dynamic height to fill available space */
+    aspect-ratio: auto;
+    min-height: 0;
+    height: 100%;
+    align-self: stretch;
+  }
+}
