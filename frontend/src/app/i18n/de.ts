@@ -115,7 +115,7 @@ export const de = {
       feature2: 'Courier New Monospace-Schrift für Terminal-Authentizität',
       feature3: 'CRT-Scanline-Overlay-Effekte',
       feature4: 'Textglüh-Effekte (Phosphorbildschirm-Simulation)',
-      feature5: '80er Jahre Blockstiege Rahmen (keine abgerundeten Ecken)',
+      feature5: '80er Jahre blockige Rahmen (keine abgerundeten Ecken)',
       feature6: 'Hoher Kontrast für maximale Lesbarkeit'
     }
   },

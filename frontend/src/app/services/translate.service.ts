@@ -109,7 +109,12 @@ export class TranslateService {
     
     let result = value;
     for (const [key, val] of Object.entries(params)) {
-      result = result.replace(new RegExp(`{{\\s*${key}\\s*}}`, 'g'), String(val));
+      // Use simple string replacement to avoid regex injection
+      // Replace {{ key }} with the value
+      const placeholder = `{{ ${key} }}`;
+      const placeholderNoSpace = `{{${key}}}`;
+      result = result.split(placeholder).join(String(val));
+      result = result.split(placeholderNoSpace).join(String(val));
     }
     return result;
   }

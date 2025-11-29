@@ -10,7 +10,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string = '';
   private lastParams: { [key: string]: string | number } | undefined;
   private lastValue: string = '';
-  private subscription: Subscription;
+  private subscription: Subscription | null = null;
 
   constructor(
     private translateService: TranslateService,
@@ -50,6 +50,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
