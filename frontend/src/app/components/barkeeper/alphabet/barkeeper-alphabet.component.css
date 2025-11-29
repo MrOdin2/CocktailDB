@@ -62,3 +62,26 @@
     height: auto;
   }
 }
+
+/* ========================================
+   iPad Landscape optimizations (1194px x 834px)
+   More columns to fit all letters without scrolling in limited height
+   ======================================== */
+@media (min-width: 1024px) and (max-width: 1200px) and (max-height: 900px) {
+  .alphabet-grid {
+    /* 9 columns x 3 rows = 27 cells for 26 letters - fits in limited vertical space */
+    grid-template-columns: repeat(9, 1fr);
+    gap: 0.5rem;
+    padding: 0.75rem;
+    max-width: 100%;
+  }
+
+  .alphabet-btn {
+    padding: 0;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    aspect-ratio: auto;
+    min-height: 70px;
+    height: auto;
+  }
+}
