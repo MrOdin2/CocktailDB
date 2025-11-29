@@ -1,8 +1,8 @@
 <div class="barkeeper-container">
   <!-- Header -->
   <div class="view-header">
-    <a routerLink="/barkeeper/menu" class="back-btn">← Back</a>
-    <h2>Select First Letter</h2>
+    <a routerLink="/barkeeper/menu" class="back-btn">← {{ 'common.back' | translate }}</a>
+    <h2>{{ 'barkeeper.alphabet.title' | translate }}</h2>
   </div>
 
   <!-- Alphabet Grid -->
@@ -15,5 +15,5 @@
     </button>
   </div>
 
-  <div *ngIf="isLoading" class="loading">Loading cocktails...</div>
+  <div *ngIf="isLoading" class="loading">{{ 'barkeeper.alphabet.loading' | translate }}</div>
 </div>

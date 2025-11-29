@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { TranslateService } from '../../../services/translate.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-cocktail-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './barkeeper-cocktail-list.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-cocktail-list.component.css']
 })
@@ -32,7 +34,8 @@ export class BarkeeperCocktailListComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -178,8 +181,8 @@ export class BarkeeperCocktailListComponent implements OnInit {
 
   getTitle(): string {
     if (this.viewMode === 'available') {
-      return 'Available Cocktails';
+      return this.translateService.translate('barkeeper.menu.availableCocktails');
     }
-    return this.letter ? `Cocktails - ${this.letter}` : 'All Cocktails';
+    return this.letter ? `${this.translateService.translate('common.cocktails')} - ${this.letter}` : this.translateService.translate('cocktails.allCocktails');
   }
 }

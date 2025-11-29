@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '../../services/translate.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -18,8 +20,21 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
+
+  getPlaceholder(): string {
+    const role = this.selectedRole.toLowerCase();
+    return this.translateService.translate('login.enterPassword', { role });
+  }
+
+  getLoginButtonText(): string {
+    if (this.isLoading) {
+      return this.translateService.translate('login.loggingIn');
+    }
+    return this.translateService.translate('login.loginAs', { role: this.selectedRole });
+  }
 
   onSubmit(): void {
     if (!this.password) {

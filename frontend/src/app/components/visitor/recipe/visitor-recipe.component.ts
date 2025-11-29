@@ -4,12 +4,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { MeasureService } from '../../../services/measure.service';
+import { TranslateService } from '../../../services/translate.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 
 @Component({
   selector: 'app-visitor-recipe',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './visitor-recipe.component.html',
   styleUrls: ['./visitor-recipe.component.css']
 })
@@ -26,7 +28,8 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService,
-    private measureService: MeasureService
+    private measureService: MeasureService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +99,10 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   }
 
   getAlcoholType(abv: number): string {
-    return abv > 0 ? 'Alcoholic' : 'Non-Alcoholic';
+    if (abv === 0) {
+      return this.translateService.translate('visitor.cocktailList.nonAlcoholic');
+    }
+    return this.translateService.translate('visitor.cocktailList.alcoholic');
   }
 
   getAlcoholClass(abv: number): string {

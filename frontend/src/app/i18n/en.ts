@@ -1,0 +1,324 @@
+export const en = {
+  common: {
+    back: 'Back',
+    backTo: 'Back to {{ destination }}',
+    cancel: 'Cancel',
+    save: 'Save',
+    edit: 'Edit',
+    delete: 'Delete',
+    add: 'Add',
+    remove: 'Remove',
+    search: 'Search',
+    filter: 'Filter',
+    clear: 'Clear',
+    clearFilters: 'Clear Filters',
+    loading: 'Loading...',
+    retry: 'Retry',
+    yes: 'Yes',
+    no: 'No',
+    active: 'ACTIVE',
+    all: 'All',
+    none: 'None',
+    name: 'Name',
+    type: 'Type',
+    actions: 'Actions',
+    logout: 'Logout',
+    login: 'Login',
+    cocktails: 'Cocktails',
+    ingredients: 'Ingredients',
+    settings: 'Settings',
+    visualizations: 'Visualizations',
+    notes: 'Notes',
+    tags: 'Tags',
+    instructions: 'Instructions',
+    next: 'Next',
+    export: 'Export'
+  },
+  app: {
+    title: 'CocktailDB',
+    adminMode: 'Admin Mode'
+  },
+  login: {
+    title: 'Login',
+    selectRole: 'Select Role:',
+    admin: 'Admin',
+    barkeeper: 'Barkeeper',
+    enterPassword: 'Enter {{ role }} password',
+    loggingIn: 'Logging in...',
+    loginAs: 'Login as {{ role }}'
+  },
+  nav: {
+    ingredients: 'Ingredients',
+    cocktails: 'Cocktails',
+    visualizations: 'Visualizations',
+    settings: 'Settings'
+  },
+  settings: {
+    title: 'Settings',
+    language: {
+      title: 'Language',
+      description: 'Choose your preferred language:',
+      note: 'This preference is saved locally in your browser.'
+    },
+    measureUnit: {
+      title: 'Measurement Unit',
+      description: 'Choose your preferred unit for displaying ingredient measurements:',
+      note: 'This preference is saved locally in your browser.',
+      ml: {
+        name: 'Milliliters (ml)',
+        description: 'Metric system - commonly used internationally',
+        example: '30 ml, 60 ml'
+      },
+      oz: {
+        name: 'Ounces (oz)',
+        description: 'Imperial system - commonly used in the US',
+        example: '1 oz, 2 oz'
+      },
+      cl: {
+        name: 'Centiliters (cl)',
+        description: 'Metric system - commonly used in Europe',
+        example: '3 cl, 6 cl'
+      }
+    },
+    theme: {
+      title: 'Global Theme Selection',
+      description: 'Choose the theme for all users (admin, barkeepers, and visitors):',
+      currentTheme: 'Current Theme',
+      applyTheme: 'Apply Theme',
+      note: 'The selected theme is applied globally for all users and visitors of your bar.',
+      basic: {
+        name: 'Basic',
+        description: 'Professional and unremarkable appearance',
+        preview: 'White background with standard dark gray text and minimal styling'
+      },
+      terminalGreen: {
+        name: 'Terminal Green',
+        description: 'Classic 80s monochrome green terminal',
+        preview: 'Pure black background with bright green (#00ff00) text'
+      },
+      cyberpunk: {
+        name: 'Cyberpunk Magenta/Cyan',
+        description: 'Neon cyberpunk aesthetic (RoboCop, Blade Runner, Matrix)',
+        preview: 'Dark blue (#0a0e27) background with cyan and magenta neon accents'
+      },
+      amber: {
+        name: 'Amber Monitor',
+        description: 'Vintage amber CRT monitor',
+        preview: 'Dark brown (#1a0f00) background with warm amber/orange (#ffb000) text'
+      }
+    },
+    about: {
+      title: 'About Themes',
+      basicDescription: 'The Basic theme is the default professional appearance.',
+      retroFeatures: 'Optional retro themes feature:',
+      feature1: 'Authentic 80s color palettes with atmospheric backgrounds',
+      feature2: 'Courier New monospace font for terminal authenticity',
+      feature3: 'CRT scanline overlay effects',
+      feature4: 'Text glow effects (phosphor screen simulation)',
+      feature5: '80s-style blocky borders (no rounded corners)',
+      feature6: 'High contrast for maximum readability'
+    }
+  },
+  ingredients: {
+    title: 'Ingredients',
+    addNew: 'Add New Ingredient',
+    allIngredients: 'All Ingredients',
+    searchByName: 'Search by Name:',
+    filterByName: 'Filter by name...',
+    filterByType: 'Filter by Type:',
+    allTypes: 'All Types',
+    abv: 'ABV',
+    abvPercent: 'ABV (%):',
+    inStock: 'In Stock',
+    nameRequired: 'Name is required',
+    addIngredient: 'Add Ingredient',
+    modal: {
+      title: 'Add New Ingredient'
+    }
+  },
+  cocktails: {
+    title: 'Cocktails',
+    addNew: 'Add New Cocktail',
+    exportCocktails: 'Export Cocktails',
+    allCocktails: 'All Cocktails',
+    availableCocktails: 'Available Cocktails',
+    searchByName: 'Search by Name:',
+    filterByName: 'Filter by name...',
+    filterBySpirit: 'Filter by Spirit:',
+    filterByTag: 'Filter by Tag:',
+    allSpirits: 'All Spirits',
+    allTags: 'All Tags',
+    availableOnly: 'Available Only',
+    cocktailName: 'Cocktail Name:',
+    cocktailNameRequired: 'Cocktail name is required',
+    ingredientsLabel: 'Ingredients:',
+    searchIngredients: 'Search ingredients...',
+    selectIngredient: 'Select Ingredient',
+    amount: 'Amount',
+    newIngredient: '+ New Ingredient',
+    ingredientRequired: 'At least one ingredient is required',
+    steps: 'Steps:',
+    addStep: 'Add a step',
+    addStepButton: 'Add Step',
+    notesLabel: 'Notes:',
+    tagsLabel: 'Tags:',
+    selectTag: 'Select a tag or type new',
+    typeNewTag: 'Or type a new tag',
+    addTag: 'Add Tag',
+    updateCocktail: 'Update Cocktail',
+    addCocktail: 'Add Cocktail',
+    editCocktail: 'Edit Cocktail',
+    export: {
+      title: 'Export Cocktails',
+      exportType: 'Export Type:',
+      menuType: 'Menu (Name + Ingredients only)',
+      cheatsheetType: 'CheatSheet (Full Recipe with Steps)',
+      groupBy: 'Group By:',
+      groupBySpirit: 'Spirit',
+      groupByTags: 'Tags',
+      format: 'Format:',
+      html: 'HTML',
+      markdown: 'Markdown (.md)',
+      pdf: 'PDF (Print to PDF)',
+      exportingCount: 'Exporting {{ count }} cocktail(s) based on current filters.',
+      tagSelection: {
+        title: 'Select Tags for Grouping',
+        info: 'Select which tags to use for grouping and arrange them in order:',
+        availableTags: 'Available Tags:',
+        selectedTags: 'Selected Tags (in order):'
+      }
+    }
+  },
+  visualizations: {
+    title: 'Data Visualizations',
+    ingredientsTab: 'Ingredients',
+    cocktailsTab: 'Cocktails',
+    comingSoon: 'Cocktail visualizations coming soon!'
+  },
+  barkeeper: {
+    title: 'CocktailDB',
+    mode: 'Barkeeper Mode',
+    menu: {
+      title: 'Barkeeper Menu',
+      showOnlyAvailable: 'Show Only Available Cocktails',
+      findByLetter: 'Find by Letter',
+      availableCocktails: 'Available Cocktails',
+      randomCocktail: 'Random Cocktail',
+      manageStock: 'Manage Stock'
+    },
+    alphabet: {
+      title: 'Select First Letter',
+      loading: 'Loading cocktails...'
+    },
+    cocktailList: {
+      loading: 'Loading cocktails...',
+      noCocktails: 'No cocktails found',
+      filter: 'Filter',
+      baseSpirit: 'Base Spirit:',
+      tag: 'Tag:',
+      abv: 'ABV:',
+      allSpirits: 'All Spirits',
+      allTags: 'All Tags',
+      allAbv: 'All ABV',
+      nonAlcoholic: 'Non-Alcoholic (0%)',
+      lowAbv: 'Low (1-10%)',
+      mediumAbv: 'Medium (11-25%)',
+      highAbv: 'High (25%+)'
+    },
+    recipe: {
+      title: 'Recipe',
+      base: 'Base:',
+      abv: 'ABV:',
+      ingredients: 'Ingredients:',
+      instructions: 'Instructions:',
+      notes: 'Notes:',
+      tags: 'Tags:'
+    },
+    random: {
+      title: 'Random Cocktail',
+      typeLabel: 'Type:',
+      all: 'All',
+      alcoholic: 'Alcoholic',
+      nonAlcoholic: 'Non-Alcoholic',
+      baseSpiritLabel: 'Base Spirit:',
+      allSpirits: 'All Spirits',
+      pickRandom: '🎲 Pick Random Cocktail'
+    },
+    stock: {
+      title: 'Manage Stock',
+      loading: 'Loading ingredients...',
+      inStock: 'In Stock',
+      outOfStock: 'Out of Stock'
+    }
+  },
+  visitor: {
+    title: 'CocktailDB',
+    tagline: 'Discover cocktails you can make right now',
+    menu: {
+      whatCanWeMake: 'What can we make today?',
+      browseCocktails: 'Browse Cocktails',
+      browseDescription: 'Search by name or ingredient',
+      categories: 'Categories',
+      categoriesDescription: 'Explore by type or flavor',
+      surpriseMe: 'Surprise Me!',
+      surpriseDescription: 'Random cocktail picker',
+      welcome: 'Welcome!',
+      welcomeText: 'This is a public view showing cocktails that can be made with currently available ingredients.',
+      loginPrompt: 'Are you a bartender or admin?',
+      loginHere: 'Login here'
+    },
+    cocktailList: {
+      title: 'Available Cocktails',
+      searchPlaceholder: 'Search by name, spirit, or tag...',
+      loading: 'Loading cocktails...',
+      showing: 'Showing',
+      of: 'of',
+      availableCocktails: 'available cocktails',
+      noMatch: 'No cocktails match your search.',
+      clearSearch: 'Clear Search',
+      noCocktails: 'No cocktails are currently available.',
+      comeBackLater: 'Come back later when we have ingredients in stock!',
+      viewRecipe: 'View Recipe →',
+      baseSpirit: 'Base Spirit:',
+      abv: 'ABV:',
+      alcoholic: 'Alcoholic',
+      nonAlcoholic: 'Non-Alcoholic',
+      lowAlcohol: 'Low Alcohol'
+    },
+    recipe: {
+      backToCocktails: 'Back to Cocktails',
+      loading: 'Loading recipe...',
+      goBack: 'Go Back',
+      tags: '🏷️ Tags',
+      ingredients: '📝 Ingredients',
+      instructions: '🍸 Instructions',
+      notes: '💡 Notes'
+    },
+    random: {
+      title: '🎲 Surprise Me!',
+      loading: 'Loading cocktails...',
+      filterOptions: 'Filter Options',
+      type: 'Type:',
+      allCocktails: 'All Cocktails',
+      alcoholicOnly: 'Alcoholic Only',
+      nonAlcoholicOnly: 'Non-Alcoholic Only',
+      baseSpirit: 'Base Spirit:',
+      anySpirit: 'Any Spirit',
+      resetFilters: 'Reset Filters',
+      pickRandom: '🎲 Pick Random Cocktail',
+      available: 'cocktails available with current filters',
+      viewFullRecipe: 'View Full Recipe →',
+      noCocktails: 'No cocktails are currently available.',
+      comeBackLater: 'Come back later when we have ingredients in stock!'
+    },
+    categories: {
+      title: 'Browse Categories',
+      loading: 'Loading categories...',
+      cocktails: 'cocktails',
+      found: 'Found',
+      noCocktails: 'No cocktails found in this category.',
+      noCocktailsAvailable: 'No cocktails are currently available.',
+      comeBackLater: 'Come back later when we have ingredients in stock!'
+    }
+  }
+};

@@ -2,9 +2,9 @@
   <!-- Header -->
   <div class="page-header">
     <button class="back-btn" (click)="goBack()" aria-label="Go back to menu">
-      ← Back
+      ← {{ 'common.back' | translate }}
     </button>
-    <h1>Available Cocktails</h1>
+    <h1>{{ 'visitor.cocktailList.title' | translate }}</h1>
   </div>
 
   <!-- Search Bar -->
@@ -14,7 +14,7 @@
         type="text"
         [(ngModel)]="searchTerm"
         (input)="onSearch()"
-        placeholder="Search by name, spirit, or tag..."
+        [placeholder]="'visitor.cocktailList.searchPlaceholder' | translate"
         class="search-input"
         aria-label="Search cocktails"
       />
@@ -31,19 +31,19 @@
 
   <!-- Loading State -->
   <div *ngIf="loading" class="loading">
-    <p>Loading cocktails...</p>
+    <p>{{ 'visitor.cocktailList.loading' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="error" class="error-message">
     <p>{{ error }}</p>
-    <button (click)="loadCocktails()" class="retry-btn">Retry</button>
+    <button (click)="loadCocktails()" class="retry-btn">{{ 'common.retry' | translate }}</button>
   </div>
 
   <!-- Results Info -->
   <div *ngIf="!loading && !error" class="results-info">
     <p>
-      Showing <strong>{{ filteredCocktails.length }}</strong> of <strong>{{ cocktails.length }}</strong> available cocktails
+      {{ 'visitor.cocktailList.showing' | translate }} <strong>{{ filteredCocktails.length }}</strong> {{ 'visitor.cocktailList.of' | translate }} <strong>{{ cocktails.length }}</strong> {{ 'visitor.cocktailList.availableCocktails' | translate }}
     </p>
   </div>
 
@@ -59,11 +59,11 @@
       
       <div class="cocktail-info">
         <div class="info-row">
-          <span class="label">Base Spirit:</span>
+          <span class="label">{{ 'visitor.cocktailList.baseSpirit' | translate }}</span>
           <span class="value">{{ cocktail.baseSpirit }}</span>
         </div>
         <div class="info-row">
-          <span class="label">ABV:</span>
+          <span class="label">{{ 'visitor.cocktailList.abv' | translate }}</span>
           <span class="value">{{ cocktail.abv }}%</span>
         </div>
         <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="tags-section">
@@ -76,19 +76,19 @@
         class="view-recipe-btn"
         aria-label="View recipe for {{ cocktail.name }}"
       >
-        View Recipe →
+        {{ 'visitor.cocktailList.viewRecipe' | translate }}
       </button>
     </div>
   </div>
 
   <!-- Empty State -->
   <div *ngIf="!loading && !error && filteredCocktails.length === 0 && cocktails.length > 0" class="empty-state">
-    <p>No cocktails match your search.</p>
-    <button (click)="clearSearch()" class="clear-search-btn">Clear Search</button>
+    <p>{{ 'visitor.cocktailList.noMatch' | translate }}</p>
+    <button (click)="clearSearch()" class="clear-search-btn">{{ 'visitor.cocktailList.clearSearch' | translate }}</button>
   </div>
 
   <div *ngIf="!loading && !error && cocktails.length === 0" class="empty-state">
-    <p>No cocktails are currently available.</p>
-    <p class="hint">Come back later when we have ingredients in stock!</p>
+    <p>{{ 'visitor.cocktailList.noCocktails' | translate }}</p>
+    <p class="hint">{{ 'visitor.cocktailList.comeBackLater' | translate }}</p>
   </div>
 </div>

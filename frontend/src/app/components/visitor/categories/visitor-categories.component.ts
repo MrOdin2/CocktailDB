@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { TranslateService } from '../../../services/translate.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail } from '../../../models/models';
 
 interface Category {
@@ -15,7 +17,7 @@ interface Category {
 @Component({
   selector: 'app-visitor-categories',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './visitor-categories.component.html',
   styleUrls: ['./visitor-categories.component.css']
 })
@@ -66,7 +68,8 @@ export class VisitorCategoriesComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -115,7 +118,10 @@ export class VisitorCategoriesComponent implements OnInit {
   }
 
   getAlcoholType(abv: number): string {
-    return abv > 0 ? 'Alcoholic' : 'Non-Alcoholic';
+    if (abv === 0) {
+      return this.translateService.translate('visitor.cocktailList.nonAlcoholic');
+    }
+    return this.translateService.translate('visitor.cocktailList.alcoholic');
   }
 
   getAlcoholClass(abv: number): string {

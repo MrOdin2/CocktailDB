@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Ingredient } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-stock-management',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './barkeeper-stock-management.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-stock-management.component.css']
 })

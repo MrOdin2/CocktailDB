@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-alphabet',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './barkeeper-alphabet.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-alphabet.component.css']
 })

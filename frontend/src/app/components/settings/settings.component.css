@@ -30,6 +30,47 @@
   opacity: 0.8;
 }
 
+/* Language Grid */
+.language-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.language-card {
+  padding: 15px;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.language-card:hover {
+  transform: translateY(-3px);
+}
+
+.language-card.active {
+  border-width: 3px;
+}
+
+.language-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.language-header h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.language-description {
+  margin: 8px 0 0 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
 /* Unit Grid */
 .unit-grid {
   display: grid;

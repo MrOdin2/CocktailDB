@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-random-picker',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './barkeeper-random-picker.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-random-picker.component.css']
 })

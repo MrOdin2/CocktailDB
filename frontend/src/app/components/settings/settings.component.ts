@@ -2,18 +2,22 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ThemeService, Theme } from '../../services/theme.service';
 import { MeasureService } from '../../services/measure.service';
+import { TranslateService, Language } from '../../services/translate.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { MeasureUnit } from '../../models/models';
 
 @Component({
     selector: 'app-settings',
-    imports: [],
+    imports: [TranslatePipe],
     templateUrl: './settings.component.html',
     styleUrls: ['../admin-shared.css', './settings.component.css']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   currentTheme: Theme = 'basic';
   currentUnit: MeasureUnit = MeasureUnit.ML;
+  currentLanguage: Language = 'en';
   private unitSubscription?: Subscription;
+  private languageSubscription?: Subscription;
 
   themes = [
     {
@@ -65,8 +69,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private themeService: ThemeService,
-    private measureService: MeasureService
+    private measureService: MeasureService,
+    private translateService: TranslateService
   ) {}
+
+  languages = this.translateService.getAvailableLanguages();
 
   ngOnInit(): void {
     this.themeService.currentTheme$.subscribe(theme => {
@@ -76,10 +83,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.unitSubscription = this.measureService.getUnit().subscribe(unit => {
       this.currentUnit = unit;
     });
+
+    this.languageSubscription = this.translateService.getLanguage().subscribe(lang => {
+      this.currentLanguage = lang;
+    });
   }
   
   ngOnDestroy(): void {
     this.unitSubscription?.unsubscribe();
+    this.languageSubscription?.unsubscribe();
   }
 
   selectTheme(theme: Theme): void {
@@ -88,5 +100,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   
   selectUnit(unit: MeasureUnit): void {
     this.measureService.setUnit(unit);
+  }
+
+  selectLanguage(lang: Language): void {
+    this.translateService.setLanguage(lang);
   }
 }

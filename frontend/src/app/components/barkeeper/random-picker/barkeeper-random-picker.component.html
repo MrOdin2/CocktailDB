@@ -1,41 +1,41 @@
 <div class="barkeeper-container">
   <!-- Header -->
   <div class="view-header">
-    <a routerLink="/barkeeper/menu" class="back-btn">← Back</a>
-    <h2>Random Cocktail</h2>
+    <a routerLink="/barkeeper/menu" class="back-btn">← {{ 'common.back' | translate }}</a>
+    <h2>{{ 'barkeeper.random.title' | translate }}</h2>
   </div>
 
   <!-- Random Picker -->
   <div class="random-view">
     <div class="filters">
       <div class="filter-group">
-        <label>Type:</label>
+        <label>{{ 'barkeeper.random.typeLabel' | translate }}</label>
         <div class="filter-buttons">
           <button 
             class="filter-btn"
             [class.active]="filterAlcoholic === 'all'"
             (click)="filterAlcoholic = 'all'">
-            All
+            {{ 'barkeeper.random.all' | translate }}
           </button>
           <button 
             class="filter-btn"
             [class.active]="filterAlcoholic === 'alcoholic'"
             (click)="filterAlcoholic = 'alcoholic'">
-            Alcoholic
+            {{ 'barkeeper.random.alcoholic' | translate }}
           </button>
           <button 
             class="filter-btn"
             [class.active]="filterAlcoholic === 'non-alcoholic'"
             (click)="filterAlcoholic = 'non-alcoholic'">
-            Non-Alcoholic
+            {{ 'barkeeper.random.nonAlcoholic' | translate }}
           </button>
         </div>
       </div>
       
       <div class="filter-group">
-        <label>Base Spirit:</label>
+        <label>{{ 'barkeeper.random.baseSpiritLabel' | translate }}</label>
         <select [(ngModel)]="filterBaseSpirit" class="spirit-select">
-          <option value="all">All Spirits</option>
+          <option value="all">{{ 'barkeeper.random.allSpirits' | translate }}</option>
           <option *ngFor="let spirit of availableBaseSpirits" [value]="spirit">
             {{ spirit | titlecase }}
           </option>
@@ -44,7 +44,7 @@
     </div>
     
     <button class="pick-random-btn" (click)="pickRandomCocktail()" [disabled]="isLoading">
-      🎲 Pick Random Cocktail
+      {{ 'barkeeper.random.pickRandom' | translate }}
     </button>
   </div>
 </div>

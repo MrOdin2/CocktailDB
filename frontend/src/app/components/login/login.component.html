@@ -1,11 +1,11 @@
 <div class="login-container">
   <div class="login-card">
     <h1>🍸 CocktailDB</h1>
-    <h2>Login</h2>
+    <h2>{{ 'login.title' | translate }}</h2>
     
     <form (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="role">Select Role:</label>
+        <label for="role">{{ 'login.selectRole' | translate }}</label>
         <div class="role-buttons">
           <button 
             type="button"
@@ -13,7 +13,7 @@
             [class.selected]="selectedRole === 'ADMIN'"
             (click)="selectedRole = 'ADMIN'"
             [disabled]="isLoading">
-            Admin
+            {{ 'login.admin' | translate }}
           </button>
           <button 
             type="button"
@@ -21,7 +21,7 @@
             [class.selected]="selectedRole === 'BARKEEPER'"
             (click)="selectedRole = 'BARKEEPER'"
             [disabled]="isLoading">
-            Barkeeper
+            {{ 'login.barkeeper' | translate }}
           </button>
         </div>
       </div>
@@ -33,7 +33,7 @@
           name="password"
           [(ngModel)]="password"
           [disabled]="isLoading"
-          [placeholder]="'Enter ' + selectedRole.toLowerCase() + ' password'"
+          [placeholder]="getPlaceholder()"
           autocomplete="current-password"
           required
         />
@@ -44,7 +44,7 @@
       </div>
 
       <button type="submit" [disabled]="isLoading" class="btn-primary">
-        {{ isLoading ? 'Logging in...' : 'Login as ' + selectedRole }}
+        {{ getLoginButtonText() }}
       </button>
     </form>
 

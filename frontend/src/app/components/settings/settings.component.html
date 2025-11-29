@@ -1,11 +1,34 @@
 <div class="container">
   <div class="header-section">
-    <h2>Settings</h2>
+    <h2>{{ 'settings.title' | translate }}</h2>
   </div>
 
   <div class="settings-section">
-    <h3>Measurement Unit</h3>
-    <p>Choose your preferred unit for displaying ingredient measurements:</p>
+    <h3>{{ 'settings.language.title' | translate }}</h3>
+    <p>{{ 'settings.language.description' | translate }}</p>
+
+    <div class="language-grid">
+      @for (lang of languages; track lang.code) {
+        <div
+          class="language-card"
+          [class.active]="currentLanguage === lang.code"
+          (click)="selectLanguage(lang.code)">
+          <div class="language-header">
+            <h4>{{ lang.nativeName }}</h4>
+            @if (currentLanguage === lang.code) {
+              <span class="active-badge">{{ 'common.active' | translate }}</span>
+            }
+          </div>
+          <p class="language-description">{{ lang.name }}</p>
+        </div>
+      }
+    </div>
+    <p class="setting-note"><strong>{{ 'common.notes' | translate }}:</strong> {{ 'settings.language.note' | translate }}</p>
+  </div>
+
+  <div class="settings-section">
+    <h3>{{ 'settings.measureUnit.title' | translate }}</h3>
+    <p>{{ 'settings.measureUnit.description' | translate }}</p>
 
     <div class="unit-grid">
       @for (unit of measureUnits; track unit.id) {
@@ -16,7 +39,7 @@
           <div class="unit-header">
             <h4>{{ unit.name }}</h4>
             @if (currentUnit === unit.id) {
-              <span class="active-badge">ACTIVE</span>
+              <span class="active-badge">{{ 'common.active' | translate }}</span>
             }
           </div>
           <p class="unit-description">{{ unit.description }}</p>
@@ -24,12 +47,12 @@
         </div>
       }
     </div>
-    <p class="setting-note"><strong>Note:</strong> This preference is saved locally in your browser.</p>
+    <p class="setting-note"><strong>{{ 'common.notes' | translate }}:</strong> {{ 'settings.measureUnit.note' | translate }}</p>
   </div>
 
   <div class="settings-section">
-    <h3>Global Theme Selection</h3>
-    <p>Choose the theme for all users (admin, barkeepers, and visitors):</p>
+    <h3>{{ 'settings.theme.title' | translate }}</h3>
+    <p>{{ 'settings.theme.description' | translate }}</p>
 
     <div class="theme-grid">
       @for (theme of themes; track theme.id) {
@@ -40,7 +63,7 @@
           <div class="theme-header">
             <h4>{{ theme.name }}</h4>
             @if (currentTheme === theme.id) {
-              <span class="active-badge">ACTIVE</span>
+              <span class="active-badge">{{ 'common.active' | translate }}</span>
             }
           </div>
           <p class="theme-description">{{ theme.description }}</p>
@@ -48,7 +71,7 @@
           <button class="btn-primary"
             [disabled]="currentTheme === theme.id"
             (click)="selectTheme(theme.id)">
-            {{ currentTheme === theme.id ? 'Current Theme' : 'Apply Theme' }}
+            {{ currentTheme === theme.id ? ('settings.theme.currentTheme' | translate) : ('settings.theme.applyTheme' | translate) }}
           </button>
         </div>
       }
@@ -56,17 +79,17 @@
   </div>
 
   <div class="info-section">
-    <h3>About Themes</h3>
-    <p>The Basic theme is the default professional appearance.</p>
-    <p>Optional retro themes feature:</p>
+    <h3>{{ 'settings.about.title' | translate }}</h3>
+    <p>{{ 'settings.about.basicDescription' | translate }}</p>
+    <p>{{ 'settings.about.retroFeatures' | translate }}</p>
     <ul>
-      <li>Authentic 80s color palettes with atmospheric backgrounds</li>
-      <li>Courier New monospace font for terminal authenticity</li>
-      <li>CRT scanline overlay effects</li>
-      <li>Text glow effects (phosphor screen simulation)</li>
-      <li>80s-style blocky borders (no rounded corners)</li>
-      <li>High contrast for maximum readability</li>
+      <li>{{ 'settings.about.feature1' | translate }}</li>
+      <li>{{ 'settings.about.feature2' | translate }}</li>
+      <li>{{ 'settings.about.feature3' | translate }}</li>
+      <li>{{ 'settings.about.feature4' | translate }}</li>
+      <li>{{ 'settings.about.feature5' | translate }}</li>
+      <li>{{ 'settings.about.feature6' | translate }}</li>
     </ul>
-    <p><strong>Note:</strong> The selected theme is applied globally for all users and visitors of your bar.</p>
+    <p><strong>{{ 'common.notes' | translate }}:</strong> {{ 'settings.theme.note' | translate }}</p>
   </div>
 </div>

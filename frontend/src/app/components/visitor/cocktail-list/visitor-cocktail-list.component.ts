@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { TranslateService } from '../../../services/translate.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail } from '../../../models/models';
 
 @Component({
   selector: 'app-visitor-cocktail-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslatePipe],
   templateUrl: './visitor-cocktail-list.component.html',
   styleUrls: ['./visitor-cocktail-list.component.css']
 })
@@ -21,7 +23,8 @@ export class VisitorCocktailListComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +90,12 @@ export class VisitorCocktailListComponent implements OnInit {
   }
 
   getAlcoholType(abv: number): string {
-    return abv > 0 ? 'Alcoholic' : 'Non-Alcoholic';
+    if (abv === 0) {
+      return this.translateService.translate('visitor.cocktailList.nonAlcoholic');
+    } else if (abv <= 10) {
+      return this.translateService.translate('visitor.cocktailList.lowAlcohol');
+    }
+    return this.translateService.translate('visitor.cocktailList.alcoholic');
   }
 
   getAlcoholClass(abv: number): string {
