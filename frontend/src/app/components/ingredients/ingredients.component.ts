@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Ingredient, IngredientType } from '../../models/models';
 import { ApiService } from '../../services/api.service';
 import { ModalComponent } from '../util/modal.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
     selector: 'app-ingredients',
-    imports: [FormsModule, ModalComponent],
+    imports: [FormsModule, ModalComponent, TranslatePipe],
     templateUrl: './ingredients.component.html',
     styleUrls: ['../admin-shared.css', './ingredients.component.css']
 })
