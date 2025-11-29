@@ -34,54 +34,60 @@
 }
 
 /* ========================================
-   iPad-specific optimizations (834px x 1194px)
-   Optimized alphabet grid to fit on screen without scrolling
-   Calculate: 1194px height - header (~100px) = ~1094px available
-   With 7 rows of letters (26 letters = 7 rows x 4 cols or 5 rows x 6 cols)
-   Use 6 columns for better fit: 26 letters = 5 rows (5, 5, 5, 5, 6)
+   iPad Portrait optimizations (834px x 1194px)
+   Dynamic sizing to fill the screen
+   6 columns x 5 rows = 30 cells for 26 letters
    ======================================== */
 @media (min-width: 768px) and (max-width: 1024px) {
   .alphabet-grid {
-    /* 6 columns x 5 rows = 30 cells (4 empty) for 26 letters */
     grid-template-columns: repeat(6, 1fr);
-    gap: 0.75rem;
-    padding: 1rem;
+    gap: 1rem;
+    padding: 1.5rem;
     max-width: 100%;
-    /* Calculate button size to fit on screen without scrolling */
-    /* Available height after header (~80px): ~914px (iPad logical 1194px minus 280px for header/chrome) */
-    /* 5 rows with gaps: (914 - 4*12px) / 5 ≈ 170px per button */
+    /* Fill available height: 100vh - header (~80px) */
+    min-height: calc(100vh - 100px);
+    align-content: stretch;
   }
 
   .alphabet-btn {
     padding: 0;
-    font-size: 1.8rem;
-    border-radius: 10px;
-    /* Use fixed height instead of aspect-ratio for better control */
+    font-size: 2.5rem;
+    font-weight: 800;
+    border-radius: 12px;
+    /* Dynamic height to fill available space */
     aspect-ratio: auto;
-    min-height: 90px;
-    height: auto;
+    min-height: 0;
+    height: 100%;
+    /* Ensure buttons stretch to fill their grid cell */
+    align-self: stretch;
   }
 }
 
 /* ========================================
    iPad Landscape optimizations (1194px x 834px)
-   More columns to fit all letters without scrolling in limited height
+   9 columns x 3 rows to maximize horizontal space
+   Dynamic button sizing to fill screen height
    ======================================== */
 @media (min-width: 1024px) and (max-width: 1200px) and (max-height: 900px) {
   .alphabet-grid {
-    /* 9 columns x 3 rows = 27 cells for 26 letters - fits in limited vertical space */
     grid-template-columns: repeat(9, 1fr);
-    gap: 0.5rem;
-    padding: 0.75rem;
+    gap: 0.75rem;
+    padding: 1rem;
     max-width: 100%;
+    /* Fill available height: 100vh - header (~60px) */
+    min-height: calc(100vh - 80px);
+    align-content: stretch;
   }
 
   .alphabet-btn {
     padding: 0;
-    font-size: 1.5rem;
-    border-radius: 8px;
+    font-size: 2rem;
+    font-weight: 800;
+    border-radius: 10px;
+    /* Dynamic height to fill available space */
     aspect-ratio: auto;
-    min-height: 70px;
-    height: auto;
+    min-height: 0;
+    height: 100%;
+    align-self: stretch;
   }
 }
