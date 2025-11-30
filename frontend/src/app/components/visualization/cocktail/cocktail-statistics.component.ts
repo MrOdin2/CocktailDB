@@ -4,11 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { Ingredient, Cocktail, IngredientType } from '../../../models/models';
 import { CocktailService } from '../../../services/cocktail.service';
 import { IngredientService } from '../../../services/ingredient.service';
-import { ThemeService, Theme } from '../../../services/theme.service';
+import { ThemeService } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
-import * as d3 from 'd3';
+import { Selection, select } from 'd3-selection';
+import { SimulationNodeDatum, SimulationLinkDatum, forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide, Simulation } from 'd3-force';
+import { zoom, ZoomBehavior, D3ZoomEvent } from 'd3-zoom';
+import { drag, D3DragEvent } from 'd3-drag';
+import { scaleOrdinal } from 'd3-scale';
+import { hsl } from 'd3-color';
 
-interface GraphNode extends d3.SimulationNodeDatum {
+interface GraphNode extends SimulationNodeDatum {
   id: string;
   name: string;
   group: string;
@@ -21,7 +26,7 @@ interface GraphNode extends d3.SimulationNodeDatum {
   fy?: number | null;
 }
 
-interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
+interface GraphLink extends SimulationLinkDatum<GraphNode> {
   source: string | GraphNode;
   target: string | GraphNode;
   value: number;
@@ -50,10 +55,10 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
   showLabels: boolean = true;
   
   // D3 simulation
-  private simulation?: d3.Simulation<GraphNode, GraphLink>;
-  private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
-  private g?: d3.Selection<SVGGElement, unknown, null, undefined>;
-  private zoom?: d3.ZoomBehavior<SVGSVGElement, unknown>;
+  private simulation?: Simulation<GraphNode, GraphLink>;
+  private svg?: Selection<SVGSVGElement, unknown, null, undefined>;
+  private g?: Selection<SVGGElement, unknown, null, undefined>;
+  private zoom?: ZoomBehavior<SVGSVGElement, unknown>;
 
   private themeSubscription?: Subscription;
 
@@ -236,19 +241,19 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
     const height = 600;
 
     // Clear existing SVG
-    d3.select(element).selectAll('*').remove();
+    select(element).selectAll('*').remove();
 
     // Create SVG
-    this.svg = d3.select(element)
+    this.svg = select(element)
       .append('svg')
       .attr('width', '100%')
       .attr('height', height)
       .attr('viewBox', [0, 0, width, height]);
 
     // Add zoom behavior
-    this.zoom = d3.zoom<SVGSVGElement, unknown>()
+    this.zoom = zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.1, 4])
-      .on('zoom', (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
+      .on('zoom', (event: D3ZoomEvent<SVGSVGElement, unknown>) => {
         this.g!.attr('transform', event.transform.toString());
       });
 
@@ -273,18 +278,18 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
 
     // Create color scale based on groups
     const groups = Array.from(new Set(this.graphNodes.map(n => n.group)));
-    const colorScale = d3.scaleOrdinal<string>()
+    const colorScale = scaleOrdinal<string>()
       .domain(groups)
       .range(this.getGraphColors(groups.length));
 
     // Create force simulation
-    this.simulation = d3.forceSimulation<GraphNode>(this.graphNodes)
-      .force('link', d3.forceLink<GraphNode, GraphLink>(this.graphLinks)
+    this.simulation = forceSimulation<GraphNode>(this.graphNodes)
+      .force('link', forceLink<GraphNode, GraphLink>(this.graphLinks)
         .id((d: GraphNode) => d.id)
         .distance((d: GraphLink) => 150 - d.value * 10))
-      .force('charge', d3.forceManyBody().strength(-300))
-      .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide().radius(30));
+      .force('charge', forceManyBody().strength(-300))
+      .force('center', forceCenter(width / 2, height / 2))
+      .force('collision', forceCollide().radius(30));
 
     // Create links
     const link = this.g.append('g')
@@ -309,11 +314,11 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
 
     // Add hover effects
     node.on('mouseover', (event: any, d: GraphNode) => {
-      d3.select(event.currentTarget)
+      select(event.currentTarget)
         .attr('stroke-width', 4)
         .attr('stroke', 'var(--primary-color, #5a9)');
     }).on('mouseout', (event: any, d: GraphNode) => {
-      d3.select(event.currentTarget)
+      select(event.currentTarget)
         .attr('stroke-width', 2)
         .attr('stroke', 'var(--card-bg, #fff)');
     });
@@ -360,24 +365,24 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
   private drag(): any {
     const self = this;
     
-    function dragstarted(event: d3.D3DragEvent<Element, GraphNode, GraphNode>, d: GraphNode) {
+    function dragstarted(event: D3DragEvent<Element, GraphNode, GraphNode>, d: GraphNode) {
       if (!event.active && self.simulation) self.simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
 
-    function dragged(event: d3.D3DragEvent<Element, GraphNode, GraphNode>, d: GraphNode) {
+    function dragged(event: D3DragEvent<Element, GraphNode, GraphNode>, d: GraphNode) {
       d.fx = event.x;
       d.fy = event.y;
     }
 
-    function dragended(event: d3.D3DragEvent<Element, GraphNode, GraphNode>, d: GraphNode) {
+    function dragended(event: D3DragEvent<Element, GraphNode, GraphNode>, d: GraphNode) {
       if (!event.active && self.simulation) self.simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
     }
 
-    return d3.drag<Element, GraphNode>()
+    return drag<Element, GraphNode>()
       .on('start', dragstarted)
       .on('drag', dragged)
       .on('end', dragended);
@@ -400,11 +405,11 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
 
   private generateColorPalette(baseColor: string, count: number): string[] {
     const colors: string[] = [];
-    const hsl = d3.hsl(baseColor);
-    
+    const baseHsl = hsl(baseColor);
+
     for (let i = 0; i < count; i++) {
-      const newHue = (hsl.h + (i * 360 / count)) % 360;
-      colors.push(d3.hsl(newHue, hsl.s, hsl.l).toString());
+      const newHue = (baseHsl.h + (i * 360 / count)) % 360;
+      colors.push(hsl(newHue, baseHsl.s, baseHsl.l).toString());
     }
     
     return colors;

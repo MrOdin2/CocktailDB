@@ -1,6 +1,9 @@
 import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { scaleBand, scaleSequential } from 'd3-scale';
+import { interpolateBlues } from 'd3-scale-chromatic';
+import { axisBottom, axisLeft } from 'd3-axis';
 import { Ingredient, Cocktail } from '../../../../models/models';
 
 @Component({
@@ -47,7 +50,7 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
     const container = this.containerRef.nativeElement;
     
     // Clear any existing content
-    d3.select(container).selectAll('*').remove();
+    select(container).selectAll('*').remove();
 
     // Calculate ingredient co-occurrences
     const pairingMap = new Map<string, number>();
@@ -119,7 +122,7 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
     const height = cellSize * topIngredients.length + margin.top + margin.bottom;
 
     // Create SVG
-    const svg = d3.select(container)
+    const svg = select(container)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -127,24 +130,24 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Create scales
-    const x = d3.scaleBand()
+    const x = scaleBand()
       .range([0, cellSize * topIngredients.length])
       .domain(ingredientNames)
       .padding(0.05);
 
-    const y = d3.scaleBand()
+    const y = scaleBand()
       .range([0, cellSize * topIngredients.length])
       .domain(ingredientNames)
       .padding(0.05);
 
-    const maxValue = d3.max(heatmapData, d => d.value) || 1;
-    const colorScale = d3.scaleSequential(d3.interpolateBlues)
+    const maxValue = Math.max(...heatmapData.map(d => d.value), 1);
+    const colorScale = scaleSequential(interpolateBlues)
       .domain([0, maxValue]);
 
     // Add X axis
     svg.append('g')
       .attr('transform', `translate(0,0)`)
-      .call(d3.axisTop(x).tickSize(0))
+      .call(axisBottom(x).tickSize(0) as any)
       .selectAll('text')
       .style('text-anchor', 'start')
       .attr('dx', '0.5em')
@@ -154,12 +157,12 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
 
     // Add Y axis
     svg.append('g')
-      .call(d3.axisLeft(y).tickSize(0))
+      .call(axisLeft(y).tickSize(0) as any)
       .selectAll('text')
       .style('font-size', '12px');
 
     // Create tooltip
-    const tooltip = d3.select(container)
+    const tooltip = select(container)
       .append('div')
       .style('position', 'absolute')
       .style('visibility', 'hidden')
@@ -176,21 +179,21 @@ export class IngredientHeatmapComponent implements AfterViewInit, OnChanges {
       .data(heatmapData)
       .enter()
       .append('rect')
-      .attr('x', d => x(d.x) || 0)
-      .attr('y', d => y(d.y) || 0)
+      .attr('x', (d: any) => x(d.x) || 0)
+      .attr('y', (d: any) => y(d.y) || 0)
       .attr('width', x.bandwidth())
       .attr('height', y.bandwidth())
-      .style('fill', d => d.value === 0 ? '#f0f0f0' : colorScale(d.value))
+      .style('fill', (d: any) => d.value === 0 ? '#f0f0f0' : colorScale(d.value))
       .style('stroke', '#fff')
       .style('stroke-width', 1)
-      .on('mouseover', function(event, d) {
+      .on('mouseover', function(event: any, d: any) {
         if (d.value > 0) {
           tooltip
             .style('visibility', 'visible')
             .html(`<strong>${d.y} + ${d.x}</strong><br/>Used together: ${d.value} times`);
         }
       })
-      .on('mousemove', function(event) {
+      .on('mousemove', function(event: any) {
         tooltip
           .style('top', (event.pageY - 10) + 'px')
           .style('left', (event.pageX + 10) + 'px');

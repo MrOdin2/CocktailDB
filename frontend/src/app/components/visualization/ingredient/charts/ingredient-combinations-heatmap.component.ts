@@ -1,8 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as d3 from 'd3';
+import { select, Selection } from 'd3-selection';
+import { scaleBand, scaleSequential } from 'd3-scale';
+import { interpolateGreens, interpolatePurples, interpolateOranges, interpolateBlues } from 'd3-scale-chromatic';
 import { Ingredient, Cocktail } from '../../../../models/models';
-import { ThemeService, Theme } from '../../../../services/theme.service';
+import { ThemeService } from '../../../../services/theme.service';
 import { Subscription } from 'rxjs';
 
 interface IngredientPair {
@@ -36,7 +38,7 @@ export class IngredientCombinationsHeatmapComponent implements OnChanges, OnDest
   @Input() cocktails: Cocktail[] = [];
 
   private ingredientPairs: IngredientPair[] = [];
-  private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private svg?: Selection<SVGSVGElement, unknown, null, undefined>;
   private themeSubscription?: Subscription;
 
   constructor(private themeService: ThemeService) {
@@ -110,10 +112,10 @@ export class IngredientCombinationsHeatmapComponent implements OnChanges, OnDest
     const margin = { top: 20, right: 20, bottom: 60, left: 150 };
 
     // Clear existing SVG
-    d3.select(element).selectAll('*').remove();
+    select(element).selectAll('*').remove();
 
     // Create SVG
-    this.svg = d3.select(element)
+    this.svg = select(element)
       .append('svg')
       .attr('width', '100%')
       .attr('height', height)
@@ -126,13 +128,13 @@ export class IngredientCombinationsHeatmapComponent implements OnChanges, OnDest
     const innerHeight = height - margin.top - margin.bottom;
 
     // Create scales
-    const maxCount = d3.max(this.ingredientPairs, d => d.count) || 1;
-    
-    const colorScale = d3.scaleSequential()
+    const maxCount = Math.max(...this.ingredientPairs.map(d => d.count), 1);
+
+    const colorScale = scaleSequential()
       .domain([0, maxCount])
       .interpolator(this.getHeatmapColorInterpolator());
 
-    const yScale = d3.scaleBand()
+    const yScale = scaleBand()
       .domain(this.ingredientPairs.map((d, i) => i.toString()))
       .range([0, innerHeight])
       .padding(0.1);
@@ -235,13 +237,13 @@ export class IngredientCombinationsHeatmapComponent implements OnChanges, OnDest
     
     switch (theme) {
       case 'terminal-green':
-        return d3.interpolateGreens;
+        return interpolateGreens;
       case 'cyberpunk':
-        return d3.interpolatePurples;
+        return interpolatePurples;
       case 'amber':
-        return d3.interpolateOranges;
+        return interpolateOranges;
       default:
-        return d3.interpolateBlues;
+        return interpolateBlues;
     }
   }
 }

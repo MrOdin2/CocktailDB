@@ -1,10 +1,14 @@
 import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { SimulationNodeDatum, SimulationLinkDatum, forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide } from 'd3-force';
+import { drag } from 'd3-drag';
+import { scaleOrdinal } from 'd3-scale';
+import { schemeCategory10 } from 'd3-scale-chromatic';
 import { Ingredient, Cocktail } from '../../../../models/models';
 
 // D3 types for force-directed graph
-interface GraphNode extends d3.SimulationNodeDatum {
+interface GraphNode extends SimulationNodeDatum {
   id: number;
   name: string;
   type: string;
@@ -13,7 +17,7 @@ interface GraphNode extends d3.SimulationNodeDatum {
   usageCount?: number;
 }
 
-interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
+interface GraphLink extends SimulationLinkDatum<GraphNode> {
   source: number | GraphNode;
   target: number | GraphNode;
   value: number;
@@ -63,7 +67,7 @@ export class IngredientNetworkGraphComponent implements AfterViewInit, OnChanges
     const container = this.containerRef.nativeElement;
     
     // Clear any existing content
-    d3.select(container).selectAll('*').remove();
+    select(container).selectAll('*').remove();
 
     // Calculate ingredient usage and co-occurrences
     const usageMap = new Map<number, number>();
@@ -141,23 +145,23 @@ export class IngredientNetworkGraphComponent implements AfterViewInit, OnChanges
     const height = 600;
 
     // Create SVG
-    const svg = d3.select(container)
+    const svg = select(container)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
       .attr('viewBox', `0 0 ${width} ${height}`);
 
     // Color scale for node groups
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    const color = scaleOrdinal(schemeCategory10);
 
     // Create force simulation
-    const simulation = d3.forceSimulation<GraphNode>(nodes)
-      .force('link', d3.forceLink<GraphNode, GraphLink>(links)
+    const simulation = forceSimulation<GraphNode>(nodes)
+      .force('link', forceLink<GraphNode, GraphLink>(links)
         .id(d => d.id)
         .distance(d => 100 - (d.value * 10)))
-      .force('charge', d3.forceManyBody().strength(-300))
-      .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide<GraphNode>().radius(d => d.radius + 2));
+      .force('charge', forceManyBody().strength(-300))
+      .force('center', forceCenter(width / 2, height / 2))
+      .force('collision', forceCollide<GraphNode>().radius(d => d.radius + 2));
 
     // Create links
     const link = svg.append('g')
@@ -175,7 +179,7 @@ export class IngredientNetworkGraphComponent implements AfterViewInit, OnChanges
       .data(nodes)
       .enter()
       .append('g')
-      .call(d3.drag<SVGGElement, GraphNode>()
+      .call(drag<SVGGElement, GraphNode>()
         .on('start', dragstarted)
         .on('drag', dragged)
         .on('end', dragended) as any);
@@ -231,7 +235,7 @@ export class IngredientNetworkGraphComponent implements AfterViewInit, OnChanges
       .style('font-size', '11px');
 
     // Create tooltip
-    const tooltip = d3.select(container)
+    const tooltip = select(container)
       .append('div')
       .style('position', 'absolute')
       .style('visibility', 'hidden')
