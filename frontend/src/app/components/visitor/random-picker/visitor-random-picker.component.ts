@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
+import { CocktailService } from '../../../services/cocktail.service';
 import { Cocktail } from '../../../models/models';
 
 @Component({
@@ -24,7 +24,7 @@ export class VisitorRandomPickerComponent implements OnInit {
   availableSpirits: string[] = [];
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
     private router: Router
   ) {}
 
@@ -36,7 +36,7 @@ export class VisitorRandomPickerComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (cocktails) => {
         this.availableCocktails = cocktails;
         this.extractSpirits(cocktails);

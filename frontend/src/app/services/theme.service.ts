@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApiService } from './api.service';
+import { SettingsService } from './settings.service';
 
 export type Theme = 'basic' | 'terminal-green' | 'cyberpunk' | 'amber';
 
@@ -11,13 +11,13 @@ export class ThemeService {
   private currentThemeSubject = new BehaviorSubject<Theme>('basic');
   currentTheme$ = this.currentThemeSubject.asObservable();
 
-  constructor(private apiService: ApiService) {
+  constructor(private settingsService: SettingsService) {
     // Load theme from backend
     this.loadThemeFromBackend();
   }
 
   private loadThemeFromBackend(): void {
-    this.apiService.getTheme().subscribe({
+    this.settingsService.getTheme().subscribe({
       next: (response) => {
         const theme = response.theme as Theme;
         this.currentThemeSubject.next(theme);
@@ -33,7 +33,7 @@ export class ThemeService {
 
   setTheme(theme: Theme): void {
     // Save theme to backend
-    this.apiService.setTheme(theme).subscribe({
+    this.settingsService.setTheme(theme).subscribe({
       next: (response) => {
         const savedTheme = response.theme as Theme;
         this.currentThemeSubject.next(savedTheme);

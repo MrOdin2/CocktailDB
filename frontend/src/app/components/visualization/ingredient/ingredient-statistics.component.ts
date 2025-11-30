@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ingredient, Cocktail } from '../../../models/models';
-import { ApiService } from '../../../services/api.service';
+import { CocktailService } from '../../../services/cocktail.service';
+import { IngredientService } from '../../../services/ingredient.service';
 import { ThemeService, Theme } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
@@ -68,7 +69,8 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
   private themeSubscription?: Subscription;
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
+    private ingredientService: IngredientService,
     private themeService: ThemeService
   ) {}
 
@@ -152,7 +154,7 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
   }
 
   private loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (data: Ingredient[]) => {
         this.ingredients = data;
       },
@@ -163,7 +165,7 @@ export class IngredientStatisticsComponent implements OnInit, OnDestroy {
   }
 
   private loadCocktails(): void {
-    this.apiService.getAllCocktails().subscribe({
+    this.cocktailService.getAll().subscribe({
       next: (data: Cocktail[]) => {
         this.cocktails = data;
       },

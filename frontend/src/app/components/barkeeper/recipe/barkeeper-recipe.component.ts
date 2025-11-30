@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { ApiService } from '../../../services/api.service';
 import { MeasureService } from '../../../services/measure.service';
 import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
+import {IngredientService} from "../../../services/ingredient.service";
+import {CocktailService} from "../../../services/cocktail.service";
 
 @Component({
   selector: 'app-barkeeper-recipe',
@@ -24,7 +25,8 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   private unitSubscription?: Subscription;
 
   constructor(
-    private apiService: ApiService,
+    private ingredientService: IngredientService,
+    private cocktailService: CocktailService,
     private measureService: MeasureService,
     private route: ActivatedRoute,
     private router: Router,
@@ -49,7 +51,7 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
 
   loadRecipe(id: number): void {
     this.isLoading = true;
-    this.apiService.getCocktailById(id).subscribe({
+    this.cocktailService.getById(id).subscribe({
       next: (cocktail: Cocktail) => {
         this.cocktail = cocktail;
         this.isLoading = false;
@@ -62,7 +64,7 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   }
 
   loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
         this.ingredientMap = new Map(ingredients.map(i => [i.id!, i]));

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
+import { CocktailService } from '../../../services/cocktail.service';
 import { Cocktail } from '../../../models/models';
 
 interface Category {
@@ -65,7 +65,7 @@ export class VisitorCategoriesComponent implements OnInit {
   ];
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
     private router: Router
   ) {}
 
@@ -77,7 +77,7 @@ export class VisitorCategoriesComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (cocktails) => {
         this.allCocktails = cocktails;
         this.loading = false;

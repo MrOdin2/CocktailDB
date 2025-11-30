@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../models/models';
-import { ApiService } from '../../services/api.service';
+import { CocktailService } from '../../services/cocktail.service';
+import { IngredientService } from '../../services/ingredient.service';
 import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
 import { MeasureService } from '../../services/measure.service';
 import { ModalComponent } from '../util/modal.component';
@@ -76,7 +77,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   selectedTagsForExport: string[] = [];
 
   constructor(
-    private apiService: ApiService, 
+    private cocktailService: CocktailService,
+    private ingredientService: IngredientService,
     private exportService: ExportService,
     private measureService: MeasureService
   ) {}
@@ -97,7 +99,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   }
 
   loadCocktails(): void {
-    this.apiService.getAllCocktails().subscribe({
+    this.cocktailService.getAll().subscribe({
       next: (data: Cocktail[]) => {
         this.cocktails = data;
       },
@@ -108,7 +110,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   }
 
   loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (data: Ingredient[]) => {
         this.ingredients = data;
       },
@@ -119,7 +121,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   }
 
   loadAvailableCocktails(): void {
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (data: Cocktail[]) => {
         this.availableCocktails = data;
       },
@@ -242,7 +244,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     if (this.newCocktail.name && this.newCocktail.ingredients.length > 0) {
       if (this.isEditMode && this.editingCocktailId) {
         // Update existing cocktail
-        this.apiService.updateCocktail(this.editingCocktailId, this.newCocktail).subscribe({
+        this.cocktailService.update(this.editingCocktailId, this.newCocktail).subscribe({
           next: () => {
             this.loadCocktails();
             this.loadAvailableCocktails();
@@ -254,7 +256,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
         });
       } else {
         // Create new cocktail
-        this.apiService.createCocktail(this.newCocktail).subscribe({
+        this.cocktailService.create(this.newCocktail).subscribe({
           next: () => {
             this.loadCocktails();
             this.loadAvailableCocktails();
@@ -270,7 +272,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
 
   deleteCocktail(id: number | undefined): void {
     if (id && confirm('Are you sure you want to delete this cocktail?')) {
-      this.apiService.deleteCocktail(id).subscribe({
+      this.cocktailService.delete(id).subscribe({
         next: () => {
           this.loadCocktails();
           this.loadAvailableCocktails();
@@ -362,7 +364,7 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   }
   
   createIngredientFromCocktail(): void {
-    this.apiService.createIngredient(this.newIngredientForCocktail).subscribe({
+    this.ingredientService.create(this.newIngredientForCocktail).subscribe({
       next: (createdIngredient: Ingredient) => {
         this.loadIngredients();
         // Auto-select the newly created ingredient

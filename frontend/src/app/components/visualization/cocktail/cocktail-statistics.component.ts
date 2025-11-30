@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } fr
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ingredient, Cocktail, IngredientType } from '../../../models/models';
-import { ApiService } from '../../../services/api.service';
+import { CocktailService } from '../../../services/cocktail.service';
+import { IngredientService } from '../../../services/ingredient.service';
 import { ThemeService, Theme } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
@@ -57,7 +58,8 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
   private themeSubscription?: Subscription;
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
+    private ingredientService: IngredientService,
     private themeService: ThemeService
   ) {}
 
@@ -88,7 +90,7 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
   }
 
   loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (data: Ingredient[]) => {
         this.ingredients = data;
         if (this.cocktails.length > 0) {
@@ -103,7 +105,7 @@ export class CocktailStatisticsComponent implements OnInit, OnDestroy, AfterView
   }
 
   loadCocktails(): void {
-    this.apiService.getAllCocktails().subscribe({
+    this.cocktailService.getAll().subscribe({
       next: (data: Cocktail[]) => {
         this.cocktails = data;
         if (this.ingredients.length > 0) {

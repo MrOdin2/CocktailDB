@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { MeasureService } from '../../services/measure.service';
 import { Cocktail, Ingredient, MeasureUnit } from '../../models/models';
+import {IngredientService} from "../../services/ingredient.service";
+import {CocktailService} from "../../services/cocktail.service";
 
 @Component({
   selector: 'app-barkeeper',
@@ -42,7 +43,8 @@ export class BarkeeperComponent implements OnInit, OnDestroy {
   private ingredientMap: Map<number, Ingredient> = new Map();
 
   constructor(
-    private apiService: ApiService,
+    private ingredientService: IngredientService,
+    private cocktailService: CocktailService,
     private authService: AuthService,
     private measureService: MeasureService,
     private router: Router
@@ -62,7 +64,7 @@ export class BarkeeperComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     this.isLoading = true;
-    this.apiService.getAllCocktails().subscribe({
+    this.cocktailService.getAll().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.cocktails = cocktails;
         // Extract unique base spirits
@@ -76,7 +78,7 @@ export class BarkeeperComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
         // Build ingredient map for O(1) lookups
@@ -87,7 +89,7 @@ export class BarkeeperComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.availableCocktails = cocktails;
       },
@@ -168,11 +170,11 @@ export class BarkeeperComponent implements OnInit, OnDestroy {
 
   toggleIngredientStock(ingredient: Ingredient): void {
     const updated = { ...ingredient, inStock: !ingredient.inStock };
-    this.apiService.updateIngredient(ingredient.id!, updated).subscribe({
+    this.ingredientService.update(ingredient.id!, updated).subscribe({
       next: () => {
         ingredient.inStock = !ingredient.inStock;
         // Reload available cocktails
-        this.apiService.getAvailableCocktails().subscribe({
+        this.cocktailService.getAvailable().subscribe({
           next: (cocktails: Cocktail[]) => {
             this.availableCocktails = cocktails;
           }

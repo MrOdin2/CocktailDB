@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
+import { CocktailService } from '../../../services/cocktail.service';
 import { Cocktail } from '../../../models/models';
 
 @Component({
@@ -20,7 +20,7 @@ export class VisitorCocktailListComponent implements OnInit {
   error: string | null = null;
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
     private router: Router
   ) {}
 
@@ -33,7 +33,7 @@ export class VisitorCocktailListComponent implements OnInit {
     this.error = null;
     
     // Load only available cocktails for visitors
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (data) => {
         this.cocktails = data;
         this.filteredCocktails = data;

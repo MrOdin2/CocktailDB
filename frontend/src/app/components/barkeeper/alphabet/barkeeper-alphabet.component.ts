@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
 import { Cocktail } from '../../../models/models';
+import {CocktailService} from "../../../services/cocktail.service";
 
 @Component({
   selector: 'app-barkeeper-alphabet',
@@ -18,7 +18,7 @@ export class BarkeeperAlphabetComponent implements OnInit {
   isLoading = false;
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
     private router: Router
   ) {}
 
@@ -29,7 +29,7 @@ export class BarkeeperAlphabetComponent implements OnInit {
   loadCocktails(): void {
     this.isLoading = true;
     
-    this.apiService.getAllCocktails().subscribe({
+    this.cocktailService.getAll().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.cocktails = cocktails;
         this.isLoading = false;
@@ -40,7 +40,7 @@ export class BarkeeperAlphabetComponent implements OnInit {
       }
     });
 
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.availableCocktails = cocktails;
       },

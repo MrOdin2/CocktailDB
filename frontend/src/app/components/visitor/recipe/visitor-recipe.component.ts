@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ApiService } from '../../../services/api.service';
+import { CocktailService } from '../../../services/cocktail.service';
+import { IngredientService } from '../../../services/ingredient.service';
 import { MeasureService } from '../../../services/measure.service';
 import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 
@@ -25,7 +26,8 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
+    private ingredientService: IngredientService,
     private measureService: MeasureService
   ) {}
 
@@ -50,7 +52,7 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = null;
 
-    this.apiService.getCocktailById(id).subscribe({
+    this.cocktailService.getById(id).subscribe({
       next: (cocktail) => {
         this.cocktail = cocktail;
         this.loadIngredients(cocktail);
@@ -66,7 +68,7 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   loadIngredients(cocktail: Cocktail): void {
     const ingredientIds = cocktail.ingredients.map(ci => ci.ingredientId);
     
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (allIngredients) => {
         allIngredients.forEach(ingredient => {
           if (ingredient.id && ingredientIds.includes(ingredient.id)) {

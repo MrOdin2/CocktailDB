@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
 import { Cocktail } from '../../../models/models';
+import {CocktailService} from "../../../services/cocktail.service";
 
 @Component({
   selector: 'app-barkeeper-random-picker',
@@ -22,7 +22,7 @@ export class BarkeeperRandomPickerComponent implements OnInit {
   filterBaseSpirit: string = 'all';
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
     private router: Router
   ) {}
 
@@ -33,7 +33,7 @@ export class BarkeeperRandomPickerComponent implements OnInit {
   loadCocktails(): void {
     this.isLoading = true;
     
-    this.apiService.getAllCocktails().subscribe({
+    this.cocktailService.getAll().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.cocktails = cocktails;
         const spiritsSet = new Set(cocktails.map(c => c.baseSpirit || 'none'));
@@ -46,7 +46,7 @@ export class BarkeeperRandomPickerComponent implements OnInit {
       }
     });
 
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.availableCocktails = cocktails;
       },

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Ingredient, IngredientType } from '../../models/models';
-import { ApiService } from '../../services/api.service';
+import { IngredientService } from '../../services/ingredient.service';
 import { ModalComponent } from '../util/modal.component';
 
 @Component({
@@ -31,14 +31,14 @@ export class IngredientsComponent implements OnInit {
   sortBy: 'name' | 'type' | 'abv' = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private ingredientService: IngredientService) {}
 
   ngOnInit(): void {
     this.loadIngredients();
   }
 
   loadIngredients(): void {
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (data: Ingredient[]) => {
         this.ingredients = data;
       },
@@ -110,7 +110,7 @@ export class IngredientsComponent implements OnInit {
   }
 
   createIngredient(): void {
-    this.apiService.createIngredient(this.newIngredient).subscribe({
+    this.ingredientService.create(this.newIngredient).subscribe({
       next: () => {
         this.loadIngredients();
         this.closeModal();
@@ -123,7 +123,7 @@ export class IngredientsComponent implements OnInit {
 
   updateIngredient(ingredient: Ingredient): void {
     if (ingredient.id) {
-      this.apiService.updateIngredient(ingredient.id, ingredient).subscribe({
+      this.ingredientService.update(ingredient.id, ingredient).subscribe({
         next: () => {
           this.loadIngredients();
           this.editingIngredient = null;
@@ -137,7 +137,7 @@ export class IngredientsComponent implements OnInit {
 
   deleteIngredient(id: number | undefined): void {
     if (id && confirm('Are you sure you want to delete this ingredient?')) {
-      this.apiService.deleteIngredient(id).subscribe({
+      this.ingredientService.delete(id).subscribe({
         next: () => {
           this.loadIngredients();
         },

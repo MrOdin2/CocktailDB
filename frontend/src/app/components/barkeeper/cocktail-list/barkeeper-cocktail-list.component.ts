@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
 import { Cocktail } from '../../../models/models';
+import {CocktailService} from "../../../services/cocktail.service";
 
 @Component({
   selector: 'app-barkeeper-cocktail-list',
@@ -30,7 +30,7 @@ export class BarkeeperCocktailListComponent implements OnInit {
   showFilters: boolean = false;
 
   constructor(
-    private apiService: ApiService,
+    private cocktailService: CocktailService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -54,8 +54,8 @@ export class BarkeeperCocktailListComponent implements OnInit {
     this.isLoading = true;
     
     const cocktailsObservable = this.availableOnly 
-      ? this.apiService.getAvailableCocktails()
-      : this.apiService.getAllCocktails();
+      ? this.cocktailService.getAvailable()
+      : this.cocktailService.getAll();
 
     cocktailsObservable.subscribe({
       next: (cocktails: Cocktail[]) => {
@@ -72,7 +72,7 @@ export class BarkeeperCocktailListComponent implements OnInit {
 
   loadAvailableCocktails(): void {
     this.isLoading = true;
-    this.apiService.getAvailableCocktails().subscribe({
+    this.cocktailService.getAvailable().subscribe({
       next: (cocktails: Cocktail[]) => {
         this.availableCocktails = cocktails;
         this.extractFilterOptions(cocktails);

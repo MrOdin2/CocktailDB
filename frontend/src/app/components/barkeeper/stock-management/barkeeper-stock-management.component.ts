@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../../../services/api.service';
+import { IngredientService } from '../../../services/ingredient.service';
 import { Ingredient } from '../../../models/models';
 
 @Component({
@@ -15,7 +15,7 @@ export class BarkeeperStockManagementComponent implements OnInit {
   ingredients: Ingredient[] = [];
   isLoading = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private ingredientService: IngredientService) {}
 
   ngOnInit(): void {
     this.loadIngredients();
@@ -23,7 +23,7 @@ export class BarkeeperStockManagementComponent implements OnInit {
 
   loadIngredients(): void {
     this.isLoading = true;
-    this.apiService.getAllIngredients().subscribe({
+    this.ingredientService.getAll().subscribe({
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
         this.isLoading = false;
@@ -47,7 +47,7 @@ export class BarkeeperStockManagementComponent implements OnInit {
 
   toggleIngredientStock(ingredient: Ingredient): void {
     const updated = { ...ingredient, inStock: !ingredient.inStock };
-    this.apiService.updateIngredient(ingredient.id!, updated).subscribe({
+    this.ingredientService.update(ingredient.id!, updated).subscribe({
       next: () => {
         ingredient.inStock = !ingredient.inStock;
       },
