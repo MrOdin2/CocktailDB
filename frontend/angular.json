@@ -102,17 +102,16 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/styles-theme0-basic.css",
+              "src/styles-theme1-terminal-green.css",
+              "src/styles-theme2-cyberpunk.css",
+              "src/styles-theme3-amber.css"
+            ],
               {
                 "glob": "styles-theme*.css",
                 "input": "src",
                 "output": "/"
               }
-            ],
-            "styles": [
-              "src/styles.css",
-              "src/app/components/visitor/visitor-shared.css"
-            ],
-            "scripts": []
           }
         }
       }

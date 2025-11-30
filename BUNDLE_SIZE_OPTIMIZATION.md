@@ -67,8 +67,6 @@ import { interpolateBlues } from 'd3-scale-chromatic';
   - Uses glob pattern to include all `styles-theme*.css` files
   - These are small (~3-4kb each) and loaded on-demand when user switches themes
 
-## Build Results
-
 ### Initial Bundle (Eagerly Loaded)
 ```
 Initial chunk files         Raw size    Gzipped
