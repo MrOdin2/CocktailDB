@@ -9,7 +9,6 @@ import { IngredientAvailabilityChartComponent } from './charts/ingredient-availa
 import { MostUsedIngredientsNgxChartComponent } from './charts/most-used-ingredients-ngx-chart.component';
 import { IngredientUnlockPotentialChartComponent } from './charts/ingredient-unlock-potential-chart.component';
 import { IngredientUsageByTypeChartComponent } from './charts/ingredient-usage-by-type-chart.component';
-import { IngredientCombinationsHeatmapComponent } from './charts/ingredient-combinations-heatmap.component';
 import { IngredientHeatmapComponent } from './charts/ingredient-heatmap.component';
 import { IngredientNetworkGraphComponent } from './charts/ingredient-network-graph.component';
 
@@ -21,7 +20,6 @@ import { IngredientNetworkGraphComponent } from './charts/ingredient-network-gra
         MostUsedIngredientsNgxChartComponent,
         IngredientUnlockPotentialChartComponent,
         IngredientUsageByTypeChartComponent,
-        IngredientCombinationsHeatmapComponent,
         IngredientHeatmapComponent,
         IngredientNetworkGraphComponent
     ],
