@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
+import { StockUpdateService } from '../../../services/stock-update.service';
 import { TranslateService } from '../../../services/translate.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail } from '../../../models/models';
@@ -14,7 +16,7 @@ import { Cocktail } from '../../../models/models';
   templateUrl: './barkeeper-cocktail-list.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-cocktail-list.component.css']
 })
-export class BarkeeperCocktailListComponent implements OnInit {
+export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   cocktails: Cocktail[] = [];
   filteredCocktails: Cocktail[] = [];
   availableCocktails: Cocktail[] = [];
@@ -31,15 +33,23 @@ export class BarkeeperCocktailListComponent implements OnInit {
   availableTags: string[] = [];
   showFilters: boolean = false;
 
+  private cleanupStockUpdates?: () => void;
+  private queryParamsSubscription?: Subscription;
+
   constructor(
     private apiService: ApiService,
+    private stockUpdateService: StockUpdateService,
     private route: ActivatedRoute,
     private router: Router,
     private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.cleanupStockUpdates = this.stockUpdateService.subscribeToUpdates(() => {
+      this.reloadCurrentView();
+    });
+
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       this.letter = params['letter'] || '';
       this.availableOnly = params['availableOnly'] === 'true';
       
@@ -51,6 +61,19 @@ export class BarkeeperCocktailListComponent implements OnInit {
         this.loadCocktails();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupStockUpdates?.();
+    this.queryParamsSubscription?.unsubscribe();
+  }
+
+  private reloadCurrentView(): void {
+    if (this.viewMode === 'available') {
+      this.loadAvailableCocktails();
+    } else if (this.availableOnly) {
+      this.loadCocktails();
+    }
   }
 
   loadCocktails(): void {

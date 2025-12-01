@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { TranslateService } from '../../../services/translate.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
+import { StockUpdateService } from '../../../services/stock-update.service';
 import { Cocktail } from '../../../models/models';
 
 @Component({
@@ -14,21 +15,30 @@ import { Cocktail } from '../../../models/models';
   templateUrl: './visitor-cocktail-list.component.html',
   styleUrls: ['./visitor-cocktail-list.component.css']
 })
-export class VisitorCocktailListComponent implements OnInit {
+export class VisitorCocktailListComponent implements OnInit, OnDestroy {
   cocktails: Cocktail[] = [];
   filteredCocktails: Cocktail[] = [];
   searchTerm: string = '';
   loading: boolean = false;
   error: string | null = null;
+  private cleanupStockUpdates?: () => void;
 
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private stockUpdateService: StockUpdateService,
   ) {}
 
   ngOnInit(): void {
     this.loadCocktails();
+    this.cleanupStockUpdates = this.stockUpdateService.subscribeToUpdates(() => {
+      this.loadCocktails();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupStockUpdates?.();
   }
 
   loadCocktails(): void {
