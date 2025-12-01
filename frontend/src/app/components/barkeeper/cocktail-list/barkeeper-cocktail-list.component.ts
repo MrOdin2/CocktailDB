@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
+import { StockUpdateService } from '../../../services/stock-update.service';
 import { Cocktail } from '../../../models/models';
 
 @Component({
@@ -12,7 +14,7 @@ import { Cocktail } from '../../../models/models';
   templateUrl: './barkeeper-cocktail-list.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-cocktail-list.component.css']
 })
-export class BarkeeperCocktailListComponent implements OnInit {
+export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   cocktails: Cocktail[] = [];
   filteredCocktails: Cocktail[] = [];
   availableCocktails: Cocktail[] = [];
@@ -29,14 +31,23 @@ export class BarkeeperCocktailListComponent implements OnInit {
   availableTags: string[] = [];
   showFilters: boolean = false;
 
+  private stockUpdateSubscription?: Subscription;
+  private queryParamsSubscription?: Subscription;
+
   constructor(
     private apiService: ApiService,
+    private stockUpdateService: StockUpdateService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.stockUpdateService.connect();
+    this.stockUpdateSubscription = this.stockUpdateService.stockUpdates$.subscribe(() => {
+      this.reloadCurrentView();
+    });
+
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       this.letter = params['letter'] || '';
       this.availableOnly = params['availableOnly'] === 'true';
       
@@ -48,6 +59,19 @@ export class BarkeeperCocktailListComponent implements OnInit {
         this.loadCocktails();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.stockUpdateSubscription?.unsubscribe();
+    this.queryParamsSubscription?.unsubscribe();
+  }
+
+  private reloadCurrentView(): void {
+    if (this.viewMode === 'available') {
+      this.loadAvailableCocktails();
+    } else if (this.availableOnly) {
+      this.loadCocktails();
+    }
   }
 
   loadCocktails(): void {
