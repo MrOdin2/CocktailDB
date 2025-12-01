@@ -1,5 +1,5 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -16,6 +16,40 @@ export class StockUpdateService implements OnDestroy {
   private connectionCount = 0;
 
   constructor(private ngZone: NgZone) {}
+
+  /**
+   * Helper method that handles connect, subscribe, and returns a cleanup function.
+   * Use this in ngOnInit and call the returned function in ngOnDestroy.
+   * 
+   * @param onUpdate Callback function to invoke when stock updates occur
+   * @returns Cleanup function to call in ngOnDestroy
+   * 
+   * @example
+   * ```typescript
+   * private cleanupStockUpdates?: () => void;
+   * 
+   * ngOnInit(): void {
+   *   this.cleanupStockUpdates = this.stockUpdateService.subscribeToUpdates(() => {
+   *     this.loadData();
+   *   });
+   * }
+   * 
+   * ngOnDestroy(): void {
+   *   this.cleanupStockUpdates?.();
+   * }
+   * ```
+   */
+  subscribeToUpdates(onUpdate: () => void): () => void {
+    this.connect();
+    const subscription = this.stockUpdates$.subscribe(() => {
+      onUpdate();
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      this.disconnect();
+    };
+  }
 
   /**
    * Connects to the SSE endpoint for stock updates.

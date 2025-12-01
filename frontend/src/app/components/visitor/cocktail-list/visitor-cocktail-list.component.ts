@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { StockUpdateService } from '../../../services/stock-update.service';
 import { Cocktail } from '../../../models/models';
@@ -20,7 +19,7 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   loading: boolean = false;
   error: string | null = null;
-  private stockUpdateSubscription?: Subscription;
+  private cleanupStockUpdates?: () => void;
 
   constructor(
     private apiService: ApiService,
@@ -30,15 +29,13 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadCocktails();
-    this.stockUpdateService.connect();
-    this.stockUpdateSubscription = this.stockUpdateService.stockUpdates$.subscribe(() => {
+    this.cleanupStockUpdates = this.stockUpdateService.subscribeToUpdates(() => {
       this.loadCocktails();
     });
   }
 
   ngOnDestroy(): void {
-    this.stockUpdateSubscription?.unsubscribe();
-    this.stockUpdateService.disconnect();
+    this.cleanupStockUpdates?.();
   }
 
   loadCocktails(): void {

@@ -31,7 +31,7 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   availableTags: string[] = [];
   showFilters: boolean = false;
 
-  private stockUpdateSubscription?: Subscription;
+  private cleanupStockUpdates?: () => void;
   private queryParamsSubscription?: Subscription;
 
   constructor(
@@ -42,8 +42,7 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.stockUpdateService.connect();
-    this.stockUpdateSubscription = this.stockUpdateService.stockUpdates$.subscribe(() => {
+    this.cleanupStockUpdates = this.stockUpdateService.subscribeToUpdates(() => {
       this.reloadCurrentView();
     });
 
@@ -62,9 +61,8 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.stockUpdateSubscription?.unsubscribe();
+    this.cleanupStockUpdates?.();
     this.queryParamsSubscription?.unsubscribe();
-    this.stockUpdateService.disconnect();
   }
 
   private reloadCurrentView(): void {

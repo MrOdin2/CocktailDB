@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { StockUpdateService } from '../../../services/stock-update.service';
 import { Cocktail } from '../../../models/models';
 
 @Component({
@@ -12,7 +13,7 @@ import { Cocktail } from '../../../models/models';
   templateUrl: './visitor-random-picker.component.html',
   styleUrls: ['./visitor-random-picker.component.css']
 })
-export class VisitorRandomPickerComponent implements OnInit {
+export class VisitorRandomPickerComponent implements OnInit, OnDestroy {
   availableCocktails: Cocktail[] = [];
   currentCocktail: Cocktail | null = null;
   loading: boolean = false;
@@ -23,13 +24,23 @@ export class VisitorRandomPickerComponent implements OnInit {
   filterSpirit: string = '';
   availableSpirits: string[] = [];
 
+  private cleanupStockUpdates?: () => void;
+
   constructor(
     private apiService: ApiService,
+    private stockUpdateService: StockUpdateService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadAvailableCocktails();
+    this.cleanupStockUpdates = this.stockUpdateService.subscribeToUpdates(() => {
+      this.loadAvailableCocktails();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.cleanupStockUpdates?.();
   }
 
   loadAvailableCocktails(): void {
