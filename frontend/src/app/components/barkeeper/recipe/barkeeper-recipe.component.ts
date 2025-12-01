@@ -5,12 +5,13 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { MeasureService } from '../../../services/measure.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-recipe',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './barkeeper-recipe.component.html',
   styleUrls: ['../barkeeper-shared.css', './barkeeper-recipe.component.css']
 })

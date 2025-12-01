@@ -2,19 +2,19 @@
   <!-- Header -->
   <div class="page-header">
     <button class="back-btn" (click)="goBack()" aria-label="Go back to cocktails">
-      ← Back to Cocktails
+      ← {{ 'visitor.recipe.backToCocktails' | translate }}
     </button>
   </div>
 
   <!-- Loading State -->
   <div *ngIf="loading" class="loading">
-    <p>Loading recipe...</p>
+    <p>{{ 'visitor.recipe.loading' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="error" class="error-message">
     <p>{{ error }}</p>
-    <button (click)="goBack()" class="back-link-btn">Go Back</button>
+    <button (click)="goBack()" class="back-link-btn">{{ 'visitor.recipe.goBack' | translate }}</button>
   </div>
 
   <!-- Recipe Content -->
@@ -33,7 +33,7 @@
 
     <!-- Tags -->
     <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="info-card">
-      <h3 class="section-title">🏷️ Tags</h3>
+      <h3 class="section-title">{{ 'visitor.recipe.tags' | translate }}</h3>
       <div class="tags-container">
         <span class="tag" *ngFor="let tag of cocktail.tags">{{ tag }}</span>
       </div>
@@ -41,7 +41,7 @@
 
     <!-- Ingredients -->
     <div class="info-card">
-      <h3 class="section-title">📝 Ingredients</h3>
+      <h3 class="section-title">{{ 'visitor.recipe.ingredients' | translate }}</h3>
       <ul class="ingredients-list">
         <li *ngFor="let item of cocktail.ingredients" class="ingredient-item">
           <span class="ingredient-measure">{{ formatMeasure(item.measureMl) }}</span>
@@ -52,7 +52,7 @@
 
     <!-- Instructions -->
     <div class="info-card">
-      <h3 class="section-title">🍸 Instructions</h3>
+      <h3 class="section-title">{{ 'visitor.recipe.instructions' | translate }}</h3>
       <ol class="steps-list">
         <li *ngFor="let step of cocktail.steps; let i = index" class="step-item">
           <span class="step-number">{{ i + 1 }}</span>
@@ -63,7 +63,7 @@
 
     <!-- Notes -->
     <div *ngIf="cocktail.notes" class="info-card notes-card">
-      <h3 class="section-title">💡 Notes</h3>
+      <h3 class="section-title">{{ 'visitor.recipe.notes' | translate }}</h3>
       <p class="notes-text">{{ cocktail.notes }}</p>
     </div>
   </div>

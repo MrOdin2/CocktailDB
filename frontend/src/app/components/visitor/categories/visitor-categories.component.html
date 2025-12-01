@@ -2,23 +2,23 @@
   <!-- Header -->
   <div class="page-header">
     <button class="back-btn" (click)="goBack()" *ngIf="!selectedCategory" aria-label="Go back to menu">
-      ← Back
+      ← {{ 'common.back' | translate }}
     </button>
     <button class="back-btn" (click)="backToCategories()" *ngIf="selectedCategory" aria-label="Back to categories">
-      ← Categories
+      ← {{ 'visitor.categories.title' | translate }}
     </button>
-    <h1>{{ selectedCategory ? selectedCategory.name : 'Browse Categories' }}</h1>
+    <h1>{{ selectedCategory ? selectedCategory.name : ('visitor.categories.title' | translate) }}</h1>
   </div>
 
   <!-- Loading State -->
   <div *ngIf="loading" class="loading">
-    <p>Loading categories...</p>
+    <p>{{ 'visitor.categories.loading' | translate }}</p>
   </div>
 
   <!-- Error State -->
   <div *ngIf="error" class="error-message">
     <p>{{ error }}</p>
-    <button (click)="loadCocktails()" class="retry-btn">Retry</button>
+    <button (click)="loadCocktails()" class="retry-btn">{{ 'common.retry' | translate }}</button>
   </div>
 
   <!-- Categories Grid -->
@@ -36,7 +36,7 @@
       <h2 class="category-name">{{ category.name }}</h2>
       <p class="category-description">{{ category.description }}</p>
       <div class="category-count">
-        {{ getCategoryCount(category) }} cocktails
+        {{ getCategoryCount(category) }} {{ 'visitor.categories.cocktails' | translate }}
       </div>
     </div>
   </div>
@@ -45,13 +45,13 @@
   <div *ngIf="!loading && !error && selectedCategory" class="results-section">
     <div class="results-info">
       <p>
-        Found <strong>{{ filteredCocktails.length }}</strong> {{ selectedCategory.name.toLowerCase() }} cocktails
+        {{ 'visitor.categories.found' | translate }} <strong>{{ filteredCocktails.length }}</strong> {{ selectedCategory.name.toLowerCase() }} {{ 'visitor.categories.cocktails' | translate }}
       </p>
     </div>
 
     <!-- Empty State -->
     <div *ngIf="filteredCocktails.length === 0" class="empty-state">
-      <p>No cocktails found in this category.</p>
+      <p>{{ 'visitor.categories.noCocktails' | translate }}</p>
     </div>
 
     <!-- Cocktails Grid -->
@@ -66,11 +66,11 @@
         
         <div class="cocktail-info">
           <div class="info-row">
-            <span class="label">Base Spirit:</span>
+            <span class="label">{{ 'visitor.cocktailList.baseSpirit' | translate }}</span>
             <span class="value">{{ cocktail.baseSpirit }}</span>
           </div>
           <div class="info-row">
-            <span class="label">ABV:</span>
+            <span class="label">{{ 'visitor.cocktailList.abv' | translate }}</span>
             <span class="value">{{ cocktail.abv }}%</span>
           </div>
           <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="tags-section">
@@ -83,7 +83,7 @@
           class="view-recipe-btn"
           aria-label="View recipe for {{ cocktail.name }}"
         >
-          View Recipe →
+          {{ 'visitor.cocktailList.viewRecipe' | translate }}
         </button>
       </div>
     </div>
@@ -91,7 +91,7 @@
 
   <!-- Empty State for No Cocktails -->
   <div *ngIf="!loading && !error && !selectedCategory && allCocktails.length === 0" class="empty-state">
-    <p>No cocktails are currently available.</p>
-    <p class="hint">Come back later when we have ingredients in stock!</p>
+    <p>{{ 'visitor.categories.noCocktailsAvailable' | translate }}</p>
+    <p class="hint">{{ 'visitor.categories.comeBackLater' | translate }}</p>
   </div>
 </div>

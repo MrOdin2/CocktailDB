@@ -6,11 +6,13 @@ import { ApiService } from '../../services/api.service';
 import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
 import { MeasureService } from '../../services/measure.service';
 import { ModalComponent } from '../util/modal.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslateService } from '../../services/translate.service';
 import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-cocktails',
-    imports: [FormsModule, ModalComponent],
+    imports: [FormsModule, ModalComponent, TranslatePipe],
     templateUrl: './cocktails.component.html',
     styleUrls: ['../admin-shared.css', './cocktails.component.css']
 })
@@ -78,7 +80,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   constructor(
     private apiService: ApiService, 
     private exportService: ExportService,
-    private measureService: MeasureService
+    private measureService: MeasureService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {

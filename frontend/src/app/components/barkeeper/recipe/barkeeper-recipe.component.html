@@ -1,15 +1,15 @@
 <div class="barkeeper-container">
   <!-- Header -->
     <div class="view-header">
-        <button class="back-btn" (click)="goBack()">← Back</button>
-        <h2>{{ cocktail?.name || 'Recipe' }}</h2>
+        <button class="back-btn" (click)="goBack()">← {{ 'common.back' | translate }}</button>
+        <h2>{{ cocktail?.name || ('barkeeper.recipe.title' | translate) }}</h2>
         <div class="info-badge">
-            <span class="info-value"> Base: {{ cocktail?.baseSpirit | titlecase }}</span>
-            <span class="info-value"> ABV: {{ cocktail?.abv }}%</span>
+            <span class="info-value"> {{ 'barkeeper.recipe.base' | translate }} {{ cocktail?.baseSpirit | titlecase }}</span>
+            <span class="info-value"> {{ 'barkeeper.recipe.abv' | translate }} {{ cocktail?.abv }}%</span>
         </div>
     </div>
 
-  <div *ngIf="isLoading" class="loading">Loading recipe...</div>
+  <div *ngIf="isLoading" class="loading">{{ 'common.loading' | translate }}</div>
 
   <!-- Recipe Content -->
   <div *ngIf="!isLoading && cocktail" class="recipe-content">
@@ -17,7 +17,7 @@
 
       <div class="important-section">
           <div class="recipe-section">
-              <h3>Ingredients:</h3>
+              <h3>{{ 'barkeeper.recipe.ingredients' | translate }}</h3>
               <ul class="ingredients-list-recipe">
                   <li *ngFor="let ing of cocktail.ingredients">
                       <span class="measure">{{ formatMeasure(ing.measureMl) }}</span>
@@ -28,7 +28,7 @@
 
           <!-- Instructions Section -->
           <div class="recipe-section">
-              <h3>Instructions:</h3>
+              <h3>{{ 'barkeeper.recipe.instructions' | translate }}</h3>
               <ol class="steps-list">
                   <li *ngFor="let step of cocktail.steps">{{ step }}</li>
               </ol>
@@ -37,13 +37,13 @@
 
     <!-- Notes Section -->
     <div *ngIf="cocktail.notes" class="recipe-section">
-      <h3>Notes:</h3>
+      <h3>{{ 'barkeeper.recipe.notes' | translate }}</h3>
       <p class="notes">{{ cocktail.notes }}</p>
     </div>
 
     <!-- Tags Section -->
     <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="recipe-section">
-      <h3>Tags:</h3>
+      <h3>{{ 'barkeeper.recipe.tags' | translate }}</h3>
       <div class="tags-list">
         <span *ngFor="let tag of cocktail.tags" class="tag">{{ tag }}</span>
       </div>

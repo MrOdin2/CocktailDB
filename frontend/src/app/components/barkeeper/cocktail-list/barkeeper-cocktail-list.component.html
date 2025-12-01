@@ -1,7 +1,7 @@
 <div class="barkeeper-container">
   <!-- Header -->
   <div class="view-header">
-    <a [routerLink]="getBackRoute()" class="back-btn">← Back</a>
+    <a [routerLink]="getBackRoute()" class="back-btn">← {{ 'common.back' | translate }}</a>
     <h2>{{ getTitle() }}</h2>
     <!-- Filter toggle button for available mode -->
     <button 
@@ -11,7 +11,7 @@
       (click)="toggleFilters()"
       [attr.aria-label]="hasActiveFilters() ? 'Filter (active filters applied)' : 'Filter cocktails'"
       [attr.aria-expanded]="showFilters">
-      <span aria-hidden="true">🔍</span> Filter<span *ngIf="hasActiveFilters()" aria-hidden="true"> ●</span>
+      <span aria-hidden="true">🔍</span> {{ 'barkeeper.cocktailList.filter' | translate }}<span *ngIf="hasActiveFilters()" aria-hidden="true"> ●</span>
     </button>
   </div>
 
@@ -19,13 +19,13 @@
   <div *ngIf="viewMode === 'available' && showFilters" class="filters-panel">
     <div class="filter-row">
       <div class="filter-group">
-        <label for="spiritFilter">Base Spirit:</label>
+        <label for="spiritFilter">{{ 'barkeeper.cocktailList.baseSpirit' | translate }}</label>
         <select 
           id="spiritFilter"
           [(ngModel)]="filterBaseSpirit" 
           (change)="onFilterChange()" 
           class="filter-select">
-          <option value="all">All Spirits</option>
+          <option value="all">{{ 'barkeeper.cocktailList.allSpirits' | translate }}</option>
           <option *ngFor="let spirit of availableBaseSpirits" [value]="spirit">
             {{ spirit | titlecase }}
           </option>
@@ -33,13 +33,13 @@
       </div>
 
       <div class="filter-group">
-        <label for="tagFilter">Tag:</label>
+        <label for="tagFilter">{{ 'barkeeper.cocktailList.tag' | translate }}</label>
         <select 
           id="tagFilter"
           [(ngModel)]="filterTag" 
           (change)="onFilterChange()" 
           class="filter-select">
-          <option value="all">All Tags</option>
+          <option value="all">{{ 'barkeeper.cocktailList.allTags' | translate }}</option>
           <option *ngFor="let tag of availableTags" [value]="tag">
             {{ tag }}
           </option>
@@ -47,17 +47,17 @@
       </div>
 
       <div class="filter-group">
-        <label for="abvFilter">ABV:</label>
+        <label for="abvFilter">{{ 'barkeeper.cocktailList.abv' | translate }}</label>
         <select 
           id="abvFilter"
           [(ngModel)]="filterAbv" 
           (change)="onFilterChange()" 
           class="filter-select">
-          <option value="all">All ABV</option>
-          <option value="non-alcoholic">Non-Alcoholic (0%)</option>
-          <option value="low">Low (1-10%)</option>
-          <option value="medium">Medium (11-25%)</option>
-          <option value="high">High (25%+)</option>
+          <option value="all">{{ 'barkeeper.cocktailList.allAbv' | translate }}</option>
+          <option value="non-alcoholic">{{ 'barkeeper.cocktailList.nonAlcoholic' | translate }}</option>
+          <option value="low">{{ 'barkeeper.cocktailList.lowAbv' | translate }}</option>
+          <option value="medium">{{ 'barkeeper.cocktailList.mediumAbv' | translate }}</option>
+          <option value="high">{{ 'barkeeper.cocktailList.highAbv' | translate }}</option>
         </select>
       </div>
     </div>
@@ -66,16 +66,16 @@
       *ngIf="hasActiveFilters()" 
       class="clear-filters-btn" 
       (click)="clearFilters()">
-      Clear Filters
+      {{ 'common.clearFilters' | translate }}
     </button>
   </div>
 
   <!-- Cocktails List -->
   <div class="cocktails-list">
-    <div *ngIf="isLoading" class="loading">Loading cocktails...</div>
+    <div *ngIf="isLoading" class="loading">{{ 'barkeeper.cocktailList.loading' | translate }}</div>
     
     <div *ngIf="!isLoading && filteredCocktails.length === 0" class="empty">
-      No cocktails found
+      {{ 'barkeeper.cocktailList.noCocktails' | translate }}
     </div>
     
     <button 

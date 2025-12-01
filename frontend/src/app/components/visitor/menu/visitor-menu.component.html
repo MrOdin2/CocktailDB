@@ -1,42 +1,50 @@
 <div class="visitor-container">
+  <!-- Language Toggle Bubble -->
+  <button 
+    class="language-bubble" 
+    (click)="toggleLanguage()"
+    [attr.aria-label]="'Switch to ' + getLanguageLabel()">
+    🌐 {{ getLanguageLabel() }}
+  </button>
+
   <!-- Header -->
   <div class="visitor-header">
-    <h1>🍸 CocktailDB</h1>
-    <p class="tagline">Discover cocktails you can make right now</p>
+    <h1>🍸 {{ 'visitor.title' | translate }}</h1>
+    <p class="tagline">{{ 'visitor.tagline' | translate }}</p>
   </div>
 
   <!-- Main Menu -->
   <div class="menu-view">
-    <h2>What can we make today?</h2>
+    <h2>{{ 'visitor.menu.whatCanWeMake' | translate }}</h2>
     
     <!-- Menu Grid -->
     <div class="menu-grid">
       <a routerLink="/visitor/cocktails" class="menu-card">
         <div class="menu-icon">🍹</div>
-        <div class="menu-label">Browse Cocktails</div>
-        <div class="menu-description">Search by name or ingredient</div>
+        <div class="menu-label">{{ 'visitor.menu.browseCocktails' | translate }}</div>
+        <div class="menu-description">{{ 'visitor.menu.browseDescription' | translate }}</div>
       </a>
       
       <a routerLink="/visitor/categories" class="menu-card">
         <div class="menu-icon">📂</div>
-        <div class="menu-label">Categories</div>
-        <div class="menu-description">Explore by type or flavor</div>
+        <div class="menu-label">{{ 'visitor.menu.categories' | translate }}</div>
+        <div class="menu-description">{{ 'visitor.menu.categoriesDescription' | translate }}</div>
       </a>
       
       <a routerLink="/visitor/random" class="menu-card">
         <div class="menu-icon">🎲</div>
-        <div class="menu-label">Surprise Me!</div>
-        <div class="menu-description">Random cocktail picker</div>
+        <div class="menu-label">{{ 'visitor.menu.surpriseMe' | translate }}</div>
+        <div class="menu-description">{{ 'visitor.menu.surpriseDescription' | translate }}</div>
       </a>
     </div>
 
     <!-- Info Section -->
     <div class="info-section">
       <p class="info-text">
-        <strong>Welcome!</strong> This is a public view showing cocktails that can be made with currently available ingredients.
+        <strong>{{ 'visitor.menu.welcome' | translate }}</strong> {{ 'visitor.menu.welcomeText' | translate }}
       </p>
       <p class="login-link-text">
-        Are you a bartender or admin? <a routerLink="/login" class="login-link">Login here</a>
+        {{ 'visitor.menu.loginPrompt' | translate }} <a routerLink="/login" class="login-link">{{ 'visitor.menu.loginHere' | translate }}</a>
       </p>
     </div>
   </div>

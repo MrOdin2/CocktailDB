@@ -1,17 +1,17 @@
 <div class="barkeeper-container">
   <!-- Header -->
   <div class="view-header">
-    <a routerLink="/barkeeper/menu" class="back-btn">← Back</a>
-    <h2>Manage Stock</h2>
+    <a routerLink="/barkeeper/menu" class="back-btn">← {{ 'common.back' | translate }}</a>
+    <h2>{{ 'barkeeper.stock.title' | translate }}</h2>
   </div>
 
-  <div *ngIf="isLoading" class="loading">Loading ingredients...</div>
+  <div *ngIf="isLoading" class="loading">{{ 'barkeeper.stock.loading' | translate }}</div>
 
   <!-- Ingredients organized by stock status - shown on iPad/PC -->
   <div class="stock-sections tablet-up">
     <!-- In Stock Section -->
     <div class="stock-section">
-      <h3 class="section-title in-stock-title">✓ In Stock ({{ inStockIngredients.length }})</h3>
+      <h3 class="section-title in-stock-title">✓ {{ 'barkeeper.stock.inStock' | translate }} ({{ inStockIngredients.length }})</h3>
       <div class="ingredients-grid">
         <div 
           *ngFor="let ingredient of inStockIngredients" 
@@ -28,7 +28,7 @@
 
     <!-- Out of Stock Section -->
     <div class="stock-section">
-      <h3 class="section-title out-of-stock-title">✗ Out of Stock ({{ outOfStockIngredients.length }})</h3>
+      <h3 class="section-title out-of-stock-title">✗ {{ 'barkeeper.stock.outOfStock' | translate }} ({{ outOfStockIngredients.length }})</h3>
       <div class="ingredients-grid">
         <div 
           *ngFor="let ingredient of outOfStockIngredients" 
@@ -57,7 +57,7 @@
         <div class="ingredient-type">{{ ingredient.type }}</div>
       </div>
       <div class="stock-indicator">
-        {{ ingredient.inStock ? '✓ In Stock' : '✗ Out of Stock' }}
+        {{ ingredient.inStock ? ('✓ ' + ('barkeeper.stock.inStock' | translate)) : ('✗ ' + ('barkeeper.stock.outOfStock' | translate)) }}
       </div>
     </div>
   </div>
