@@ -1,5 +1,6 @@
 package com.cocktaildb.service
 
+import jakarta.annotation.PreDestroy
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.util.concurrent.CopyOnWriteArrayList
@@ -17,6 +18,29 @@ class StockUpdateService {
         executor.scheduleAtFixedRate({
             broadcastHeartbeat()
         }, 30, 30, TimeUnit.SECONDS)
+    }
+    
+    @PreDestroy
+    fun shutdown() {
+        executor.shutdown()
+        try {
+            if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+                executor.shutdownNow()
+            }
+        } catch (e: InterruptedException) {
+            executor.shutdownNow()
+            Thread.currentThread().interrupt()
+        }
+        
+        // Complete all emitters
+        emitters.forEach { emitter ->
+            try {
+                emitter.complete()
+            } catch (e: Exception) {
+                // Ignore errors during shutdown
+            }
+        }
+        emitters.clear()
     }
     
     fun createEmitter(): SseEmitter {

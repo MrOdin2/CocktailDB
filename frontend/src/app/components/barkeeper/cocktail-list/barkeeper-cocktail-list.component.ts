@@ -64,6 +64,7 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stockUpdateSubscription?.unsubscribe();
     this.queryParamsSubscription?.unsubscribe();
+    this.stockUpdateService.disconnect();
   }
 
   private reloadCurrentView(): void {

@@ -38,6 +38,7 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stockUpdateSubscription?.unsubscribe();
+    this.stockUpdateService.disconnect();
   }
 
   loadCocktails(): void {

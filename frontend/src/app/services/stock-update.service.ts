@@ -13,14 +13,17 @@ export class StockUpdateService implements OnDestroy {
   private maxReconnectAttempts = 5;
   private reconnectDelay = 3000;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private connectionCount = 0;
 
   constructor(private ngZone: NgZone) {}
 
   /**
    * Connects to the SSE endpoint for stock updates.
-   * Should be called when components need real-time updates.
+   * Uses reference counting to manage connections across multiple components.
    */
   connect(): void {
+    this.connectionCount++;
+    
     if (this.eventSource) {
       return; // Already connected
     }
@@ -29,8 +32,7 @@ export class StockUpdateService implements OnDestroy {
   }
 
   private createEventSource(): void {
-    const baseUrl = environment.apiUrl.replace('/api', '');
-    const sseUrl = `${baseUrl}/api/stock-updates`;
+    const sseUrl = this.buildSseUrl();
 
     try {
       this.eventSource = new EventSource(sseUrl);
@@ -42,11 +44,11 @@ export class StockUpdateService implements OnDestroy {
         });
       };
 
-      this.eventSource.addEventListener('connected', (event: MessageEvent) => {
-        console.log('Connected to stock updates stream');
+      this.eventSource.addEventListener('connected', () => {
+        // Connection established
       });
 
-      this.eventSource.addEventListener('stock-update', (event: MessageEvent) => {
+      this.eventSource.addEventListener('stock-update', () => {
         this.ngZone.run(() => {
           this.stockUpdateSubject.next();
         });
@@ -56,14 +58,29 @@ export class StockUpdateService implements OnDestroy {
         // Heartbeat received - connection is alive
       });
 
-      this.eventSource.onerror = (error) => {
-        console.error('SSE connection error:', error);
+      this.eventSource.onerror = () => {
         this.handleConnectionError();
       };
 
     } catch (error) {
       console.error('Failed to create EventSource:', error);
       this.handleConnectionError();
+    }
+  }
+
+  private buildSseUrl(): string {
+    const apiUrl = environment.apiUrl;
+    
+    // Handle different API URL formats
+    if (apiUrl.endsWith('/api')) {
+      // e.g., 'http://localhost:8080/api' -> 'http://localhost:8080/api/stock-updates'
+      return `${apiUrl}/stock-updates`;
+    } else if (apiUrl === '/api') {
+      // Relative URL for production
+      return '/api/stock-updates';
+    } else {
+      // Fallback: append stock-updates path
+      return `${apiUrl}/stock-updates`;
     }
   }
 
@@ -110,10 +127,18 @@ export class StockUpdateService implements OnDestroy {
   }
 
   /**
-   * Disconnects from the SSE endpoint.
-   * Should be called when no components need updates anymore.
+   * Decrements the connection count and disconnects when no components need updates.
+   * Should be called in ngOnDestroy of components using this service.
    */
   disconnect(): void {
+    this.connectionCount = Math.max(0, this.connectionCount - 1);
+    
+    if (this.connectionCount === 0) {
+      this.forceDisconnect();
+    }
+  }
+
+  private forceDisconnect(): void {
     if (this.reconnectTimer) {
       clearTimeout(this.reconnectTimer);
       this.reconnectTimer = null;
@@ -123,7 +148,7 @@ export class StockUpdateService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.disconnect();
+    this.forceDisconnect();
     this.stockUpdateSubject.complete();
     this.connectionStatus.complete();
   }
