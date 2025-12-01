@@ -3,7 +3,7 @@ export const de = {
     back: 'Zurück',
     backTo: 'Zurück zu {{ destination }}',
     cancel: 'Abbrechen',
-    save: 'Speichern',
+    save: 'Sichern des momentanen Zustands',
     edit: 'Bearbeiten',
     delete: 'Löschen',
     add: 'Hinzufügen',
@@ -41,10 +41,10 @@ export const de = {
   login: {
     title: 'Anmelden',
     selectRole: 'Rolle auswählen:',
-    admin: 'Administrator',
-    barkeeper: 'Barkeeper',
-    enterPassword: '{{ role }}-Passwort eingeben',
-    loggingIn: 'Anmeldung läuft...',
+    admin: 'Möglichecocktailsauszutatenautomatikanwendungsadministratorzugang',
+    barkeeper: 'Möglichecocktailsauszutatenautomatikanwendungsbarmannzugang',
+    enterPassword: '{{ role }}-Schlüsselwort eingeben',
+    loggingIn: 'Anmeldung ist in bearbeutung...',
     loginAs: 'Als {{ role }} anmelden'
   },
   nav: {
@@ -253,19 +253,19 @@ export const de = {
   },
   visitor: {
     title: 'CocktailDB',
-    tagline: 'Entdecke Cocktails, die du jetzt machen kannst',
+    tagline: 'Möglichecocktailsauszutatenautomatikanwendung',
     menu: {
-      whatCanWeMake: 'Was können wir heute machen?',
-      browseCocktails: 'Cocktails durchsuchen',
-      browseDescription: 'Nach Name oder Zutat suchen',
+      whatCanWeMake: 'Welche Cocktails können mit dem momentan laut System verfügbaren Zutaten hergestellt werden?',
+      browseCocktails: 'Liste der verfügbaren Cocktails durchsuchen',
+      browseDescription: 'Cocktails durch Namen oder Zutaten bestimmen',
       categories: 'Kategorien',
-      categoriesDescription: 'Nach Typ oder Geschmack erkunden',
-      surpriseMe: 'Überrasch mich!',
-      surpriseDescription: 'Zufälliger Cocktail-Picker',
+      categoriesDescription: 'Suchen durch nicht-objektive Kategorisierungen',
+      surpriseMe: 'Überrasche mich!',
+      surpriseDescription: 'Automatische auswahl eines zufälligen, aus den momentan laut System verfügbaren Zutaten herstellbaren, Cocktails',
       welcome: 'Willkommen!',
-      welcomeText: 'Dies ist eine öffentliche Ansicht, die Cocktails zeigt, die mit den aktuell verfügbaren Zutaten gemacht werden können.',
-      loginPrompt: 'Bist du Barkeeper oder Administrator?',
-      loginHere: 'Hier anmelden'
+      welcomeText: 'Dies ist eine öffentliche Ansicht, die Cocktails zeigt, die mit den aktuell verfügbaren Zutaten gemacht werden können. Offnungszeiten Werktags 19:07 - 19:13 Uhr.',
+      loginPrompt: 'Zugang nur für Befugte. Eltern haften für ihre Kinder.',
+      loginHere: 'Anmeldungsvorgang starten'
     },
     cocktailList: {
       title: 'Verfügbare Cocktails',
@@ -277,13 +277,13 @@ export const de = {
       noMatch: 'Keine Cocktails entsprechen deiner Suche.',
       clearSearch: 'Suche löschen',
       noCocktails: 'Derzeit sind keine Cocktails verfügbar.',
-      comeBackLater: 'Komm später wieder, wenn wir Zutaten auf Lager haben!',
+      comeBackLater: 'Die Lager sind leer.',
       viewRecipe: 'Rezept ansehen →',
       baseSpirit: 'Basisspirituose:',
-      abv: 'Alk.:',
+      abv: 'Alkoholgehalt:',
       alcoholic: 'Alkoholisch',
-      nonAlcoholic: 'Alkoholfrei',
-      lowAlcohol: 'Wenig Alkohol'
+      nonAlcoholic: 'Alkoholfrei (beispielsweise Radler)',
+      lowAlcohol: 'Wenig Alkohol (beispielsweise Kölsch)'
     },
     recipe: {
       backToCocktails: 'Zurück zu Cocktails',
