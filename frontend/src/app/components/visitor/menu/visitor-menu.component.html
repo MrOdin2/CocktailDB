@@ -1,4 +1,12 @@
 <div class="visitor-container">
+  <!-- Language Toggle Bubble -->
+  <button 
+    class="language-bubble" 
+    (click)="toggleLanguage()"
+    [attr.aria-label]="'Switch to ' + getLanguageLabel()">
+    🌐 {{ getLanguageLabel() }}
+  </button>
+
   <!-- Header -->
   <div class="visitor-header">
     <h1>🍸 {{ 'visitor.title' | translate }}</h1>
