@@ -23,8 +23,8 @@ export interface Ingredient {
   type: IngredientType;
   abv: number;
   inStock: boolean;
-  substituteIds: number[];
-  alternativeIds: number[];
+  substituteIds?: number[];
+  alternativeIds?: number[];
 }
 
 export interface CocktailIngredient {

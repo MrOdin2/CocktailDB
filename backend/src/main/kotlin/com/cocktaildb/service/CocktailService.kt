@@ -153,8 +153,12 @@ class CocktailService(
      */
     fun getIngredientImpact(): Map<Long, Pair<Int, Int>> {
         val allIngredients = ingredientRepository.findAll()
+        val ingredientMap = allIngredients.associateBy { it.id }
         val outOfStockIngredients = allIngredients.filter { !it.inStock }
         val result = mutableMapOf<Long, Pair<Int, Int>>()
+        
+        // Pre-calculate base in-stock IDs once
+        val baseInStockIds = allIngredients.filter { it.inStock }.mapNotNull { it.id }.toSet()
         
         val currentlyAvailable = getAvailableCocktailsWithSubstitutions()
             .filter { it.availability == CocktailAvailability.AVAILABLE }
@@ -170,14 +174,15 @@ class CocktailService(
             .map { it.cocktail.id }
             .toSet()
         
+        // Fetch cocktails once outside the loop
+        val allCocktails = cocktailRepository.findAll()
+        
         for (ingredient in outOfStockIngredients) {
             val ingredientId = ingredient.id ?: continue
             
             // Temporarily "add" this ingredient to stock for calculation
-            val tempInStockIds = allIngredients.filter { it.inStock || it.id == ingredientId }
-                .mapNotNull { it.id }.toSet()
+            val tempInStockIds = baseInStockIds + ingredientId
             
-            val allCocktails = cocktailRepository.findAll()
             var newDirectlyAvailable = 0
             var newAvailableAsAlternative = 0
             
@@ -197,7 +202,7 @@ class CocktailService(
                     var usesAlternative = false
                     
                     for (missingId in missingIds) {
-                        val missingIngredient = allIngredients.find { it.id == missingId }
+                        val missingIngredient = ingredientMap[missingId]
                         if (missingIngredient != null) {
                             val hasSubstitute = missingIngredient.substituteIds.any { it in tempInStockIds }
                             val hasAlternative = missingIngredient.alternativeIds.any { it in tempInStockIds }

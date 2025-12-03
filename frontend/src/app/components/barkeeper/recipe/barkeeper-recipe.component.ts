@@ -8,6 +8,12 @@ import { MeasureService } from '../../../services/measure.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 
+interface IngredientStatus {
+  inStock: boolean;
+  substitute: Ingredient | null;
+  alternative: Ingredient | null;
+}
+
 @Component({
   selector: 'app-barkeeper-recipe',
   standalone: true,
@@ -19,6 +25,7 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   cocktail: Cocktail | null = null;
   ingredients: Ingredient[] = [];
   ingredientMap: Map<number, Ingredient> = new Map();
+  ingredientStatusCache: Map<number, IngredientStatus> = new Map();
   isLoading = false;
   
   currentUnit: MeasureUnit = MeasureUnit.ML;
@@ -54,6 +61,7 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
       next: (cocktail: Cocktail) => {
         this.cocktail = cocktail;
         this.isLoading = false;
+        this.buildIngredientStatusCache();
       },
       error: (error: any) => {
         console.error('Error loading cocktail:', error);
@@ -67,11 +75,59 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
         this.ingredientMap = new Map(ingredients.map(i => [i.id!, i]));
+        this.buildIngredientStatusCache();
       },
       error: (error: any) => {
         console.error('Error loading ingredients:', error);
       }
     });
+  }
+  
+  private buildIngredientStatusCache(): void {
+    this.ingredientStatusCache.clear();
+    if (!this.cocktail || this.ingredientMap.size === 0) return;
+    
+    for (const cocktailIng of this.cocktail.ingredients) {
+      const status = this.calculateIngredientStatus(cocktailIng.ingredientId);
+      this.ingredientStatusCache.set(cocktailIng.ingredientId, status);
+    }
+  }
+  
+  private calculateIngredientStatus(ingredientId: number): IngredientStatus {
+    const ingredient = this.ingredientMap.get(ingredientId);
+    if (!ingredient) {
+      return { inStock: false, substitute: null, alternative: null };
+    }
+    
+    if (ingredient.inStock) {
+      return { inStock: true, substitute: null, alternative: null };
+    }
+    
+    // Find substitute
+    const substituteIds = ingredient.substituteIds || [];
+    let substitute: Ingredient | null = null;
+    for (const subId of substituteIds) {
+      const sub = this.ingredientMap.get(subId);
+      if (sub && sub.inStock) {
+        substitute = sub;
+        break;
+      }
+    }
+    
+    // Find alternative (only if no substitute found)
+    let alternative: Ingredient | null = null;
+    if (!substitute) {
+      const alternativeIds = ingredient.alternativeIds || [];
+      for (const altId of alternativeIds) {
+        const alt = this.ingredientMap.get(altId);
+        if (alt && alt.inStock) {
+          alternative = alt;
+          break;
+        }
+      }
+    }
+    
+    return { inStock: false, substitute, alternative };
   }
 
   getIngredientName(ingredientId: number): string {
@@ -79,41 +135,9 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
     return ingredient ? ingredient.name : 'Unknown';
   }
   
-  isIngredientInStock(ingredientId: number): boolean {
-    const ingredient = this.ingredientMap.get(ingredientId);
-    return ingredient ? ingredient.inStock : false;
-  }
-  
-  getInStockSubstitute(ingredientId: number): Ingredient | null {
-    const ingredient = this.ingredientMap.get(ingredientId);
-    if (!ingredient || ingredient.inStock) return null;
-    
-    // First check substitutes
-    const substituteIds = ingredient.substituteIds || [];
-    for (const subId of substituteIds) {
-      const sub = this.ingredientMap.get(subId);
-      if (sub && sub.inStock) {
-        return sub;
-      }
-    }
-    return null;
-  }
-  
-  getInStockAlternative(ingredientId: number): Ingredient | null {
-    const ingredient = this.ingredientMap.get(ingredientId);
-    if (!ingredient || ingredient.inStock) return null;
-    
-    // Only check alternatives if no substitute found
-    if (this.getInStockSubstitute(ingredientId)) return null;
-    
-    const alternativeIds = ingredient.alternativeIds || [];
-    for (const altId of alternativeIds) {
-      const alt = this.ingredientMap.get(altId);
-      if (alt && alt.inStock) {
-        return alt;
-      }
-    }
-    return null;
+  getIngredientStatus(ingredientId: number): IngredientStatus {
+    return this.ingredientStatusCache.get(ingredientId) || 
+      { inStock: false, substitute: null, alternative: null };
   }
   
   formatMeasure(measureMl: number): string {
