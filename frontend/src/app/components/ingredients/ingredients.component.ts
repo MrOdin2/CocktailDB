@@ -260,7 +260,7 @@ export class IngredientsComponent implements OnInit {
   removeSubstitute(ingredientId: number): void {
     if (this.selectedIngredientForSubstitutes) {
       this.selectedIngredientForSubstitutes.substituteIds = 
-        this.selectedIngredientForSubstitutes.substituteIds.filter(id => id !== ingredientId);
+        (this.selectedIngredientForSubstitutes.substituteIds || []).filter(id => id !== ingredientId);
     }
   }
   
@@ -276,7 +276,7 @@ export class IngredientsComponent implements OnInit {
   removeAlternative(ingredientId: number): void {
     if (this.selectedIngredientForSubstitutes) {
       this.selectedIngredientForSubstitutes.alternativeIds = 
-        this.selectedIngredientForSubstitutes.alternativeIds.filter(id => id !== ingredientId);
+        (this.selectedIngredientForSubstitutes.alternativeIds || []).filter(id => id !== ingredientId);
     }
   }
   
