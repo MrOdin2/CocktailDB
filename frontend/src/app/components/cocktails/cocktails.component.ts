@@ -63,7 +63,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     name: '',
     type: IngredientType.SPIRIT,
     abv: 0,
-    inStock: false
+    inStock: false,
+    substituteIds: [],
+    alternativeIds: []
   };
   
   // Export modal
@@ -387,7 +389,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       name: '',
       type: IngredientType.SPIRIT,
       abv: 0,
-      inStock: false
+      inStock: false,
+      substituteIds: [],
+      alternativeIds: []
     };
   }
   

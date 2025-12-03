@@ -18,11 +18,15 @@ export class IngredientsComponent implements OnInit {
     name: '',
     type: IngredientType.SPIRIT,
     abv: 0,
-    inStock: false
+    inStock: false,
+    substituteIds: [],
+    alternativeIds: []
   };
   ingredientTypes = Object.values(IngredientType);
   editingIngredient: Ingredient | null = null;
   isModalOpen = false;
+  isSubstitutesModalOpen = false;
+  selectedIngredientForSubstitutes: Ingredient | null = null;
   
   // Filter properties
   nameFilter = '';
@@ -31,6 +35,10 @@ export class IngredientsComponent implements OnInit {
   // Sort properties
   sortBy: 'name' | 'type' | 'abv' = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
+  
+  // Substitutes/Alternatives search
+  substituteSearch = '';
+  alternativeSearch = '';
 
   constructor(private apiService: ApiService) {}
 
@@ -155,7 +163,11 @@ export class IngredientsComponent implements OnInit {
   }
 
   startEdit(ingredient: Ingredient): void {
-    this.editingIngredient = { ...ingredient };
+    this.editingIngredient = { 
+      ...ingredient,
+      substituteIds: [...(ingredient.substituteIds || [])],
+      alternativeIds: [...(ingredient.alternativeIds || [])]
+    };
   }
 
   cancelEdit(): void {
@@ -173,7 +185,102 @@ export class IngredientsComponent implements OnInit {
       name: '',
       type: IngredientType.SPIRIT,
       abv: 0,
-      inStock: false
+      inStock: false,
+      substituteIds: [],
+      alternativeIds: []
     };
+  }
+  
+  // Substitutes/Alternatives Modal Methods
+  openSubstitutesModal(ingredient: Ingredient): void {
+    this.selectedIngredientForSubstitutes = { 
+      ...ingredient,
+      substituteIds: [...(ingredient.substituteIds || [])],
+      alternativeIds: [...(ingredient.alternativeIds || [])]
+    };
+    this.isSubstitutesModalOpen = true;
+    this.substituteSearch = '';
+    this.alternativeSearch = '';
+  }
+  
+  closeSubstitutesModal(): void {
+    this.isSubstitutesModalOpen = false;
+    this.selectedIngredientForSubstitutes = null;
+    this.substituteSearch = '';
+    this.alternativeSearch = '';
+  }
+  
+  saveSubstitutes(): void {
+    if (this.selectedIngredientForSubstitutes) {
+      this.updateIngredient(this.selectedIngredientForSubstitutes);
+      this.closeSubstitutesModal();
+    }
+  }
+  
+  getIngredientName(id: number): string {
+    const ingredient = this.ingredients.find(i => i.id === id);
+    return ingredient ? ingredient.name : 'Unknown';
+  }
+  
+  getAvailableSubstitutes(): Ingredient[] {
+    if (!this.selectedIngredientForSubstitutes) return [];
+    
+    const currentId = this.selectedIngredientForSubstitutes.id;
+    const existingSubIds = this.selectedIngredientForSubstitutes.substituteIds || [];
+    
+    return this.ingredients.filter(i => 
+      i.id !== currentId && 
+      !existingSubIds.includes(i.id!) &&
+      i.name.toLowerCase().includes(this.substituteSearch.toLowerCase())
+    );
+  }
+  
+  getAvailableAlternatives(): Ingredient[] {
+    if (!this.selectedIngredientForSubstitutes) return [];
+    
+    const currentId = this.selectedIngredientForSubstitutes.id;
+    const existingAltIds = this.selectedIngredientForSubstitutes.alternativeIds || [];
+    
+    return this.ingredients.filter(i => 
+      i.id !== currentId && 
+      !existingAltIds.includes(i.id!) &&
+      i.name.toLowerCase().includes(this.alternativeSearch.toLowerCase())
+    );
+  }
+  
+  addSubstitute(ingredientId: number): void {
+    if (this.selectedIngredientForSubstitutes) {
+      if (!this.selectedIngredientForSubstitutes.substituteIds) {
+        this.selectedIngredientForSubstitutes.substituteIds = [];
+      }
+      this.selectedIngredientForSubstitutes.substituteIds.push(ingredientId);
+    }
+  }
+  
+  removeSubstitute(ingredientId: number): void {
+    if (this.selectedIngredientForSubstitutes) {
+      this.selectedIngredientForSubstitutes.substituteIds = 
+        this.selectedIngredientForSubstitutes.substituteIds.filter(id => id !== ingredientId);
+    }
+  }
+  
+  addAlternative(ingredientId: number): void {
+    if (this.selectedIngredientForSubstitutes) {
+      if (!this.selectedIngredientForSubstitutes.alternativeIds) {
+        this.selectedIngredientForSubstitutes.alternativeIds = [];
+      }
+      this.selectedIngredientForSubstitutes.alternativeIds.push(ingredientId);
+    }
+  }
+  
+  removeAlternative(ingredientId: number): void {
+    if (this.selectedIngredientForSubstitutes) {
+      this.selectedIngredientForSubstitutes.alternativeIds = 
+        this.selectedIngredientForSubstitutes.alternativeIds.filter(id => id !== ingredientId);
+    }
+  }
+  
+  getSubstitutesCount(ingredient: Ingredient): number {
+    return (ingredient.substituteIds?.length || 0) + (ingredient.alternativeIds?.length || 0);
   }
 }

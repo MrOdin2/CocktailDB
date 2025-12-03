@@ -20,5 +20,15 @@ data class Ingredient(
     var abv: Int = 0,
     
     @Column(nullable = false)
-    var inStock: Boolean = false
+    var inStock: Boolean = false,
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "ingredient_substitutes", joinColumns = [JoinColumn(name = "ingredient_id")])
+    @Column(name = "substitute_id")
+    var substituteIds: MutableList<Long> = mutableListOf(),
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "ingredient_alternatives", joinColumns = [JoinColumn(name = "ingredient_id")])
+    @Column(name = "alternative_id")
+    var alternativeIds: MutableList<Long> = mutableListOf()
 )

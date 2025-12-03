@@ -103,6 +103,138 @@ table td button {
   min-width: 80px;
 }
 
+/* Button link style */
+.btn-link {
+  background: none;
+  border: none;
+  color: #0f0;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+.btn-link:hover {
+  color: #00cc00;
+}
+
+/* Substitutes Modal Styles */
+.substitutes-modal-content {
+  max-width: 500px;
+}
+
+.substitutes-modal-content h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0f0;
+  font-size: 1.25rem;
+}
+
+.substitution-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.substitution-section h5 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0f0;
+  font-size: 1rem;
+}
+
+.help-text {
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 0.75rem;
+}
+
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  min-height: 24px;
+}
+
+.item-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.substitute-tag {
+  background: rgba(0, 255, 0, 0.2);
+  border: 1px solid #0f0;
+  color: #0f0;
+}
+
+.alternative-tag {
+  background: rgba(255, 165, 0, 0.2);
+  border: 1px solid orange;
+  color: orange;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  padding: 0 0.25rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.remove-btn:hover {
+  opacity: 0.7;
+}
+
+.add-item-section {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 100;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: left;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
 
 /* Mobile (small) - component-specific overrides */
 @media (max-width: 767px) {

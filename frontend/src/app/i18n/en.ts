@@ -134,6 +134,18 @@ export const en = {
     addIngredient: 'Add Ingredient',
     modal: {
       title: 'Add New Ingredient'
+    },
+    substitutes: {
+      column: 'Substitutes',
+      title: 'Manage Substitutes & Alternatives',
+      configure: 'Configure',
+      configured: 'configured',
+      substitutesLabel: 'Substitutes',
+      substitutesHelp: 'Ingredients that can be used instead (nearly identical, e.g., generic Coconut Rum instead of Malibu)',
+      alternativesLabel: 'Alternatives',
+      alternativesHelp: 'Noticeably different but usable alternatives (e.g., Prosecco instead of Champagne)',
+      searchSubstitutes: 'Search for substitutes...',
+      searchAlternatives: 'Search for alternatives...'
     }
   },
   cocktails: {
@@ -232,7 +244,10 @@ export const en = {
       ingredients: 'Ingredients:',
       instructions: 'Instructions:',
       notes: 'Notes:',
-      tags: 'Tags:'
+      tags: 'Tags:',
+      useInstead: 'Use instead',
+      alternativeAvailable: 'Alternative',
+      outOfStock: 'Out of stock'
     },
     random: {
       title: 'Random Cocktail',

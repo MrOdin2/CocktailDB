@@ -19,9 +19,21 @@
           <div class="recipe-section">
               <h3>{{ 'barkeeper.recipe.ingredients' | translate }}</h3>
               <ul class="ingredients-list-recipe">
-                  <li *ngFor="let ing of cocktail.ingredients">
+                  <li *ngFor="let ing of cocktail.ingredients" [class.out-of-stock]="!isIngredientInStock(ing.ingredientId)">
                       <span class="measure">{{ formatMeasure(ing.measureMl) }}</span>
-                      <span class="name">{{ getIngredientName(ing.ingredientId) }}</span>
+                      <span class="name" [class.strikethrough]="!isIngredientInStock(ing.ingredientId) && (getInStockSubstitute(ing.ingredientId) || getInStockAlternative(ing.ingredientId))">{{ getIngredientName(ing.ingredientId) }}</span>
+                      <!-- Show substitute suggestion -->
+                      <span *ngIf="getInStockSubstitute(ing.ingredientId) as sub" class="substitute-suggestion">
+                        → {{ 'barkeeper.recipe.useInstead' | translate }}: <strong>{{ sub.name }}</strong>
+                      </span>
+                      <!-- Show alternative suggestion (more prominent when no substitute available) -->
+                      <span *ngIf="getInStockAlternative(ing.ingredientId) as alt" class="alternative-suggestion">
+                        → {{ 'barkeeper.recipe.alternativeAvailable' | translate }}: <strong>{{ alt.name }}</strong>
+                      </span>
+                      <!-- Show out of stock warning if no substitute/alternative -->
+                      <span *ngIf="!isIngredientInStock(ing.ingredientId) && !getInStockSubstitute(ing.ingredientId) && !getInStockAlternative(ing.ingredientId)" class="out-of-stock-warning">
+                        ({{ 'barkeeper.recipe.outOfStock' | translate }})
+                      </span>
                   </li>
               </ul>
           </div>

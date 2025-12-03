@@ -134,6 +134,18 @@ export const de = {
     addIngredient: 'Zutat hinzufügen',
     modal: {
       title: 'Neue Zutat hinzufügen'
+    },
+    substitutes: {
+      column: 'Ersatz',
+      title: 'Ersatz & Alternativen verwalten',
+      configure: 'Konfigurieren',
+      configured: 'konfiguriert',
+      substitutesLabel: 'Ersatzzutaten',
+      substitutesHelp: 'Zutaten, die stattdessen verwendet werden können (nahezu identisch, z.B. generischer Kokosrum statt Malibu)',
+      alternativesLabel: 'Alternativen',
+      alternativesHelp: 'Merklich unterschiedlich, aber verwendbare Alternativen (z.B. Prosecco statt Champagner)',
+      searchSubstitutes: 'Nach Ersatzzutaten suchen...',
+      searchAlternatives: 'Nach Alternativen suchen...'
     }
   },
   cocktails: {
@@ -232,7 +244,10 @@ export const de = {
       ingredients: 'Zutaten:',
       instructions: 'Anleitung:',
       notes: 'Notizen:',
-      tags: 'Tags:'
+      tags: 'Tags:',
+      useInstead: 'Stattdessen',
+      alternativeAvailable: 'Alternative',
+      outOfStock: 'Nicht auf Lager'
     },
     random: {
       title: 'Zufälliger Cocktail',

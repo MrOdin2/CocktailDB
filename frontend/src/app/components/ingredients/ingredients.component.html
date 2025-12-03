@@ -65,6 +65,76 @@
     </form>
   </app-modal>
 
+  <!-- Substitutes/Alternatives Modal -->
+  <app-modal [isOpen]="isSubstitutesModalOpen" [title]="'ingredients.substitutes.title' | translate" (closed)="closeSubstitutesModal()">
+    @if (selectedIngredientForSubstitutes) {
+      <div class="substitutes-modal-content">
+        <h4>{{ selectedIngredientForSubstitutes.name }}</h4>
+        
+        <!-- Substitutes Section -->
+        <div class="substitution-section">
+          <h5>{{ 'ingredients.substitutes.substitutesLabel' | translate }}</h5>
+          <p class="help-text">{{ 'ingredients.substitutes.substitutesHelp' | translate }}</p>
+          
+          <div class="selected-items">
+            @for (subId of selectedIngredientForSubstitutes.substituteIds; track subId) {
+              <span class="item-tag substitute-tag">
+                {{ getIngredientName(subId) }}
+                <button type="button" class="remove-btn" (click)="removeSubstitute(subId)" aria-label="Remove substitute">×</button>
+              </span>
+            }
+          </div>
+          
+          <div class="add-item-section">
+            <input type="text" [(ngModel)]="substituteSearch" [placeholder]="'ingredients.substitutes.searchSubstitutes' | translate" class="search-input">
+            @if (substituteSearch && getAvailableSubstitutes().length > 0) {
+              <div class="dropdown-list">
+                @for (ing of getAvailableSubstitutes(); track ing.id) {
+                  <button type="button" class="dropdown-item" (click)="addSubstitute(ing.id!)">
+                    {{ ing.name }} ({{ ing.type }})
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        </div>
+        
+        <!-- Alternatives Section -->
+        <div class="substitution-section">
+          <h5>{{ 'ingredients.substitutes.alternativesLabel' | translate }}</h5>
+          <p class="help-text">{{ 'ingredients.substitutes.alternativesHelp' | translate }}</p>
+          
+          <div class="selected-items">
+            @for (altId of selectedIngredientForSubstitutes.alternativeIds; track altId) {
+              <span class="item-tag alternative-tag">
+                {{ getIngredientName(altId) }}
+                <button type="button" class="remove-btn" (click)="removeAlternative(altId)" aria-label="Remove alternative">×</button>
+              </span>
+            }
+          </div>
+          
+          <div class="add-item-section">
+            <input type="text" [(ngModel)]="alternativeSearch" [placeholder]="'ingredients.substitutes.searchAlternatives' | translate" class="search-input">
+            @if (alternativeSearch && getAvailableAlternatives().length > 0) {
+              <div class="dropdown-list">
+                @for (ing of getAvailableAlternatives(); track ing.id) {
+                  <button type="button" class="dropdown-item" (click)="addAlternative(ing.id!)">
+                    {{ ing.name }} ({{ ing.type }})
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        </div>
+        
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeSubstitutesModal()">{{ 'common.cancel' | translate }}</button>
+          <button type="button" class="btn-primary" (click)="saveSubstitutes()">{{ 'common.save' | translate }}</button>
+        </div>
+      </div>
+    }
+  </app-modal>
+
   <div class="ingredients-list">
     <h3>{{ 'ingredients.allIngredients' | translate }}</h3>
     
@@ -97,6 +167,7 @@
             }
           </th>
           <th>{{ 'ingredients.inStock' | translate }}</th>
+          <th>{{ 'ingredients.substitutes.column' | translate }}</th>
           <th>{{ 'common.actions' | translate }}</th>
         </tr>
       </thead>
@@ -111,6 +182,15 @@
                 <input type="checkbox"
                   [checked]="ingredient.inStock"
                   (change)="toggleStock(ingredient)">
+              </td>
+              <td>
+                <button class="btn-link" (click)="openSubstitutesModal(ingredient)">
+                  @if (getSubstitutesCount(ingredient) > 0) {
+                    {{ getSubstitutesCount(ingredient) }} {{ 'ingredients.substitutes.configured' | translate }}
+                  } @else {
+                    {{ 'ingredients.substitutes.configure' | translate }}
+                  }
+                </button>
               </td>
               <td>
                 <button class="btn-secondary" (click)="startEdit(ingredient)">{{ 'common.edit' | translate }}</button>
@@ -133,6 +213,11 @@
               </td>
               <td>
                 <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
+              </td>
+              <td>
+                <button class="btn-link" (click)="openSubstitutesModal(editingIngredient!)">
+                  {{ 'ingredients.substitutes.configure' | translate }}
+                </button>
               </td>
               <td>
                 <button class="btn-primary" (click)="saveEdit()">{{ 'common.save' | translate }}</button>
@@ -166,6 +251,16 @@
                 <input type="checkbox"
                   [checked]="ingredient.inStock"
                   (change)="toggleStock(ingredient)">
+              </div>
+              <div class="ingredient-card-field">
+                <strong>{{ 'ingredients.substitutes.column' | translate }}:</strong>
+                <button class="btn-link" (click)="openSubstitutesModal(ingredient)">
+                  @if (getSubstitutesCount(ingredient) > 0) {
+                    {{ getSubstitutesCount(ingredient) }} {{ 'ingredients.substitutes.configured' | translate }}
+                  } @else {
+                    {{ 'ingredients.substitutes.configure' | translate }}
+                  }
+                </button>
               </div>
             </div>
             <div class="ingredient-card-actions">

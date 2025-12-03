@@ -75,11 +75,17 @@
   border-bottom: 1px solid #444;
   font-size: 1.2rem;
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
 }
 
 .ingredients-list-recipe li:last-child {
   border-bottom: none;
+}
+
+.ingredients-list-recipe li.out-of-stock {
+  opacity: 0.9;
 }
 
 .measure {
@@ -91,6 +97,40 @@
 .name {
   flex: 1;
   color: #f0f0f0;
+}
+
+.name.strikethrough {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Substitute and alternative suggestions */
+.substitute-suggestion {
+  width: 100%;
+  padding-left: calc(80px + 1rem); /* align with ingredient names */
+  font-size: 0.95rem;
+  color: #00cc00;
+}
+
+.substitute-suggestion strong {
+  color: #00ff00;
+}
+
+.alternative-suggestion {
+  width: 100%;
+  padding-left: calc(80px + 1rem); /* align with ingredient names */
+  font-size: 0.95rem;
+  color: #ffaa00;
+}
+
+.alternative-suggestion strong {
+  color: #ffc000;
+}
+
+.out-of-stock-warning {
+  font-size: 0.9rem;
+  color: #ff6666;
+  margin-left: 0.5rem;
 }
 
 .steps-list {
@@ -186,11 +226,16 @@
   .ingredients-list-recipe li {
     padding: 0.6rem 0;
     font-size: 1.15rem;
-    gap: 1rem;
+    gap: 0.5rem 1rem;
   }
 
   .measure {
     min-width: 80px;
+  }
+
+  .substitute-suggestion,
+  .alternative-suggestion {
+    padding-left: calc(80px + 1rem);
   }
 
   .steps-list li {
@@ -257,11 +302,17 @@
   .ingredients-list-recipe li {
     padding: 0.4rem 0;
     font-size: 1rem;
-    gap: 0.75rem;
+    gap: 0.25rem 0.75rem;
   }
 
   .measure {
     min-width: 70px;
+  }
+
+  .substitute-suggestion,
+  .alternative-suggestion {
+    padding-left: calc(70px + 0.75rem);
+    font-size: 0.9rem;
   }
 
   .steps-list li {

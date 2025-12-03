@@ -79,6 +79,43 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
     return ingredient ? ingredient.name : 'Unknown';
   }
   
+  isIngredientInStock(ingredientId: number): boolean {
+    const ingredient = this.ingredientMap.get(ingredientId);
+    return ingredient ? ingredient.inStock : false;
+  }
+  
+  getInStockSubstitute(ingredientId: number): Ingredient | null {
+    const ingredient = this.ingredientMap.get(ingredientId);
+    if (!ingredient || ingredient.inStock) return null;
+    
+    // First check substitutes
+    const substituteIds = ingredient.substituteIds || [];
+    for (const subId of substituteIds) {
+      const sub = this.ingredientMap.get(subId);
+      if (sub && sub.inStock) {
+        return sub;
+      }
+    }
+    return null;
+  }
+  
+  getInStockAlternative(ingredientId: number): Ingredient | null {
+    const ingredient = this.ingredientMap.get(ingredientId);
+    if (!ingredient || ingredient.inStock) return null;
+    
+    // Only check alternatives if no substitute found
+    if (this.getInStockSubstitute(ingredientId)) return null;
+    
+    const alternativeIds = ingredient.alternativeIds || [];
+    for (const altId of alternativeIds) {
+      const alt = this.ingredientMap.get(altId);
+      if (alt && alt.inStock) {
+        return alt;
+      }
+    }
+    return null;
+  }
+  
   formatMeasure(measureMl: number): string {
     return this.measureService.formatMeasure(measureMl, this.currentUnit);
   }

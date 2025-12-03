@@ -23,6 +23,8 @@ export interface Ingredient {
   type: IngredientType;
   abv: number;
   inStock: boolean;
+  substituteIds: number[];
+  alternativeIds: number[];
 }
 
 export interface CocktailIngredient {
@@ -39,4 +41,18 @@ export interface Cocktail {
   tags: string[];
   abv: number;
   baseSpirit: string;
+}
+
+export enum CocktailAvailability {
+  AVAILABLE = 'AVAILABLE',
+  AVAILABLE_WITH_SUBSTITUTES = 'AVAILABLE_WITH_SUBSTITUTES',
+  AVAILABLE_WITH_ALTERNATIVES = 'AVAILABLE_WITH_ALTERNATIVES',
+  UNAVAILABLE = 'UNAVAILABLE'
+}
+
+export interface CocktailAvailabilityInfo {
+  cocktail: Cocktail;
+  availability: CocktailAvailability;
+  substitutionsNeeded: { [originalIngredientId: number]: number };
+  alternativesNeeded: { [originalIngredientId: number]: number };
 }

@@ -2,6 +2,7 @@ package com.cocktaildb.controller
 
 import com.cocktaildb.model.Cocktail
 import com.cocktaildb.service.CocktailService
+import com.cocktaildb.service.CocktailAvailabilityInfo
 import com.cocktaildb.repository.CocktailRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -61,6 +62,16 @@ class CocktailController(
     @GetMapping("/available")
     fun getAvailableCocktails(): List<Cocktail> {
         return cocktailService.getAvailableCocktails()
+    }
+    
+    @GetMapping("/available-with-substitutions")
+    fun getAvailableCocktailsWithSubstitutions(): List<CocktailAvailabilityInfo> {
+        return cocktailService.getAvailableCocktailsWithSubstitutions()
+    }
+    
+    @GetMapping("/ingredient-impact")
+    fun getIngredientImpact(): Map<Long, Pair<Int, Int>> {
+        return cocktailService.getIngredientImpact()
     }
     
     @GetMapping("/search")
