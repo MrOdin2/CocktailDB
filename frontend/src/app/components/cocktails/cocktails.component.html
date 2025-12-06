@@ -66,26 +66,25 @@
               name="ingredientSearch"
               [placeholder]="'cocktails.searchIngredients' | translate"
               class="ingredient-search">
-              <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
-                <option value="0">{{ 'cocktails.selectIngredient' | translate }}</option>
-                @for (ingredient of filteredIngredients; track ingredient.id) {
-                  <option [value]="ingredient.id">
-                    {{ ingredient.name }}
-                  </option>
-                }
-              </select>
-            </div>
-            <div class="measure-input-group">
-              <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue" [placeholder]="'cocktails.amount' | translate" min="0" step="0.5">
-              <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" name="measureUnit" class="unit-select">
-                @for (unit of availableUnits; track unit) {
-                  <option [value]="unit">{{ unit }}</option>
-                }
-              </select>
-            </div>
-            <button type="button" class="btn-secondary" (click)="addIngredientToCocktail()">{{ 'common.add' | translate }}</button>
-            <button type="button" class="btn-primary" (click)="openIngredientModal()">{{ 'cocktails.newIngredient' | translate }}</button>
+            <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
+              <option value="0">{{ 'cocktails.selectIngredient' | translate }}</option>
+              @for (ingredient of filteredIngredients; track ingredient.id) {
+                <option [value]="ingredient.id">
+                  {{ ingredient.name }}
+                </option>
+              }
+            </select>
           </div>
+          <div class="measure-input-group">
+            <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue" [placeholder]="'cocktails.amount' | translate" min="0" step="0.5">
+            <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" name="measureUnit" class="unit-select">
+              @for (unit of availableUnits; track unit) {
+                <option [value]="unit">{{ unit }}</option>
+              }
+            </select>
+          </div>
+          <button type="button" class="btn-secondary" (click)="addIngredientToCocktail()">{{ 'common.add' | translate }}</button>
+          <button type="button" class="btn-primary" (click)="openIngredientModal()">{{ 'cocktails.newIngredient' | translate }}</button>
           <ul class="ingredient-list">
             @for (ing of newCocktail.ingredients; track ing; let i = $index) {
               <li>
@@ -100,101 +99,102 @@
             </div>
           }
         </div>
+      </div>
 
-        <div class="form-group">
-          <label>{{ 'cocktails.steps' | translate }}</label>
-          <div class="step-inputs">
-            <input type="text" [(ngModel)]="newStep" name="newStep" [placeholder]="'cocktails.addStep' | translate">
-            <button type="button" class="btn-secondary" (click)="addStep()">{{ 'cocktails.addStepButton' | translate }}</button>
-          </div>
-          <ol class="steps-list">
-            @for (step of newCocktail.steps; track step; let i = $index) {
-              <li>
-                {{ step }}
-                <button type="button" class="btn-small" (click)="removeStep(i)">{{ 'common.remove' | translate }}</button>
-              </li>
+      <div class="form-group">
+        <label>{{ 'cocktails.steps' | translate }}</label>
+        <div class="step-inputs">
+          <input type="text" [(ngModel)]="newStep" name="newStep" [placeholder]="'cocktails.addStep' | translate">
+          <button type="button" class="btn-secondary" (click)="addStep()">{{ 'cocktails.addStepButton' | translate }}</button>
+        </div>
+        <ol class="steps-list">
+          @for (step of newCocktail.steps; track step; let i = $index) {
+            <li>
+              {{ step }}
+              <button type="button" class="btn-small" (click)="removeStep(i)">{{ 'common.remove' | translate }}</button>
+            </li>
+          }
+        </ol>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'cocktails.notesLabel' | translate }}</label>
+        <textarea [(ngModel)]="newCocktail.notes" name="notes" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'cocktails.tagsLabel' | translate }}</label>
+        <div class="tag-inputs">
+          <select [(ngModel)]="newTag" name="newTag" class="tag-select">
+            <option value="">{{ 'cocktails.selectTag' | translate }}</option>
+            @for (tag of allTags; track tag) {
+              <option [value]="tag">{{ tag }}</option>
             }
-          </ol>
+          </select>
+          <input type="text" [(ngModel)]="customTag" name="customTag" [placeholder]="'cocktails.typeNewTag' | translate">
+          <button type="button" class="btn-secondary" (click)="addTag()">{{ 'cocktails.addTag' | translate }}</button>
         </div>
-
-        <div class="form-group">
-          <label>{{ 'cocktails.notesLabel' | translate }}</label>
-          <textarea [(ngModel)]="newCocktail.notes" name="notes" rows="3"></textarea>
+        <div class="tag-list">
+          @for (tag of newCocktail.tags; track tag; let i = $index) {
+            <span class="tag-badge">
+              {{ tag }}
+              <button type="button" class="tag-remove" (click)="removeTag(i)">×</button>
+            </span>
+          }
         </div>
+      </div>
 
-        <div class="form-group">
-          <label>{{ 'cocktails.tagsLabel' | translate }}</label>
-          <div class="tag-inputs">
-            <select [(ngModel)]="newTag" name="newTag" class="tag-select">
-              <option value="">{{ 'cocktails.selectTag' | translate }}</option>
-              @for (tag of allTags; track tag) {
-                <option [value]="tag">{{ tag }}</option>
-              }
-            </select>
-            <input type="text" [(ngModel)]="customTag" name="customTag" [placeholder]="'cocktails.typeNewTag' | translate">
-            <button type="button" class="btn-secondary" (click)="addTag()">{{ 'cocktails.addTag' | translate }}</button>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" class="btn-primary" [disabled]="cocktailForm.invalid || newCocktail.ingredients.length === 0">
+          {{ isEditMode ? ('cocktails.updateCocktail' | translate) : ('cocktails.addCocktail' | translate) }}
+        </button>
+      </div>
+    </form>
+  </app-modal>
+
+  <!-- Nested Ingredient Creation Modal -->
+  <app-modal [isOpen]="isIngredientModalOpen" [title]="'ingredients.modal.title' | translate" (closed)="closeIngredientModal()">
+    <form #ingredientForm="ngForm" (ngSubmit)="createIngredientFromCocktail()">
+      <div class="form-group">
+        <label>{{ 'common.name' | translate }}:</label>
+        <input type="text" [(ngModel)]="newIngredientForCocktail.name" name="ingredientName" required #ingredientNameInput="ngModel">
+        @if (ingredientNameInput.invalid && ingredientNameInput.touched) {
+          <div class="error-message">
+            {{ 'ingredients.nameRequired' | translate }}
           </div>
-          <div class="tag-list">
-            @for (tag of newCocktail.tags; track tag; let i = $index) {
-              <span class="tag-badge">
-                {{ tag }}
-                <button type="button" class="tag-remove" (click)="removeTag(i)">×</button>
-              </span>
-            }
-          </div>
-        </div>
+        }
+      </div>
 
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" (click)="closeModal()">{{ 'common.cancel' | translate }}</button>
-          <button type="submit" class="btn-primary" [disabled]="cocktailForm.invalid || newCocktail.ingredients.length === 0">
-            {{ isEditMode ? ('cocktails.updateCocktail' | translate) : ('cocktails.addCocktail' | translate) }}
-          </button>
-        </div>
-      </form>
+      <div class="form-group">
+        <label>{{ 'common.type' | translate }}:</label>
+        <select [(ngModel)]="newIngredientForCocktail.type" name="ingredientType" required>
+          @for (type of ingredientTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </div>
 
-      <!-- Nested Ingredient Creation Modal -->
-      <app-modal [isOpen]="isIngredientModalOpen" [title]="'ingredients.modal.title' | translate" (closed)="closeIngredientModal()">
-        <form #ingredientForm="ngForm" (ngSubmit)="createIngredientFromCocktail()">
-          <div class="form-group">
-            <label>{{ 'common.name' | translate }}:</label>
-            <input type="text" [(ngModel)]="newIngredientForCocktail.name" name="ingredientName" required #ingredientNameInput="ngModel">
-            @if (ingredientNameInput.invalid && ingredientNameInput.touched) {
-              <div class="error-message">
-                {{ 'ingredients.nameRequired' | translate }}
-              </div>
-            }
-          </div>
+      <div class="form-group">
+        <label>{{ 'ingredients.abvPercent' | translate }}</label>
+        <input type="number" [(ngModel)]="newIngredientForCocktail.abv" name="ingredientAbv" min="0" max="100" required>
+      </div>
 
-          <div class="form-group">
-            <label>{{ 'common.type' | translate }}:</label>
-            <select [(ngModel)]="newIngredientForCocktail.type" name="ingredientType" required>
-              @for (type of ingredientTypes; track type) {
-                <option [value]="type">{{ type }}</option>
-              }
-            </select>
-          </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="newIngredientForCocktail.inStock" name="ingredientInStock">
+          {{ 'ingredients.inStock' | translate }}
+        </label>
+      </div>
 
-          <div class="form-group">
-            <label>{{ 'ingredients.abvPercent' | translate }}</label>
-            <input type="number" [(ngModel)]="newIngredientForCocktail.abv" name="ingredientAbv" min="0" max="100" required>
-          </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeIngredientModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" class="btn-primary" [disabled]="ingredientForm.invalid">{{ 'ingredients.addIngredient' | translate }}</button>
+      </div>
+    </form>
+  </app-modal>
 
-          <div class="form-group">
-            <label>
-              <input type="checkbox" [(ngModel)]="newIngredientForCocktail.inStock" name="ingredientInStock">
-              {{ 'ingredients.inStock' | translate }}
-            </label>
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" class="btn-secondary" (click)="closeIngredientModal()">{{ 'common.cancel' | translate }}</button>
-            <button type="submit" class="btn-primary" [disabled]="ingredientForm.invalid">{{ 'ingredients.addIngredient' | translate }}</button>
-          </div>
-        </form>
-      </app-modal>
-    </app-modal>
-
-    <div class="cocktails-list">
+  <div class="cocktails-list">
       <h3>{{ showOnlyAvailable ? ('cocktails.availableCocktails' | translate) : ('cocktails.allCocktails' | translate) }}</h3>
       <div class="cocktail-cards">
         @for (cocktail of displayedCocktails; track cocktail.id) {
@@ -242,129 +242,129 @@
           </div>
         }
       </div>
-    </div>
+  </div>
 
-    <!-- Export Modal -->
-    <app-modal [isOpen]="isExportModalOpen" [title]="'cocktails.export.title' | translate" (closed)="closeExportModal()">
-      <form (ngSubmit)="proceedWithExport()">
+  <!-- Export Modal -->
+  <app-modal [isOpen]="isExportModalOpen" [title]="'cocktails.export.title' | translate" (closed)="closeExportModal()">
+    <form (ngSubmit)="proceedWithExport()">
+      <div class="form-group">
+        <label>{{ 'cocktails.export.exportType' | translate }}</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.MENU">
+            {{ 'cocktails.export.menuType' | translate }}
+          </label>
+          <label>
+            <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.CHEATSHEET">
+            {{ 'cocktails.export.cheatsheetType' | translate }}
+          </label>
+        </div>
+      </div>
+
+      @if (exportType === ExportType.MENU) {
         <div class="form-group">
-          <label>{{ 'cocktails.export.exportType' | translate }}</label>
+          <label>{{ 'cocktails.export.groupBy' | translate }}</label>
           <div class="radio-group">
             <label>
-              <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.MENU">
-              {{ 'cocktails.export.menuType' | translate }}
+              <input type="radio" name="groupBy" [(ngModel)]="exportGroupBy" value="spirit">
+              {{ 'cocktails.export.groupBySpirit' | translate }}
             </label>
             <label>
-              <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.CHEATSHEET">
-              {{ 'cocktails.export.cheatsheetType' | translate }}
+              <input type="radio" name="groupBy" [(ngModel)]="exportGroupBy" value="tags">
+              {{ 'cocktails.export.groupByTags' | translate }}
             </label>
           </div>
         </div>
+      }
 
-        @if (exportType === ExportType.MENU) {
-          <div class="form-group">
-            <label>{{ 'cocktails.export.groupBy' | translate }}</label>
-            <div class="radio-group">
-              <label>
-                <input type="radio" name="groupBy" [(ngModel)]="exportGroupBy" value="spirit">
-                {{ 'cocktails.export.groupBySpirit' | translate }}
+      <div class="form-group">
+        <label>{{ 'cocktails.export.format' | translate }}</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.HTML">
+            {{ 'cocktails.export.html' | translate }}
+          </label>
+          <label>
+            <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.MARKDOWN">
+            {{ 'cocktails.export.markdown' | translate }}
+          </label>
+          <label>
+            <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.PDF">
+            {{ 'cocktails.export.pdf' | translate }}
+          </label>
+        </div>
+      </div>
+
+      <div class="export-info">
+        <p>{{ 'cocktails.export.exportingCount' | translate: { count: displayedCocktails.length } }}</p>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeExportModal()">{{ 'common.cancel' | translate }}</button>
+        <button type="submit" class="btn-primary">{{ 'common.next' | translate }}</button>
+      </div>
+    </form>
+  </app-modal>
+
+  <!-- Tag Selection Modal -->
+  <app-modal [isOpen]="isTagSelectionModalOpen" [title]="'cocktails.export.tagSelection.title' | translate" (closed)="closeTagSelectionModal()">
+    <div class="tag-selection-content">
+      <p class="info-text">{{ 'cocktails.export.tagSelection.info' | translate }}</p>
+
+      <div class="tag-selection-section">
+        <h4>{{ 'cocktails.export.tagSelection.availableTags' | translate }}</h4>
+        <div class="available-tags">
+          @for (tag of availableTagsForExport; track tag) {
+            <label class="tag-checkbox">
+              <input
+                type="checkbox"
+                [checked]="isTagSelected(tag)"
+                (change)="toggleTagSelection(tag)">
+                {{ tag }}
               </label>
-              <label>
-                <input type="radio" name="groupBy" [(ngModel)]="exportGroupBy" value="tags">
-                {{ 'cocktails.export.groupByTags' | translate }}
-              </label>
+            }
+          </div>
+        </div>
+
+        @if (selectedTagsForExport.length > 0) {
+          <div class="tag-selection-section">
+            <h4>{{ 'cocktails.export.tagSelection.selectedTags' | translate }}</h4>
+            <div class="selected-tags-list">
+              @for (tag of selectedTagsForExport; track tag; let i = $index) {
+                <div class="selected-tag-item">
+                  <span class="tag-name">{{ i + 1 }}. {{ tag }}</span>
+                  <div class="tag-controls">
+                    <button
+                      type="button"
+                      class="btn-small"
+                      (click)="moveTagUp(i)"
+                      [disabled]="i === 0">
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-small"
+                      (click)="moveTagDown(i)"
+                      [disabled]="i === selectedTagsForExport.length - 1">
+                      ↓
+                    </button>
+                  </div>
+                </div>
+              }
             </div>
           </div>
         }
 
-        <div class="form-group">
-          <label>{{ 'cocktails.export.format' | translate }}</label>
-          <div class="radio-group">
-            <label>
-              <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.HTML">
-              {{ 'cocktails.export.html' | translate }}
-            </label>
-            <label>
-              <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.MARKDOWN">
-              {{ 'cocktails.export.markdown' | translate }}
-            </label>
-            <label>
-              <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.PDF">
-              {{ 'cocktails.export.pdf' | translate }}
-            </label>
-          </div>
-        </div>
-
-        <div class="export-info">
-          <p>{{ 'cocktails.export.exportingCount' | translate: { count: displayedCocktails.length } }}</p>
-        </div>
-
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" (click)="closeExportModal()">{{ 'common.cancel' | translate }}</button>
-          <button type="submit" class="btn-primary">{{ 'common.next' | translate }}</button>
+          <button type="button" class="btn-secondary" (click)="closeTagSelectionModal()">{{ 'common.back' | translate }}</button>
+          <button
+            type="button"
+            class="btn-primary"
+            (click)="confirmTagSelection()"
+            [disabled]="selectedTagsForExport.length === 0">
+            {{ 'common.export' | translate }}
+          </button>
         </div>
-      </form>
+      </div>
     </app-modal>
-
-    <!-- Tag Selection Modal -->
-    <app-modal [isOpen]="isTagSelectionModalOpen" [title]="'cocktails.export.tagSelection.title' | translate" (closed)="closeTagSelectionModal()">
-      <div class="tag-selection-content">
-        <p class="info-text">{{ 'cocktails.export.tagSelection.info' | translate }}</p>
-
-        <div class="tag-selection-section">
-          <h4>{{ 'cocktails.export.tagSelection.availableTags' | translate }}</h4>
-          <div class="available-tags">
-            @for (tag of availableTagsForExport; track tag) {
-              <label class="tag-checkbox">
-                <input
-                  type="checkbox"
-                  [checked]="isTagSelected(tag)"
-                  (change)="toggleTagSelection(tag)">
-                  {{ tag }}
-                </label>
-              }
-            </div>
-          </div>
-
-          @if (selectedTagsForExport.length > 0) {
-            <div class="tag-selection-section">
-              <h4>{{ 'cocktails.export.tagSelection.selectedTags' | translate }}</h4>
-              <div class="selected-tags-list">
-                @for (tag of selectedTagsForExport; track tag; let i = $index) {
-                  <div class="selected-tag-item">
-                    <span class="tag-name">{{ i + 1 }}. {{ tag }}</span>
-                    <div class="tag-controls">
-                      <button
-                        type="button"
-                        class="btn-small"
-                        (click)="moveTagUp(i)"
-                        [disabled]="i === 0">
-                        ↑
-                      </button>
-                      <button
-                        type="button"
-                        class="btn-small"
-                        (click)="moveTagDown(i)"
-                        [disabled]="i === selectedTagsForExport.length - 1">
-                        ↓
-                      </button>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
-
-          <div class="modal-actions">
-            <button type="button" class="btn-secondary" (click)="closeTagSelectionModal()">{{ 'common.back' | translate }}</button>
-            <button
-              type="button"
-              class="btn-primary"
-              (click)="confirmTagSelection()"
-              [disabled]="selectedTagsForExport.length === 0">
-              {{ 'common.export' | translate }}
-            </button>
-          </div>
-        </div>
-      </app-modal>
-    </div>
+  </div>
