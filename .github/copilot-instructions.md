@@ -11,22 +11,75 @@ CocktailDB is a full-stack web application for managing cocktail recipes and ing
 
 ## Project Structure
 ```
-CocktailDB/
+CocktailDB_2/
 ├── backend/                    # Spring Boot backend
 │   ├── src/main/kotlin/com/cocktaildb/
-│   │   ├── controller/        # REST API controllers
-│   │   ├── model/             # JPA entities
-│   │   ├── repository/        # Data repositories
-│   │   ├── service/           # Business logic
-│   │   └── config/            # Configuration classes
-│   └── build.gradle.kts       # Gradle build configuration
+│   │   ├── appsettings/       # Application settings (database storage, theme, language)
+│   │   │   ├── AppSettings.kt           # Settings entity
+│   │   │   ├── AppSettingsRepository.kt # Settings repository
+│   │   │   └── AppSettingsService.kt    # Settings business logic
+│   │   ├── cocktail/          # Cocktail domain
+│   │   │   ├── Cocktail.kt              # Cocktail entity
+│   │   │   ├── CocktailIngredient.kt    # Cocktail ingredient embeddable
+│   │   │   ├── CocktailRepository.kt    # Cocktail repository
+│   │   │   ├── CocktailDataService.kt   # CRUD operations
+│   │   │   ├── CocktailSearchService.kt # Search and filtering logic
+│   │   │   ├── PatchCocktailService.kt  # Update logic with ABV/spirit calculation
+│   │   │   └── CocktailController.kt    # REST endpoints
+│   │   ├── ingredient/        # Ingredient domain
+│   │   │   ├── Ingredient.kt            # Ingredient entity
+│   │   │   ├── IngredientType.kt        # Ingredient type enum
+│   │   │   ├── IngredientRepository.kt  # Ingredient repository
+│   │   │   ├── IngredientDataService.kt # CRUD operations
+│   │   │   ├── PatchIngredientService.kt # Update logic with stock notifications
+│   │   │   ├── StockUpdateService.kt    # SSE stock update broadcasts
+│   │   │   └── IngredientController.kt  # REST endpoints
+│   │   ├── security/          # Authentication & authorization
+│   │   │   ├── Session.kt               # Session entity
+│   │   │   ├── UserRole.kt              # User role enum
+│   │   │   ├── SessionService.kt        # Session management
+│   │   │   ├── PasswordService.kt       # Password hashing/verification
+│   │   │   └── SessionAuthenticationFilter.kt # Authentication filter
+│   │   ├── controller/        # Shared controllers
+│   │   │   ├── AuthController.kt        # Authentication endpoints
+│   │   │   ├── SettingsController.kt    # Settings endpoints
+│   │   │   └── StockUpdateController.kt # SSE endpoint
+│   │   ├── config/            # Configuration classes
+│   │   │   ├── CorsConfig.kt            # CORS configuration
+│   │   │   ├── SecurityConfig.kt        # Security configuration
+│   │   │   └── DataInitializer.kt       # Sample data initialization
+│   │   └── util/              # Utilities
+│   │       └── PasswordHashGenerator.kt # Password hashing utility
+│   ├── build.gradle.kts       # Gradle build configuration
+│   └── scripts/               # Database backup/restore scripts
 ├── frontend/                   # Angular frontend
 │   ├── src/app/
-│   │   ├── components/        # UI components
-│   │   ├── models/            # TypeScript interfaces
-│   │   └── services/          # API services
-│   └── package.json           # npm dependencies
-└── docker-compose.yml         # Container orchestration
+│   │   ├── components/        # UI components (organized by feature)
+│   │   │   ├── barkeeper/     # Barkeeper mode (menu, recipe, stock-management, etc.)
+│   │   │   ├── visitor/       # Visitor mode (menu, recipe, categories, etc.)
+│   │   │   ├── cocktails/     # Cocktail management (admin)
+│   │   │   ├── ingredients/   # Ingredient management (admin)
+│   │   │   ├── visualization/ # Data visualizations (cocktail, ingredient, trends)
+│   │   │   ├── settings/      # App settings (theme, language, password)
+│   │   │   ├── login/         # Authentication
+│   │   │   └── util/          # Shared utilities
+│   │   ├── guards/            # Route guards (auth, admin, barkeeper)
+│   │   ├── services/          # API and shared services
+│   │   ├── models/            # TypeScript interfaces (models.ts)
+│   │   ├── pipes/             # Custom pipes (translate)
+│   │   └── i18n/              # Internationalization (de.ts, en.ts)
+│   ├── package.json           # npm dependencies
+│   └── nginx.conf             # nginx configuration for production
+├── docs/                       # Documentation
+│   ├── ARCHITECTURE.md
+│   ├── authentication-guide.md
+│   ├── DATABASE_MANAGEMENT.md
+│   └── security-quick-reference.md
+├── docker-compose.yml         # Container orchestration (main)
+├── docker-compose.server.yml  # Server deployment configuration
+├── docker-compose.registry.yml # Registry deployment configuration
+├── .env.example               # Environment variables template
+└── build.ps1 / build.sh       # Build scripts
 ```
 
 ## Technology Stack
@@ -55,10 +108,20 @@ CocktailDB/
 - Use Kotlin idioms and features (data classes, null safety, extension functions)
 - Follow Spring Boot best practices
 - Use dependency injection via constructor injection
+- **Package Structure**: Domain-driven design - each domain (cocktail, ingredient, appsettings, security) contains its own entity, repository, services, and controller
+- **Service Layer Architecture**: Services are split by responsibility:
+  - **DataService**: Handles basic CRUD operations and direct repository access
+    - Example: `CocktailDataService`, `IngredientDataService`
+  - **PatchService**: Handles updates with side effects (calculations, validations, notifications)
+    - Example: `PatchCocktailService` (calculates ABV/baseSpirit), `PatchIngredientService` (broadcasts stock updates)
+  - **SearchService**: Handles complex queries and filtering logic
+    - Example: `CocktailSearchService` (available cocktails, search by criteria)
+  - **Specialized Services**: Handle specific concerns
+    - Example: `StockUpdateService` (SSE broadcasts), `SessionService` (session management)
 - REST controllers should use appropriate HTTP methods and status codes
-- Service layer handles business logic
 - Repository layer handles data persistence
 - Use `@Entity` for JPA models, `@Service` for services, `@RestController` for controllers
+- Controllers are organized by domain (e.g., `CocktailController` in `cocktail/` package)
 
 ### Frontend (TypeScript/Angular)
 - Use standalone components (no NgModules)
@@ -66,8 +129,11 @@ CocktailDB/
 - Use TypeScript strict mode
 - Prefer reactive programming with RxJS
 - Use services for API calls and shared state
+- **Component Organization**: Feature-based structure - components grouped by feature area (barkeeper, visitor, cocktails, ingredients, visualization, settings, login)
 - Components should be focused and reusable
 - Use Angular's reactive forms for form handling
+- Route guards protect different user roles (auth, admin, barkeeper)
+- Internationalization via custom TranslatePipe and i18n service
 
 ### Component Design Principles
 - **Single Responsibility**: Each component should have one clear purpose
@@ -184,6 +250,15 @@ docker compose down -v
 ### REST Endpoints
 All API endpoints are under `/api` prefix:
 
+**Authentication**
+- `POST /api/auth/login` - Authenticate user (admin or barkeeper)
+- `POST /api/auth/logout` - Terminate session
+- `GET /api/auth/status` - Check authentication status
+
+**Settings**
+- `GET /api/settings/theme` - Get current theme
+- `PUT /api/settings/theme` - Set theme (requires admin)
+
 **Ingredients**
 - `GET /api/ingredients` - List all ingredients
 - `GET /api/ingredients/{id}` - Get ingredient by ID
@@ -199,6 +274,9 @@ All API endpoints are under `/api` prefix:
 - `POST /api/cocktails` - Create cocktail
 - `PUT /api/cocktails/{id}` - Update cocktail
 - `DELETE /api/cocktails/{id}` - Delete cocktail
+
+**Stock Updates (SSE)**
+- `GET /api/stock-updates` - Subscribe to real-time stock updates
 
 ### Data Models
 
@@ -222,7 +300,10 @@ data class Cocktail(
     val name: String,
     val ingredients: List<CocktailIngredient>,
     val steps: List<String>,
-    val notes: String?
+    val notes: String?,
+    val tags: List<String>,
+    val abv: Int,
+    val baseSpirit: String
 )
 ```
 
@@ -230,7 +311,7 @@ data class Cocktail(
 ```kotlin
 data class CocktailIngredient(
     val ingredientId: Long,
-    val measure: String
+    val measureMl: Int
 )
 ```
 
@@ -243,8 +324,10 @@ data class CocktailIngredient(
 4. Ensure both backend and frontend build successfully
 
 ### Adding New Features
-- **New API endpoint**: Add to appropriate controller, implement in service layer
-- **New model/entity**: Create in `model` package with JPA annotations
+- **New API endpoint**: Add to appropriate domain controller, implement in service layer
+- **New model/entity**: Create in appropriate domain package with JPA annotations
+- **New CRUD operations**: Add to the domain's DataService
+- **New business logic**: Create specialized service (e.g., SearchService, PatchService) or add to existing one
 - **New frontend component**: Create standalone component with inline template or separate HTML
 - **New API call**: Add method to `api.service.ts`
 

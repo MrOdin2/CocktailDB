@@ -1,11 +1,11 @@
 package com.cocktaildb.config
 
-import com.cocktaildb.model.Cocktail
-import com.cocktaildb.model.CocktailIngredient
-import com.cocktaildb.model.Ingredient
-import com.cocktaildb.model.IngredientType
-import com.cocktaildb.repository.CocktailRepository
-import com.cocktaildb.repository.IngredientRepository
+import com.cocktaildb.cocktail.Cocktail
+import com.cocktaildb.cocktail.CocktailIngredient
+import com.cocktaildb.ingredient.Ingredient
+import com.cocktaildb.ingredient.IngredientType
+import com.cocktaildb.cocktail.CocktailRepository
+import com.cocktaildb.ingredient.IngredientRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 

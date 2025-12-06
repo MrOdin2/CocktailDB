@@ -1,6 +1,5 @@
-package com.cocktaildb.repository
+package com.cocktaildb.ingredient
 
-import com.cocktaildb.model.Ingredient
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

@@ -1,6 +1,6 @@
 package com.cocktaildb.controller
 
-import com.cocktaildb.service.AppSettingsService
+import com.cocktaildb.appsettings.AppSettingsService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

@@ -1,6 +1,6 @@
 package com.cocktaildb.controller
 
-import com.cocktaildb.service.StockUpdateService
+import com.cocktaildb.ingredient.StockUpdateService
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
