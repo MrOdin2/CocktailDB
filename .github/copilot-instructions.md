@@ -15,12 +15,41 @@ CocktailDB_2/
 ├── backend/                    # Spring Boot backend
 │   ├── src/main/kotlin/com/cocktaildb/
 │   │   ├── appsettings/       # Application settings (database storage, theme, language)
-│   │   ├── cocktail/          # Cocktail domain (entity, repository, service, controller)
-│   │   ├── ingredient/        # Ingredient domain (entity, repository, service, controller)
-│   │   ├── security/          # Authentication & authorization (sessions, password, filters)
-│   │   ├── controller/        # Shared controllers (Auth, Settings, StockUpdate)
-│   │   ├── config/            # Configuration classes (CORS, Security, DataInitializer)
-│   │   └── util/              # Utilities (PasswordHashGenerator)
+│   │   │   ├── AppSettings.kt           # Settings entity
+│   │   │   ├── AppSettingsRepository.kt # Settings repository
+│   │   │   └── AppSettingsService.kt    # Settings business logic
+│   │   ├── cocktail/          # Cocktail domain
+│   │   │   ├── Cocktail.kt              # Cocktail entity
+│   │   │   ├── CocktailIngredient.kt    # Cocktail ingredient embeddable
+│   │   │   ├── CocktailRepository.kt    # Cocktail repository
+│   │   │   ├── CocktailDataService.kt   # CRUD operations
+│   │   │   ├── CocktailSearchService.kt # Search and filtering logic
+│   │   │   ├── PatchCocktailService.kt  # Update logic with ABV/spirit calculation
+│   │   │   └── CocktailController.kt    # REST endpoints
+│   │   ├── ingredient/        # Ingredient domain
+│   │   │   ├── Ingredient.kt            # Ingredient entity
+│   │   │   ├── IngredientType.kt        # Ingredient type enum
+│   │   │   ├── IngredientRepository.kt  # Ingredient repository
+│   │   │   ├── IngredientDataService.kt # CRUD operations
+│   │   │   ├── PatchIngredientService.kt # Update logic with stock notifications
+│   │   │   ├── StockUpdateService.kt    # SSE stock update broadcasts
+│   │   │   └── IngredientController.kt  # REST endpoints
+│   │   ├── security/          # Authentication & authorization
+│   │   │   ├── Session.kt               # Session entity
+│   │   │   ├── UserRole.kt              # User role enum
+│   │   │   ├── SessionService.kt        # Session management
+│   │   │   ├── PasswordService.kt       # Password hashing/verification
+│   │   │   └── SessionAuthenticationFilter.kt # Authentication filter
+│   │   ├── controller/        # Shared controllers
+│   │   │   ├── AuthController.kt        # Authentication endpoints
+│   │   │   ├── SettingsController.kt    # Settings endpoints
+│   │   │   └── StockUpdateController.kt # SSE endpoint
+│   │   ├── config/            # Configuration classes
+│   │   │   ├── CorsConfig.kt            # CORS configuration
+│   │   │   ├── SecurityConfig.kt        # Security configuration
+│   │   │   └── DataInitializer.kt       # Sample data initialization
+│   │   └── util/              # Utilities
+│   │       └── PasswordHashGenerator.kt # Password hashing utility
 │   ├── build.gradle.kts       # Gradle build configuration
 │   └── scripts/               # Database backup/restore scripts
 ├── frontend/                   # Angular frontend
@@ -79,9 +108,17 @@ CocktailDB_2/
 - Use Kotlin idioms and features (data classes, null safety, extension functions)
 - Follow Spring Boot best practices
 - Use dependency injection via constructor injection
-- **Package Structure**: Domain-driven design - each domain (cocktail, ingredient, appsettings, security) contains its own entity, repository, service, and controller
+- **Package Structure**: Domain-driven design - each domain (cocktail, ingredient, appsettings, security) contains its own entity, repository, services, and controller
+- **Service Layer Architecture**: Services are split by responsibility:
+  - **DataService**: Handles basic CRUD operations and direct repository access
+    - Example: `CocktailDataService`, `IngredientDataService`
+  - **PatchService**: Handles updates with side effects (calculations, validations, notifications)
+    - Example: `PatchCocktailService` (calculates ABV/baseSpirit), `PatchIngredientService` (broadcasts stock updates)
+  - **SearchService**: Handles complex queries and filtering logic
+    - Example: `CocktailSearchService` (available cocktails, search by criteria)
+  - **Specialized Services**: Handle specific concerns
+    - Example: `StockUpdateService` (SSE broadcasts), `SessionService` (session management)
 - REST controllers should use appropriate HTTP methods and status codes
-- Service layer handles business logic
 - Repository layer handles data persistence
 - Use `@Entity` for JPA models, `@Service` for services, `@RestController` for controllers
 - Controllers are organized by domain (e.g., `CocktailController` in `cocktail/` package)
@@ -287,8 +324,10 @@ data class CocktailIngredient(
 4. Ensure both backend and frontend build successfully
 
 ### Adding New Features
-- **New API endpoint**: Add to appropriate controller, implement in service layer
-- **New model/entity**: Create in `model` package with JPA annotations
+- **New API endpoint**: Add to appropriate domain controller, implement in service layer
+- **New model/entity**: Create in appropriate domain package with JPA annotations
+- **New CRUD operations**: Add to the domain's DataService
+- **New business logic**: Create specialized service (e.g., SearchService, PatchService) or add to existing one
 - **New frontend component**: Create standalone component with inline template or separate HTML
 - **New API call**: Add method to `api.service.ts`
 
