@@ -200,6 +200,17 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   }
 
   addIngredientToCocktail(): void {
+    // Check if search filter matches an ingredient name exactly (case-insensitive)
+    const searchText = this.ingredientSearchFilter.trim().toLowerCase();
+    if (searchText && this.newIngredientEntry.ingredientId === 0) {
+      const matchingIngredient = this.ingredients.find(
+        ing => ing.name.toLowerCase() === searchText
+      );
+      if (matchingIngredient && matchingIngredient.id) {
+        this.newIngredientEntry.ingredientId = matchingIngredient.id;
+      }
+    }
+    
     if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measureValue > 0) {
       // Convert from current display unit to ml for storage
       const measureMl = this.measureService.convertToMl(this.newIngredientEntry.measureValue, this.currentUnit);
