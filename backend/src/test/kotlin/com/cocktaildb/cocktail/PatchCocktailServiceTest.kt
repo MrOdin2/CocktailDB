@@ -102,7 +102,7 @@ class PatchCocktailServiceTest {
     }
     
     @Test
-    fun `updateCocktail should return null when cocktail not exists`() {
+    fun `updateCocktail should return null when cocktail does not exist`() {
         // Given
         val update = Cocktail(
             name = "New Name",

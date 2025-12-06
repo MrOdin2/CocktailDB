@@ -138,7 +138,7 @@ class PatchIngredientServiceTest {
     }
     
     @Test
-    fun `updateIngredient should return null when ingredient not exists`() {
+    fun `updateIngredient should return null when ingredient does not exist`() {
         // Given
         val update = Ingredient(
             name = "New Name",
