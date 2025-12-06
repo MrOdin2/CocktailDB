@@ -201,9 +201,10 @@ export class CocktailsComponent implements OnInit, OnDestroy {
 
   addIngredientToCocktail(): void {
     // Check if search filter matches an ingredient name exactly (case-insensitive)
-    if (this.ingredientSearchFilter.trim() && this.newIngredientEntry.ingredientId === 0) {
+    const searchText = this.ingredientSearchFilter.trim().toLowerCase();
+    if (searchText && this.newIngredientEntry.ingredientId === 0) {
       const matchingIngredient = this.ingredients.find(
-        ing => ing.name.toLowerCase() === this.ingredientSearchFilter.trim().toLowerCase()
+        ing => ing.name.toLowerCase() === searchText
       );
       if (matchingIngredient && matchingIngredient.id) {
         this.newIngredientEntry.ingredientId = matchingIngredient.id;
