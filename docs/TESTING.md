@@ -221,7 +221,9 @@ Current test coverage includes:
 - ✅ SessionService - 8 tests
 - ✅ CocktailDataService - 8 tests
 - ✅ CocktailSearchService - 7 tests
+- ✅ PatchCocktailService - 11 tests
 - ✅ IngredientDataService - 6 tests
+- ✅ PatchIngredientService - 5 tests
 
 ### Controllers (Integration Tests)
 - ✅ AuthController - 8 tests
@@ -231,7 +233,7 @@ Current test coverage includes:
 - ✅ CocktailRepository - 5 tests
 - ✅ IngredientRepository - 5 tests
 
-**Total: 61 tests**
+**Total: 77 tests**
 
 ## Best Practices
 

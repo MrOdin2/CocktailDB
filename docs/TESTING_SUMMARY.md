@@ -16,9 +16,9 @@ This document summarizes the backend testing infrastructure implemented for the 
 
 ### 2. Test Coverage
 
-**Total: 61 tests across 9 test classes, ~1,370 lines of test code**
+**Total: 77 tests across 11 test classes, ~1,765 lines of test code**
 
-#### Unit Tests (33 tests)
+#### Unit Tests (49 tests)
 Service layer tests with mocked dependencies:
 
 - **PasswordServiceTest** (4 tests)
@@ -41,9 +41,20 @@ Service layer tests with mocked dependencies:
   - Search by name, spirit, and tags
   - Complex multi-criteria searches
 
+- **PatchCocktailServiceTest** (11 tests)
+  - ABV calculation (weighted average)
+  - Base spirit determination
+  - Create/update with calculations
+  - Edge case handling
+
 - **IngredientDataServiceTest** (6 tests)
   - CRUD operations for ingredients
   - In-stock filtering
+
+- **PatchIngredientServiceTest** (5 tests)
+  - Update with stock change detection
+  - Stock update broadcasting
+  - Edge case handling
 
 #### Integration Tests (18 tests)
 Controller layer tests with full Spring context:
@@ -229,7 +240,7 @@ backend/build/reports/tests/test/index.html
 
 ## Results
 
-✅ **61 tests passing** with **100% success rate**
+✅ **77 tests passing** with **100% success rate**
 - Zero failures
 - Zero ignored tests
 - Complete coverage of core functionality
@@ -238,7 +249,7 @@ backend/build/reports/tests/test/index.html
 - Unit tests: < 1 second
 - Integration tests: ~5-10 seconds (Spring context loading)
 - Repository tests: ~2-3 seconds
-- **Total: ~20-25 seconds** for full test suite
+- **Total: ~25-30 seconds** for full test suite
 
 ## Benefits Delivered
 
