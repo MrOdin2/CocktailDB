@@ -1,48 +1,19 @@
 package com.cocktaildb.cocktail
 
-import com.cocktaildb.cocktail.CocktailRepository
-import com.cocktaildb.ingredient.IngredientRepository
+import com.cocktaildb.ingredient.IngredientDataService
 import org.springframework.stereotype.Service
 
 @Service
-class CocktailService(
-    private val cocktailRepository: CocktailRepository,
-    private val ingredientRepository: IngredientRepository
+class CocktailSearchService(
+    private val cocktailDataService: CocktailDataService,
+    private val ingredientDataService: IngredientDataService,
 ) {
 
-    fun getAllCocktails(): List<Cocktail> {
-        return cocktailRepository.findAll()
-    }
-
-    fun getCocktailById(id: Long): Cocktail? {
-        return cocktailRepository.findById(id).orElse(null)
-    }
-
-    fun createCocktail(cocktail: Cocktail): Cocktail {
-        return cocktailRepository.save(cocktail)
-    }
-
-    fun updateCocktail(id: Long, cocktail: Cocktail): Cocktail? {
-        val existing = cocktailRepository.findById(id).orElse(null) ?: return null
-        existing.name = cocktail.name
-        existing.ingredients = cocktail.ingredients
-        existing.steps = cocktail.steps
-        existing.notes = cocktail.notes
-        existing.tags = cocktail.tags
-        existing.abv = cocktail.abv
-        existing.baseSpirit = cocktail.baseSpirit
-        return cocktailRepository.save(existing)
-    }
-
-    fun deleteCocktail(id: Long) {
-        cocktailRepository.deleteById(id)
-    }
-
     fun getAvailableCocktails(): List<Cocktail> {
-        val inStockIngredients = ingredientRepository.findByInStock(true)
+        val inStockIngredients = ingredientDataService.getInStockIngredients()
         val inStockIngredientIds = inStockIngredients.mapNotNull { it.id }.toSet()
 
-        val allCocktails = cocktailRepository.findAll()
+        val allCocktails = cocktailDataService.getAll()
 
         return allCocktails.filter { cocktail ->
             val requiredIngredientIds = cocktail.ingredients.map { it.ingredientId }.toSet()
@@ -51,7 +22,7 @@ class CocktailService(
     }
 
     fun searchCocktails(name: String? = null, spirit: String? = null, tags: List<String>? = null): List<Cocktail> {
-        val allCocktails = cocktailRepository.findAll()
+        val allCocktails = cocktailDataService.getAll()
 
         return allCocktails.filter { cocktail ->
             var matches = true
@@ -64,7 +35,7 @@ class CocktailService(
             // Filter by spirit (check if any ingredient is the specified spirit)
             if (!spirit.isNullOrBlank()) {
                 val hasSpirit = cocktail.ingredients.any { cocktailIng ->
-                    val ingredient = ingredientRepository.findById(cocktailIng.ingredientId).orElse(null)
+                    val ingredient = ingredientDataService.getIngredientById(cocktailIng.ingredientId)
                     ingredient != null && ingredient.name.equals(spirit, ignoreCase = true)
                 }
                 matches = matches && hasSpirit

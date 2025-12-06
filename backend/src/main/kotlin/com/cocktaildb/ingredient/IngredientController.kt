@@ -1,8 +1,5 @@
 package com.cocktaildb.ingredient
 
-import com.cocktaildb.ingredient.Ingredient
-import com.cocktaildb.ingredient.IngredientRepository
-import com.cocktaildb.ingredient.IngredientService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,18 +14,18 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/ingredients")
 class IngredientController(
-    private val ingredientService: IngredientService,
-    private val ingredientRepository: IngredientRepository
+    private val ingredientDataService: IngredientDataService,
+    private val patchIngredientService: PatchIngredientService,
 ) {
 
     @GetMapping
     fun getAllIngredients(): List<Ingredient> {
-        return ingredientService.getAllIngredients()
+        return ingredientDataService.getAllIngredients()
     }
 
     @GetMapping("/{id}")
     fun getIngredientById(@PathVariable id: Long): ResponseEntity<Ingredient> {
-        val ingredient = ingredientService.getIngredientById(id)
+        val ingredient = ingredientDataService.getIngredientById(id)
         return if (ingredient != null) {
             ResponseEntity.ok(ingredient)
         } else {
@@ -38,7 +35,7 @@ class IngredientController(
 
     @PostMapping
     fun createIngredient(@RequestBody ingredient: Ingredient): ResponseEntity<Ingredient> {
-        val created = ingredientService.createIngredient(ingredient)
+        val created = ingredientDataService.createIngredient(ingredient)
         return ResponseEntity.status(HttpStatus.CREATED).body(created)
     }
 
@@ -47,7 +44,7 @@ class IngredientController(
         @PathVariable id: Long,
         @RequestBody ingredient: Ingredient
     ): ResponseEntity<Ingredient> {
-        val updated = ingredientService.updateIngredient(id, ingredient)
+        val updated = patchIngredientService.updateIngredient(id, ingredient)
         return if (updated != null) {
             ResponseEntity.ok(updated)
         } else {
@@ -57,8 +54,8 @@ class IngredientController(
 
     @DeleteMapping("/{id}")
     fun deleteIngredient(@PathVariable id: Long): ResponseEntity<Void> {
-        return if (ingredientRepository.existsById(id)) {
-            ingredientRepository.deleteById(id)
+        return if (ingredientDataService.getIngredientById(id) != null) {
+            ingredientDataService.deleteIngredient(id)
             ResponseEntity.noContent().build()
         } else {
             ResponseEntity.notFound().build()
@@ -67,6 +64,6 @@ class IngredientController(
 
     @GetMapping("/in-stock")
     fun getInStockIngredients(): List<Ingredient> {
-        return ingredientService.getInStockIngredients()
+        return ingredientDataService.getInStockIngredients()
     }
 }
