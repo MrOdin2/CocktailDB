@@ -21,7 +21,7 @@ This document summarizes the backend testing infrastructure implemented for the 
 #### Unit Tests (33 tests)
 Service layer tests with mocked dependencies:
 
-- **PasswordServiceTest** (5 tests)
+- **PasswordServiceTest** (4 tests)
   - Password hashing
   - Password verification
   - BCrypt validation
@@ -32,7 +32,7 @@ Service layer tests with mocked dependencies:
   - Session expiration
   - Session termination
 
-- **CocktailDataServiceTest** (7 tests)
+- **CocktailDataServiceTest** (8 tests)
   - CRUD operations for cocktails
   - Error handling
 
@@ -67,7 +67,7 @@ Controller layer tests with full Spring context:
 #### Repository Tests (10 tests)
 Data layer tests with H2 database:
 
-- **CocktailRepositoryTest** (6 tests)
+- **CocktailRepositoryTest** (5 tests)
   - Save and retrieve cocktails
   - Update cocktails
   - Delete cocktails

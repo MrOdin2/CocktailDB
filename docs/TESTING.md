@@ -217,9 +217,9 @@ class MyRepositoryTest {
 Current test coverage includes:
 
 ### Services (Unit Tests)
-- ✅ PasswordService - 5 tests
+- ✅ PasswordService - 4 tests
 - ✅ SessionService - 8 tests
-- ✅ CocktailDataService - 7 tests
+- ✅ CocktailDataService - 8 tests
 - ✅ CocktailSearchService - 7 tests
 - ✅ IngredientDataService - 6 tests
 
@@ -228,10 +228,10 @@ Current test coverage includes:
 - ✅ CocktailController - 10 tests
 
 ### Repositories (Integration Tests)
-- ✅ CocktailRepository - 6 tests
+- ✅ CocktailRepository - 5 tests
 - ✅ IngredientRepository - 5 tests
 
-**Total: 62+ tests**
+**Total: 61 tests**
 
 ## Best Practices
 
