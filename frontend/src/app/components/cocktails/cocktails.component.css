@@ -72,9 +72,8 @@
 }
 
 .unit-select {
-  flex: 1;
-  min-width: 60px;
-  max-width: 80px;
+  flex: 0 0 auto;
+  width: 70px;
 }
 
 .ingredient-search {
