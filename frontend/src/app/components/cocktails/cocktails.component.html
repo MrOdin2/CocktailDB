@@ -71,9 +71,9 @@
                                [placeholder]="'cocktails.searchIngredients' | translate"
                                class="ingredient-search">
                         <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
-                            <option value="0">{{ 'cocktails.selectIngredient' | translate }}</option>
+                            <option [ngValue]="0">{{ 'cocktails.selectIngredient' | translate }}</option>
                             @for (ingredient of filteredIngredients; track ingredient.id) {
-                                <option [value]="ingredient.id">
+                                <option [ngValue]="ingredient.id">
                                     {{ ingredient.name }}
                                 </option>
                             }
