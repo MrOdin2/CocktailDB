@@ -157,9 +157,9 @@
                 <div class="tag-list">
                     @for (tag of newCocktail.tags; track tag; let i = $index) {
                         <span class="tag-badge">
-              {{ tag }}
+                            {{ tag }}
                             <button type="button" class="tag-remove" (click)="removeTag(i)">×</button>
-            </span>
+                        </span>
                     }
                 </div>
             </div>
