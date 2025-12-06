@@ -205,8 +205,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       const matchingIngredient = this.ingredients.find(
         ing => ing.name.toLowerCase() === this.ingredientSearchFilter.trim().toLowerCase()
       );
-      if (matchingIngredient) {
-        this.newIngredientEntry.ingredientId = matchingIngredient.id!;
+      if (matchingIngredient && matchingIngredient.id) {
+        this.newIngredientEntry.ingredientId = matchingIngredient.id;
       }
     }
     
