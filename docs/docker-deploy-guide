@@ -11,17 +11,21 @@ stop with:
 
     docker compose down
 
-FOR SERVER (by GEMINI):
+FOR SERVER:
 
-(local)
-# 1. Build the images (this automatically tags them with the 'image' name)
+# 1. Clean and rebuild the backend JAR
+cd backend
+./gradlew clean build
+cd ..
+
+# 2. Build the images (this automatically tags them with the 'image' name)
 docker compose -f docker-compose.registry.yml build --no-cache
 
-# 2. Push all services to your local registry
+# 3. Push all services to your local registry
 docker compose -f docker-compose.registry.yml push
 
-# 3. SSH into your server
+# 4. SSH into your server
 cd /srv/cocktaildb/
 docker compose pull
+docker compose down
 docker compose up -d
-    optional: --force-recreate
