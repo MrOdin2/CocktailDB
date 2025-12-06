@@ -1,7 +1,5 @@
-package com.cocktaildb.service
+package com.cocktaildb.appsettings
 
-import com.cocktaildb.model.AppSettings
-import com.cocktaildb.repository.AppSettingsRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -30,10 +28,10 @@ class AppSettingsService(
 
         val setting = appSettingsRepository.findBySettingKey(THEME_KEY)
             .orElse(AppSettings(settingKey = THEME_KEY, settingValue = theme))
-        
+
         setting.settingValue = theme
         appSettingsRepository.save(setting)
-        
+
         return theme
     }
 }

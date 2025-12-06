@@ -1,4 +1,4 @@
-package com.cocktaildb.model
+package com.cocktaildb.ingredient
 
 enum class IngredientType {
     SPIRIT,

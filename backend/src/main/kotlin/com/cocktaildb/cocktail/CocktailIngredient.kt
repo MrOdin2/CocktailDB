@@ -1,4 +1,4 @@
-package com.cocktaildb.model
+package com.cocktaildb.cocktail
 
 import jakarta.persistence.Embeddable
 
