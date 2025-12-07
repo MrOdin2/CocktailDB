@@ -50,6 +50,24 @@ CocktailDB_2/
 │   │   │   └── DataInitializer.kt       # Sample data initialization
 │   │   └── util/              # Utilities
 │   │       └── PasswordHashGenerator.kt # Password hashing utility
+│   ├── src/test/kotlin/com/cocktaildb/  # Test sources (77 tests)
+│   │   ├── cocktail/          # Cocktail domain tests
+│   │   │   ├── CocktailDataServiceTest.kt    # CRUD tests (8)
+│   │   │   ├── CocktailSearchServiceTest.kt  # Search tests (7)
+│   │   │   ├── PatchCocktailServiceTest.kt   # ABV/spirit tests (11)
+│   │   │   └── CocktailRepositoryTest.kt     # Repository tests (5)
+│   │   ├── ingredient/        # Ingredient domain tests
+│   │   │   ├── IngredientDataServiceTest.kt  # CRUD tests (6)
+│   │   │   ├── PatchIngredientServiceTest.kt # Stock update tests (5)
+│   │   │   └── IngredientRepositoryTest.kt   # Repository tests (5)
+│   │   ├── security/          # Security tests
+│   │   │   ├── PasswordServiceTest.kt        # Password tests (4)
+│   │   │   └── SessionServiceTest.kt         # Session tests (8)
+│   │   └── controller/        # Controller integration tests
+│   │       ├── AuthControllerTest.kt         # Auth API tests (8)
+│   │       └── CocktailControllerTest.kt     # Cocktail API tests (10)
+│   ├── src/test/resources/
+│   │   └── application-test.properties       # Test configuration
 │   ├── build.gradle.kts       # Gradle build configuration
 │   └── scripts/               # Database backup/restore scripts
 ├── frontend/                   # Angular frontend
@@ -74,7 +92,9 @@ CocktailDB_2/
 │   ├── ARCHITECTURE.md
 │   ├── authentication-guide.md
 │   ├── DATABASE_MANAGEMENT.md
-│   └── security-quick-reference.md
+│   ├── security-quick-reference.md
+│   ├── TESTING.md             # Testing guide with patterns and examples
+│   └── TESTING_SUMMARY.md     # Testing implementation overview
 ├── docker-compose.yml         # Container orchestration (main)
 ├── docker-compose.server.yml  # Server deployment configuration
 ├── docker-compose.registry.yml # Registry deployment configuration
@@ -337,9 +357,189 @@ data class CocktailIngredient(
 - For production, consider using Flyway or Liquibase for migrations
 
 ## Testing
-Currently, the project does not have extensive test coverage. When adding tests:
-- Backend: Use JUnit 5 and Spring Boot Test
+
+### Backend Testing
+The backend has comprehensive test coverage with 77 tests across 11 test classes covering service, controller, and repository layers.
+
+#### Test Infrastructure
+- **Testing Framework**: JUnit 5 (Jupiter) - included in Spring Boot Starter Test
+- **Mocking Library**: MockK 1.13.8 (Kotlin-friendly mocking)
+- **Spring Integration**: SpringMockK 4.0.2 (Spring Boot integration for MockK)
+- **Assertions**: JUnit assertions + AssertJ (from Spring Boot Starter Test)
+- **Test Database**: H2 in-memory database
+- **HTTP Testing**: Spring MockMvc for controller tests
+
+#### Test Architecture (Three-Layer Pattern)
+
+**1. Unit Tests (49 tests)** - Service layer with mocked dependencies
+- Located in `src/test/kotlin/com/cocktaildb/{domain}/`
+- Use MockK to mock repository and service dependencies
+- Fast execution, isolated testing of business logic
+- Examples:
+  - `PasswordServiceTest` (4 tests) - Password hashing/verification
+  - `SessionServiceTest` (8 tests) - Session lifecycle management
+  - `CocktailDataServiceTest` (8 tests) - CRUD operations
+  - `CocktailSearchServiceTest` (7 tests) - Search and filtering
+  - `PatchCocktailServiceTest` (11 tests) - ABV calculation and base spirit determination
+  - `IngredientDataServiceTest` (6 tests) - Ingredient operations
+  - `PatchIngredientServiceTest` (5 tests) - Stock change detection and broadcasting
+
+**2. Integration Tests (18 tests)** - Controller layer with full Spring context
+- Located in `src/test/kotlin/com/cocktaildb/controller/`
+- Use `@SpringBootTest` and `@AutoConfigureMockMvc`
+- Test REST endpoints with MockMvc
+- Test authentication requirements
+- Examples:
+  - `AuthControllerTest` (8 tests) - Login/logout/status endpoints
+  - `CocktailControllerTest` (10 tests) - Cocktail CRUD and search APIs
+
+**3. Repository Tests (10 tests)** - Data layer with H2 database
+- Located in `src/test/kotlin/com/cocktaildb/{domain}/`
+- Use `@DataJpaTest` for minimal Spring context
+- Test database queries and entity persistence
+- Examples:
+  - `CocktailRepositoryTest` (5 tests) - Cocktail persistence
+  - `IngredientRepositoryTest` (5 tests) - Ingredient queries including stock filtering
+
+#### Test Configuration
+- **Test Profile**: `application-test.properties` in `src/test/resources/`
+- **Database**: H2 in-memory with `create-drop` schema generation
+- **Flyway**: Disabled for tests (Hibernate creates schema)
+- **Test Credentials**: Admin password "admin", Barkeeper password "barkeeper"
+- **Session Timeout**: 60 minutes
+
+#### Running Tests
+```bash
+cd backend
+
+# Run all tests
+./gradlew test
+
+# Run specific test class
+./gradlew test --tests "com.cocktaildb.security.PasswordServiceTest"
+
+# Run tests for a package
+./gradlew test --tests "com.cocktaildb.controller.*"
+
+# Build with tests
+./gradlew build
+```
+
+Test reports are generated at `backend/build/reports/tests/test/index.html`
+
+#### Writing New Tests
+
+**Unit Test Pattern:**
+```kotlin
+class MyServiceTest {
+    private lateinit var myRepository: MyRepository
+    private lateinit var myService: MyService
+    
+    @BeforeEach
+    fun setup() {
+        myRepository = mockk()
+        myService = MyService(myRepository)
+    }
+    
+    @Test
+    fun `should do something`() {
+        // Given
+        every { myRepository.findAll() } returns listOf(...)
+        
+        // When
+        val result = myService.doSomething()
+        
+        // Then
+        assertEquals(expected, result)
+        verify { myRepository.findAll() }
+    }
+}
+```
+
+**Integration Test Pattern:**
+```kotlin
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+@Transactional
+class MyControllerTest {
+    @Autowired
+    private lateinit var mockMvc: MockMvc
+    
+    @Autowired
+    private lateinit var sessionService: SessionService
+    
+    private lateinit var sessionId: String
+    
+    @BeforeEach
+    fun setup() {
+        sessionId = sessionService.createSession(UserRole.ADMIN)
+    }
+    
+    @Test
+    fun `should create resource`() {
+        mockMvc.perform(
+            post("/api/resources")
+                .cookie(Cookie("sessionId", sessionId))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
+            .andExpect(status().isCreated)
+            .andExpect(jsonPath("$.id").exists())
+    }
+}
+```
+
+**Repository Test Pattern:**
+```kotlin
+@DataJpaTest
+@ActiveProfiles("test")
+class MyRepositoryTest {
+    @Autowired
+    private lateinit var myRepository: MyRepository
+    
+    @BeforeEach
+    fun setup() {
+        myRepository.deleteAll()
+    }
+    
+    @Test
+    fun `should save and retrieve entity`() {
+        // Given
+        val entity = MyEntity(name = "Test")
+        
+        // When
+        val saved = myRepository.save(entity)
+        val retrieved = myRepository.findById(saved.id!!).orElse(null)
+        
+        // Then
+        assertNotNull(retrieved)
+        assertEquals("Test", retrieved.name)
+    }
+}
+```
+
+#### Test Best Practices
+1. **Descriptive Names**: Use backticks for readable test names (e.g., `` `should return cocktail when exists` ``)
+2. **Given-When-Then**: Structure tests clearly with setup, execution, and verification
+3. **One Assertion Per Test**: Focus each test on a single behavior
+4. **Mock External Dependencies**: Don't make real external API calls
+5. **Clean Up**: Use `@Transactional` or `@BeforeEach` cleanup for test isolation
+6. **Test Edge Cases**: Include tests for null values, empty lists, boundary conditions
+7. **Authentication in Tests**: Create session via SessionService and pass as cookie for authenticated endpoints
+
+#### Test Coverage Guidelines
+- **New Services**: Always add unit tests covering main functionality and edge cases
+- **New Controllers**: Add integration tests for all endpoints
+- **New Repositories**: Add tests for custom query methods
+- **Bug Fixes**: Add regression tests to prevent recurrence
+- **Refactoring**: Ensure all tests still pass
+
+For detailed testing documentation, see `docs/TESTING.md` and `docs/TESTING_SUMMARY.md`.
+
+### Frontend Testing
 - Frontend: Use Jasmine and Karma (Angular's default testing framework)
+- Test coverage for frontend is pending implementation
 
 ## Common Patterns
 
