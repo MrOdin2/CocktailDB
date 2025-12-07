@@ -15,6 +15,15 @@ data class IngredientDTO(
 )
 
 /**
+ * Response object for cocktails available with substitutions
+ */
+data class CocktailsWithSubstitutionsResponse(
+    val exact: List<com.cocktaildb.cocktail.Cocktail>,
+    val withSubstitutes: List<com.cocktaildb.cocktail.Cocktail>,
+    val withAlternatives: List<com.cocktaildb.cocktail.Cocktail>
+)
+
+/**
  * Extension function to convert Ingredient entity to DTO
  */
 fun Ingredient.toDTO(): IngredientDTO {

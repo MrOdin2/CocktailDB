@@ -45,10 +45,10 @@ class CocktailSearchServiceSubstitutionTest {
         val result = cocktailSearchService.getAvailableCocktailsWithSubstitutions()
         
         // Then
-        assertEquals(1, result["exact"]?.size)
-        assertEquals("Gimlet", result["exact"]?.get(0)?.name)
-        assertEquals(0, result["withSubstitutes"]?.size)
-        assertEquals(0, result["withAlternatives"]?.size)
+        assertEquals(1, result.exact?.size)
+        assertEquals("Gimlet", result.exact?.get(0)?.name)
+        assertEquals(0, result.withSubstitutes?.size)
+        assertEquals(0, result.withAlternatives?.size)
     }
     
     @Test
@@ -78,10 +78,10 @@ class CocktailSearchServiceSubstitutionTest {
         val result = cocktailSearchService.getAvailableCocktailsWithSubstitutions()
         
         // Then
-        assertEquals(0, result["exact"]?.size)
-        assertEquals(1, result["withSubstitutes"]?.size)
-        assertEquals("Pina Colada", result["withSubstitutes"]?.get(0)?.name)
-        assertEquals(0, result["withAlternatives"]?.size)
+        assertEquals(0, result.exact?.size)
+        assertEquals(1, result.withSubstitutes?.size)
+        assertEquals("Pina Colada", result.withSubstitutes?.get(0)?.name)
+        assertEquals(0, result.withAlternatives?.size)
     }
     
     @Test
@@ -111,10 +111,10 @@ class CocktailSearchServiceSubstitutionTest {
         val result = cocktailSearchService.getAvailableCocktailsWithSubstitutions()
         
         // Then
-        assertEquals(0, result["exact"]?.size)
-        assertEquals(0, result["withSubstitutes"]?.size)
-        assertEquals(1, result["withAlternatives"]?.size)
-        assertEquals("Mimosa", result["withAlternatives"]?.get(0)?.name)
+        assertEquals(0, result.exact?.size)
+        assertEquals(0, result.withSubstitutes?.size)
+        assertEquals(1, result.withAlternatives?.size)
+        assertEquals("Mimosa", result.withAlternatives?.get(0)?.name)
     }
     
     @Test
@@ -167,14 +167,14 @@ class CocktailSearchServiceSubstitutionTest {
         val result = cocktailSearchService.getAvailableCocktailsWithSubstitutions()
         
         // Then
-        assertEquals(1, result["exact"]?.size)
-        assertEquals("Gimlet", result["exact"]?.get(0)?.name)
+        assertEquals(1, result.exact?.size)
+        assertEquals("Gimlet", result.exact?.get(0)?.name)
         
-        assertEquals(1, result["withSubstitutes"]?.size)
-        assertEquals("Vanilla Lime", result["withSubstitutes"]?.get(0)?.name)
+        assertEquals(1, result.withSubstitutes?.size)
+        assertEquals("Vanilla Lime", result.withSubstitutes?.get(0)?.name)
         
-        assertEquals(1, result["withAlternatives"]?.size)
-        assertEquals("Mimosa", result["withAlternatives"]?.get(0)?.name)
+        assertEquals(1, result.withAlternatives?.size)
+        assertEquals("Mimosa", result.withAlternatives?.get(0)?.name)
     }
     
     @Test
@@ -197,9 +197,9 @@ class CocktailSearchServiceSubstitutionTest {
         val result = cocktailSearchService.getAvailableCocktailsWithSubstitutions()
         
         // Then
-        assertEquals(0, result["exact"]?.size)
-        assertEquals(0, result["withSubstitutes"]?.size)
-        assertEquals(0, result["withAlternatives"]?.size)
+        assertEquals(0, result.exact?.size)
+        assertEquals(0, result.withSubstitutes?.size)
+        assertEquals(0, result.withAlternatives?.size)
     }
     
     @Test
@@ -228,9 +228,9 @@ class CocktailSearchServiceSubstitutionTest {
         val result = cocktailSearchService.getAvailableCocktailsWithSubstitutions()
         
         // Then - Should be in exact, not in withSubstitutes
-        assertEquals(1, result["exact"]?.size)
-        assertEquals("Gimlet", result["exact"]?.get(0)?.name)
-        assertEquals(0, result["withSubstitutes"]?.size)
-        assertEquals(0, result["withAlternatives"]?.size)
+        assertEquals(1, result.exact?.size)
+        assertEquals("Gimlet", result.exact?.get(0)?.name)
+        assertEquals(0, result.withSubstitutes?.size)
+        assertEquals(0, result.withAlternatives?.size)
     }
 }

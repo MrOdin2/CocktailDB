@@ -1,5 +1,6 @@
 package com.cocktaildb.cocktail
 
+import com.cocktaildb.ingredient.CocktailsWithSubstitutionsResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -70,7 +71,7 @@ class CocktailController(
     }
 
     @GetMapping("/available-with-substitutions")
-    fun getAvailableCocktailsWithSubstitutions(): Map<String, List<Cocktail>> {
+    fun getAvailableCocktailsWithSubstitutions(): CocktailsWithSubstitutionsResponse {
         return cocktailSearchService.getAvailableCocktailsWithSubstitutions()
     }
 

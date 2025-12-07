@@ -17,22 +17,16 @@ class PatchIngredientService(
         existing.abv = ingredientDTO.abv
         existing.inStock = ingredientDTO.inStock
         
-        // Update substitutes
+        // Update substitutes using batch query
         existing.substitutes.clear()
         if (ingredientDTO.substituteIds.isNotEmpty()) {
-            existing.substitutes.addAll(
-                ingredientDTO.substituteIds
-                    .mapNotNull { ingredientRepository.findById(it).orElse(null) }
-            )
+            existing.substitutes.addAll(ingredientRepository.findAllById(ingredientDTO.substituteIds))
         }
         
-        // Update alternatives
+        // Update alternatives using batch query
         existing.alternatives.clear()
         if (ingredientDTO.alternativeIds.isNotEmpty()) {
-            existing.alternatives.addAll(
-                ingredientDTO.alternativeIds
-                    .mapNotNull { ingredientRepository.findById(it).orElse(null) }
-            )
+            existing.alternatives.addAll(ingredientRepository.findAllById(ingredientDTO.alternativeIds))
         }
         
         val saved = ingredientRepository.save(existing)

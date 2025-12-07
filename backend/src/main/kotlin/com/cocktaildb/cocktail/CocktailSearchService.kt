@@ -1,5 +1,6 @@
 package com.cocktaildb.cocktail
 
+import com.cocktaildb.ingredient.CocktailsWithSubstitutionsResponse
 import com.cocktaildb.ingredient.IngredientDataService
 import org.springframework.stereotype.Service
 
@@ -23,9 +24,9 @@ class CocktailSearchService(
 
     /**
      * Get cocktails available with exact ingredients, substitutes, or alternatives
-     * Returns a map with categories: "exact", "withSubstitutes", "withAlternatives"
+     * Returns a structured response with categories: "exact", "withSubstitutes", "withAlternatives"
      */
-    fun getAvailableCocktailsWithSubstitutions(): Map<String, List<Cocktail>> {
+    fun getAvailableCocktailsWithSubstitutions(): CocktailsWithSubstitutionsResponse {
         val inStockIngredients = ingredientDataService.getInStockIngredients()
         val inStockIngredientIds = inStockIngredients.mapNotNull { it.id }.toSet()
         
@@ -63,10 +64,10 @@ class CocktailSearchService(
             }
         }
 
-        return mapOf(
-            "exact" to exactCocktails,
-            "withSubstitutes" to withSubstitutes,
-            "withAlternatives" to withAlternatives
+        return CocktailsWithSubstitutionsResponse(
+            exact = exactCocktails,
+            withSubstitutes = withSubstitutes,
+            withAlternatives = withAlternatives
         )
     }
 

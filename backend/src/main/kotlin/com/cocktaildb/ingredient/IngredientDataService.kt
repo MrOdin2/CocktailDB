@@ -24,17 +24,13 @@ class IngredientDataService(
         // Save the ingredient first to get an ID
         val savedIngredient = ingredientRepository.save(ingredient)
         
-        // Then set up relationships
+        // Then set up relationships using batch queries
         if (ingredientDTO.substituteIds.isNotEmpty()) {
-            savedIngredient.substitutes = ingredientDTO.substituteIds
-                .mapNotNull { ingredientRepository.findById(it).orElse(null) }
-                .toMutableSet()
+            savedIngredient.substitutes = ingredientRepository.findAllById(ingredientDTO.substituteIds).toMutableSet()
         }
         
         if (ingredientDTO.alternativeIds.isNotEmpty()) {
-            savedIngredient.alternatives = ingredientDTO.alternativeIds
-                .mapNotNull { ingredientRepository.findById(it).orElse(null) }
-                .toMutableSet()
+            savedIngredient.alternatives = ingredientRepository.findAllById(ingredientDTO.alternativeIds).toMutableSet()
         }
         
         return ingredientRepository.save(savedIngredient)
