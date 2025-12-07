@@ -18,7 +18,9 @@ export class IngredientsComponent implements OnInit {
     name: '',
     type: IngredientType.SPIRIT,
     abv: 0,
-    inStock: false
+    inStock: false,
+    substituteIds: [],
+    alternativeIds: []
   };
   ingredientTypes = Object.values(IngredientType);
   editingIngredient: Ingredient | null = null;
@@ -155,7 +157,11 @@ export class IngredientsComponent implements OnInit {
   }
 
   startEdit(ingredient: Ingredient): void {
-    this.editingIngredient = { ...ingredient };
+    this.editingIngredient = { 
+      ...ingredient,
+      substituteIds: ingredient.substituteIds ? [...ingredient.substituteIds] : [],
+      alternativeIds: ingredient.alternativeIds ? [...ingredient.alternativeIds] : []
+    };
   }
 
   cancelEdit(): void {
@@ -173,7 +179,80 @@ export class IngredientsComponent implements OnInit {
       name: '',
       type: IngredientType.SPIRIT,
       abv: 0,
-      inStock: false
+      inStock: false,
+      substituteIds: [],
+      alternativeIds: []
     };
+  }
+
+  getIngredientName(id: number): string {
+    const ingredient = this.ingredients.find(i => i.id === id);
+    return ingredient ? ingredient.name : 'Unknown';
+  }
+
+  getAvailableIngredientsForSubstitutes(currentId?: number): Ingredient[] {
+    return this.ingredients.filter(i => i.id !== currentId);
+  }
+
+  toggleSubstitute(ingredientId: number): void {
+    if (this.editingIngredient) {
+      if (!this.editingIngredient.substituteIds) {
+        this.editingIngredient.substituteIds = [];
+      }
+      const index = this.editingIngredient.substituteIds.indexOf(ingredientId);
+      if (index > -1) {
+        this.editingIngredient.substituteIds.splice(index, 1);
+      } else {
+        this.editingIngredient.substituteIds.push(ingredientId);
+      }
+    } else if (this.isModalOpen) {
+      if (!this.newIngredient.substituteIds) {
+        this.newIngredient.substituteIds = [];
+      }
+      const index = this.newIngredient.substituteIds.indexOf(ingredientId);
+      if (index > -1) {
+        this.newIngredient.substituteIds.splice(index, 1);
+      } else {
+        this.newIngredient.substituteIds.push(ingredientId);
+      }
+    }
+  }
+
+  toggleAlternative(ingredientId: number): void {
+    if (this.editingIngredient) {
+      if (!this.editingIngredient.alternativeIds) {
+        this.editingIngredient.alternativeIds = [];
+      }
+      const index = this.editingIngredient.alternativeIds.indexOf(ingredientId);
+      if (index > -1) {
+        this.editingIngredient.alternativeIds.splice(index, 1);
+      } else {
+        this.editingIngredient.alternativeIds.push(ingredientId);
+      }
+    } else if (this.isModalOpen) {
+      if (!this.newIngredient.alternativeIds) {
+        this.newIngredient.alternativeIds = [];
+      }
+      const index = this.newIngredient.alternativeIds.indexOf(ingredientId);
+      if (index > -1) {
+        this.newIngredient.alternativeIds.splice(index, 1);
+      } else {
+        this.newIngredient.alternativeIds.push(ingredientId);
+      }
+    }
+  }
+
+  isSubstituteSelected(ingredientId: number): boolean {
+    if (this.editingIngredient) {
+      return this.editingIngredient.substituteIds?.includes(ingredientId) || false;
+    }
+    return this.newIngredient.substituteIds?.includes(ingredientId) || false;
+  }
+
+  isAlternativeSelected(ingredientId: number): boolean {
+    if (this.editingIngredient) {
+      return this.editingIngredient.alternativeIds?.includes(ingredientId) || false;
+    }
+    return this.newIngredient.alternativeIds?.includes(ingredientId) || false;
   }
 }

@@ -132,6 +132,12 @@ export const en = {
     inStock: 'In Stock',
     nameRequired: 'Name is required',
     addIngredient: 'Add Ingredient',
+    substitutes: 'Substitutes',
+    alternatives: 'Alternatives',
+    substitutesHelp: 'Ingredients that can be used as direct substitutes (e.g., generic vs branded)',
+    alternativesHelp: 'Noticeably different ingredients that can still be used (e.g., Champagne vs Prosecco)',
+    noIngredientsAvailable: 'No other ingredients available yet. Add more ingredients first.',
+    editRelationshipsInfo: 'Edit substitutes/alternatives below',
     modal: {
       title: 'Add New Ingredient'
     }

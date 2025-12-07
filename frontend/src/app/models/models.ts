@@ -23,6 +23,8 @@ export interface Ingredient {
   type: IngredientType;
   abv: number;
   inStock: boolean;
+  substituteIds?: number[];
+  alternativeIds?: number[];
 }
 
 export interface CocktailIngredient {
@@ -39,4 +41,10 @@ export interface Cocktail {
   tags: string[];
   abv: number;
   baseSpirit: string;
+}
+
+export interface CocktailsWithSubstitutions {
+  exact: Cocktail[];
+  withSubstitutes: Cocktail[];
+  withAlternatives: Cocktail[];
 }

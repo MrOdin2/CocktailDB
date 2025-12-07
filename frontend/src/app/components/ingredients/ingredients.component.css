@@ -1,5 +1,119 @@
 /* Component-specific styles for ingredients - common styles moved to admin-shared.css */
 
+/* Relationship tags and lists */
+.relationship-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  max-width: 200px;
+}
+
+.relationship-tag {
+  background: rgba(0, 255, 0, 0.1);
+  color: #0f0;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  white-space: nowrap;
+}
+
+.empty-text {
+  color: #666;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.info-text {
+  color: #999;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.help-text {
+  color: #999;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox lists for substitutes/alternatives */
+.checkbox-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.checkbox-item {
+  display: block;
+  padding: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-item:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Inline checkbox list for table editing */
+.checkbox-list-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.checkbox-item-inline {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.checkbox-item-inline:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.checkbox-item-inline input[type="checkbox"] {
+  margin-right: 0.25rem;
+}
+
+/* Relationships editor row */
+.edit-relationships-row {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.relationships-editor {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.relationship-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.relationship-group label {
+  font-weight: bold;
+  color: #0f0;
+}
+
 /* Table responsive design */
 .ingredients-list {
   overflow-x: auto;
@@ -8,7 +122,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 800px;
 }
 
 table th,
@@ -106,7 +220,17 @@ table td button {
 
 /* Mobile (small) - component-specific overrides */
 @media (max-width: 767px) {
-  /* No component-specific mobile styles needed - inherits from admin-shared.css */
+  .relationships-editor {
+    grid-template-columns: 1fr;
+  }
+  
+  .ingredient-card-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .relationship-list {
+    max-width: 100%;
+  }
 }
 
 /* Tablet */

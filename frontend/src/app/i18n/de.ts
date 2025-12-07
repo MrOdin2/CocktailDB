@@ -132,6 +132,12 @@ export const de = {
     inStock: 'Auf Lager',
     nameRequired: 'Name ist erforderlich',
     addIngredient: 'Zutat hinzufügen',
+    substitutes: 'Ersatzstoffe',
+    alternatives: 'Alternativen',
+    substitutesHelp: 'Zutaten, die als direkte Ersatzstoffe verwendet werden können (z.B. generisch vs. Marke)',
+    alternativesHelp: 'Merklich unterschiedliche Zutaten, die trotzdem verwendet werden können (z.B. Champagner vs. Prosecco)',
+    noIngredientsAvailable: 'Noch keine anderen Zutaten verfügbar. Fügen Sie zuerst weitere Zutaten hinzu.',
+    editRelationshipsInfo: 'Ersatzstoffe/Alternativen unten bearbeiten',
     modal: {
       title: 'Neue Zutat hinzufügen'
     }

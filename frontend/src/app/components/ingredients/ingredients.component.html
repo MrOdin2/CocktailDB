@@ -58,6 +58,42 @@
         </label>
       </div>
 
+      <div class="form-group">
+        <label>{{ 'ingredients.substitutes' | translate }}:</label>
+        <div class="checkbox-list">
+          @for (ingredient of getAvailableIngredientsForSubstitutes(); track ingredient.id) {
+            <label class="checkbox-item">
+              <input type="checkbox" 
+                [checked]="isSubstituteSelected(ingredient.id!)"
+                (change)="toggleSubstitute(ingredient.id!)">
+              {{ ingredient.name }}
+            </label>
+          }
+          @if (getAvailableIngredientsForSubstitutes().length === 0) {
+            <p class="info-text">{{ 'ingredients.noIngredientsAvailable' | translate }}</p>
+          }
+        </div>
+        <small class="help-text">{{ 'ingredients.substitutesHelp' | translate }}</small>
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'ingredients.alternatives' | translate }}:</label>
+        <div class="checkbox-list">
+          @for (ingredient of getAvailableIngredientsForSubstitutes(); track ingredient.id) {
+            <label class="checkbox-item">
+              <input type="checkbox" 
+                [checked]="isAlternativeSelected(ingredient.id!)"
+                (change)="toggleAlternative(ingredient.id!)">
+              {{ ingredient.name }}
+            </label>
+          }
+          @if (getAvailableIngredientsForSubstitutes().length === 0) {
+            <p class="info-text">{{ 'ingredients.noIngredientsAvailable' | translate }}</p>
+          }
+        </div>
+        <small class="help-text">{{ 'ingredients.alternativesHelp' | translate }}</small>
+      </div>
+
       <div class="modal-actions">
         <button type="button" class="btn-secondary" (click)="closeModal()">{{ 'common.cancel' | translate }}</button>
         <button type="submit" class="btn-primary" [disabled]="ingredientForm.invalid">{{ 'ingredients.addIngredient' | translate }}</button>
@@ -97,6 +133,8 @@
             }
           </th>
           <th>{{ 'ingredients.inStock' | translate }}</th>
+          <th>{{ 'ingredients.substitutes' | translate }}</th>
+          <th>{{ 'ingredients.alternatives' | translate }}</th>
           <th>{{ 'common.actions' | translate }}</th>
         </tr>
       </thead>
@@ -111,6 +149,26 @@
                 <input type="checkbox"
                   [checked]="ingredient.inStock"
                   (change)="toggleStock(ingredient)">
+              </td>
+              <td>
+                <div class="relationship-list">
+                  @for (subId of ingredient.substituteIds || []; track subId) {
+                    <span class="relationship-tag">{{ getIngredientName(subId) }}</span>
+                  }
+                  @if (!ingredient.substituteIds || ingredient.substituteIds.length === 0) {
+                    <span class="empty-text">-</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <div class="relationship-list">
+                  @for (altId of ingredient.alternativeIds || []; track altId) {
+                    <span class="relationship-tag">{{ getIngredientName(altId) }}</span>
+                  }
+                  @if (!ingredient.alternativeIds || ingredient.alternativeIds.length === 0) {
+                    <span class="empty-text">-</span>
+                  }
+                </div>
               </td>
               <td>
                 <button class="btn-secondary" (click)="startEdit(ingredient)">{{ 'common.edit' | translate }}</button>
@@ -134,12 +192,49 @@
               <td>
                 <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
               </td>
+              <td colspan="2" style="text-align: center;">
+                <small class="info-text">{{ 'ingredients.editRelationshipsInfo' | translate }}</small>
+              </td>
               <td>
                 <button class="btn-primary" (click)="saveEdit()">{{ 'common.save' | translate }}</button>
                 <button class="btn-secondary" (click)="cancelEdit()">{{ 'common.cancel' | translate }}</button>
               </td>
             }
           </tr>
+          @if (editingIngredient?.id === ingredient.id) {
+            <tr class="edit-relationships-row">
+              <td colspan="7">
+                <div class="relationships-editor">
+                  <div class="relationship-group">
+                    <label>{{ 'ingredients.substitutes' | translate }}:</label>
+                    <div class="checkbox-list-inline">
+                      @for (ing of getAvailableIngredientsForSubstitutes(editingIngredient?.id); track ing.id) {
+                        <label class="checkbox-item-inline">
+                          <input type="checkbox" 
+                            [checked]="isSubstituteSelected(ing.id!)"
+                            (change)="toggleSubstitute(ing.id!)">
+                          {{ ing.name }}
+                        </label>
+                      }
+                    </div>
+                  </div>
+                  <div class="relationship-group">
+                    <label>{{ 'ingredients.alternatives' | translate }}:</label>
+                    <div class="checkbox-list-inline">
+                      @for (ing of getAvailableIngredientsForSubstitutes(editingIngredient?.id); track ing.id) {
+                        <label class="checkbox-item-inline">
+                          <input type="checkbox" 
+                            [checked]="isAlternativeSelected(ing.id!)"
+                            (change)="toggleAlternative(ing.id!)">
+                          {{ ing.name }}
+                        </label>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
         }
       </tbody>
     </table>
@@ -167,6 +262,26 @@
                   [checked]="ingredient.inStock"
                   (change)="toggleStock(ingredient)">
               </div>
+              @if (ingredient.substituteIds && ingredient.substituteIds.length > 0) {
+                <div class="ingredient-card-field">
+                  <strong>{{ 'ingredients.substitutes' | translate }}:</strong>
+                  <div class="relationship-list">
+                    @for (subId of ingredient.substituteIds; track subId) {
+                      <span class="relationship-tag">{{ getIngredientName(subId) }}</span>
+                    }
+                  </div>
+                </div>
+              }
+              @if (ingredient.alternativeIds && ingredient.alternativeIds.length > 0) {
+                <div class="ingredient-card-field">
+                  <strong>{{ 'ingredients.alternatives' | translate }}:</strong>
+                  <div class="relationship-list">
+                    @for (altId of ingredient.alternativeIds; track altId) {
+                      <span class="relationship-tag">{{ getIngredientName(altId) }}</span>
+                    }
+                  </div>
+                </div>
+              }
             </div>
             <div class="ingredient-card-actions">
               <button class="btn-secondary" (click)="startEdit(ingredient)">{{ 'common.edit' | translate }}</button>
@@ -193,6 +308,32 @@
             <div class="form-group">
               <label>{{ 'ingredients.inStock' | translate }}:</label>
               <input type="checkbox" [(ngModel)]="editingIngredient!.inStock">
+            </div>
+            <div class="form-group">
+              <label>{{ 'ingredients.substitutes' | translate }}:</label>
+              <div class="checkbox-list">
+                @for (ing of getAvailableIngredientsForSubstitutes(editingIngredient?.id); track ing.id) {
+                  <label class="checkbox-item">
+                    <input type="checkbox" 
+                      [checked]="isSubstituteSelected(ing.id!)"
+                      (change)="toggleSubstitute(ing.id!)">
+                    {{ ing.name }}
+                  </label>
+                }
+              </div>
+            </div>
+            <div class="form-group">
+              <label>{{ 'ingredients.alternatives' | translate }}:</label>
+              <div class="checkbox-list">
+                @for (ing of getAvailableIngredientsForSubstitutes(editingIngredient?.id); track ing.id) {
+                  <label class="checkbox-item">
+                    <input type="checkbox" 
+                      [checked]="isAlternativeSelected(ing.id!)"
+                      (change)="toggleAlternative(ing.id!)">
+                    {{ ing.name }}
+                  </label>
+                }
+              </div>
             </div>
             <div class="ingredient-card-actions">
               <button class="btn-primary" (click)="saveEdit()">{{ 'common.save' | translate }}</button>
