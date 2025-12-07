@@ -19,34 +19,34 @@ class IngredientController(
 ) {
 
     @GetMapping
-    fun getAllIngredients(): List<Ingredient> {
-        return ingredientDataService.getAllIngredients()
+    fun getAllIngredients(): List<IngredientDTO> {
+        return ingredientDataService.getAllIngredients().toDTOs()
     }
 
     @GetMapping("/{id}")
-    fun getIngredientById(@PathVariable id: Long): ResponseEntity<Ingredient> {
+    fun getIngredientById(@PathVariable id: Long): ResponseEntity<IngredientDTO> {
         val ingredient = ingredientDataService.getIngredientById(id)
         return if (ingredient != null) {
-            ResponseEntity.ok(ingredient)
+            ResponseEntity.ok(ingredient.toDTO())
         } else {
             ResponseEntity.notFound().build()
         }
     }
 
     @PostMapping
-    fun createIngredient(@RequestBody ingredient: Ingredient): ResponseEntity<Ingredient> {
-        val created = ingredientDataService.createIngredient(ingredient)
-        return ResponseEntity.status(HttpStatus.CREATED).body(created)
+    fun createIngredient(@RequestBody ingredientDTO: IngredientDTO): ResponseEntity<IngredientDTO> {
+        val created = ingredientDataService.createIngredient(ingredientDTO)
+        return ResponseEntity.status(HttpStatus.CREATED).body(created.toDTO())
     }
 
     @PutMapping("/{id}")
     fun updateIngredient(
         @PathVariable id: Long,
-        @RequestBody ingredient: Ingredient
-    ): ResponseEntity<Ingredient> {
-        val updated = patchIngredientService.updateIngredient(id, ingredient)
+        @RequestBody ingredientDTO: IngredientDTO
+    ): ResponseEntity<IngredientDTO> {
+        val updated = patchIngredientService.updateIngredient(id, ingredientDTO)
         return if (updated != null) {
-            ResponseEntity.ok(updated)
+            ResponseEntity.ok(updated.toDTO())
         } else {
             ResponseEntity.notFound().build()
         }
@@ -63,7 +63,7 @@ class IngredientController(
     }
 
     @GetMapping("/in-stock")
-    fun getInStockIngredients(): List<Ingredient> {
-        return ingredientDataService.getInStockIngredients()
+    fun getInStockIngredients(): List<IngredientDTO> {
+        return ingredientDataService.getInStockIngredients().toDTOs()
     }
 }

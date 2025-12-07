@@ -69,6 +69,11 @@ class CocktailController(
         return cocktailSearchService.getAvailableCocktails()
     }
 
+    @GetMapping("/available-with-substitutions")
+    fun getAvailableCocktailsWithSubstitutions(): Map<String, List<Cocktail>> {
+        return cocktailSearchService.getAvailableCocktailsWithSubstitutions()
+    }
+
     @GetMapping("/search")
     fun searchCocktails(
         @RequestParam(required = false) name: String?,

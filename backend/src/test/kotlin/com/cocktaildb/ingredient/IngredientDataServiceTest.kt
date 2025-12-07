@@ -69,17 +69,23 @@ class IngredientDataServiceTest {
     @Test
     fun `createIngredient should save and return ingredient`() {
         // Given
-        val newIngredient = createTestIngredient(null, "Gin", true)
+        val newIngredientDTO = IngredientDTO(
+            id = null,
+            name = "Gin",
+            type = IngredientType.SPIRIT,
+            abv = 40,
+            inStock = true
+        )
         val savedIngredient = createTestIngredient(1, "Gin", true)
-        every { ingredientRepository.save(newIngredient) } returns savedIngredient
+        every { ingredientRepository.save(any()) } returns savedIngredient
         
         // When
-        val result = ingredientDataService.createIngredient(newIngredient)
+        val result = ingredientDataService.createIngredient(newIngredientDTO)
         
         // Then
         assertNotNull(result.id)
         assertEquals("Gin", result.name)
-        verify { ingredientRepository.save(newIngredient) }
+        verify { ingredientRepository.save(any()) }
     }
     
     @Test

@@ -6,18 +6,19 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import java.util.*
 
 class PatchIngredientServiceTest {
     
-    private lateinit var ingredientDataService: IngredientDataService
+    private lateinit var ingredientRepository: IngredientRepository
     private lateinit var stockUpdateService: StockUpdateService
     private lateinit var patchIngredientService: PatchIngredientService
     
     @BeforeEach
     fun setup() {
-        ingredientDataService = mockk()
+        ingredientRepository = mockk()
         stockUpdateService = mockk(relaxed = true)
-        patchIngredientService = PatchIngredientService(ingredientDataService, stockUpdateService)
+        patchIngredientService = PatchIngredientService(ingredientRepository, stockUpdateService)
     }
     
     @Test
@@ -31,18 +32,19 @@ class PatchIngredientServiceTest {
             inStock = true
         )
         
-        val update = Ingredient(
+        val updateDTO = IngredientDTO(
+            id = 1,
             name = "New Name",
             type = IngredientType.LIQUEUR,
             abv = 30,
             inStock = true
         )
         
-        every { ingredientDataService.getIngredientById(1) } returns existing
-        every { ingredientDataService.createIngredient(any()) } answers { firstArg() }
+        every { ingredientRepository.findById(1) } returns Optional.of(existing)
+        every { ingredientRepository.save(any()) } answers { firstArg() }
         
         // When
-        val result = patchIngredientService.updateIngredient(1, update)
+        val result = patchIngredientService.updateIngredient(1, updateDTO)
         
         // Then
         assertNotNull(result)
@@ -50,7 +52,7 @@ class PatchIngredientServiceTest {
         assertEquals(IngredientType.LIQUEUR, result?.type)
         assertEquals(30, result?.abv)
         assertTrue(result!!.inStock)
-        verify { ingredientDataService.createIngredient(any()) }
+        verify { ingredientRepository.save(any()) }
     }
     
     @Test
@@ -64,18 +66,19 @@ class PatchIngredientServiceTest {
             inStock = true
         )
         
-        val update = Ingredient(
+        val updateDTO = IngredientDTO(
+            id = 1,
             name = "Vodka",
             type = IngredientType.SPIRIT,
             abv = 40,
             inStock = false
         )
         
-        every { ingredientDataService.getIngredientById(1) } returns existing
-        every { ingredientDataService.createIngredient(any()) } answers { firstArg() }
+        every { ingredientRepository.findById(1) } returns Optional.of(existing)
+        every { ingredientRepository.save(any()) } answers { firstArg() }
         
         // When
-        patchIngredientService.updateIngredient(1, update)
+        patchIngredientService.updateIngredient(1, updateDTO)
         
         // Then
         verify(exactly = 1) { stockUpdateService.broadcastStockUpdate() }
@@ -92,18 +95,19 @@ class PatchIngredientServiceTest {
             inStock = false
         )
         
-        val update = Ingredient(
+        val updateDTO = IngredientDTO(
+            id = 1,
             name = "Vodka",
             type = IngredientType.SPIRIT,
             abv = 40,
             inStock = true
         )
         
-        every { ingredientDataService.getIngredientById(1) } returns existing
-        every { ingredientDataService.createIngredient(any()) } answers { firstArg() }
+        every { ingredientRepository.findById(1) } returns Optional.of(existing)
+        every { ingredientRepository.save(any()) } answers { firstArg() }
         
         // When
-        patchIngredientService.updateIngredient(1, update)
+        patchIngredientService.updateIngredient(1, updateDTO)
         
         // Then
         verify(exactly = 1) { stockUpdateService.broadcastStockUpdate() }
@@ -120,18 +124,19 @@ class PatchIngredientServiceTest {
             inStock = true
         )
         
-        val update = Ingredient(
+        val updateDTO = IngredientDTO(
+            id = 1,
             name = "Vodka Updated",
             type = IngredientType.SPIRIT,
             abv = 45,
             inStock = true // Same stock status
         )
         
-        every { ingredientDataService.getIngredientById(1) } returns existing
-        every { ingredientDataService.createIngredient(any()) } answers { firstArg() }
+        every { ingredientRepository.findById(1) } returns Optional.of(existing)
+        every { ingredientRepository.save(any()) } answers { firstArg() }
         
         // When
-        patchIngredientService.updateIngredient(1, update)
+        patchIngredientService.updateIngredient(1, updateDTO)
         
         // Then
         verify(exactly = 0) { stockUpdateService.broadcastStockUpdate() }
@@ -140,21 +145,22 @@ class PatchIngredientServiceTest {
     @Test
     fun `updateIngredient should return null when ingredient does not exist`() {
         // Given
-        val update = Ingredient(
+        val updateDTO = IngredientDTO(
+            id = 999,
             name = "New Name",
             type = IngredientType.SPIRIT,
             abv = 40,
             inStock = true
         )
         
-        every { ingredientDataService.getIngredientById(999) } returns null
+        every { ingredientRepository.findById(999) } returns Optional.empty()
         
         // When
-        val result = patchIngredientService.updateIngredient(999, update)
+        val result = patchIngredientService.updateIngredient(999, updateDTO)
         
         // Then
         assertNull(result)
-        verify(exactly = 0) { ingredientDataService.createIngredient(any()) }
+        verify(exactly = 0) { ingredientRepository.save(any()) }
         verify(exactly = 0) { stockUpdateService.broadcastStockUpdate() }
     }
 }
