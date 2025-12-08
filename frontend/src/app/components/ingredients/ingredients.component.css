@@ -49,7 +49,6 @@
   padding: 0.75rem;
   border: 1px solid #333;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.3);
   color: inherit;
   font-size: 1rem;
 }
@@ -57,7 +56,6 @@
 .search-input:focus {
   outline: none;
   border-color: #667eea;
-  background: rgba(0, 0, 0, 0.4);
 }
 
 .dropdown-list {
@@ -67,8 +65,6 @@
   right: 0;
   max-height: 250px;
   overflow-y: auto;
-  background: #2d2d2d;
-  border: 1px solid #667eea;
   border-radius: 4px;
   margin-top: 0.25rem;
   z-index: 1000;
@@ -78,7 +74,6 @@
 .dropdown-item {
   width: 100%;
   padding: 0.75rem;
-  background: transparent;
   border: none;
   color: inherit;
   text-align: left;
@@ -90,12 +85,8 @@
   font-size: 0.95rem;
 }
 
-.dropdown-item:hover {
-  background: rgba(102, 126, 234, 0.2);
-}
 
 .dropdown-item.selected {
-  background: rgba(102, 126, 234, 0.3);
   font-weight: 600;
 }
 
@@ -108,7 +99,6 @@
 .dropdown-empty {
   padding: 1rem;
   text-align: center;
-  color: #999;
   font-style: italic;
 }
 
@@ -227,7 +217,6 @@ table td {
 
 table td button {
   margin-right: 0.5rem;
-  margin-bottom: 0.25rem;
 }
 
 /* Card styles - visible only on mobile via utility class */
