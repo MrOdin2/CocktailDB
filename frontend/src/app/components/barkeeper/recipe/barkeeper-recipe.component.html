@@ -49,8 +49,14 @@
                         <span *ngIf="getSubstituteInfo(ing.ingredientId).type === 'alternative'" class="alternative-label">
                           ℹ️ {{ 'barkeeper.recipe.alternativeWith' | translate }}:
                         </span>
+                        <!-- Show in-stock substitutes/alternatives in bold -->
                         <span class="substitute-names">
-                          {{ getSubstituteInfo(ing.ingredientId).names.join(', ') }}
+                          <ng-container *ngFor="let name of getSubstituteInfo(ing.ingredientId).inStockNames; let i = index">
+                            <strong>{{ name }}</strong><ng-container *ngIf="i < getSubstituteInfo(ing.ingredientId).inStockNames.length - 1 || getSubstituteInfo(ing.ingredientId).outOfStockNames.length > 0">, </ng-container>
+                          </ng-container>
+                          <ng-container *ngFor="let name of getSubstituteInfo(ing.ingredientId).outOfStockNames; let i = index">
+                            <span class="out-of-stock-sub">{{ name }}</span><ng-container *ngIf="i < getSubstituteInfo(ing.ingredientId).outOfStockNames.length - 1">, </ng-container>
+                          </ng-container>
                         </span>
                       </div>
                   </li>

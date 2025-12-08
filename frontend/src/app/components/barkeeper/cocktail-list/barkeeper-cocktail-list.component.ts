@@ -83,21 +83,51 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   loadCocktails(): void {
     this.isLoading = true;
     
-    const cocktailsObservable = this.availableOnly 
-      ? this.apiService.getAvailableCocktails()
-      : this.apiService.getAllCocktails();
-
-    cocktailsObservable.subscribe({
-      next: (cocktails: Cocktail[]) => {
-        this.cocktails = cocktails;
-        this.filterByLetter();
-        this.isLoading = false;
-      },
-      error: (error: any) => {
-        console.error('Error loading cocktails:', error);
-        this.isLoading = false;
-      }
-    });
+    if (this.availableOnly) {
+      // Use substitution endpoint to include cocktails makeable with substitutes/alternatives
+      this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+        next: (data: CocktailsWithSubstitutions) => {
+          // Combine all categories
+          this.cocktails = [
+            ...data.exact,
+            ...data.withSubstitutes,
+            ...data.withAlternatives
+          ];
+          
+          // Track which cocktails use substitutes/alternatives
+          this.cocktailsWithSubstitutes.clear();
+          this.cocktailsWithAlternatives.clear();
+          
+          data.withSubstitutes.forEach(c => {
+            if (c.id) this.cocktailsWithSubstitutes.add(c.id);
+          });
+          
+          data.withAlternatives.forEach(c => {
+            if (c.id) this.cocktailsWithAlternatives.add(c.id);
+          });
+          
+          this.filterByLetter();
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading cocktails:', error);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      // Load all cocktails
+      this.apiService.getAllCocktails().subscribe({
+        next: (cocktails: Cocktail[]) => {
+          this.cocktails = cocktails;
+          this.filterByLetter();
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading cocktails:', error);
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   loadAvailableCocktails(): void {

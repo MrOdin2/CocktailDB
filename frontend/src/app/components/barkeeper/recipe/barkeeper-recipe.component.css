@@ -225,6 +225,17 @@
   color: #f0f0f0;
 }
 
+.substitute-names strong {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.substitute-names .out-of-stock-sub {
+  color: #888;
+  opacity: 0.7;
+  text-decoration: line-through;
+}
+
 .ingredients-list-recipe li {
   padding: 0.75rem 0;
   border-bottom: 1px solid #444;

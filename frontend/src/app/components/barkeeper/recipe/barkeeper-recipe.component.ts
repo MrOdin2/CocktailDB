@@ -115,31 +115,56 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   }
 
   // Get substitute/alternative ingredients for a given ingredient
-  getSubstituteInfo(ingredientId: number): { type: 'substitute' | 'alternative' | null, names: string[] } {
+  // Returns in-stock substitutes first, then out-of-stock substitutes
+  getSubstituteInfo(ingredientId: number): { type: 'substitute' | 'alternative' | null, names: string[], inStockNames: string[], outOfStockNames: string[] } {
     const ingredient = this.ingredientMap.get(ingredientId);
-    if (!ingredient) return { type: null, names: [] };
+    if (!ingredient) return { type: null, names: [], inStockNames: [], outOfStockNames: [] };
 
     // Check if we have substitutes
     if (ingredient.substituteIds && ingredient.substituteIds.length > 0) {
-      const substituteNames = ingredient.substituteIds
-        .map(id => this.getIngredientName(id))
-        .filter(name => name !== 'Unknown');
-      if (substituteNames.length > 0) {
-        return { type: 'substitute', names: substituteNames };
+      const inStockSubs: string[] = [];
+      const outOfStockSubs: string[] = [];
+      
+      ingredient.substituteIds.forEach(id => {
+        const sub = this.ingredientMap.get(id);
+        if (sub && sub.name !== 'Unknown') {
+          if (sub.inStock) {
+            inStockSubs.push(sub.name);
+          } else {
+            outOfStockSubs.push(sub.name);
+          }
+        }
+      });
+      
+      const allNames = [...inStockSubs, ...outOfStockSubs];
+      if (allNames.length > 0) {
+        return { type: 'substitute', names: allNames, inStockNames: inStockSubs, outOfStockNames: outOfStockSubs };
       }
     }
 
     // Check if we have alternatives
     if (ingredient.alternativeIds && ingredient.alternativeIds.length > 0) {
-      const alternativeNames = ingredient.alternativeIds
-        .map(id => this.getIngredientName(id))
-        .filter(name => name !== 'Unknown');
-      if (alternativeNames.length > 0) {
-        return { type: 'alternative', names: alternativeNames };
+      const inStockAlts: string[] = [];
+      const outOfStockAlts: string[] = [];
+      
+      ingredient.alternativeIds.forEach(id => {
+        const alt = this.ingredientMap.get(id);
+        if (alt && alt.name !== 'Unknown') {
+          if (alt.inStock) {
+            inStockAlts.push(alt.name);
+          } else {
+            outOfStockAlts.push(alt.name);
+          }
+        }
+      });
+      
+      const allNames = [...inStockAlts, ...outOfStockAlts];
+      if (allNames.length > 0) {
+        return { type: 'alternative', names: allNames, inStockNames: inStockAlts, outOfStockNames: outOfStockAlts };
       }
     }
 
-    return { type: null, names: [] };
+    return { type: null, names: [], inStockNames: [], outOfStockNames: [] };
   }
   
   formatMeasure(measureMl: number): string {
