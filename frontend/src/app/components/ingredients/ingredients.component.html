@@ -253,28 +253,80 @@
                 <div class="relationships-editor">
                   <div class="relationship-group">
                     <label>{{ 'ingredients.substitutes' | translate }}:</label>
-                    <div class="checkbox-list-inline">
-                      @for (ing of getAvailableIngredientsForSubstitutes(editingIngredient?.id); track ing.id) {
-                        <label class="checkbox-item-inline">
-                          <input type="checkbox" 
-                            [checked]="isSubstituteSelected(ing.id!)"
-                            (change)="toggleSubstitute(ing.id!)">
-                          {{ ing.name }}
-                        </label>
+                    <small class="help-text">{{ 'ingredients.substitutesHelp' | translate }}</small>
+                    
+                    <!-- Selected substitutes -->
+                    <div class="selected-items" *ngIf="editingIngredient && editingIngredient.substituteIds && editingIngredient.substituteIds.length > 0">
+                      @for (subId of editingIngredient!.substituteIds; track subId) {
+                        <span class="selected-tag">
+                          {{ getIngredientName(subId) }}
+                          <button type="button" class="remove-tag-btn" (click)="removeSubstitute(subId, true)" [attr.aria-label]="'Remove ' + getIngredientName(subId)">✕</button>
+                        </span>
                       }
+                    </div>
+                    
+                    <!-- Search dropdown -->
+                    <div class="searchable-dropdown">
+                      <input 
+                        type="text" 
+                        class="search-input" 
+                        [(ngModel)]="substituteSearchEdit" 
+                        [placeholder]="'ingredients.searchIngredients' | translate"
+                        autocomplete="off">
+                      <div class="dropdown-list" *ngIf="substituteSearchEdit.trim()">
+                        @for (ing of getFilteredSubstitutes(true); track ing.id) {
+                          <button 
+                            type="button"
+                            class="dropdown-item" 
+                            [class.selected]="isSubstituteSelected(ing.id!)"
+                            (click)="toggleSubstitute(ing.id!)">
+                            <span class="item-check" *ngIf="isSubstituteSelected(ing.id!)">✓</span>
+                            {{ ing.name }}
+                          </button>
+                        }
+                        @if (getFilteredSubstitutes(true).length === 0) {
+                          <div class="dropdown-empty">{{ 'ingredients.noMatch' | translate }}</div>
+                        }
+                      </div>
                     </div>
                   </div>
                   <div class="relationship-group">
                     <label>{{ 'ingredients.alternatives' | translate }}:</label>
-                    <div class="checkbox-list-inline">
-                      @for (ing of getAvailableIngredientsForSubstitutes(editingIngredient?.id); track ing.id) {
-                        <label class="checkbox-item-inline">
-                          <input type="checkbox" 
-                            [checked]="isAlternativeSelected(ing.id!)"
-                            (change)="toggleAlternative(ing.id!)">
-                          {{ ing.name }}
-                        </label>
+                    <small class="help-text">{{ 'ingredients.alternativesHelp' | translate }}</small>
+                    
+                    <!-- Selected alternatives -->
+                    <div class="selected-items" *ngIf="editingIngredient && editingIngredient.alternativeIds && editingIngredient.alternativeIds.length > 0">
+                      @for (altId of editingIngredient!.alternativeIds; track altId) {
+                        <span class="selected-tag">
+                          {{ getIngredientName(altId) }}
+                          <button type="button" class="remove-tag-btn" (click)="removeAlternative(altId, true)" [attr.aria-label]="'Remove ' + getIngredientName(altId)">✕</button>
+                        </span>
                       }
+                    </div>
+                    
+                    <!-- Search dropdown -->
+                    <div class="searchable-dropdown">
+                      <input 
+                        type="text" 
+                        class="search-input" 
+                        [(ngModel)]="alternativeSearchEdit" 
+                        [placeholder]="'ingredients.searchIngredients' | translate"
+                        autocomplete="off">
+                      <div class="dropdown-list" *ngIf="alternativeSearchEdit.trim()">
+                        @for (ing of getFilteredAlternatives(true); track ing.id) {
+                          <button 
+                            type="button"
+                            class="dropdown-item" 
+                            [class.selected]="isAlternativeSelected(ing.id!)"
+                            (click)="toggleAlternative(ing.id!)">
+                            <span class="item-check" *ngIf="isAlternativeSelected(ing.id!)">✓</span>
+                            {{ ing.name }}
+                          </button>
+                        }
+                        @if (getFilteredAlternatives(true).length === 0) {
+                          <div class="dropdown-empty">{{ 'ingredients.noMatch' | translate }}</div>
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>

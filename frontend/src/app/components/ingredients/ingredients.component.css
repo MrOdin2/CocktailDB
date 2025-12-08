@@ -9,12 +9,12 @@
 }
 
 .relationship-tag {
-  background: rgba(0, 255, 0, 0.1);
-  color: #0f0;
+  background: rgba(100, 100, 100, 0.2);
+  color: inherit;
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   font-size: 0.75rem;
-  border: 1px solid rgba(0, 255, 0, 0.3);
+  border: 1px solid rgba(100, 100, 100, 0.4);
   white-space: nowrap;
 }
 
@@ -50,13 +50,13 @@
   border: 1px solid #333;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.3);
-  color: #fff;
+  color: inherit;
   font-size: 1rem;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #0f0;
+  border-color: #667eea;
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -68,7 +68,7 @@
   max-height: 250px;
   overflow-y: auto;
   background: #2d2d2d;
-  border: 1px solid #0f0;
+  border: 1px solid #667eea;
   border-radius: 4px;
   margin-top: 0.25rem;
   z-index: 1000;
@@ -80,7 +80,7 @@
   padding: 0.75rem;
   background: transparent;
   border: none;
-  color: #fff;
+  color: inherit;
   text-align: left;
   cursor: pointer;
   transition: background 0.2s;
@@ -91,16 +91,16 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(0, 255, 0, 0.1);
+  background: rgba(102, 126, 234, 0.2);
 }
 
 .dropdown-item.selected {
-  background: rgba(0, 255, 0, 0.15);
+  background: rgba(102, 126, 234, 0.3);
   font-weight: 600;
 }
 
 .item-check {
-  color: #0f0;
+  color: #667eea;
   font-weight: bold;
   font-size: 1.1rem;
 }
@@ -126,12 +126,12 @@
 }
 
 .selected-tag {
-  background: rgba(0, 255, 0, 0.2);
-  color: #0f0;
+  background: rgba(102, 126, 234, 0.2);
+  color: inherit;
   padding: 0.4rem 0.75rem;
   border-radius: 4px;
   font-size: 0.85rem;
-  border: 1px solid rgba(0, 255, 0, 0.4);
+  border: 1px solid rgba(102, 126, 234, 0.4);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -154,60 +154,6 @@
   transform: scale(1.2);
 }
 
-/* Checkbox lists for substitutes/alternatives - DEPRECATED, kept for backwards compatibility */
-.checkbox-list {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #333;
-  border-radius: 4px;
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.checkbox-item {
-  display: block;
-  padding: 0.25rem;
-  cursor: pointer;
-  user-select: none;
-}
-
-.checkbox-item:hover {
-  background: rgba(0, 255, 0, 0.1);
-}
-
-.checkbox-item input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
-
-/* Inline checkbox list for table editing */
-.checkbox-list-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  max-height: 150px;
-  overflow-y: auto;
-}
-
-.checkbox-item-inline {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid #333;
-  border-radius: 4px;
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.checkbox-item-inline:hover {
-  background: rgba(0, 255, 0, 0.1);
-}
-
-.checkbox-item-inline input[type="checkbox"] {
-  margin-right: 0.25rem;
-}
-
 /* Relationships editor row */
 .edit-relationships-row {
   background: rgba(0, 0, 0, 0.2);
@@ -228,7 +174,7 @@
 
 .relationship-group label {
   font-weight: bold;
-  color: #0f0;
+  color: inherit;
 }
 
 /* Table responsive design */
