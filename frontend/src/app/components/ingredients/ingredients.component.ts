@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Ingredient, IngredientType } from '../../models/models';
 import { ApiService } from '../../services/api.service';
 import { ModalComponent } from '../util/modal.component';
@@ -8,7 +9,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
     selector: 'app-ingredients',
-    imports: [FormsModule, ModalComponent, TranslatePipe],
+    imports: [CommonModule, FormsModule, ModalComponent, TranslatePipe],
     templateUrl: './ingredients.component.html',
     styleUrls: ['../admin-shared.css', './ingredients.component.css']
 })
@@ -33,6 +34,12 @@ export class IngredientsComponent implements OnInit {
   // Sort properties
   sortBy: 'name' | 'type' | 'abv' = 'name';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  // Search properties for dropdowns
+  substituteSearch = '';
+  alternativeSearch = '';
+  substituteSearchEdit = '';
+  alternativeSearchEdit = '';
 
   constructor(private apiService: ApiService) {}
 
@@ -254,5 +261,47 @@ export class IngredientsComponent implements OnInit {
       return this.editingIngredient.alternativeIds?.includes(ingredientId) || false;
     }
     return this.newIngredient.alternativeIds?.includes(ingredientId) || false;
+  }
+
+  getFilteredSubstitutes(isEdit: boolean = false): Ingredient[] {
+    const currentId = isEdit ? this.editingIngredient?.id : undefined;
+    const searchTerm = isEdit ? this.substituteSearchEdit : this.substituteSearch;
+    const available = this.getAvailableIngredientsForSubstitutes(currentId);
+    
+    if (!searchTerm.trim()) {
+      return available;
+    }
+    
+    const search = searchTerm.toLowerCase();
+    return available.filter(ing => ing.name.toLowerCase().includes(search));
+  }
+
+  getFilteredAlternatives(isEdit: boolean = false): Ingredient[] {
+    const currentId = isEdit ? this.editingIngredient?.id : undefined;
+    const searchTerm = isEdit ? this.alternativeSearchEdit : this.alternativeSearch;
+    const available = this.getAvailableIngredientsForSubstitutes(currentId);
+    
+    if (!searchTerm.trim()) {
+      return available;
+    }
+    
+    const search = searchTerm.toLowerCase();
+    return available.filter(ing => ing.name.toLowerCase().includes(search));
+  }
+
+  removeSubstitute(ingredientId: number, isEdit: boolean = false): void {
+    if (isEdit && this.editingIngredient) {
+      this.editingIngredient.substituteIds = this.editingIngredient.substituteIds?.filter(id => id !== ingredientId) || [];
+    } else {
+      this.newIngredient.substituteIds = this.newIngredient.substituteIds?.filter(id => id !== ingredientId) || [];
+    }
+  }
+
+  removeAlternative(ingredientId: number, isEdit: boolean = false): void {
+    if (isEdit && this.editingIngredient) {
+      this.editingIngredient.alternativeIds = this.editingIngredient.alternativeIds?.filter(id => id !== ingredientId) || [];
+    } else {
+      this.newIngredient.alternativeIds = this.newIngredient.alternativeIds?.filter(id => id !== ingredientId) || [];
+    }
   }
 }

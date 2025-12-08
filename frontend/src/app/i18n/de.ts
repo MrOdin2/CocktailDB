@@ -138,6 +138,8 @@ export const de = {
     alternativesHelp: 'Merklich unterschiedliche Zutaten, die trotzdem verwendet werden können (z.B. Champagner vs. Prosecco)',
     noIngredientsAvailable: 'Noch keine anderen Zutaten verfügbar. Fügen Sie zuerst weitere Zutaten hinzu.',
     editRelationshipsInfo: 'Ersatzstoffe/Alternativen unten bearbeiten',
+    searchIngredients: 'Zutaten suchen...',
+    noMatch: 'Keine passenden Zutaten',
     modal: {
       title: 'Neue Zutat hinzufügen'
     }
@@ -174,6 +176,10 @@ export const de = {
     updateCocktail: 'Cocktail aktualisieren',
     addCocktail: 'Cocktail hinzufügen',
     editCocktail: 'Cocktail bearbeiten',
+    substitute: 'Ersatz',
+    alternative: 'Alternative',
+    usesSubstitutes: 'Dieser Cocktail kann mit Ersatzzutaten zubereitet werden',
+    usesAlternatives: 'Dieser Cocktail kann mit alternativen Zutaten zubereitet werden',
     export: {
       title: 'Cocktails exportieren',
       exportType: 'Exporttyp:',

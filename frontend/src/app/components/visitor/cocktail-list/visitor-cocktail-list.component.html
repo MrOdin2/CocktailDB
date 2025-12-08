@@ -57,6 +57,16 @@
         </span>
       </div>
       
+      <!-- Substitution warnings -->
+      <div class="cocktail-warnings" *ngIf="usesSubstitutes(cocktail) || usesAlternatives(cocktail)">
+        <span class="warning-badge substitute" *ngIf="usesSubstitutes(cocktail)">
+          ⚠️ {{ 'cocktails.substitute' | translate }}
+        </span>
+        <span class="warning-badge alternative" *ngIf="usesAlternatives(cocktail)">
+          ℹ️ {{ 'cocktails.alternative' | translate }}
+        </span>
+      </div>
+      
       <div class="cocktail-info">
         <div class="info-row">
           <span class="label">{{ 'visitor.cocktailList.baseSpirit' | translate }}</span>

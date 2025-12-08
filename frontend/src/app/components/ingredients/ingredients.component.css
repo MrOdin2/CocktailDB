@@ -35,9 +35,126 @@
   font-size: 0.75rem;
   display: block;
   margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Checkbox lists for substitutes/alternatives */
+/* Searchable dropdown styles */
+.searchable-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0f0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background: #2d2d2d;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.dropdown-item.selected {
+  background: rgba(0, 255, 0, 0.15);
+  font-weight: 600;
+}
+
+.item-check {
+  color: #0f0;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.dropdown-empty {
+  padding: 1rem;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+/* Selected items display */
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  min-height: 44px;
+  align-items: center;
+}
+
+.selected-tag {
+  background: rgba(0, 255, 0, 0.2);
+  color: #0f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(0, 255, 0, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remove-tag-btn {
+  background: transparent;
+  border: none;
+  color: #f00;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.remove-tag-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Checkbox lists for substitutes/alternatives - DEPRECATED, kept for backwards compatibility */
 .checkbox-list {
   max-height: 200px;
   overflow-y: auto;

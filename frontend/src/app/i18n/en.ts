@@ -138,6 +138,8 @@ export const en = {
     alternativesHelp: 'Noticeably different ingredients that can still be used (e.g., Champagne vs Prosecco)',
     noIngredientsAvailable: 'No other ingredients available yet. Add more ingredients first.',
     editRelationshipsInfo: 'Edit substitutes/alternatives below',
+    searchIngredients: 'Search ingredients...',
+    noMatch: 'No matching ingredients',
     modal: {
       title: 'Add New Ingredient'
     }
@@ -174,6 +176,10 @@ export const en = {
     updateCocktail: 'Update Cocktail',
     addCocktail: 'Add Cocktail',
     editCocktail: 'Edit Cocktail',
+    substitute: 'Substitute',
+    alternative: 'Alternative',
+    usesSubstitutes: 'This cocktail can be made with substitute ingredients',
+    usesAlternatives: 'This cocktail can be made with alternative ingredients',
     export: {
       title: 'Export Cocktails',
       exportType: 'Export Type:',

@@ -82,7 +82,17 @@
       *ngFor="let cocktail of filteredCocktails"
       class="cocktail-btn"
       (click)="selectCocktail(cocktail)">
-      <span class="cocktail-name">{{ cocktail.name }}</span>
+      <div class="cocktail-content">
+        <span class="cocktail-name">{{ cocktail.name }}</span>
+        <div class="cocktail-warnings" *ngIf="usesSubstitutes(cocktail) || usesAlternatives(cocktail)">
+          <span class="warning-badge substitute" *ngIf="usesSubstitutes(cocktail)" [title]="'cocktails.usesSubstitutes' | translate">
+            ⚠️ {{ 'cocktails.substitute' | translate }}
+          </span>
+          <span class="warning-badge alternative" *ngIf="usesAlternatives(cocktail)" [title]="'cocktails.usesAlternatives' | translate">
+            ℹ️ {{ 'cocktails.alternative' | translate }}
+          </span>
+        </div>
+      </div>
       <span class="cocktail-arrow">→</span>
     </button>
   </div>
