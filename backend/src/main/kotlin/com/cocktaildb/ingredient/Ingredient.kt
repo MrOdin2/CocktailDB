@@ -16,7 +16,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "ingredients")
-data class Ingredient(
+class Ingredient(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
@@ -49,4 +49,19 @@ data class Ingredient(
         inverseJoinColumns = [JoinColumn(name = "alternative_id")]
     )
     var alternatives: MutableSet<Ingredient> = mutableSetOf()
-)
+) {
+    // Override equals and hashCode to only use id to avoid infinite loops
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Ingredient) return false
+        return id != null && id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+
+    override fun toString(): String {
+        return "Ingredient(id=$id, name='$name', type=$type, abv=$abv, inStock=$inStock)"
+    }
+}

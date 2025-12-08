@@ -91,6 +91,15 @@ class IngredientDataServiceTest {
     @Test
     fun `deleteIngredient should call repository delete`() {
         // Given
+        val ingredient = Ingredient(
+            id = 1,
+            name = "Vodka",
+            type = IngredientType.SPIRIT,
+            abv = 40,
+            inStock = true
+        )
+        every { ingredientRepository.findById(1) } returns java.util.Optional.of(ingredient)
+        every { ingredientRepository.save(any()) } returns ingredient
         every { ingredientRepository.deleteById(1) } returns Unit
         
         // When
@@ -126,5 +135,75 @@ class IngredientDataServiceTest {
             abv = 40,
             inStock = inStock
         )
+    }
+    
+    @Test
+    fun `createIngredient should set up bidirectional substitute relationships`() {
+        // Given
+        val vodka = Ingredient(id = 1, name = "Vodka", type = IngredientType.SPIRIT, abv = 40, inStock = true)
+        val ingredientDTO = IngredientDTO(
+            id = null,
+            name = "Test Vodka",
+            type = IngredientType.SPIRIT,
+            abv = 40,
+            inStock = true,
+            substituteIds = setOf(1)
+        )
+        
+        var savedCount = 0
+        every { ingredientRepository.save(any()) } answers { 
+            val arg = firstArg<Ingredient>()
+            if (savedCount == 0) {
+                savedCount++
+                // First save: assign ID to new ingredient
+                Ingredient(id = 3, name = arg.name, type = arg.type, abv = arg.abv, inStock = arg.inStock)
+            } else {
+                // Subsequent saves: return as is
+                arg
+            }
+        }
+        every { ingredientRepository.findAllById(setOf(1L)) } returns listOf(vodka)
+        
+        // When
+        ingredientDataService.createIngredient(ingredientDTO)
+        
+        // Then
+        verify { ingredientRepository.save(match { it.substitutes.any { sub -> sub.id == 1L } }) }
+        verify { ingredientRepository.save(match { it.id == 1L && it.substitutes.any { sub -> sub.id == 3L } }) }
+    }
+    
+    @Test
+    fun `createIngredient should set up bidirectional alternative relationships`() {
+        // Given
+        val champagne = Ingredient(id = 1, name = "Champagne", type = IngredientType.WINE, abv = 12, inStock = true)
+        val ingredientDTO = IngredientDTO(
+            id = null,
+            name = "Prosecco",
+            type = IngredientType.WINE,
+            abv = 11,
+            inStock = true,
+            alternativeIds = setOf(1)
+        )
+        
+        var savedCount = 0
+        every { ingredientRepository.save(any()) } answers { 
+            val arg = firstArg<Ingredient>()
+            if (savedCount == 0) {
+                savedCount++
+                // First save: assign ID to new ingredient
+                Ingredient(id = 2, name = arg.name, type = arg.type, abv = arg.abv, inStock = arg.inStock)
+            } else {
+                // Subsequent saves: return as is
+                arg
+            }
+        }
+        every { ingredientRepository.findAllById(setOf(1L)) } returns listOf(champagne)
+        
+        // When
+        ingredientDataService.createIngredient(ingredientDTO)
+        
+        // Then
+        verify { ingredientRepository.save(match { it.alternatives.any { alt -> alt.id == 1L } }) }
+        verify { ingredientRepository.save(match { it.id == 1L && it.alternatives.any { alt -> alt.id == 2L } }) }
     }
 }
