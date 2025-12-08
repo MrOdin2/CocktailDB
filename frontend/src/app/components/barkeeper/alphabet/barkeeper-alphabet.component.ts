@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
-import { Cocktail } from '../../../models/models';
+import { Cocktail, CocktailsWithSubstitutions } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-alphabet',
@@ -16,6 +16,7 @@ export class BarkeeperAlphabetComponent implements OnInit {
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   cocktails: Cocktail[] = [];
   availableCocktails: Cocktail[] = [];
+  cocktailsWithSubstitutions: CocktailsWithSubstitutions | null = null;
   isLoading = false;
 
   constructor(
@@ -41,12 +42,19 @@ export class BarkeeperAlphabetComponent implements OnInit {
       }
     });
 
-    this.apiService.getAvailableCocktails().subscribe({
-      next: (cocktails: Cocktail[]) => {
-        this.availableCocktails = cocktails;
+    // Load cocktails with substitution info
+    this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+      next: (result: CocktailsWithSubstitutions) => {
+        this.cocktailsWithSubstitutions = result;
+        // Combine all available cocktails (exact, with substitutes, with alternatives)
+        this.availableCocktails = [
+          ...result.exact,
+          ...result.withSubstitutes,
+          ...result.withAlternatives
+        ];
       },
       error: (error: any) => {
-        console.error('Error loading available cocktails:', error);
+        console.error('Error loading available cocktails with substitutions:', error);
       }
     });
   }

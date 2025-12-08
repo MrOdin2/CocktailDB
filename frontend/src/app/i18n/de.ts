@@ -244,7 +244,12 @@ export const de = {
       ingredients: 'Zutaten:',
       instructions: 'Anleitung:',
       notes: 'Notizen:',
-      tags: 'Tags:'
+      tags: 'Tags:',
+      usesSubstitutes: 'Verwendet Ersatzstoffe',
+      usesAlternatives: 'Verwendet Alternativen',
+      outOfStock: 'Nicht vorrätig',
+      substituteWith: 'Ersetzen mit',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: 'Zufälliger Cocktail',

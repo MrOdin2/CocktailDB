@@ -244,7 +244,12 @@ export const en = {
       ingredients: 'Ingredients:',
       instructions: 'Instructions:',
       notes: 'Notes:',
-      tags: 'Tags:'
+      tags: 'Tags:',
+      usesSubstitutes: 'Uses Substitutes',
+      usesAlternatives: 'Uses Alternatives',
+      outOfStock: 'Out of Stock',
+      substituteWith: 'Substitute with',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: 'Random Cocktail',
