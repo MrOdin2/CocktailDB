@@ -79,15 +79,15 @@
 }
 
 .warning-badge.substitute {
-  background: rgba(255, 165, 0, 0.2);
-  color: #ffa500;
-  border: 1px solid #ffa500;
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    border: 1px solid #667eea;
 }
 
 .warning-badge.alternative {
-  background: rgba(102, 126, 234, 0.2);
-  color: #667eea;
-  border: 1px solid #667eea;
+    background: rgba(255, 165, 0, 0.2);
+    color: #ffa500;
+    border: 1px solid #ffa500;
 }
 
 .info-card {
