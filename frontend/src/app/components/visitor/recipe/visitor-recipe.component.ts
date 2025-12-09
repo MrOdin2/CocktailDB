@@ -6,7 +6,7 @@ import { ApiService } from '../../../services/api.service';
 import { MeasureService } from '../../../services/measure.service';
 import { TranslateService } from '../../../services/translate.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
-import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
+import { Cocktail, Ingredient, MeasureUnit, CocktailsWithSubstitutions } from '../../../models/models';
 
 @Component({
   selector: 'app-visitor-recipe',
@@ -18,6 +18,7 @@ import { Cocktail, Ingredient, MeasureUnit } from '../../../models/models';
 export class VisitorRecipeComponent implements OnInit, OnDestroy {
   cocktail: Cocktail | null = null;
   ingredients: Map<number, Ingredient> = new Map();
+  cocktailsWithSubstitutions: CocktailsWithSubstitutions | null = null;
   loading: boolean = false;
   error: string | null = null;
   
@@ -36,6 +37,7 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadCocktail(+id);
+      this.loadSubstitutionInfo();
     } else {
       this.error = 'Invalid cocktail ID';
     }
@@ -67,12 +69,10 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   }
 
   loadIngredients(cocktail: Cocktail): void {
-    const ingredientIds = cocktail.ingredients.map(ci => ci.ingredientId);
-    
     this.apiService.getAllIngredients().subscribe({
       next: (allIngredients) => {
         allIngredients.forEach(ingredient => {
-          if (ingredient.id && ingredientIds.includes(ingredient.id)) {
+          if (ingredient.id) {
             this.ingredients.set(ingredient.id, ingredient);
           }
         });
@@ -85,9 +85,100 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadSubstitutionInfo(): void {
+    this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+      next: (result: CocktailsWithSubstitutions) => {
+        this.cocktailsWithSubstitutions = result;
+      },
+      error: (error: any) => {
+        console.error('Error loading substitution info:', error);
+      }
+    });
+  }
+
   getIngredientName(ingredientId: number): string {
     const ingredient = this.ingredients.get(ingredientId);
     return ingredient ? ingredient.name : 'Unknown ingredient';
+  }
+
+  getIngredient(ingredientId: number): Ingredient | undefined {
+    return this.ingredients.get(ingredientId);
+  }
+
+  // Check if this cocktail uses substitutes
+  usesSubstitutes(): boolean {
+    if (!this.cocktail || !this.cocktailsWithSubstitutions) return false;
+    return this.cocktailsWithSubstitutions.withSubstitutes.some(c => c.id === this.cocktail!.id);
+  }
+
+  // Check if this cocktail uses alternatives
+  usesAlternatives(): boolean {
+    if (!this.cocktail || !this.cocktailsWithSubstitutions) return false;
+    return this.cocktailsWithSubstitutions.withAlternatives.some(c => c.id === this.cocktail!.id);
+  }
+
+  // Check if an ingredient is out of stock
+  isOutOfStock(ingredientId: number): boolean {
+    const ingredient = this.ingredients.get(ingredientId);
+    return ingredient ? !ingredient.inStock : false;
+  }
+
+  // Get substitute/alternative ingredients for a given ingredient
+  // Returns both substitutes and alternatives (not just one type)
+  getSubstituteInfo(ingredientId: number): { 
+    substitutes: { inStock: string[], outOfStock: string[] }, 
+    alternatives: { inStock: string[], outOfStock: string[] },
+    hasAny: boolean 
+  } {
+    const ingredient = this.ingredients.get(ingredientId);
+    if (!ingredient) {
+      return { 
+        substitutes: { inStock: [], outOfStock: [] }, 
+        alternatives: { inStock: [], outOfStock: [] },
+        hasAny: false 
+      };
+    }
+
+    const result = {
+      substitutes: { inStock: [] as string[], outOfStock: [] as string[] },
+      alternatives: { inStock: [] as string[], outOfStock: [] as string[] },
+      hasAny: false
+    };
+
+    // Collect substitutes
+    if (ingredient.substituteIds && ingredient.substituteIds.length > 0) {
+      ingredient.substituteIds.forEach(id => {
+        const sub = this.ingredients.get(id);
+        if (sub && sub.name !== 'Unknown') {
+          if (sub.inStock) {
+            result.substitutes.inStock.push(sub.name);
+          } else {
+            result.substitutes.outOfStock.push(sub.name);
+          }
+        }
+      });
+    }
+
+    // Collect alternatives
+    if (ingredient.alternativeIds && ingredient.alternativeIds.length > 0) {
+      ingredient.alternativeIds.forEach(id => {
+        const alt = this.ingredients.get(id);
+        if (alt && alt.name !== 'Unknown') {
+          if (alt.inStock) {
+            result.alternatives.inStock.push(alt.name);
+          } else {
+            result.alternatives.outOfStock.push(alt.name);
+          }
+        }
+      });
+    }
+
+    result.hasAny = result.substitutes.inStock.length > 0 || 
+                    result.substitutes.outOfStock.length > 0 || 
+                    result.alternatives.inStock.length > 0 || 
+                    result.alternatives.outOfStock.length > 0;
+
+    return result;
   }
   
   formatMeasure(measureMl: number): string {

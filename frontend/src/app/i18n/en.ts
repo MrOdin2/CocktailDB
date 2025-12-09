@@ -309,7 +309,12 @@ export const en = {
       tags: '🏷️ Tags',
       ingredients: '📝 Ingredients',
       instructions: '🍸 Instructions',
-      notes: '💡 Notes'
+      notes: '💡 Notes',
+      usesSubstitutes: 'Uses Substitutes',
+      usesAlternatives: 'Uses Alternatives',
+      outOfStock: 'Out of Stock',
+      substituteWith: 'Substitute with',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: '🎲 Surprise Me!',
