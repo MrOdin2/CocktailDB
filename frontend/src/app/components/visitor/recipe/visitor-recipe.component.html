@@ -33,10 +33,10 @@
 
     <!-- Substitution Warning -->
     <div *ngIf="usesSubstitutes() || usesAlternatives()" class="substitution-warning">
-      <span *ngIf="usesSubstitutes()" class="warning-badge substitute">
+      <span *ngIf="usesSubstitutes()" class="warning-badge substitute" aria-label="Uses substitute ingredients">
         ⚠️ {{ 'visitor.recipe.usesSubstitutes' | translate }}
       </span>
-      <span *ngIf="usesAlternatives()" class="warning-badge alternative">
+      <span *ngIf="usesAlternatives()" class="warning-badge alternative" aria-label="Uses alternative ingredients">
         ℹ️ {{ 'visitor.recipe.usesAlternatives' | translate }}
       </span>
     </div>
