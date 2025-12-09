@@ -59,10 +59,18 @@
       
       <!-- Substitution warnings -->
       <div class="cocktail-warnings" *ngIf="usesSubstitutes(cocktail) || usesAlternatives(cocktail)">
-        <span class="warning-badge substitute" *ngIf="usesSubstitutes(cocktail)">
+        <span
+          class="warning-badge substitute"
+          *ngIf="usesSubstitutes(cocktail)"
+          aria-label="{{ 'cocktails.substitute' | translate }}"
+        >
           ⚠️ {{ 'cocktails.substitute' | translate }}
         </span>
-        <span class="warning-badge alternative" *ngIf="usesAlternatives(cocktail)">
+        <span
+          class="warning-badge alternative"
+          *ngIf="usesAlternatives(cocktail)"
+          aria-label="{{ 'cocktails.alternative' | translate }}"
+        >
           ℹ️ {{ 'cocktails.alternative' | translate }}
         </span>
       </div>
