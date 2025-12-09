@@ -50,16 +50,19 @@ class IngredientDataService(
         val ingredient = ingredientRepository.findById(id).orElse(null)
         if (ingredient != null) {
             // Remove this ingredient from all substitutes
+            val entitiesToUpdate = mutableListOf<Ingredient>()
             ingredient.substitutes.forEach { substitute ->
                 substitute.substitutes.removeIf { it.id == id }
-                ingredientRepository.save(substitute)
+                entitiesToUpdate.add(substitute)
             }
             
             // Remove this ingredient from all alternatives
             ingredient.alternatives.forEach { alternative ->
                 alternative.alternatives.removeIf { it.id == id }
-                ingredientRepository.save(alternative)
+                entitiesToUpdate.add(alternative)
             }
+
+            ingredientRepository.saveAll(entitiesToUpdate)
             
             // Now delete the ingredient
             ingredientRepository.deleteById(id)
