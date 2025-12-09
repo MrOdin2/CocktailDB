@@ -22,6 +22,13 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   cocktailsWithSubstitutions: CocktailsWithSubstitutions | null = null;
   isLoading = false;
   
+  // Cache for substitute info to avoid repeated calculations
+  private substituteInfoCache: Map<number, { 
+    substitutes: { inStock: string[], outOfStock: string[] }, 
+    alternatives: { inStock: string[], outOfStock: string[] },
+    hasAny: boolean 
+  }> = new Map();
+  
   currentUnit: MeasureUnit = MeasureUnit.ML;
   private unitSubscription?: Subscription;
 
@@ -116,18 +123,27 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
 
   // Get substitute/alternative ingredients for a given ingredient
   // Returns both substitutes and alternatives (not just one type)
+  // Cached to avoid repeated calculations in template
   getSubstituteInfo(ingredientId: number): { 
     substitutes: { inStock: string[], outOfStock: string[] }, 
     alternatives: { inStock: string[], outOfStock: string[] },
     hasAny: boolean 
   } {
+    // Check cache first
+    const cached = this.substituteInfoCache.get(ingredientId);
+    if (cached) {
+      return cached;
+    }
+    
     const ingredient = this.ingredientMap.get(ingredientId);
     if (!ingredient) {
-      return { 
+      const emptyResult = { 
         substitutes: { inStock: [], outOfStock: [] }, 
         alternatives: { inStock: [], outOfStock: [] },
         hasAny: false 
       };
+      this.substituteInfoCache.set(ingredientId, emptyResult);
+      return emptyResult;
     }
 
     const result = {
@@ -169,6 +185,8 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
                     result.alternatives.inStock.length > 0 || 
                     result.alternatives.outOfStock.length > 0;
 
+    // Cache the result
+    this.substituteInfoCache.set(ingredientId, result);
     return result;
   }
   

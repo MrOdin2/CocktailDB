@@ -153,13 +153,16 @@ class IngredientDataServiceTest {
         val savedIngredient = Ingredient(id = 3, name = "Test Vodka", type = IngredientType.SPIRIT, abv = 40, inStock = true)
         every { ingredientRepository.save(any()) } returns savedIngredient
         every { ingredientRepository.findAllById(setOf(1L)) } returns listOf(vodka)
+        every { ingredientRepository.saveAll(any<List<Ingredient>>()) } returns emptyList()
         
         // When
         ingredientDataService.createIngredient(ingredientDTO)
         
         // Then
-        // Verify substitutes are set up bidirectionally via individual saves
-        verify { ingredientRepository.save(match { it.id == 1L && it.substitutes.any { sub -> sub.id == 3L } }) }
+        // Verify substitutes are set up bidirectionally via saveAll (changed from individual saves)
+        verify { ingredientRepository.saveAll(match<List<Ingredient>> {
+            it.any { ingredient -> ingredient.id == 1L && ingredient.substitutes.any { sub -> sub.id == 3L } }
+        }) }
     }
     
     @Test

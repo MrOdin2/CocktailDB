@@ -22,6 +22,13 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   error: string | null = null;
   
+  // Cache for substitute info to avoid repeated calculations
+  private substituteInfoCache: Map<number, { 
+    substitutes: { inStock: string[], outOfStock: string[] }, 
+    alternatives: { inStock: string[], outOfStock: string[] },
+    hasAny: boolean 
+  }> = new Map();
+  
   currentUnit: MeasureUnit = MeasureUnit.ML;
   private unitSubscription?: Subscription;
 
@@ -71,11 +78,47 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   loadIngredients(cocktail: Cocktail): void {
     this.apiService.getAllIngredients().subscribe({
       next: (allIngredients) => {
+        // Only load ingredients that are needed for this cocktail or its substitutes/alternatives
+        const cocktailIngredientIds = new Set(cocktail.ingredients.map(ci => ci.ingredientId));
+        
         allIngredients.forEach(ingredient => {
-          if (ingredient.id) {
+          if (ingredient.id && (
+            cocktailIngredientIds.has(ingredient.id) ||
+            // Include substitutes and alternatives of cocktail ingredients
+            (ingredient.substituteIds && ingredient.substituteIds.some(id => cocktailIngredientIds.has(id))) ||
+            (ingredient.alternativeIds && ingredient.alternativeIds.some(id => cocktailIngredientIds.has(id)))
+          )) {
             this.ingredients.set(ingredient.id, ingredient);
           }
         });
+        
+        // Also add all ingredients that are substitutes/alternatives of loaded ingredients
+        allIngredients.forEach(ingredient => {
+          if (ingredient.id) {
+            const existingIngredient = this.ingredients.get(ingredient.id);
+            if (existingIngredient) {
+              // Add substitutes
+              if (existingIngredient.substituteIds) {
+                existingIngredient.substituteIds.forEach(subId => {
+                  const sub = allIngredients.find(ing => ing.id === subId);
+                  if (sub && sub.id) {
+                    this.ingredients.set(sub.id, sub);
+                  }
+                });
+              }
+              // Add alternatives
+              if (existingIngredient.alternativeIds) {
+                existingIngredient.alternativeIds.forEach(altId => {
+                  const alt = allIngredients.find(ing => ing.id === altId);
+                  if (alt && alt.id) {
+                    this.ingredients.set(alt.id, alt);
+                  }
+                });
+              }
+            }
+          }
+        });
+        
         this.loading = false;
       },
       error: (err) => {
@@ -125,18 +168,27 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
 
   // Get substitute/alternative ingredients for a given ingredient
   // Returns both substitutes and alternatives (not just one type)
+  // Cached to avoid repeated calculations in template
   getSubstituteInfo(ingredientId: number): { 
     substitutes: { inStock: string[], outOfStock: string[] }, 
     alternatives: { inStock: string[], outOfStock: string[] },
     hasAny: boolean 
   } {
+    // Check cache first
+    const cached = this.substituteInfoCache.get(ingredientId);
+    if (cached) {
+      return cached;
+    }
+    
     const ingredient = this.ingredients.get(ingredientId);
     if (!ingredient) {
-      return { 
+      const emptyResult = { 
         substitutes: { inStock: [], outOfStock: [] }, 
         alternatives: { inStock: [], outOfStock: [] },
         hasAny: false 
       };
+      this.substituteInfoCache.set(ingredientId, emptyResult);
+      return emptyResult;
     }
 
     const result = {
@@ -178,6 +230,8 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
                     result.alternatives.inStock.length > 0 || 
                     result.alternatives.outOfStock.length > 0;
 
+    // Cache the result
+    this.substituteInfoCache.set(ingredientId, result);
     return result;
   }
   

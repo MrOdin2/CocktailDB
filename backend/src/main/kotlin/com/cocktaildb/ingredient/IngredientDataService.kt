@@ -88,13 +88,15 @@ class IngredientDataService(
         // Set up substitutes bidirectionally
         if (substituteIds.isNotEmpty()) {
             val substitutes = ingredientRepository.findAllById(substituteIds).toList()
+            val entitiesToUpdate = mutableListOf<Ingredient>()
             substitutes.forEach { substitute ->
                 // Add substitute to this ingredient
                 ingredient.substitutes.add(substitute)
                 // Add this ingredient to substitute (bidirectional)
                 substitute.substitutes.add(ingredient)
-                ingredientRepository.save(substitute)
+                entitiesToUpdate.add(substitute)
             }
+            ingredientRepository.saveAll(entitiesToUpdate)
         }
         
         // Set up alternatives bidirectionally
@@ -110,13 +112,7 @@ class IngredientDataService(
         }
     }
 
-    //val entitiesToUpdate = mutableListOf<Ingredient>()
-    //substitutes.forEach { substitute ->
-    //    ingredient.substitutes.add(substitute)
-    //    substitute.substitutes.add(ingredient)
-    //    entitiesToUpdate.add(substitute)
-    //}
-    //ingredientRepository.saveAll(entitiesToUpdate)
+
 
     /**
      * Updates bidirectional substitute and alternative relationships.

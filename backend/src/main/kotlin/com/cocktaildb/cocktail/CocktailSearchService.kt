@@ -57,9 +57,14 @@ class CocktailSearchService(
         allCocktails.forEach { cocktail ->
             val requiredIds = cocktail.ingredients.map { it.ingredientId }.toSet()
             
+            // Check in order: exact match first, then substitutes, then alternatives
+            // This ensures no cocktail appears in multiple categories
             when {
+                // Exact: all required ingredients are in stock
                 inStockIngredientIds.containsAll(requiredIds) -> exactCocktails.add(cocktail)
+                // With substitutes: makeable with substitutes (but not exact)
                 availableWithSubstitutes.containsAll(requiredIds) -> withSubstitutes.add(cocktail)
+                // With alternatives: makeable with alternatives (but not exact or with substitutes)
                 availableWithAlternatives.containsAll(requiredIds) -> withAlternatives.add(cocktail)
             }
         }
