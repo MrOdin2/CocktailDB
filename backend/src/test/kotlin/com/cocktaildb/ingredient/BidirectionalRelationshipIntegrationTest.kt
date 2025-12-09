@@ -51,7 +51,7 @@ class BidirectionalRelationshipIntegrationTest {
         val prosecco = ingredientDataService.createIngredient(proseccoDTO)
 
         // Then: Both should have each other as substitutes
-        val reloadedChampagne = ingredientDataService.getIngredientById(champagne.id!!)!!
+        val reloadedChampagne = ingredientDataService.getIngredientById(champagne.id)!!
         val reloadedProsecco = ingredientDataService.getIngredientById(prosecco.id!!)!!
 
         assertTrue(reloadedProsecco.substitutes.any { it.id == champagne.id })
@@ -88,11 +88,11 @@ class BidirectionalRelationshipIntegrationTest {
             inStock = true,
             alternativeIds = setOf(vanillaVodka.id!!)
         )
-        patchIngredientService.updateIngredient(vodka.id!!, updatedVodkaDTO)
+        patchIngredientService.updateIngredient(updatedVodkaDTO)
 
         // Then: Both should have each other as alternatives
         val reloadedVodka = ingredientDataService.getIngredientById(vodka.id!!)!!
-        val reloadedVanillaVodka = ingredientDataService.getIngredientById(vanillaVodka.id!!)!!
+        val reloadedVanillaVodka = ingredientDataService.getIngredientById(vanillaVodka.id)!!
 
         assertTrue(reloadedVodka.alternatives.any { it.id == vanillaVodka.id })
         assertTrue(reloadedVanillaVodka.alternatives.any { it.id == vodka.id })
@@ -122,7 +122,7 @@ class BidirectionalRelationshipIntegrationTest {
 
         // Verify bidirectional relationship exists
         val initialVodka = ingredientDataService.getIngredientById(vodka.id!!)!!
-        val initialGin = ingredientDataService.getIngredientById(gin.id!!)!!
+        val initialGin = ingredientDataService.getIngredientById(gin.id)!!
         assertTrue(initialVodka.substitutes.any { it.id == gin.id })
         assertTrue(initialGin.substitutes.any { it.id == vodka.id })
 
@@ -135,11 +135,11 @@ class BidirectionalRelationshipIntegrationTest {
             inStock = true,
             substituteIds = emptySet()
         )
-        patchIngredientService.updateIngredient(vodka.id!!, updatedVodkaDTO)
+        patchIngredientService.updateIngredient(updatedVodkaDTO)
 
         // Then: Both should no longer have each other as substitutes
-        val finalVodka = ingredientDataService.getIngredientById(vodka.id!!)!!
-        val finalGin = ingredientDataService.getIngredientById(gin.id!!)!!
+        val finalVodka = ingredientDataService.getIngredientById(vodka.id)!!
+        val finalGin = ingredientDataService.getIngredientById(gin.id)!!
 
         assertEquals(0, finalVodka.substitutes.size)
         assertEquals(0, finalGin.substitutes.size)
@@ -173,16 +173,16 @@ class BidirectionalRelationshipIntegrationTest {
             type = IngredientType.WINE,
             abv = 12,
             inStock = true,
-            alternativeIds = setOf(champagne.id!!)
+            alternativeIds = setOf(champagne.id)
         )
         val cava = ingredientDataService.createIngredient(cavaDTO)
 
         // Verify relationships exist
-        val initialChampagne = ingredientDataService.getIngredientById(champagne.id!!)!!
+        val initialChampagne = ingredientDataService.getIngredientById(champagne.id)!!
         assertTrue(initialChampagne.substitutes.size > 0 || initialChampagne.alternatives.size > 0)
 
         // When: Delete Champagne
-        ingredientDataService.deleteIngredient(champagne.id!!)
+        ingredientDataService.deleteIngredient(champagne.id)
 
         // Then: Other ingredients should no longer reference Champagne
         val finalProsecco = ingredientDataService.getIngredientById(prosecco.id!!)!!

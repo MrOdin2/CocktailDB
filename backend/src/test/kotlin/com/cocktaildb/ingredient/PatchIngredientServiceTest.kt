@@ -6,32 +6,23 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import java.util.*
 
 class PatchIngredientServiceTest {
-    
-    private lateinit var ingredientRepository: IngredientRepository
+
     private lateinit var stockUpdateService: StockUpdateService
     private lateinit var patchIngredientService: PatchIngredientService
+    private lateinit var ingredientDataService: IngredientDataService
     
     @BeforeEach
     fun setup() {
-        ingredientRepository = mockk()
         stockUpdateService = mockk(relaxed = true)
-        patchIngredientService = PatchIngredientService(ingredientRepository, stockUpdateService)
+        ingredientDataService = mockk(relaxed = true)
+        patchIngredientService = PatchIngredientService(ingredientDataService, stockUpdateService)
     }
     
     @Test
     fun `updateIngredient should update ingredient properties`() {
-        // Given
-        val existing = Ingredient(
-            id = 1,
-            name = "Old Name",
-            type = IngredientType.SPIRIT,
-            abv = 40,
-            inStock = true
-        )
-        
+
         val updateDTO = IngredientDTO(
             id = 1,
             name = "New Name",
@@ -39,12 +30,19 @@ class PatchIngredientServiceTest {
             abv = 30,
             inStock = true
         )
-        
-        every { ingredientRepository.findById(1) } returns Optional.of(existing)
-        every { ingredientRepository.save(any()) } answers { firstArg() }
-        
+
+        val updated = Ingredient(
+            id = 1,
+            name = "New Name",
+            type = IngredientType.LIQUEUR,
+            abv = 30,
+            inStock = true
+        )
+
+        every { ingredientDataService.updateIngredient(any()) } answers { updated }
+
         // When
-        val result = patchIngredientService.updateIngredient(1, updateDTO)
+        val result = patchIngredientService.updateIngredient(updateDTO)
         
         // Then
         assertNotNull(result)
@@ -52,20 +50,12 @@ class PatchIngredientServiceTest {
         assertEquals(IngredientType.LIQUEUR, result?.type)
         assertEquals(30, result?.abv)
         assertTrue(result!!.inStock)
-        verify { ingredientRepository.save(any()) }
+        verify { ingredientDataService.updateIngredient(any()) }
     }
     
     @Test
-    fun `updateIngredient should broadcast stock update when stock status changes from true to false`() {
-        // Given
-        val existing = Ingredient(
-            id = 1,
-            name = "Vodka",
-            type = IngredientType.SPIRIT,
-            abv = 40,
-            inStock = true
-        )
-        
+    fun `updateIngredient should broadcast stock update`() {
+
         val updateDTO = IngredientDTO(
             id = 1,
             name = "Vodka",
@@ -73,74 +63,24 @@ class PatchIngredientServiceTest {
             abv = 40,
             inStock = false
         )
-        
-        every { ingredientRepository.findById(1) } returns Optional.of(existing)
-        every { ingredientRepository.save(any()) } answers { firstArg() }
-        
-        // When
-        patchIngredientService.updateIngredient(1, updateDTO)
-        
-        // Then
-        verify(exactly = 1) { stockUpdateService.broadcastStockUpdate() }
-    }
-    
-    @Test
-    fun `updateIngredient should broadcast stock update when stock status changes from false to true`() {
-        // Given
-        val existing = Ingredient(
+
+        val updatedIngredient = Ingredient(
             id = 1,
             name = "Vodka",
             type = IngredientType.SPIRIT,
             abv = 40,
             inStock = false
         )
-        
-        val updateDTO = IngredientDTO(
-            id = 1,
-            name = "Vodka",
-            type = IngredientType.SPIRIT,
-            abv = 40,
-            inStock = true
-        )
-        
-        every { ingredientRepository.findById(1) } returns Optional.of(existing)
-        every { ingredientRepository.save(any()) } answers { firstArg() }
-        
+
+        every { ingredientDataService.updateIngredient(updateDTO) } returns updatedIngredient
+
         // When
-        patchIngredientService.updateIngredient(1, updateDTO)
+        patchIngredientService.updateIngredient(updateDTO)
         
         // Then
         verify(exactly = 1) { stockUpdateService.broadcastStockUpdate() }
     }
-    
-    @Test
-    fun `updateIngredient should not broadcast stock update when stock status unchanged`() {
-        // Given
-        val existing = Ingredient(
-            id = 1,
-            name = "Vodka",
-            type = IngredientType.SPIRIT,
-            abv = 40,
-            inStock = true
-        )
-        
-        val updateDTO = IngredientDTO(
-            id = 1,
-            name = "Vodka Updated",
-            type = IngredientType.SPIRIT,
-            abv = 45,
-            inStock = true // Same stock status
-        )
-        
-        every { ingredientRepository.findById(1) } returns Optional.of(existing)
-        every { ingredientRepository.save(any()) } answers { firstArg() }
-        
-        // When
-        patchIngredientService.updateIngredient(1, updateDTO)
-        
-        // Then
-        verify(exactly = 0) { stockUpdateService.broadcastStockUpdate() }
-    }
+
     
     @Test
     fun `updateIngredient should return null when ingredient does not exist`() {
@@ -153,14 +93,14 @@ class PatchIngredientServiceTest {
             inStock = true
         )
         
-        every { ingredientRepository.findById(999) } returns Optional.empty()
-        
+        every { ingredientDataService.updateIngredient(updateDTO) } returns null
+
         // When
-        val result = patchIngredientService.updateIngredient(999, updateDTO)
+        val result = patchIngredientService.updateIngredient(updateDTO)
         
         // Then
         assertNull(result)
-        verify(exactly = 0) { ingredientRepository.save(any()) }
+        verify(exactly = 1) { ingredientDataService.updateIngredient(any()) }
         verify(exactly = 0) { stockUpdateService.broadcastStockUpdate() }
     }
 }

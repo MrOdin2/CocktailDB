@@ -44,7 +44,7 @@ class IngredientController(
         @PathVariable id: Long,
         @RequestBody ingredientDTO: IngredientDTO
     ): ResponseEntity<IngredientDTO> {
-        val updated = patchIngredientService.updateIngredient(id, ingredientDTO)
+        val updated = patchIngredientService.updateIngredient(ingredientDTO)
         return if (updated != null) {
             ResponseEntity.ok(updated.toDTO())
         } else {

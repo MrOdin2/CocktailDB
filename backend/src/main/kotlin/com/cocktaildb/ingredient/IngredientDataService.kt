@@ -30,6 +30,21 @@ class IngredientDataService(
         return ingredientRepository.save(savedIngredient)
     }
 
+    fun updateIngredient(ingredientDTO: IngredientDTO): Ingredient? {
+
+        val existing = ingredientRepository.findById(ingredientDTO.id!!).orElse(null) ?: return null
+
+        existing.name = ingredientDTO.name
+        existing.type = ingredientDTO.type
+        existing.abv = ingredientDTO.abv
+        existing.inStock = ingredientDTO.inStock
+
+        // Set up bidirectional relationships
+        updateBidirectionalRelationships(existing, ingredientDTO.substituteIds, ingredientDTO.alternativeIds)
+
+        return ingredientRepository.save(existing)
+    }
+
     fun deleteIngredient(id: Long) {
         // Get the ingredient before deleting to clean up bidirectional relationships
         val ingredient = ingredientRepository.findById(id).orElse(null)
@@ -86,6 +101,69 @@ class IngredientDataService(
                 // Add alternative to this ingredient
                 ingredient.alternatives.add(alternative)
                 // Add this ingredient to alternative (bidirectional)
+                alternative.alternatives.add(ingredient)
+                ingredientRepository.save(alternative)
+            }
+        }
+    }
+
+    /**
+     * Updates bidirectional substitute and alternative relationships.
+     * When A is a substitute for B, B automatically becomes a substitute for A.
+     * Also removes old bidirectional relationships that are no longer needed.
+     */
+    private fun updateBidirectionalRelationships(
+        ingredient: Ingredient,
+        newSubstituteIds: Set<Long>,
+        newAlternativeIds: Set<Long>
+    ) {
+        // Get current relationship IDs
+        val currentSubstituteIds = ingredient.substitutes.mapNotNull { it.id }.toSet()
+        val currentAlternativeIds = ingredient.alternatives.mapNotNull { it.id }.toSet()
+
+        // Find IDs to remove (in current but not in new)
+        val substitutesToRemove = currentSubstituteIds - newSubstituteIds
+        val alternativesToRemove = currentAlternativeIds - newAlternativeIds
+
+        // Find IDs to add (in new but not in current)
+        val substitutesToAdd = newSubstituteIds - currentSubstituteIds
+        val alternativesToAdd = newAlternativeIds - currentAlternativeIds
+
+        // Remove old substitute relationships bidirectionally
+        substitutesToRemove.forEach { removeId ->
+            val toRemove = ingredientRepository.findById(removeId).orElse(null)
+            if (toRemove != null) {
+                ingredient.substitutes.removeIf { it.id == removeId }
+                toRemove.substitutes.removeIf { it.id == ingredient.id }
+                ingredientRepository.save(toRemove)
+            }
+        }
+
+        // Remove old alternative relationships bidirectionally
+        alternativesToRemove.forEach { removeId ->
+            val toRemove = ingredientRepository.findById(removeId).orElse(null)
+            if (toRemove != null) {
+                ingredient.alternatives.removeIf { it.id == removeId }
+                toRemove.alternatives.removeIf { it.id == ingredient.id }
+                ingredientRepository.save(toRemove)
+            }
+        }
+
+        // Add new substitute relationships bidirectionally
+        if (substitutesToAdd.isNotEmpty()) {
+            val substitutes = ingredientRepository.findAllById(substitutesToAdd).toList()
+            substitutes.forEach { substitute ->
+                ingredient.substitutes.add(substitute)
+                substitute.substitutes.add(ingredient)
+                ingredientRepository.save(substitute)
+            }
+        }
+
+        // Add new alternative relationships bidirectionally
+        if (alternativesToAdd.isNotEmpty()) {
+            val alternatives = ingredientRepository.findAllById(alternativesToAdd).toList()
+            alternatives.forEach { alternative ->
+                ingredient.alternatives.add(alternative)
                 alternative.alternatives.add(ingredient)
                 ingredientRepository.save(alternative)
             }
