@@ -130,43 +130,51 @@ class IngredientDataService(
         val alternativesToAdd = newAlternativeIds - currentAlternativeIds
 
         // Remove old substitute relationships bidirectionally
+        val substitutesToUpdate = mutableListOf<Ingredient>()
         substitutesToRemove.forEach { removeId ->
             val toRemove = ingredientRepository.findById(removeId).orElse(null)
             if (toRemove != null) {
                 ingredient.substitutes.removeIf { it.id == removeId }
                 toRemove.substitutes.removeIf { it.id == ingredient.id }
-                ingredientRepository.save(toRemove)
+                substitutesToUpdate.add(toRemove)
             }
         }
+        ingredientRepository.saveAll(substitutesToUpdate)
 
         // Remove old alternative relationships bidirectionally
+        val alternativesToUpdate = mutableListOf<Ingredient>()
         alternativesToRemove.forEach { removeId ->
             val toRemove = ingredientRepository.findById(removeId).orElse(null)
             if (toRemove != null) {
                 ingredient.alternatives.removeIf { it.id == removeId }
                 toRemove.alternatives.removeIf { it.id == ingredient.id }
-                ingredientRepository.save(toRemove)
+                alternativesToUpdate.add(toRemove)
             }
         }
+        ingredientRepository.saveAll(alternativesToUpdate)
 
         // Add new substitute relationships bidirectionally
         if (substitutesToAdd.isNotEmpty()) {
             val substitutes = ingredientRepository.findAllById(substitutesToAdd).toList()
+            val substitutesToSave = mutableListOf<Ingredient>()
             substitutes.forEach { substitute ->
                 ingredient.substitutes.add(substitute)
                 substitute.substitutes.add(ingredient)
-                ingredientRepository.save(substitute)
+                substitutesToSave.add(substitute)
             }
+            ingredientRepository.saveAll(substitutesToSave)
         }
 
         // Add new alternative relationships bidirectionally
         if (alternativesToAdd.isNotEmpty()) {
             val alternatives = ingredientRepository.findAllById(alternativesToAdd).toList()
+            val alternativesToSave = mutableListOf<Ingredient>()
             alternatives.forEach { alternative ->
                 ingredient.alternatives.add(alternative)
                 alternative.alternatives.add(ingredient)
-                ingredientRepository.save(alternative)
+                alternativesToSave.add(alternative)
             }
+            ingredientRepository.saveAll(alternativesToSave)
         }
     }
 }
