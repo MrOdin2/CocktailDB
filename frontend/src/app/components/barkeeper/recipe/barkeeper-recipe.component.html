@@ -15,10 +15,18 @@
   <div *ngIf="!isLoading && cocktail" class="recipe-content">
     <!-- Substitution Warning -->
     <div *ngIf="usesSubstitutes() || usesAlternatives()" class="substitution-warning">
-      <span *ngIf="usesSubstitutes()" class="warning-badge substitute">
+      <span
+        *ngIf="usesSubstitutes()"
+        class="warning-badge substitute"
+        aria-label="⚠️ {{ 'barkeeper.recipe.usesSubstitutes' | translate }}"
+      >
         ⚠️ {{ 'barkeeper.recipe.usesSubstitutes' | translate }}
       </span>
-      <span *ngIf="usesAlternatives()" class="warning-badge alternative">
+      <span
+        *ngIf="usesAlternatives()"
+        class="warning-badge alternative"
+        aria-label="ℹ️ {{ 'barkeeper.recipe.usesAlternatives' | translate }}"
+      >
         ℹ️ {{ 'barkeeper.recipe.usesAlternatives' | translate }}
       </span>
     </div>
