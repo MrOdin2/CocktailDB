@@ -115,56 +115,61 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   }
 
   // Get substitute/alternative ingredients for a given ingredient
-  // Returns in-stock substitutes first, then out-of-stock substitutes
-  getSubstituteInfo(ingredientId: number): { type: 'substitute' | 'alternative' | null, names: string[], inStockNames: string[], outOfStockNames: string[] } {
+  // Returns both substitutes and alternatives (not just one type)
+  getSubstituteInfo(ingredientId: number): { 
+    substitutes: { inStock: string[], outOfStock: string[] }, 
+    alternatives: { inStock: string[], outOfStock: string[] },
+    hasAny: boolean 
+  } {
     const ingredient = this.ingredientMap.get(ingredientId);
-    if (!ingredient) return { type: null, names: [], inStockNames: [], outOfStockNames: [] };
+    if (!ingredient) {
+      return { 
+        substitutes: { inStock: [], outOfStock: [] }, 
+        alternatives: { inStock: [], outOfStock: [] },
+        hasAny: false 
+      };
+    }
 
-    // Check if we have substitutes
+    const result = {
+      substitutes: { inStock: [] as string[], outOfStock: [] as string[] },
+      alternatives: { inStock: [] as string[], outOfStock: [] as string[] },
+      hasAny: false
+    };
+
+    // Collect substitutes
     if (ingredient.substituteIds && ingredient.substituteIds.length > 0) {
-      const inStockSubs: string[] = [];
-      const outOfStockSubs: string[] = [];
-      
       ingredient.substituteIds.forEach(id => {
         const sub = this.ingredientMap.get(id);
         if (sub && sub.name !== 'Unknown') {
           if (sub.inStock) {
-            inStockSubs.push(sub.name);
+            result.substitutes.inStock.push(sub.name);
           } else {
-            outOfStockSubs.push(sub.name);
+            result.substitutes.outOfStock.push(sub.name);
           }
         }
       });
-      
-      const allNames = [...inStockSubs, ...outOfStockSubs];
-      if (allNames.length > 0) {
-        return { type: 'substitute', names: allNames, inStockNames: inStockSubs, outOfStockNames: outOfStockSubs };
-      }
     }
 
-    // Check if we have alternatives
+    // Collect alternatives
     if (ingredient.alternativeIds && ingredient.alternativeIds.length > 0) {
-      const inStockAlts: string[] = [];
-      const outOfStockAlts: string[] = [];
-      
       ingredient.alternativeIds.forEach(id => {
         const alt = this.ingredientMap.get(id);
         if (alt && alt.name !== 'Unknown') {
           if (alt.inStock) {
-            inStockAlts.push(alt.name);
+            result.alternatives.inStock.push(alt.name);
           } else {
-            outOfStockAlts.push(alt.name);
+            result.alternatives.outOfStock.push(alt.name);
           }
         }
       });
-      
-      const allNames = [...inStockAlts, ...outOfStockAlts];
-      if (allNames.length > 0) {
-        return { type: 'alternative', names: allNames, inStockNames: inStockAlts, outOfStockNames: outOfStockAlts };
-      }
     }
 
-    return { type: null, names: [], inStockNames: [], outOfStockNames: [] };
+    result.hasAny = result.substitutes.inStock.length > 0 || 
+                    result.substitutes.outOfStock.length > 0 || 
+                    result.alternatives.inStock.length > 0 || 
+                    result.alternatives.outOfStock.length > 0;
+
+    return result;
   }
   
   formatMeasure(measureMl: number): string {
