@@ -98,8 +98,8 @@ class IngredientDataServiceTest {
             abv = 40,
             inStock = true
         )
-        every { ingredientRepository.findById(1) } returns java.util.Optional.of(ingredient)
-        every { ingredientRepository.save(any()) } returns ingredient
+        every { ingredientRepository.findById(1) } returns Optional.of(ingredient)
+        every { ingredientRepository.saveAll(any<List<Ingredient>>()) } returns emptyList()
         every { ingredientRepository.deleteById(1) } returns Unit
         
         // When
@@ -150,25 +150,15 @@ class IngredientDataServiceTest {
             substituteIds = setOf(1)
         )
         
-        var savedCount = 0
-        every { ingredientRepository.save(any()) } answers { 
-            val arg = firstArg<Ingredient>()
-            if (savedCount == 0) {
-                savedCount++
-                // First save: assign ID to new ingredient
-                Ingredient(id = 3, name = arg.name, type = arg.type, abv = arg.abv, inStock = arg.inStock)
-            } else {
-                // Subsequent saves: return as is
-                arg
-            }
-        }
+        val savedIngredient = Ingredient(id = 3, name = "Test Vodka", type = IngredientType.SPIRIT, abv = 40, inStock = true)
+        every { ingredientRepository.save(any()) } returns savedIngredient
         every { ingredientRepository.findAllById(setOf(1L)) } returns listOf(vodka)
         
         // When
         ingredientDataService.createIngredient(ingredientDTO)
         
         // Then
-        verify { ingredientRepository.save(match { it.substitutes.any { sub -> sub.id == 1L } }) }
+        // Verify substitutes are set up bidirectionally via individual saves
         verify { ingredientRepository.save(match { it.id == 1L && it.substitutes.any { sub -> sub.id == 3L } }) }
     }
     
@@ -185,25 +175,18 @@ class IngredientDataServiceTest {
             alternativeIds = setOf(1)
         )
         
-        var savedCount = 0
-        every { ingredientRepository.save(any()) } answers { 
-            val arg = firstArg<Ingredient>()
-            if (savedCount == 0) {
-                savedCount++
-                // First save: assign ID to new ingredient
-                Ingredient(id = 2, name = arg.name, type = arg.type, abv = arg.abv, inStock = arg.inStock)
-            } else {
-                // Subsequent saves: return as is
-                arg
-            }
-        }
+        val savedIngredient = Ingredient(id = 2, name = "Prosecco", type = IngredientType.WINE, abv = 11, inStock = true)
+        every { ingredientRepository.save(any()) } returns savedIngredient
         every { ingredientRepository.findAllById(setOf(1L)) } returns listOf(champagne)
+        every { ingredientRepository.saveAll(any<List<Ingredient>>()) } returns emptyList()
         
         // When
         ingredientDataService.createIngredient(ingredientDTO)
         
         // Then
-        verify { ingredientRepository.save(match { it.alternatives.any { alt -> alt.id == 1L } }) }
-        verify { ingredientRepository.save(match { it.id == 1L && it.alternatives.any { alt -> alt.id == 2L } }) }
+        // Verify alternatives are set up bidirectionally via saveAll
+        verify { ingredientRepository.saveAll(match<List<Ingredient>> {
+            it.any { ingredient -> ingredient.id == 1L && ingredient.alternatives.any { alt -> alt.id == 2L } }
+        }) }
     }
 }
