@@ -34,7 +34,7 @@ class PatchCocktailService(
 
     fun calculateAbv(ingredients: List<CocktailIngredient>): Int {
         // Filter out non-volume measures (negative values represent item counts, not volume)
-        val volumeIngredients = ingredients.filter { it.measureMl > 0 }
+        val volumeIngredients = ingredients.filter { it.measureMl >= 0 }
         
         val totalMl = volumeIngredients.sumOf { it.measureMl }
         if (totalMl == 0.0) return 0
@@ -51,7 +51,7 @@ class PatchCocktailService(
         if (ingredients.isEmpty()) return "Unknown"
 
         // Filter out non-volume measures (negative values represent item counts, not volume)
-        val volumeIngredients = ingredients.filter { it.measureMl > 0 }
+        val volumeIngredients = ingredients.filter { it.measureMl >= 0 }
         
         val ingredientWithMeasure = volumeIngredients.map { cocktailIngredient ->
             val ingredient = ingredientDataService.getIngredientById(cocktailIngredient.ingredientId)

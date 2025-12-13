@@ -86,7 +86,7 @@
                     <div class="measure-input-group">
                         @if (isCountBasedIngredient) {
                             <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
-                                   [placeholder]="'cocktails.count' | translate" min="1" step="1">
+                                   [placeholder]="'cocktails.count' | translate" min="0" step="1">
                             <span class="unit-label">{{ 'cocktails.items' | translate }}</span>
                         } @else {
                             <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
