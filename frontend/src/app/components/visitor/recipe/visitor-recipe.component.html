@@ -56,8 +56,8 @@
         <li *ngFor="let item of cocktail.ingredients" 
             class="ingredient-item"
             [class.out-of-stock]="isOutOfStock(item.ingredientId)"
-            [class.has-substitute]="getSubstituteInfo(item.ingredientId).substitutes.inStock.length > 0 || getSubstituteInfo(item.ingredientId).substitutes.outOfStock.length > 0"
-            [class.has-alternative]="getSubstituteInfo(item.ingredientId).alternatives.inStock.length > 0 || getSubstituteInfo(item.ingredientId).alternatives.outOfStock.length > 0">
+            [class.has-substitute]="getSubstituteInfo(item.ingredientId).hasSubstitute"
+            [class.has-alternative]="getSubstituteInfo(item.ingredientId).hasAlternative">
           <div class="ingredient-main">
             <span class="ingredient-measure">{{ formatMeasure(item.measureMl) }}</span>
             <span class="ingredient-name">
@@ -68,7 +68,7 @@
             </span>
           </div>
           <!-- Show substitute info -->
-          <div *ngIf="getSubstituteInfo(item.ingredientId).substitutes.inStock.length > 0 || getSubstituteInfo(item.ingredientId).substitutes.outOfStock.length > 0" 
+          <div *ngIf="getSubstituteInfo(item.ingredientId).hasSubstitute" 
                class="substitute-info"
                [class.substitute-highlight]="isOutOfStock(item.ingredientId)">
             <span class="substitute-label">
@@ -84,7 +84,7 @@
             </span>
           </div>
           <!-- Show alternative info -->
-          <div *ngIf="getSubstituteInfo(item.ingredientId).alternatives.inStock.length > 0 || getSubstituteInfo(item.ingredientId).alternatives.outOfStock.length > 0" 
+          <div *ngIf="getSubstituteInfo(item.ingredientId).hasAlternative" 
                class="substitute-info alternative-info"
                [class.substitute-highlight]="isOutOfStock(item.ingredientId)">
             <span class="alternative-label">

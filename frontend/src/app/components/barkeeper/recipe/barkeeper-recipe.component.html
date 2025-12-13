@@ -37,8 +37,8 @@
               <ul class="ingredients-list-recipe">
                   <li *ngFor="let ing of cocktail.ingredients" 
                       [class.out-of-stock]="isOutOfStock(ing.ingredientId)"
-                      [class.has-substitute]="getSubstituteInfo(ing.ingredientId).substitutes.inStock.length > 0 || getSubstituteInfo(ing.ingredientId).substitutes.outOfStock.length > 0"
-                      [class.has-alternative]="getSubstituteInfo(ing.ingredientId).alternatives.inStock.length > 0 || getSubstituteInfo(ing.ingredientId).alternatives.outOfStock.length > 0">
+                      [class.has-substitute]="getSubstituteInfo(ing.ingredientId).hasSubstitute"
+                      [class.has-alternative]="getSubstituteInfo(ing.ingredientId).hasAlternative">
                       <div>
                         <span class="measure">{{ formatMeasure(ing.measureMl) }}</span>
                         <span class="name">
@@ -49,7 +49,7 @@
                         </span>
                       </div>
                       <!-- Show substitute info -->
-                      <div *ngIf="getSubstituteInfo(ing.ingredientId).substitutes.inStock.length > 0 || getSubstituteInfo(ing.ingredientId).substitutes.outOfStock.length > 0" 
+                      <div *ngIf="getSubstituteInfo(ing.ingredientId).hasSubstitute" 
                            class="substitute-info"
                            [class.substitute-highlight]="isOutOfStock(ing.ingredientId)">
                         <span class="substitute-label">
@@ -65,7 +65,7 @@
                         </span>
                       </div>
                       <!-- Show alternative info -->
-                      <div *ngIf="getSubstituteInfo(ing.ingredientId).alternatives.inStock.length > 0 || getSubstituteInfo(ing.ingredientId).alternatives.outOfStock.length > 0" 
+                      <div *ngIf="getSubstituteInfo(ing.ingredientId).hasAlternative" 
                            class="substitute-info alternative-info"
                            [class.substitute-highlight]="isOutOfStock(ing.ingredientId)">
                         <span class="alternative-label">

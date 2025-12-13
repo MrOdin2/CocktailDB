@@ -22,11 +22,12 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   error: string | null = null;
   
-  // Cache for substitute info to avoid repeated calculations
-  private substituteInfoCache: Map<number, { 
+  // Pre-computed properties for each ingredient to avoid repeated method calls in template
+  ingredientSubstituteInfo: Map<number, { 
     substitutes: { inStock: string[], outOfStock: string[] }, 
     alternatives: { inStock: string[], outOfStock: string[] },
-    hasAny: boolean 
+    hasSubstitute: boolean,
+    hasAlternative: boolean
   }> = new Map();
   
   currentUnit: MeasureUnit = MeasureUnit.ML;
@@ -74,6 +75,66 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
       }
     });
   }
+  
+  // Compute substitute info for all cocktail ingredients
+  private computeSubstituteInfo(): void {
+    if (!this.cocktail) return;
+    
+    this.ingredientSubstituteInfo.clear();
+    
+    this.cocktail.ingredients.forEach(item => {
+      const ingredient = this.ingredients.get(item.ingredientId);
+      if (!ingredient) {
+        this.ingredientSubstituteInfo.set(item.ingredientId, {
+          substitutes: { inStock: [], outOfStock: [] },
+          alternatives: { inStock: [], outOfStock: [] },
+          hasSubstitute: false,
+          hasAlternative: false
+        });
+        return;
+      }
+      
+      const substitutesInStock: string[] = [];
+      const substitutesOutOfStock: string[] = [];
+      const alternativesInStock: string[] = [];
+      const alternativesOutOfStock: string[] = [];
+      
+      // Process substitutes
+      if (ingredient.substituteIds) {
+        ingredient.substituteIds.forEach(subId => {
+          const sub = this.ingredients.get(subId);
+          if (sub) {
+            if (sub.inStock) {
+              substitutesInStock.push(sub.name);
+            } else {
+              substitutesOutOfStock.push(sub.name);
+            }
+          }
+        });
+      }
+      
+      // Process alternatives
+      if (ingredient.alternativeIds) {
+        ingredient.alternativeIds.forEach(altId => {
+          const alt = this.ingredients.get(altId);
+          if (alt) {
+            if (alt.inStock) {
+              alternativesInStock.push(alt.name);
+            } else {
+              alternativesOutOfStock.push(alt.name);
+            }
+          }
+        });
+      }
+      
+      this.ingredientSubstituteInfo.set(item.ingredientId, {
+        substitutes: { inStock: substitutesInStock, outOfStock: substitutesOutOfStock },
+        alternatives: { inStock: alternativesInStock, outOfStock: alternativesOutOfStock },
+        hasSubstitute: substitutesInStock.length > 0 || substitutesOutOfStock.length > 0,
+        hasAlternative: alternativesInStock.length > 0 || alternativesOutOfStock.length > 0
+      });
+    });
+  }
 
   loadIngredients(cocktail: Cocktail): void {
     this.apiService.getAllIngredients().subscribe({
@@ -118,6 +179,9 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
             }
           }
         });
+        
+        // Compute substitute info after all ingredients are loaded
+        this.computeSubstituteInfo();
         
         this.loading = false;
       },
@@ -166,73 +230,19 @@ export class VisitorRecipeComponent implements OnInit, OnDestroy {
     return ingredient ? !ingredient.inStock : false;
   }
 
-  // Get substitute/alternative ingredients for a given ingredient
-  // Returns both substitutes and alternatives (not just one type)
-  // Cached to avoid repeated calculations in template
+  // Get pre-computed substitute info for an ingredient
   getSubstituteInfo(ingredientId: number): { 
     substitutes: { inStock: string[], outOfStock: string[] }, 
     alternatives: { inStock: string[], outOfStock: string[] },
-    hasAny: boolean 
+    hasSubstitute: boolean,
+    hasAlternative: boolean
   } {
-    // Check cache first
-    const cached = this.substituteInfoCache.get(ingredientId);
-    if (cached) {
-      return cached;
-    }
-    
-    const ingredient = this.ingredients.get(ingredientId);
-    if (!ingredient) {
-      const emptyResult = { 
-        substitutes: { inStock: [], outOfStock: [] }, 
-        alternatives: { inStock: [], outOfStock: [] },
-        hasAny: false 
-      };
-      this.substituteInfoCache.set(ingredientId, emptyResult);
-      return emptyResult;
-    }
-
-    const result = {
-      substitutes: { inStock: [] as string[], outOfStock: [] as string[] },
-      alternatives: { inStock: [] as string[], outOfStock: [] as string[] },
-      hasAny: false
+    return this.ingredientSubstituteInfo.get(ingredientId) || {
+      substitutes: { inStock: [], outOfStock: [] },
+      alternatives: { inStock: [], outOfStock: [] },
+      hasSubstitute: false,
+      hasAlternative: false
     };
-
-    // Collect substitutes
-    if (ingredient.substituteIds && ingredient.substituteIds.length > 0) {
-      ingredient.substituteIds.forEach(id => {
-        const sub = this.ingredients.get(id);
-        if (sub && sub.name !== 'Unknown') {
-          if (sub.inStock) {
-            result.substitutes.inStock.push(sub.name);
-          } else {
-            result.substitutes.outOfStock.push(sub.name);
-          }
-        }
-      });
-    }
-
-    // Collect alternatives
-    if (ingredient.alternativeIds && ingredient.alternativeIds.length > 0) {
-      ingredient.alternativeIds.forEach(id => {
-        const alt = this.ingredients.get(id);
-        if (alt && alt.name !== 'Unknown') {
-          if (alt.inStock) {
-            result.alternatives.inStock.push(alt.name);
-          } else {
-            result.alternatives.outOfStock.push(alt.name);
-          }
-        }
-      });
-    }
-
-    result.hasAny = result.substitutes.inStock.length > 0 || 
-                    result.substitutes.outOfStock.length > 0 || 
-                    result.alternatives.inStock.length > 0 || 
-                    result.alternatives.outOfStock.length > 0;
-
-    // Cache the result
-    this.substituteInfoCache.set(ingredientId, result);
-    return result;
   }
   
   formatMeasure(measureMl: number): string {
