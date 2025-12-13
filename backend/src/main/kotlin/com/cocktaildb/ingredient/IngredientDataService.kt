@@ -31,9 +31,10 @@ class IngredientDataService(
     }
 
     fun updateIngredient(ingredientDTO: IngredientDTO): Ingredient? {
-
-        val existing = ingredientRepository.findById(ingredientDTO.id!!).orElse(null) ?: return null
-
+        if (ingredientDTO.id == null) {
+            return null
+        }
+        val existing = ingredientRepository.findById(ingredientDTO.id).orElse(null) ?: return null
         existing.name = ingredientDTO.name
         existing.type = ingredientDTO.type
         existing.abv = ingredientDTO.abv
