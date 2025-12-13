@@ -350,7 +350,7 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 
 ### Quick Wins
 - **Webhook Support**: Trigger external actions on events
-- **REST API Documentation**: OpenAPI/Swagger docs (already has this!)
+- **REST API Documentation Enhancement**: Expand OpenAPI/Swagger documentation
 - **Export to Calendar**: Add cocktail events to calendar
 - **Print to Thermal Printer**: Print recipes on receipt-style printer
 
@@ -371,7 +371,7 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 - **Projection Mapping**: Project recipe onto bar surface
 - **Automated Cocktail Machines**: Send recipes to robotic bartenders
 - **Blockchain Recipe Authentication**: Verify recipe authenticity/origin
-- **NFT Recipe Ownership**: Unique digital recipe collectibles (if that's your thing!)
+- **NFT Recipe Ownership**: Unique digital recipe collectibles
 
 ---
 
@@ -601,7 +601,7 @@ When selecting features to implement:
 
 CocktailDB has a solid foundation. These ideas represent potential directions for growth. Not all will be implemented, and that's okay. The goal is to have options and inspiration as the project evolves.
 
-**The best features are the ones that make bartending more fun and less stressful!** 🍸
+Feature selection should prioritize user needs, implementation feasibility, and alignment with the project's core mission of simplifying cocktail management.
 
 ---
 
