@@ -150,6 +150,7 @@ class DataInitializer(
             Ingredient(name = "Grapes", type = IngredientType.GARNISH, abv = 0, inStock = true),
             Ingredient(name = "Lime", type = IngredientType.GARNISH, abv = 0, inStock = true),
             Ingredient(name = "Pineapple", type = IngredientType.GARNISH, abv = 0, inStock = true),
+            Ingredient(name = "Coffee Beans", type = IngredientType.GARNISH, abv = 0, inStock = true),
             
             // Other
             Ingredient(name = "Sugar", type = IngredientType.OTHER, abv = 0, inStock = true),
@@ -186,7 +187,11 @@ class DataInitializer(
         }
 
         //easier refractoring from oz to ml
+        // Negative values represent non-volume measures (item counts)
+        // e.g., -1 = 1 item, -3 = 3 items, -8 = 8 items
         val mlneg1 = -1.0
+        val mlneg3 = -3.0
+        val mlneg8 = -8.0
         val ml2 = 2.0
         val ml5 = 5.0
         val ml7point5 = 7.5
@@ -231,11 +236,11 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("White Rum"), ml60),
                     CocktailIngredient(getIngredientId("Lime Juice"), ml30),
                     CocktailIngredient(getIngredientId("Simple Syrup"), ml15),
-                    CocktailIngredient(getIngredientId("Mint Leaves"), mlneg1),
+                    CocktailIngredient(getIngredientId("Mint Leaves"), mlneg8),
                     CocktailIngredient(getIngredientId("Club Soda"), ml60)
                 ),
                 steps = mutableListOf(
-                    "Muddle mint leaves with simple syrup and lime juice in glass",
+                    "Muddle 8 mint leaves with simple syrup and lime juice in glass",
                     "Add rum and ice",
                     "Top with club soda",
                     "Stir gently",
@@ -641,13 +646,14 @@ class DataInitializer(
                     CocktailIngredient(getIngredientId("Vodka"), ml60),
                     CocktailIngredient(getIngredientId("Coffee Liqueur"), ml15),
                     CocktailIngredient(getIngredientId("Espresso"), ml30),
-                    CocktailIngredient(getIngredientId("Simple Syrup"), ml7point5)
+                    CocktailIngredient(getIngredientId("Simple Syrup"), ml7point5),
+                    CocktailIngredient(getIngredientId("Coffee Beans"), mlneg3)
                 ),
                 steps = mutableListOf(
                     "Add all ingredients to shaker with ice",
                     "Shake vigorously",
                     "Strain into chilled martini glass",
-                    "Garnish with coffee beans"
+                    "Garnish with 3 coffee beans"
                 ),
                 notes = "Created by Dick Bradsell in London",
                 tags = mutableListOf("coffee", "dessert", "energizing"),

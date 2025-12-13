@@ -33,10 +33,13 @@ class PatchCocktailService(
     }
 
     fun calculateAbv(ingredients: List<CocktailIngredient>): Int {
-        val totalMl = ingredients.sumOf { it.measureMl }
+        // Filter out non-volume measures (negative values represent item counts, not volume)
+        val volumeIngredients = ingredients.filter { it.measureMl >= 0 }
+        
+        val totalMl = volumeIngredients.sumOf { it.measureMl }
         if (totalMl == 0.0) return 0
 
-        val weightedAbv = ingredients.sumOf { cocktailIngredient ->
+        val weightedAbv = volumeIngredients.sumOf { cocktailIngredient ->
             val ingredient = ingredientDataService.getIngredientById(cocktailIngredient.ingredientId)
             (ingredient?.abv ?: 0) * cocktailIngredient.measureMl
         }
@@ -47,7 +50,10 @@ class PatchCocktailService(
     fun determineBaseSpirit(ingredients: List<CocktailIngredient>): String {
         if (ingredients.isEmpty()) return "Unknown"
 
-        val ingredientWithMeasure = ingredients.map { cocktailIngredient ->
+        // Filter out non-volume measures (negative values represent item counts, not volume)
+        val volumeIngredients = ingredients.filter { it.measureMl >= 0 }
+        
+        val ingredientWithMeasure = volumeIngredients.map { cocktailIngredient ->
             val ingredient = ingredientDataService.getIngredientById(cocktailIngredient.ingredientId)
             ingredient to cocktailIngredient.measureMl
         }

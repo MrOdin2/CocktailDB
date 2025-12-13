@@ -398,6 +398,7 @@ For detailed information about the security implementation, authentication, and 
 For contributors and developers:
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
 - **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** - Database migrations with Flyway and backup/restore procedures
+- **[docs/NON_VOLUME_MEASURES.md](docs/NON_VOLUME_MEASURES.md)** - Guide to handling count-based ingredients (garnishes, etc.) alongside volume measures
 - **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards
 - **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Contributor guidance on access control implementation
 

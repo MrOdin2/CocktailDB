@@ -70,7 +70,8 @@
                                name="ingredientSearch"
                                [placeholder]="'cocktails.searchIngredients' | translate"
                                class="ingredient-search">
-                        <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId">
+                        <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId" 
+                                (ngModelChange)="onIngredientSelected()">
                             <option [ngValue]="0">{{ 'cocktails.selectIngredient' | translate }}</option>
                             @for (ingredient of filteredIngredients; track ingredient.id) {
                                 <option [ngValue]="ingredient.id">
@@ -83,14 +84,20 @@
                         </button>
                     </div>
                     <div class="measure-input-group">
-                        <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
-                               [placeholder]="'cocktails.amount' | translate" min="0" step="0.5">
-                        <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" name="measureUnit"
-                                class="unit-select">
-                            @for (unit of availableUnits; track unit) {
-                                <option [value]="unit">{{ unit }}</option>
-                            }
-                        </select>
+                        @if (isCountBasedIngredient) {
+                            <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
+                                   [placeholder]="'cocktails.count' | translate" min="0" step="1">
+                            <span class="unit-label">{{ 'cocktails.items' | translate }}</span>
+                        } @else {
+                            <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
+                                   [placeholder]="'cocktails.amount' | translate" min="0" step="0.5">
+                            <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" name="measureUnit"
+                                    class="unit-select">
+                                @for (unit of availableUnits; track unit) {
+                                    <option [value]="unit">{{ unit }}</option>
+                                }
+                            </select>
+                        }
                     </div>
                     <button type="button" class="btn-secondary"
                             (click)="addIngredientToCocktail()">{{ 'common.add' | translate }}

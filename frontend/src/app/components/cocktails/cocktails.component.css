@@ -76,6 +76,18 @@
   width: 70px;
 }
 
+.unit-label {
+  padding: 8px 12px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-size: 14px;
+  white-space: nowrap;
+  min-width: 70px;
+  text-align: center;
+}
+
 .ingredient-search {
   padding: 0.75rem;
   border-radius: 4px;
