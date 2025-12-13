@@ -52,6 +52,9 @@ class SessionAuthenticationFilter(
                (path.startsWith("/api/ingredients") && method == "GET") ||
                (path == "/api/settings/theme" && method == "GET") ||
                path == "/api/stock-updates" ||
-               path.startsWith("/actuator/")
+               path.startsWith("/actuator/") ||
+               path.startsWith("/api-docs") ||
+               path.startsWith("/swagger-ui") ||
+               path.startsWith("/v3/api-docs")
     }
 }
