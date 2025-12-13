@@ -50,6 +50,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     measureValue: 0
   };
   
+  // Track if current ingredient is count-based (GARNISH/OTHER)
+  isCountBasedIngredient = false;
+  
   newStep = '';
   newTag = '';
   customTag = '';
@@ -212,16 +215,35 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     }
     
     if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measureValue > 0) {
-      // Convert from current display unit to ml for storage
-      const measureMl = this.measureService.convertToMl(this.newIngredientEntry.measureValue, this.currentUnit);
+      let measureMl: number;
+      
+      // For count-based ingredients (GARNISH/OTHER), store as negative value
+      if (this.isCountBasedIngredient) {
+        measureMl = -Math.abs(this.newIngredientEntry.measureValue);
+      } else {
+        // Convert from current display unit to ml for volume-based storage
+        measureMl = this.measureService.convertToMl(this.newIngredientEntry.measureValue, this.currentUnit);
+      }
+      
       this.newCocktail.ingredients.push({ 
         ingredientId: this.newIngredientEntry.ingredientId, 
         measureMl: measureMl 
       });
       this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
+      this.isCountBasedIngredient = false;
       // Clear search filter after adding ingredient
       this.ingredientSearchFilter = '';
     }
+  }
+  
+  onIngredientSelected(): void {
+    // Check if selected ingredient is count-based (GARNISH or OTHER type)
+    const selectedIngredient = this.ingredients.find(
+      ing => ing.id === this.newIngredientEntry.ingredientId
+    );
+    this.isCountBasedIngredient = selectedIngredient 
+      ? (selectedIngredient.type === IngredientType.GARNISH || selectedIngredient.type === IngredientType.OTHER)
+      : false;
   }
 
   removeIngredient(index: number): void {

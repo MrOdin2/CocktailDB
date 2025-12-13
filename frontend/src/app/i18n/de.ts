@@ -163,6 +163,8 @@ export const de = {
     searchIngredients: 'Zutaten suchen...',
     selectIngredient: 'Zutat auswählen',
     amount: 'Menge',
+    count: 'Anzahl',
+    items: 'Stück',
     newIngredient: '+ Neue Zutat',
     ingredientRequired: 'Mindestens eine Zutat ist erforderlich',
     steps: 'Schritte:',

@@ -163,6 +163,8 @@ export const en = {
     searchIngredients: 'Search ingredients...',
     selectIngredient: 'Select Ingredient',
     amount: 'Amount',
+    count: 'Count',
+    items: 'items',
     newIngredient: '+ New Ingredient',
     ingredientRequired: 'At least one ingredient is required',
     steps: 'Steps:',

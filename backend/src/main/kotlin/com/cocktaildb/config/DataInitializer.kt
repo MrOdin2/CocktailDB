@@ -190,7 +190,6 @@ class DataInitializer(
         // Negative values represent non-volume measures (item counts)
         // e.g., -1 = 1 item, -3 = 3 items, -8 = 8 items
         val mlneg1 = -1.0
-        val mlneg2 = -2.0
         val mlneg3 = -3.0
         val mlneg8 = -8.0
         val ml2 = 2.0
