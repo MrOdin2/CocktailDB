@@ -44,6 +44,9 @@ class IngredientController(
         @PathVariable id: Long,
         @RequestBody ingredientDTO: IngredientDTO
     ): ResponseEntity<IngredientDTO> {
+        if (ingredientDTO.id == null || ingredientDTO.id != id) {
+            return ResponseEntity.badRequest().build()
+        }
         val updated = patchIngredientService.updateIngredient(ingredientDTO)
         return if (updated != null) {
             ResponseEntity.ok(updated.toDTO())
