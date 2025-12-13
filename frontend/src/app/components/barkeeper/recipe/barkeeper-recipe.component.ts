@@ -116,10 +116,10 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
       const alternativesOutOfStock: string[] = [];
       
       // Process substitutes
-      if (ingredient.substituteIds) {
+      if (ingredient.substituteIds && Array.isArray(ingredient.substituteIds)) {
         ingredient.substituteIds.forEach(subId => {
           const sub = this.ingredientMap.get(subId);
-          if (sub) {
+          if (sub && sub.name) {
             if (sub.inStock) {
               substitutesInStock.push(sub.name);
             } else {
@@ -130,10 +130,10 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
       }
       
       // Process alternatives
-      if (ingredient.alternativeIds) {
+      if (ingredient.alternativeIds && Array.isArray(ingredient.alternativeIds)) {
         ingredient.alternativeIds.forEach(altId => {
           const alt = this.ingredientMap.get(altId);
-          if (alt) {
+          if (alt && alt.name) {
             if (alt.inStock) {
               alternativesInStock.push(alt.name);
             } else {
