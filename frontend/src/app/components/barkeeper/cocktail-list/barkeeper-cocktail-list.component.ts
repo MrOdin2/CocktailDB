@@ -7,7 +7,7 @@ import { ApiService } from '../../../services/api.service';
 import { StockUpdateService } from '../../../services/stock-update.service';
 import { TranslateService } from '../../../services/translate.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
-import { Cocktail } from '../../../models/models';
+import { Cocktail, CocktailsWithSubstitutions } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-cocktail-list',
@@ -24,6 +24,10 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   letter: string = '';
   availableOnly: boolean = false;
   viewMode: 'letter' | 'available' = 'letter';
+
+  // Substitution tracking
+  cocktailsWithSubstitutes: Set<number> = new Set();
+  cocktailsWithAlternatives: Set<number> = new Set();
 
   // Filter options for available cocktails
   filterBaseSpirit: string = 'all';
@@ -79,29 +83,77 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
   loadCocktails(): void {
     this.isLoading = true;
     
-    const cocktailsObservable = this.availableOnly 
-      ? this.apiService.getAvailableCocktails()
-      : this.apiService.getAllCocktails();
-
-    cocktailsObservable.subscribe({
-      next: (cocktails: Cocktail[]) => {
-        this.cocktails = cocktails;
-        this.filterByLetter();
-        this.isLoading = false;
-      },
-      error: (error: any) => {
-        console.error('Error loading cocktails:', error);
-        this.isLoading = false;
-      }
-    });
+    if (this.availableOnly) {
+      // Use substitution endpoint to include cocktails makeable with substitutes/alternatives
+      this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+        next: (data: CocktailsWithSubstitutions) => {
+          // Combine all categories
+          this.cocktails = [
+            ...data.exact,
+            ...data.withSubstitutes,
+            ...data.withAlternatives
+          ];
+          
+          // Track which cocktails use substitutes/alternatives
+          this.cocktailsWithSubstitutes.clear();
+          this.cocktailsWithAlternatives.clear();
+          
+          data.withSubstitutes.forEach(c => {
+            if (c.id) this.cocktailsWithSubstitutes.add(c.id);
+          });
+          
+          data.withAlternatives.forEach(c => {
+            if (c.id) this.cocktailsWithAlternatives.add(c.id);
+          });
+          
+          this.filterByLetter();
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading cocktails:', error);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      // Load all cocktails
+      this.apiService.getAllCocktails().subscribe({
+        next: (cocktails: Cocktail[]) => {
+          this.cocktails = cocktails;
+          this.filterByLetter();
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading cocktails:', error);
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   loadAvailableCocktails(): void {
     this.isLoading = true;
-    this.apiService.getAvailableCocktails().subscribe({
-      next: (cocktails: Cocktail[]) => {
-        this.availableCocktails = cocktails;
-        this.extractFilterOptions(cocktails);
+    this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+      next: (data: CocktailsWithSubstitutions) => {
+        // Combine all categories
+        this.availableCocktails = [
+          ...data.exact,
+          ...data.withSubstitutes,
+          ...data.withAlternatives
+        ];
+        
+        // Track which cocktails use substitutes/alternatives
+        this.cocktailsWithSubstitutes.clear();
+        this.cocktailsWithAlternatives.clear();
+        
+        data.withSubstitutes.forEach(c => {
+          if (c.id) this.cocktailsWithSubstitutes.add(c.id);
+        });
+        
+        data.withAlternatives.forEach(c => {
+          if (c.id) this.cocktailsWithAlternatives.add(c.id);
+        });
+        
+        this.extractFilterOptions(this.availableCocktails);
         this.applyFilters();
         this.isLoading = false;
       },
@@ -207,5 +259,13 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
       return this.translateService.translate('barkeeper.menu.availableCocktails');
     }
     return this.letter ? `${this.translateService.translate('common.cocktails')} - ${this.letter}` : this.translateService.translate('cocktails.allCocktails');
+  }
+
+  usesSubstitutes(cocktail: Cocktail): boolean {
+    return cocktail.id ? this.cocktailsWithSubstitutes.has(cocktail.id) : false;
+  }
+
+  usesAlternatives(cocktail: Cocktail): boolean {
+    return cocktail.id ? this.cocktailsWithAlternatives.has(cocktail.id) : false;
   }
 }

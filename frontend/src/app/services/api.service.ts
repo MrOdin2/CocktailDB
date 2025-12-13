@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Ingredient, Cocktail } from '../models/models';
+import { Ingredient, Cocktail, CocktailsWithSubstitutions } from '../models/models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -60,6 +60,10 @@ export class ApiService {
 
   getAvailableCocktails(): Observable<Cocktail[]> {
     return this.http.get<Cocktail[]>(`${this.baseUrl}/cocktails/available`);
+  }
+
+  getAvailableCocktailsWithSubstitutions(): Observable<CocktailsWithSubstitutions> {
+    return this.http.get<CocktailsWithSubstitutions>(`${this.baseUrl}/cocktails/available-with-substitutions`);
   }
 
   searchCocktails(name?: string, spirit?: string, tags?: string[]): Observable<Cocktail[]> {

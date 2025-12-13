@@ -5,23 +5,23 @@ import org.springframework.stereotype.Service
 @Service
 class PatchIngredientService(
     private val ingredientDataService: IngredientDataService,
+    private val ingredientRepository: IngredientRepository,
     private val stockUpdateService: StockUpdateService,
 ) {
 
-    fun updateIngredient(id: Long, ingredient: Ingredient): Ingredient? {
-        val existing = ingredientDataService.getIngredientById(id) ?: return null
-        val stockChanged = existing.inStock != ingredient.inStock
-        existing.name = ingredient.name
-        existing.type = ingredient.type
-        existing.abv = ingredient.abv
-        existing.inStock = ingredient.inStock
-        val saved = ingredientDataService.createIngredient(existing)
+    fun updateIngredient(ingredientDTO: IngredientDTO): Ingredient? {
+        // Get the existing ingredient to compare stock status
+        val existing = ingredientRepository.findById(ingredientDTO.id!!).orElse(null) ?: return null
+        val stockChanged = existing.inStock != ingredientDTO.inStock
+        
+        val updated = ingredientDataService.updateIngredient(ingredientDTO) ?: return null
 
-        // Broadcast stock update if stock status changed
+        // Broadcast stock update only if stock status changed
         if (stockChanged) {
             stockUpdateService.broadcastStockUpdate()
         }
 
-        return saved
+        return updated
     }
+
 }

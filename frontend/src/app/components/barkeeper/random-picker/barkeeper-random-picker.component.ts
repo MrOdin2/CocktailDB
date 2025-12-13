@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { StockUpdateService } from '../../../services/stock-update.service';
-import { Cocktail } from '../../../models/models';
+import { Cocktail, CocktailsWithSubstitutions } from '../../../models/models';
 
 @Component({
   selector: 'app-barkeeper-random-picker',
@@ -17,6 +17,7 @@ import { Cocktail } from '../../../models/models';
 export class BarkeeperRandomPickerComponent implements OnInit, OnDestroy {
   cocktails: Cocktail[] = [];
   availableCocktails: Cocktail[] = [];
+  cocktailsWithSubstitutions: CocktailsWithSubstitutions | null = null;
   availableBaseSpirits: string[] = [];
   isLoading = false;
   
@@ -58,12 +59,19 @@ export class BarkeeperRandomPickerComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.apiService.getAvailableCocktails().subscribe({
-      next: (cocktails: Cocktail[]) => {
-        this.availableCocktails = cocktails;
+    // Load cocktails with substitution info
+    this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+      next: (result: CocktailsWithSubstitutions) => {
+        this.cocktailsWithSubstitutions = result;
+        // Combine all available cocktails (exact, with substitutes, with alternatives)
+        this.availableCocktails = [
+          ...result.exact,
+          ...result.withSubstitutes,
+          ...result.withAlternatives
+        ];
       },
       error: (error: any) => {
-        console.error('Error loading available cocktails:', error);
+        console.error('Error loading available cocktails with substitutions:', error);
       }
     });
   }

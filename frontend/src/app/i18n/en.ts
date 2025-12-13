@@ -132,6 +132,14 @@ export const en = {
     inStock: 'In Stock',
     nameRequired: 'Name is required',
     addIngredient: 'Add Ingredient',
+    substitutes: 'Substitutes',
+    alternatives: 'Alternatives',
+    substitutesHelp: 'Ingredients that can be used as direct substitutes (e.g., generic vs branded)',
+    alternativesHelp: 'Noticeably different ingredients that can still be used (e.g., Champagne vs Prosecco)',
+    noIngredientsAvailable: 'No other ingredients available yet. Add more ingredients first.',
+    editRelationshipsInfo: 'Edit substitutes/alternatives below',
+    searchIngredients: 'Search ingredients...',
+    noMatch: 'No matching ingredients',
     modal: {
       title: 'Add New Ingredient'
     }
@@ -168,6 +176,10 @@ export const en = {
     updateCocktail: 'Update Cocktail',
     addCocktail: 'Add Cocktail',
     editCocktail: 'Edit Cocktail',
+    substitute: 'Substitute',
+    alternative: 'Alternative',
+    usesSubstitutes: 'This cocktail can be made with substitute ingredients',
+    usesAlternatives: 'This cocktail can be made with alternative ingredients',
     export: {
       title: 'Export Cocktails',
       exportType: 'Export Type:',
@@ -232,7 +244,12 @@ export const en = {
       ingredients: 'Ingredients:',
       instructions: 'Instructions:',
       notes: 'Notes:',
-      tags: 'Tags:'
+      tags: 'Tags:',
+      usesSubstitutes: 'Uses Substitutes',
+      usesAlternatives: 'Uses Alternatives',
+      outOfStock: 'Out of Stock',
+      substituteWith: 'Substitute with',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: 'Random Cocktail',
@@ -292,7 +309,12 @@ export const en = {
       tags: '🏷️ Tags',
       ingredients: '📝 Ingredients',
       instructions: '🍸 Instructions',
-      notes: '💡 Notes'
+      notes: '💡 Notes',
+      usesSubstitutes: 'Uses Substitutes',
+      usesAlternatives: 'Uses Alternatives',
+      outOfStock: 'Out of Stock',
+      substituteWith: 'Substitute with',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: '🎲 Surprise Me!',

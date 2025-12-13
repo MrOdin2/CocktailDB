@@ -132,6 +132,14 @@ export const de = {
     inStock: 'Auf Lager',
     nameRequired: 'Name ist erforderlich',
     addIngredient: 'Zutat hinzufügen',
+    substitutes: 'Ersatzstoffe',
+    alternatives: 'Alternativen',
+    substitutesHelp: 'Zutaten, die als direkte Ersatzstoffe verwendet werden können (z.B. generisch vs. Marke)',
+    alternativesHelp: 'Merklich unterschiedliche Zutaten, die trotzdem verwendet werden können (z.B. Champagner vs. Prosecco)',
+    noIngredientsAvailable: 'Noch keine anderen Zutaten verfügbar. Fügen Sie zuerst weitere Zutaten hinzu.',
+    editRelationshipsInfo: 'Ersatzstoffe/Alternativen unten bearbeiten',
+    searchIngredients: 'Zutaten suchen...',
+    noMatch: 'Keine passenden Zutaten',
     modal: {
       title: 'Neue Zutat hinzufügen'
     }
@@ -168,6 +176,10 @@ export const de = {
     updateCocktail: 'Cocktail aktualisieren',
     addCocktail: 'Cocktail hinzufügen',
     editCocktail: 'Cocktail bearbeiten',
+    substitute: 'Ersatz',
+    alternative: 'Alternative',
+    usesSubstitutes: 'Dieser Cocktail kann mit Ersatzzutaten zubereitet werden',
+    usesAlternatives: 'Dieser Cocktail kann mit alternativen Zutaten zubereitet werden',
     export: {
       title: 'Cocktails exportieren',
       exportType: 'Exporttyp:',
@@ -232,7 +244,12 @@ export const de = {
       ingredients: 'Zutaten:',
       instructions: 'Anleitung:',
       notes: 'Notizen:',
-      tags: 'Tags:'
+      tags: 'Tags:',
+      usesSubstitutes: 'Verwendet Ersatzstoffe',
+      usesAlternatives: 'Verwendet Alternativen',
+      outOfStock: 'Nicht vorrätig',
+      substituteWith: 'Ersetzen mit',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: 'Zufälliger Cocktail',
@@ -292,7 +309,12 @@ export const de = {
       tags: '🏷️ Tags',
       ingredients: '📝 Zutaten',
       instructions: '🍸 Anleitung',
-      notes: '💡 Notizen'
+      notes: '💡 Notizen',
+      usesSubstitutes: 'Verwendet Ersatzstoffe',
+      usesAlternatives: 'Verwendet Alternativen',
+      outOfStock: 'Nicht vorrätig',
+      substituteWith: 'Ersetzen mit',
+      alternativeWith: 'Alternative'
     },
     random: {
       title: '🎲 Überrasch mich!',

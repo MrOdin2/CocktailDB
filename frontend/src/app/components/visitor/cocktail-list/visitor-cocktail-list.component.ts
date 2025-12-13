@@ -6,7 +6,7 @@ import { ApiService } from '../../../services/api.service';
 import { TranslateService } from '../../../services/translate.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { StockUpdateService } from '../../../services/stock-update.service';
-import { Cocktail } from '../../../models/models';
+import { Cocktail, CocktailsWithSubstitutions } from '../../../models/models';
 
 @Component({
   selector: 'app-visitor-cocktail-list',
@@ -22,6 +22,10 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   error: string | null = null;
   private cleanupStockUpdates?: () => void;
+
+  // Substitution tracking
+  cocktailsWithSubstitutes: Set<number> = new Set();
+  cocktailsWithAlternatives: Set<number> = new Set();
 
   constructor(
     private apiService: ApiService,
@@ -45,11 +49,29 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = null;
     
-    // Load only available cocktails for visitors
-    this.apiService.getAvailableCocktails().subscribe({
-      next: (data) => {
-        this.cocktails = data;
-        this.filteredCocktails = data;
+    // Load available cocktails with substitutions for visitors
+    this.apiService.getAvailableCocktailsWithSubstitutions().subscribe({
+      next: (data: CocktailsWithSubstitutions) => {
+        // Combine all categories
+        this.cocktails = [
+          ...data.exact,
+          ...data.withSubstitutes,
+          ...data.withAlternatives
+        ];
+        this.filteredCocktails = this.cocktails;
+        
+        // Track which cocktails use substitutes/alternatives
+        this.cocktailsWithSubstitutes.clear();
+        this.cocktailsWithAlternatives.clear();
+        
+        data.withSubstitutes.forEach(c => {
+          if (c.id) this.cocktailsWithSubstitutes.add(c.id);
+        });
+        
+        data.withAlternatives.forEach(c => {
+          if (c.id) this.cocktailsWithAlternatives.add(c.id);
+        });
+        
         this.loading = false;
       },
       error: (err) => {
@@ -110,5 +132,13 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
 
   getAlcoholClass(abv: number): string {
     return abv > 0 ? 'alcoholic' : 'non-alcoholic';
+  }
+
+  usesSubstitutes(cocktail: Cocktail): boolean {
+    return cocktail.id ? this.cocktailsWithSubstitutes.has(cocktail.id) : false;
+  }
+
+  usesAlternatives(cocktail: Cocktail): boolean {
+    return cocktail.id ? this.cocktailsWithAlternatives.has(cocktail.id) : false;
   }
 }

@@ -31,6 +31,16 @@
       </div>
     </div>
 
+    <!-- Substitution Warning -->
+    <div *ngIf="usesSubstitutes() || usesAlternatives()" class="substitution-warning">
+      <span *ngIf="usesSubstitutes()" class="warning-badge substitute" aria-label="Uses substitute ingredients">
+        ⚠️ {{ 'visitor.recipe.usesSubstitutes' | translate }}
+      </span>
+      <span *ngIf="usesAlternatives()" class="warning-badge alternative" aria-label="Uses alternative ingredients">
+        ℹ️ {{ 'visitor.recipe.usesAlternatives' | translate }}
+      </span>
+    </div>
+
     <!-- Tags -->
     <div *ngIf="cocktail.tags && cocktail.tags.length > 0" class="info-card">
       <h3 class="section-title">{{ 'visitor.recipe.tags' | translate }}</h3>
@@ -43,9 +53,52 @@
     <div class="info-card">
       <h3 class="section-title">{{ 'visitor.recipe.ingredients' | translate }}</h3>
       <ul class="ingredients-list">
-        <li *ngFor="let item of cocktail.ingredients" class="ingredient-item">
-          <span class="ingredient-measure">{{ formatMeasure(item.measureMl) }}</span>
-          <span class="ingredient-name">{{ getIngredientName(item.ingredientId) }}</span>
+        <li *ngFor="let item of cocktail.ingredients" 
+            class="ingredient-item"
+            [class.out-of-stock]="isOutOfStock(item.ingredientId)"
+            [class.has-substitute]="getSubstituteInfo(item.ingredientId).hasSubstitute"
+            [class.has-alternative]="getSubstituteInfo(item.ingredientId).hasAlternative">
+          <div class="ingredient-main">
+            <span class="ingredient-measure">{{ formatMeasure(item.measureMl) }}</span>
+            <span class="ingredient-name">
+              {{ getIngredientName(item.ingredientId) }}
+              <span *ngIf="isOutOfStock(item.ingredientId)" class="out-of-stock-indicator">
+                ({{ 'visitor.recipe.outOfStock' | translate }})
+              </span>
+            </span>
+          </div>
+          <!-- Show substitute info -->
+          <div *ngIf="getSubstituteInfo(item.ingredientId).hasSubstitute" 
+               class="substitute-info"
+               [class.substitute-highlight]="isOutOfStock(item.ingredientId)">
+            <span class="substitute-label">
+              ⚠️ {{ 'visitor.recipe.substituteWith' | translate }}:
+            </span>
+            <span class="substitute-names">
+              <ng-container *ngFor="let name of getSubstituteInfo(item.ingredientId).substitutes.inStock; let i = index">
+                <strong class="in-stock-option">{{ name }}</strong><ng-container *ngIf="i < getSubstituteInfo(item.ingredientId).substitutes.inStock.length - 1 || getSubstituteInfo(item.ingredientId).substitutes.outOfStock.length > 0">, </ng-container>
+              </ng-container>
+              <ng-container *ngFor="let name of getSubstituteInfo(item.ingredientId).substitutes.outOfStock; let i = index">
+                <span class="out-of-stock-sub">{{ name }}</span><ng-container *ngIf="i < getSubstituteInfo(item.ingredientId).substitutes.outOfStock.length - 1">, </ng-container>
+              </ng-container>
+            </span>
+          </div>
+          <!-- Show alternative info -->
+          <div *ngIf="getSubstituteInfo(item.ingredientId).hasAlternative" 
+               class="substitute-info alternative-info"
+               [class.substitute-highlight]="isOutOfStock(item.ingredientId)">
+            <span class="alternative-label">
+              ℹ️ {{ 'visitor.recipe.alternativeWith' | translate }}:
+            </span>
+            <span class="substitute-names">
+              <ng-container *ngFor="let name of getSubstituteInfo(item.ingredientId).alternatives.inStock; let i = index">
+                <strong class="in-stock-option">{{ name }}</strong><ng-container *ngIf="i < getSubstituteInfo(item.ingredientId).alternatives.inStock.length - 1 || getSubstituteInfo(item.ingredientId).alternatives.outOfStock.length > 0">, </ng-container>
+              </ng-container>
+              <ng-container *ngFor="let name of getSubstituteInfo(item.ingredientId).alternatives.outOfStock; let i = index">
+                <span class="out-of-stock-sub">{{ name }}</span><ng-container *ngIf="i < getSubstituteInfo(item.ingredientId).alternatives.outOfStock.length - 1">, </ng-container>
+              </ng-container>
+            </span>
+          </div>
         </li>
       </ul>
     </div>

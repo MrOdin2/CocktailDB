@@ -1,5 +1,172 @@
 /* Component-specific styles for ingredients - common styles moved to admin-shared.css */
 
+/* Relationship tags and lists */
+.relationship-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  max-width: 200px;
+}
+
+.relationship-tag {
+  background: rgba(100, 100, 100, 0.2);
+  color: inherit;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(100, 100, 100, 0.4);
+  white-space: nowrap;
+}
+
+.empty-text {
+  color: #666;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.info-text {
+  color: #999;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.help-text {
+  color: #999;
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Searchable dropdown styles */
+.searchable-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+
+.dropdown-item.selected {
+  font-weight: 600;
+}
+
+.item-check {
+  color: #667eea;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.dropdown-empty {
+  padding: 1rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Selected items display */
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  min-height: 44px;
+  align-items: center;
+}
+
+.selected-tag {
+  background: rgba(102, 126, 234, 0.2);
+  color: inherit;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remove-tag-btn {
+  background: transparent;
+  border: none;
+  color: #f00;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.remove-tag-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Relationships editor row */
+.edit-relationships-row {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.relationships-editor {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.relationship-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.relationship-group label {
+  font-weight: bold;
+  color: inherit;
+}
+
 /* Table responsive design */
 .ingredients-list {
   overflow-x: auto;
@@ -8,7 +175,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 800px;
 }
 
 table th,
@@ -50,7 +217,6 @@ table td {
 
 table td button {
   margin-right: 0.5rem;
-  margin-bottom: 0.25rem;
 }
 
 /* Card styles - visible only on mobile via utility class */
@@ -106,7 +272,17 @@ table td button {
 
 /* Mobile (small) - component-specific overrides */
 @media (max-width: 767px) {
-  /* No component-specific mobile styles needed - inherits from admin-shared.css */
+  .relationships-editor {
+    grid-template-columns: 1fr;
+  }
+  
+  .ingredient-card-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .relationship-list {
+    max-width: 100%;
+  }
 }
 
 /* Tablet */

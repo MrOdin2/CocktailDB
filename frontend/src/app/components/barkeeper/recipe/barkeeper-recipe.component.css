@@ -139,6 +139,126 @@
   color: #aaa;
 }
 
+/* Substitution Warning */
+.substitution-warning {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.warning-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.warning-badge.substitute {
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    border: 1px solid #667eea;
+}
+
+.warning-badge.alternative {
+    background: rgba(255, 165, 0, 0.2);
+    color: #ffa500;
+    border: 1px solid #ffa500;
+}
+
+/* Out of stock styling */
+.ingredients-list-recipe li.out-of-stock {
+  background: rgba(255, 0, 0, 0.1);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 4px;
+}
+
+.ingredients-list-recipe li.has-substitute {
+  background: rgba(255, 165, 0, 0.15);
+}
+
+.ingredients-list-recipe li.has-alternative {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+.out-of-stock-indicator {
+  color: #ff6b6b;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Substitute/Alternative info */
+.substitute-info {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.substitute-info.substitute-highlight {
+  background: rgba(255, 165, 0, 0.1);
+  border-left: 3px solid #ffa500;
+  font-weight: 600;
+}
+
+.substitute-info.alternative-info {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.substitute-info.alternative-info.substitute-highlight {
+  background: rgba(102, 126, 234, 0.1);
+  border-left: 3px solid #667eea;
+}
+
+.substitute-label {
+  color: #ffa500;
+  font-weight: 600;
+}
+
+.alternative-label {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.substitute-names {
+  color: #f0f0f0;
+}
+
+.substitute-names .in-stock-option {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.substitute-names .out-of-stock-sub {
+  color: #888;
+  opacity: 0.7;
+  text-decoration: line-through;
+}
+
+.ingredients-list-recipe li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #444;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ingredients-list-recipe li > div:first-child {
+  display: flex;
+  gap: 1rem;
+}
+
 /* ========================================
    iPad Portrait optimizations (834px x 1194px)
    Full-width recipe layout to utilize the entire screen
