@@ -19,6 +19,7 @@ class PatchCocktailServiceTest {
     private lateinit var vodka: Ingredient
     private lateinit var limeJuice: Ingredient
     private lateinit var rum: Ingredient
+    private lateinit var mintLeaves: Ingredient
     
     @BeforeEach
     fun setup() {
@@ -29,6 +30,7 @@ class PatchCocktailServiceTest {
         vodka = Ingredient(1, "Vodka", IngredientType.SPIRIT, 40, true)
         limeJuice = Ingredient(2, "Lime Juice", IngredientType.JUICE, 0, true)
         rum = Ingredient(3, "Rum", IngredientType.SPIRIT, 40, true)
+        mintLeaves = Ingredient(4, "Mint Leaves", IngredientType.GARNISH, 0, true)
     }
     
     @Test
@@ -225,6 +227,78 @@ class PatchCocktailServiceTest {
         val ingredients = listOf(CocktailIngredient(999, 60.0))
         
         every { ingredientDataService.getIngredientById(999) } returns null
+        
+        // When
+        val result = patchCocktailService.determineBaseSpirit(ingredients)
+        
+        // Then
+        assertEquals("none", result)
+    }
+    
+    @Test
+    fun `calculateAbv should ignore non-volume ingredients with negative measures`() {
+        // Given - Mojito with mint leaves (non-volume garnish)
+        val ingredients = listOf(
+            CocktailIngredient(3, 60.0),  // Rum 40% ABV
+            CocktailIngredient(2, 30.0),  // Lime Juice 0% ABV
+            CocktailIngredient(4, -8.0)   // 8 Mint Leaves (non-volume, should be ignored)
+        )
+        
+        every { ingredientDataService.getIngredientById(3) } returns rum
+        every { ingredientDataService.getIngredientById(2) } returns limeJuice
+        every { ingredientDataService.getIngredientById(4) } returns mintLeaves
+        
+        // When
+        val result = patchCocktailService.calculateAbv(ingredients)
+        
+        // Then - Should calculate based only on volume ingredients (60ml + 30ml)
+        assertEquals(26, result) // (40*60 + 0*30) / 90 = 26.67 -> 26
+    }
+    
+    @Test
+    fun `calculateAbv should return 0 when only non-volume ingredients`() {
+        // Given - Only garnishes (non-volume)
+        val ingredients = listOf(
+            CocktailIngredient(4, -8.0)  // 8 Mint Leaves
+        )
+        
+        every { ingredientDataService.getIngredientById(4) } returns mintLeaves
+        
+        // When
+        val result = patchCocktailService.calculateAbv(ingredients)
+        
+        // Then
+        assertEquals(0, result)
+    }
+    
+    @Test
+    fun `determineBaseSpirit should ignore non-volume ingredients with negative measures`() {
+        // Given - Mojito with mint leaves (non-volume garnish)
+        val ingredients = listOf(
+            CocktailIngredient(3, 60.0),  // Rum (highest volume spirit)
+            CocktailIngredient(2, 30.0),  // Lime Juice
+            CocktailIngredient(4, -8.0)   // 8 Mint Leaves (should be ignored)
+        )
+        
+        every { ingredientDataService.getIngredientById(3) } returns rum
+        every { ingredientDataService.getIngredientById(2) } returns limeJuice
+        every { ingredientDataService.getIngredientById(4) } returns mintLeaves
+        
+        // When
+        val result = patchCocktailService.determineBaseSpirit(ingredients)
+        
+        // Then
+        assertEquals("Rum", result)
+    }
+    
+    @Test
+    fun `determineBaseSpirit should return none when only non-volume ingredients`() {
+        // Given - Only garnishes (non-volume)
+        val ingredients = listOf(
+            CocktailIngredient(4, -8.0)  // 8 Mint Leaves
+        )
+        
+        every { ingredientDataService.getIngredientById(4) } returns mintLeaves
         
         // When
         val result = patchCocktailService.determineBaseSpirit(ingredients)
