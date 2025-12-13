@@ -69,7 +69,6 @@ class SettingsController(
         ]
     )
     fun setTheme(@RequestBody request: ThemeRequest): ResponseEntity<ThemeResponse> {
-        // TODO: Add admin authentication check when auth is implemented
         return try {
             val theme = appSettingsService.setTheme(request.theme)
             ResponseEntity.ok(ThemeResponse(theme))
