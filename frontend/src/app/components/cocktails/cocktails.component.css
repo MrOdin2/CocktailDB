@@ -178,11 +178,15 @@
   background: var(--surface-color, #f8f9fa);
   border: 1px solid var(--border-color, #ddd);
   border-radius: 4px;
-  cursor: grab;
+  cursor: default;
   transition: background-color 0.2s, box-shadow 0.2s;
   list-style: none;
 }
 
+/* Show grab cursor only on the drag handle */
+.drag-handle {
+  cursor: grab;
+}
 .draggable-item:hover {
   background: var(--hover-color, #e9ecef);
 }
