@@ -57,6 +57,16 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
   - Performance considerations
   - Future improvements
 
+#### API Documentation
+- **[OPENAPI.md](OPENAPI.md)** - OpenAPI 3.0 specification documentation
+  - Interactive Swagger UI access
+  - Complete API reference
+  - Authentication and security schemes
+  - Request/response examples
+  - Data models and schemas
+  - Testing API endpoints
+  - Best practices for adding new endpoints
+
 #### Development Guidelines
 - **[../.github/copilot-instructions.md](../.github/copilot-instructions.md)** - Repository conventions
   - Coding standards and style guides
@@ -101,6 +111,12 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
 3. See navigation flows and user journeys
 4. Understand authentication and session management
 
+### I want to use the API or integrate with CocktailDB
+1. Start the application following [README.md](../README.md)
+2. Access Swagger UI at `http://localhost:8080/swagger-ui.html`
+3. Read [OPENAPI.md](OPENAPI.md) for API documentation and examples
+4. Test endpoints directly in Swagger UI or use the OpenAPI spec
+
 ### I want to contribute to the project
 1. Read [ARCHITECTURE.md](ARCHITECTURE.md) - Full architecture overview
 2. Review [SECURITY_CONCEPT.md](../SECURITY_CONCEPT.md) - Contributor guidance
@@ -135,6 +151,7 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
+| OPENAPI.md | API documentation and OpenAPI spec | Developers & API Users |
 | local-network-testing.md | Multi-device network setup | Users |
 | local-network-configuration-summary.md | Network setup summary | Users |
 | copilot-instructions.md | Repository conventions | Developers |
@@ -158,7 +175,8 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
 ### Development
 - Architecture overview: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Component organization: [ARCHITECTURE.md](ARCHITECTURE.md)
-- API design: [ARCHITECTURE.md](ARCHITECTURE.md), [authentication-guide.md](authentication-guide.md)
+- API documentation: [OPENAPI.md](OPENAPI.md), [authentication-guide.md](authentication-guide.md)
+- API design: [ARCHITECTURE.md](ARCHITECTURE.md), [OPENAPI.md](OPENAPI.md)
 - Frontend patterns: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Backend patterns: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Testing: [SECURITY_CONCEPT.md](../SECURITY_CONCEPT.md), [authentication-guide.md](authentication-guide.md)
@@ -187,7 +205,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) - Adding New Features section and [SECURI
 See [SECURITY_CONCEPT.md](../SECURITY_CONCEPT.md) - Random Cocktail Feature section
 
 ### Where are the API endpoints documented?
-See [authentication-guide.md](authentication-guide.md) - API Endpoints section and [ARCHITECTURE.md](ARCHITECTURE.md) - API Design
+See [OPENAPI.md](OPENAPI.md) for complete OpenAPI documentation with interactive Swagger UI, and [authentication-guide.md](authentication-guide.md) for authentication-specific endpoints
 
 ## 📝 Contributing to Documentation
 

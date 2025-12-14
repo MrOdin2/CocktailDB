@@ -139,6 +139,35 @@ npm start
 
 Then open your browser to `http://localhost:4200`
 
+## API Documentation
+
+CocktailDB provides comprehensive OpenAPI 3.0 documentation for all API endpoints.
+
+### Interactive API Documentation (Swagger UI)
+
+Access the interactive Swagger UI at:
+```
+http://localhost:8080/swagger-ui.html
+```
+
+The Swagger UI allows you to:
+- Explore all available API endpoints
+- Test API calls directly from your browser
+- View request/response schemas
+- See authentication requirements
+- Try out different parameters and request bodies
+
+### OpenAPI Specification
+
+The raw OpenAPI 3.0 JSON specification is available at:
+```
+http://localhost:8080/api-docs
+```
+
+This can be imported into tools like Postman, Insomnia, or used for client code generation.
+
+For detailed OpenAPI documentation, see **[docs/OPENAPI.md](docs/OPENAPI.md)**.
+
 ## API Endpoints
 
 ### Ingredients
