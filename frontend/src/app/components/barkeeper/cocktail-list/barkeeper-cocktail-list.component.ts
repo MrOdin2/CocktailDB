@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
 import { StockUpdateService } from '../../../services/stock-update.service';
 import { TranslateService } from '../../../services/translate.service';
-import { FuzzySearchService } from '../../../services/fuzzy-search.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { Cocktail, CocktailsWithSubstitutions } from '../../../models/models';
 
@@ -46,8 +45,7 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
     private stockUpdateService: StockUpdateService,
     private route: ActivatedRoute,
     private router: Router,
-    private translateService: TranslateService,
-    private fuzzySearchService: FuzzySearchService
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -240,15 +238,10 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
 
   filterByLetter(): void {
     if (this.letter) {
-      // Use fuzzy search for letter filtering to handle typos
-      const results = this.fuzzySearchService.search(
-        this.letter,
-        this.cocktails,
-        c => c.name,
-        1, // Stricter threshold for letter filtering
-        0.5 // Higher minimum score
+      // Use exact letter matching for alphabet filtering
+      this.filteredCocktails = this.cocktails.filter(c => 
+        c.name.toUpperCase().startsWith(this.letter.toUpperCase())
       );
-      this.filteredCocktails = results.map(r => r.item);
     } else {
       this.filteredCocktails = this.cocktails;
     }

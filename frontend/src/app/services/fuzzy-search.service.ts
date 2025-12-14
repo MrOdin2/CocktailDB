@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-export interface FuzzyMatch {
-  item: any;
+export interface FuzzyMatch<T> {
+  item: T;
   score: number;
   matchedText?: string;
   matchIndex?: number;
@@ -108,6 +108,7 @@ export class FuzzySearchService {
 
     // Try matching against individual words in target
     const words = targetLower.split(/\s+/);
+    let currentIndex = 0;
     for (let i = 0; i < words.length; i++) {
       const wordScore = this.calculateScore(queryLower, words[i], threshold);
       if (wordScore > bestScore) {
@@ -115,9 +116,11 @@ export class FuzzySearchService {
         bestMatch = {
           score: wordScore,
           matchedText: words[i],
-          matchIndex: targetLower.indexOf(words[i])
+          matchIndex: currentIndex
         };
       }
+      // Track the position for the next word (word length + space)
+      currentIndex += words[i].length + 1;
     }
 
     return bestMatch;
@@ -139,12 +142,12 @@ export class FuzzySearchService {
     getSearchText: (item: T) => string | string[],
     threshold: number = 2,
     minScore: number = 0.3
-  ): FuzzyMatch[] {
+  ): FuzzyMatch<T>[] {
     if (!query || query.trim().length === 0) {
       return items.map(item => ({ item, score: 1.0 }));
     }
 
-    const results: FuzzyMatch[] = [];
+    const results: FuzzyMatch<T>[] = [];
 
     for (const item of items) {
       const searchTexts = getSearchText(item);
