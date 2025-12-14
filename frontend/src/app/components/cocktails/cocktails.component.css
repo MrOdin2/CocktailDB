@@ -178,7 +178,7 @@
   background: var(--surface-color, #f8f9fa);
   border: 1px solid var(--border-color, #ddd);
   border-radius: 4px;
-  cursor: move;
+  cursor: grab;
   transition: background-color 0.2s, box-shadow 0.2s;
   list-style: none;
 }
@@ -239,19 +239,14 @@
   word-break: break-word;
 }
 
-/* Ordered list numbering for steps */
+/* Ordered list numbering for steps - use native ol numbering */
 .steps-list {
-  counter-reset: step-counter;
+  list-style: decimal inside;
+  padding-left: 0;
 }
 
 .steps-list .draggable-item {
-  counter-increment: step-counter;
-}
-
-.steps-list .draggable-item::before {
-  content: counter(step-counter) ". ";
-  font-weight: bold;
-  margin-right: 0.5rem;
+  display: list-item;
 }
 
 .cocktail-cards {

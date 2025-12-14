@@ -111,7 +111,7 @@
                                 [cdkDragDisabled]="newCocktail.ingredients.length <= 1"
                                 class="draggable-item"
                                 [attr.aria-label]="'Reorder ingredient: ' + getIngredientName(ing.ingredientId)">
-                                <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder">⋮⋮</span>
+                                <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder ingredient">⋮⋮</span>
                                 <span class="item-content">
                                     {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
                                 </span>
@@ -147,7 +147,7 @@
                             [cdkDragDisabled]="newCocktail.steps.length <= 1"
                             class="draggable-item"
                             [attr.aria-label]="'Reorder step ' + (i + 1)">
-                            <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder">⋮⋮</span>
+                            <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder step">⋮⋮</span>
                             <span class="item-content">{{ step }}</span>
                             <button type="button" class="btn-small"
                                     (click)="removeStep(i)">{{ 'common.remove' | translate }}
