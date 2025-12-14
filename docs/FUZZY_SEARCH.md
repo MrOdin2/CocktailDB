@@ -161,11 +161,11 @@ The Levenshtein distance algorithm has O(m*n) complexity where m and n are the s
 3. **Length-based Filtering**: Filters out matches where distance exceeds 30% of max length
 
 ### Tested Performance
-- **Small datasets** (100 items): < 1ms
-- **Medium datasets** (500 items): < 10ms
-- **Large datasets** (1000 items): < 50ms
+- **Small datasets** (< 100 items): Typically < 10ms
+- **Medium datasets** (100-500 items): Typically < 50ms
+- **Large datasets** (1000 items): < 500ms (validated by test suite)
 
-The test suite includes a performance test that validates search completes in < 500ms for 1000 items.
+The test suite includes a performance test that validates search completes in < 500ms for 1000 items. Actual performance depends on query length, item count, and searchable field complexity.
 
 ## Testing
 

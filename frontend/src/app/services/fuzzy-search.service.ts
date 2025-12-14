@@ -11,6 +11,9 @@ export interface FuzzyMatch<T> {
   providedIn: 'root'
 })
 export class FuzzySearchService {
+  // Maximum ratio of distance to string length for fuzzy matching
+  private readonly MAX_DISTANCE_RATIO = 0.3;
+
   /**
    * Calculates the Levenshtein distance between two strings.
    * This represents the minimum number of single-character edits needed to transform one string into another.
@@ -76,7 +79,7 @@ export class FuzzySearchService {
     const maxLength = Math.max(queryLower.length, targetLower.length);
     
     // Only consider matches within threshold
-    if (distance > threshold && distance > maxLength * 0.3) {
+    if (distance > threshold && distance > maxLength * this.MAX_DISTANCE_RATIO) {
       return 0;
     }
 
@@ -112,6 +115,8 @@ export class FuzzySearchService {
     for (let i = 0; i < words.length; i++) {
       const wordScore = this.calculateScore(queryLower, words[i], threshold);
       // Find the actual position of this word in the original string
+      // Note: This uses indexOf which may find duplicate words, but for typical
+      // cocktail/ingredient names this is rare and acceptable for the MVP
       const wordIndex = targetLower.indexOf(words[i], searchIndex);
       if (wordScore > bestScore) {
         bestScore = wordScore;
