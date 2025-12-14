@@ -241,12 +241,12 @@
 
 /* Ordered list numbering for steps - use native ol numbering */
 .steps-list {
-  list-style: decimal inside;
   padding-left: 0;
 }
 
 .steps-list .draggable-item {
   display: list-item;
+  list-style: decimal inside;
 }
 
 .cocktail-cards {
