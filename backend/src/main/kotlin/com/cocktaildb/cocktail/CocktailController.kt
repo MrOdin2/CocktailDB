@@ -144,7 +144,7 @@ class CocktailController(
     @ApiResponses(
         value = [
             ApiResponse(
-                responseCode = "200",
+                responseCode = "204",
                 description = "Cocktail deleted successfully"
             ),
             ApiResponse(
