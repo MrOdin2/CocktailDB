@@ -110,7 +110,7 @@
                             <li cdkDrag 
                                 [cdkDragDisabled]="newCocktail.ingredients.length <= 1"
                                 class="draggable-item"
-                                [attr.aria-label]="'Reorder ingredient: ' + getIngredientName(ing.ingredientId)">
+                                [attr.aria-label]="'cocktails.reorderIngredient' | translate:{ name: getIngredientName(ing.ingredientId) }">
                                 <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder ingredient">⋮⋮</span>
                                 <span class="item-content">
                                     {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
