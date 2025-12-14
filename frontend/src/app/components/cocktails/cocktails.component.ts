@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../models/models';
 import { ApiService } from '../../services/api.service';
 import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
@@ -12,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-cocktails',
-    imports: [FormsModule, ModalComponent, TranslatePipe],
+    imports: [FormsModule, ModalComponent, TranslatePipe, DragDropModule],
     templateUrl: './cocktails.component.html',
     styleUrls: ['../admin-shared.css', './cocktails.component.css']
 })
@@ -250,6 +251,10 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     this.newCocktail.ingredients.splice(index, 1);
   }
 
+  dropIngredient(event: CdkDragDrop<CocktailIngredient[]>): void {
+    moveItemInArray(this.newCocktail.ingredients, event.previousIndex, event.currentIndex);
+  }
+
   addStep(): void {
     if (this.newStep.trim()) {
       this.newCocktail.steps.push(this.newStep);
@@ -259,6 +264,10 @@ export class CocktailsComponent implements OnInit, OnDestroy {
 
   removeStep(index: number): void {
     this.newCocktail.steps.splice(index, 1);
+  }
+
+  dropStep(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.newCocktail.steps, event.previousIndex, event.currentIndex);
   }
 
   addTag(): void {

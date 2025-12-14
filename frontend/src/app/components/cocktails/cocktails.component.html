@@ -102,10 +102,19 @@
                     <button type="button" class="btn-secondary"
                             (click)="addIngredientToCocktail()">{{ 'common.add' | translate }}
                     </button>
-                    <ul class="ingredient-list">
+                    <ul class="ingredient-list" 
+                        cdkDropList
+                        (cdkDropListDropped)="dropIngredient($event)"
+                        [cdkDropListDisabled]="newCocktail.ingredients.length <= 1">
                         @for (ing of newCocktail.ingredients; track ing; let i = $index) {
-                            <li>
-                                {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
+                            <li cdkDrag 
+                                [cdkDragDisabled]="newCocktail.ingredients.length <= 1"
+                                class="draggable-item"
+                                [attr.aria-label]="'Reorder ingredient: ' + getIngredientName(ing.ingredientId)">
+                                <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder">⋮⋮</span>
+                                <span class="item-content">
+                                    {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
+                                </span>
                                 <button type="button" class="btn-small"
                                         (click)="removeIngredient(i)">{{ 'common.remove' | translate }}
                                 </button>
@@ -129,10 +138,17 @@
                             (click)="addStep()">{{ 'cocktails.addStepButton' | translate }}
                     </button>
                 </div>
-                <ol class="steps-list">
+                <ol class="steps-list" 
+                    cdkDropList
+                    (cdkDropListDropped)="dropStep($event)"
+                    [cdkDropListDisabled]="newCocktail.steps.length <= 1">
                     @for (step of newCocktail.steps; track step; let i = $index) {
-                        <li>
-                            {{ step }}
+                        <li cdkDrag 
+                            [cdkDragDisabled]="newCocktail.steps.length <= 1"
+                            class="draggable-item"
+                            [attr.aria-label]="'Reorder step ' + (i + 1)">
+                            <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder">⋮⋮</span>
+                            <span class="item-content">{{ step }}</span>
                             <button type="button" class="btn-small"
                                     (click)="removeStep(i)">{{ 'common.remove' | translate }}
                             </button>
