@@ -108,19 +108,23 @@ export class FuzzySearchService {
 
     // Try matching against individual words in target
     const words = targetLower.split(/\s+/);
-    let currentIndex = 0;
+    let searchIndex = 0;
     for (let i = 0; i < words.length; i++) {
       const wordScore = this.calculateScore(queryLower, words[i], threshold);
+      // Find the actual position of this word in the original string
+      const wordIndex = targetLower.indexOf(words[i], searchIndex);
       if (wordScore > bestScore) {
         bestScore = wordScore;
         bestMatch = {
           score: wordScore,
           matchedText: words[i],
-          matchIndex: currentIndex
+          matchIndex: wordIndex >= 0 ? wordIndex : 0
         };
       }
-      // Track the position for the next word (word length + space)
-      currentIndex += words[i].length + 1;
+      // Update search position to after this word
+      if (wordIndex >= 0) {
+        searchIndex = wordIndex + words[i].length;
+      }
     }
 
     return bestMatch;

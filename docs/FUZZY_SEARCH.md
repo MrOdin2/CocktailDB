@@ -101,12 +101,14 @@ if (this.nameFilter) {
 #### BarkeeperCocktailListComponent
 **Location:** `frontend/src/app/components/barkeeper/cocktail-list/barkeeper-cocktail-list.component.ts`
 
-Fuzzy search is applied to:
-- **Letter Filter**: Matches cocktails by letter with tolerance for similar names
+**Note:** This component intentionally uses **exact letter matching** rather than fuzzy search. Alphabet-based filtering requires precise letter matching to maintain alphabetical organization, so fuzzy matching is not appropriate here.
 
-**Configuration:**
-- Stricter threshold: 1 (fewer typos allowed)
-- Higher minimum score: 0.5 (requires better matches)
+**Implementation:**
+```typescript
+this.filteredCocktails = this.cocktails.filter(c => 
+  c.name.toUpperCase().startsWith(this.letter.toUpperCase())
+);
+```
 
 #### VisitorCocktailListComponent
 **Location:** `frontend/src/app/components/visitor/cocktail-list/visitor-cocktail-list.component.ts`
