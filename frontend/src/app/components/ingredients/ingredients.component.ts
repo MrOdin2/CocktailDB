@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Ingredient, IngredientType } from '../../models/models';
 import { ApiService } from '../../services/api.service';
+import { FuzzySearchService } from '../../services/fuzzy-search.service';
 import { ModalComponent } from '../util/modal.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 
@@ -41,7 +42,10 @@ export class IngredientsComponent implements OnInit {
   substituteSearchEdit = '';
   alternativeSearchEdit = '';
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private fuzzySearchService: FuzzySearchService
+  ) {}
 
   ngOnInit(): void {
     this.loadIngredients();
@@ -61,13 +65,17 @@ export class IngredientsComponent implements OnInit {
   get displayedIngredients(): Ingredient[] {
     let filtered = this.ingredients;
     
-    // Apply filters
+    // Apply name filter with fuzzy search
     if (this.nameFilter) {
-      filtered = filtered.filter(ingredient => 
-        ingredient.name.toLowerCase().includes(this.nameFilter.toLowerCase())
+      const results = this.fuzzySearchService.search(
+        this.nameFilter,
+        filtered,
+        ingredient => ingredient.name
       );
+      filtered = results.map(r => r.item);
     }
     
+    // Apply type filter
     if (this.typeFilter) {
       filtered = filtered.filter(ingredient => 
         ingredient.type === this.typeFilter
@@ -272,8 +280,13 @@ export class IngredientsComponent implements OnInit {
       return available;
     }
     
-    const search = searchTerm.toLowerCase();
-    return available.filter(ing => ing.name.toLowerCase().includes(search));
+    // Use fuzzy search
+    const results = this.fuzzySearchService.search(
+      searchTerm,
+      available,
+      ing => ing.name
+    );
+    return results.map(r => r.item);
   }
 
   getFilteredAlternatives(isEdit: boolean = false): Ingredient[] {
@@ -285,8 +298,13 @@ export class IngredientsComponent implements OnInit {
       return available;
     }
     
-    const search = searchTerm.toLowerCase();
-    return available.filter(ing => ing.name.toLowerCase().includes(search));
+    // Use fuzzy search
+    const results = this.fuzzySearchService.search(
+      searchTerm,
+      available,
+      ing => ing.name
+    );
+    return results.map(r => r.item);
   }
 
   removeSubstitute(ingredientId: number, isEdit: boolean = false): void {

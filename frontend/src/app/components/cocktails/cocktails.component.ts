@@ -6,6 +6,7 @@ import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit }
 import { ApiService } from '../../services/api.service';
 import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
 import { MeasureService } from '../../services/measure.service';
+import { FuzzySearchService } from '../../services/fuzzy-search.service';
 import { ModalComponent } from '../util/modal.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslateService } from '../../services/translate.service';
@@ -85,7 +86,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     private apiService: ApiService, 
     private exportService: ExportService,
     private measureService: MeasureService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private fuzzySearchService: FuzzySearchService
   ) {}
 
   ngOnInit(): void {
@@ -149,24 +151,24 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     return this.cocktails.filter(cocktail => {
       let matches = true;
       
-      // Name filter
+      // Name filter with fuzzy matching
       if (this.nameFilter) {
-        matches = matches && cocktail.name.toLowerCase().includes(this.nameFilter.toLowerCase());
+        matches = matches && this.fuzzySearchService.matches(this.nameFilter, cocktail.name);
       }
       
-      // Spirit filter
+      // Spirit filter with fuzzy matching
       if (this.spiritFilter) {
         const hasSpirit = cocktail.ingredients.some(ing => {
           const ingredient = this.ingredients.find(i => i.id === ing.ingredientId);
-          return ingredient && ingredient.name.toLowerCase() === this.spiritFilter.toLowerCase();
+          return ingredient && this.fuzzySearchService.matches(this.spiritFilter, ingredient.name);
         });
         matches = matches && hasSpirit;
       }
       
-      // Tag filter
+      // Tag filter with fuzzy matching
       if (this.tagFilter) {
         matches = matches && cocktail.tags.some(tag => 
-          tag.toLowerCase().includes(this.tagFilter.toLowerCase())
+          this.fuzzySearchService.matches(this.tagFilter, tag)
         );
       }
       
@@ -388,9 +390,13 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     if (!this.ingredientSearchFilter) {
       return this.ingredients;
     }
-    return this.ingredients.filter(ingredient =>
-      ingredient.name.toLowerCase().includes(this.ingredientSearchFilter.toLowerCase())
+    // Use fuzzy search and extract just the items
+    const results = this.fuzzySearchService.search(
+      this.ingredientSearchFilter,
+      this.ingredients,
+      ingredient => ingredient.name
     );
+    return results.map(r => r.item);
   }
   
   get ingredientTypes(): string[] {
