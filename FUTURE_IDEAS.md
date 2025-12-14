@@ -2,7 +2,7 @@
 
 This document compiles ideas and suggestions for improving CocktailDB across all areas. These ideas range from quick wins to ambitious long-term features. Nothing is too small or too far-fetched!
 
-**Last Updated**: December 2024  
+**Last Updated**: December 2025  
 **Status**: Brainstorming Phase
 
 ---
@@ -31,13 +31,13 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 
 ### Quick Wins
 - **Dark Mode Toggle**: Allow users to switch between light/dark themes without admin access
-- **Recipe Print View**: Printer-friendly cocktail recipe cards with clean formatting
+- **Recipe Print View**: Printer-friendly cocktail recipe cards with clean formatting (Already Implemented in PR #21)
 - **Keyboard Shortcuts**: Add hotkeys for common actions (search, add ingredient, navigate)
 - **Breadcrumb Navigation**: Show current location in the app hierarchy
 - **Loading States**: Better visual feedback for API calls (skeleton screens, progress indicators)
 - **Toast Notifications**: Success/error messages that don't disrupt workflow
 - **Undo/Redo**: Basic undo functionality for accidental deletions or changes
-- **Drag and Drop**: Reorder cocktail steps or ingredient lists with drag-and-drop
+- **Drag and Drop**: Reorder cocktail steps or ingredient lists with drag-and-drop (selected for development)
 - **Collapsible Sections**: Fold/unfold sections in long forms or recipe views
 - **Quick Actions Menu**: Context menu on cocktail/ingredient cards (edit, delete, view)
 
@@ -67,14 +67,14 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 
 ### Quick Wins
 - **Batch Operations**: Select multiple items and perform bulk actions (delete, update stock)
-- **Duplicate Cocktail**: Create variations by duplicating and modifying existing recipes
+- **Duplicate Cocktail**: Create variations by duplicating and modifying existing recipes (selected for development)
 - **Notes Field for Ingredients**: Add personal notes to ingredients (purchase location, preferences)
-- **Cocktail Variations**: Mark cocktails as variations of a base recipe (e.g., Dirty Martini as variation of Martini)
+- **Cocktail Variations**: Mark cocktails as variations of a base recipe (e.g., Dirty Martini as variation of Martini) (selected for development) 
 - **Preparation Time**: Add estimated prep time for each cocktail
 - **Difficulty Rating**: Mark cocktails as easy/medium/hard
 - **Serving Size**: Specify number of servings per recipe
-- **Glassware Type**: Add required glassware to cocktail recipes
-- **Ice Type**: Specify ice requirements (crushed, cubed, large cube, etc.)
+- **Glassware Type**: Add required glassware to cocktail recipes (selected for development)
+- **Ice Type**: Specify ice requirements (crushed, cubed, large cube, etc.) (selected for development)
 - **Temperature Notes**: Hot/cold serving requirements
 
 ### Medium Complexity
@@ -85,10 +85,10 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 - **Ingredient Substitution Suggestions**: Smart suggestions when ingredient is out of stock
 - **Cost Tracking**: Track ingredient costs and calculate per-cocktail cost
 - **Calorie Counter**: Calculate approximate calories per cocktail
-- **Allergen Warnings**: Mark and filter by allergens (dairy, nuts, etc.)
-- **Seasonal Tags**: Mark cocktails as seasonal (summer, winter, holiday)
-- **Occasion Tags**: Tag for occasions (party, dinner, nightcap)
-- **Flavor Profile**: Tag cocktails by flavor (sweet, sour, bitter, savory)
+- **Allergen Warnings**: Mark and filter by allergens (dairy, nuts, etc.) (can be done with tag system)
+- **Seasonal Tags**: Mark cocktails as seasonal (summer, winter, holiday) (can be done with tag system)
+- **Occasion Tags**: Tag for occasions (party, dinner, nightcap) (can be done with tag system)
+- **Flavor Profile**: Tag cocktails by flavor (sweet, sour, bitter, savory) (can be done with tag system)
 - **Strength Indicator**: Visual indicator of cocktail strength beyond just ABV
 - **Cocktail History**: Track when cocktails were last made
 - **Rating System**: Rate cocktails and sort by rating
@@ -114,7 +114,7 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 - **Export as Image**: Generate beautiful recipe cards as images for social media
 - **QR Code Generation**: Generate QR codes for cocktails (scan to view recipe)
 - **Email Recipe**: Send recipe via email
-- **Recipe Cards PDF**: Generate printable recipe cards
+- **Recipe Cards PDF**: Generate printable recipe cards (Already Implemented in PR #21)
 
 ### Medium Complexity
 - **Public Recipe Gallery**: Option to publish recipes to a community gallery
@@ -124,7 +124,7 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 - **Share to Instagram/Pinterest**: Direct integration with social platforms
 - **Collaborative Lists**: Shared shopping lists or drink menus for events
 - **Guest Favorites Tracking**: Track which cocktails guests request most
-- **Party Mode**: Special view for displaying available cocktails at parties
+- **Party Mode**: Special view for displaying available cocktails at parties (whole point of visitor view)
 
 ### Long-term Vision
 - **Multi-User Support**: Full user accounts with profiles
@@ -140,15 +140,15 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 ## Data Management & Import/Export
 
 ### Quick Wins
-- **CSV Import**: Import ingredients/cocktails from CSV files
-- **CSV Export**: Export all data to CSV for backup
+- **CSV Import**: Import ingredients/cocktails from CSV files (selected for development)
+- **CSV Export**: Export all data to CSV for backup (selected for development)
 - **JSON Import/Export**: Full database import/export as JSON
 - **Backup Reminder**: Remind admin to backup data periodically
 - **Cocktail Templates**: Pre-made templates for common cocktail types
 
 ### Medium Complexity
-- **Import from URL**: Parse recipes from cocktail websites
-- **IBA Standard Cocktails**: One-click import of IBA official recipes
+- **Import from URL**: Parse recipes from cocktail websites (Licensing?)
+- **IBA Standard Cocktails**: One-click import of IBA official recipes (Licensing?)
 - **Recipe Format Auto-Detection**: Detect and parse various recipe formats
 - **Bulk Edit Mode**: Edit multiple recipes/ingredients at once
 - **Data Validation Tools**: Check for duplicate recipes, missing data
@@ -173,17 +173,17 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 - **Most Popular Cocktails**: Bar chart of most-viewed/made cocktails
 - **Ingredient Usage Heat Calendar**: Calendar showing when ingredients are used most
 - **ABV Distribution**: Chart showing distribution of cocktail strengths
-- **Missing Ingredients Report**: List of ingredients needed to unlock the most cocktails
+- **Missing Ingredients Report**: List of ingredients needed to unlock the most cocktails (Already Implemented in PR #45)
 
 ### Medium Complexity
-- **Ingredient Pairing Matrix**: Visual matrix showing which ingredients pair well
+- **Ingredient Pairing Matrix**: Visual matrix showing which ingredients pair well (Already Implemented in PR #45)
 - **Recipe Complexity Analysis**: Charts showing recipe difficulty distribution
 - **Cost Analysis Dashboard**: Visualize spending on ingredients over time
 - **Stock Depletion Prediction**: Predict when ingredients will run out based on usage
 - **Trend Analysis**: Identify trending cocktail types or ingredients over time
 - **Seasonal Usage Patterns**: Charts showing ingredient/cocktail usage by season
 - **Portfolio Analysis**: Overview of your collection (types, styles, regions)
-- **Gap Analysis**: Show what ingredient types are underrepresented
+- **Gap Analysis**: Show what ingredient types are underrepresented (Already Implemented in PR #45)
 - **Interactive Flavor Wheel**: Visual flavor profile explorer
 
 ### Long-term Vision
@@ -198,11 +198,11 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 ## Mobile Experience
 
 ### Quick Wins
-- **Mobile-Optimized Recipe View**: Large text, no scrolling for bartending
+- **Mobile-Optimized Recipe View**: Large text, no scrolling for bartending (already implemented in PR #83)
 - **Screen Wake Lock**: Keep screen on while viewing recipes
 - **Quick Stock Toggle**: Swipe gestures for fast stock updates
 - **Voice Search**: Voice-activated search while hands are busy
-- **Landscape Mode Optimization**: Better layouts for phone in landscape
+- **Landscape Mode Optimization**: Better layouts for phone in landscape (already implemented in PR #83)
 
 ### Medium Complexity
 - **Progressive Web App (PWA)**: Install on mobile home screen
@@ -225,7 +225,7 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 ## Search & Discovery
 
 ### Quick Wins
-- **Fuzzy Search**: Typo-tolerant search
+- **Fuzzy Search**: Typo-tolerant search (selected for development)
 - **Search History**: Show recent searches
 - **Search Suggestions**: Auto-complete as you type
 - **Tag Cloud**: Visual tag cloud for browsing
@@ -285,7 +285,7 @@ This document compiles ideas and suggestions for improving CocktailDB across all
 ## Recipe Management
 
 ### Quick Wins
-- **Step Reordering**: Drag to reorder preparation steps
+- **Step Reordering**: Drag to reorder preparation steps (selected for development)
 - **Ingredient Grouping**: Group ingredients by type in recipe view
 - **Optional Ingredients**: Mark ingredients as optional
 - **Garnish Separation**: Visually separate garnishes from main ingredients
