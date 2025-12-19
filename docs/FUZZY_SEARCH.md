@@ -127,12 +127,30 @@ const results = this.fuzzySearchService.search(
 
 ## Match Quality Scoring
 
-The service assigns scores based on match quality:
+The service assigns scores based on match quality with intelligent ranking:
 
+### Base Scoring
 1. **Exact Match (1.0)**: Query exactly matches target (case-insensitive)
-2. **Substring Match (0.9)**: Target contains query as substring
-3. **Partial Match (0.85)**: Query contains target as substring
-4. **Fuzzy Match (0-0.8)**: Match based on Levenshtein distance
+2. **Multi-word Match (0.93-0.98)**: All words in query match words in target (order-independent)
+3. **Substring Match (0.9)**: Target contains query as substring
+4. **Single-word Match (0.72-0.85)**: One word in target matches query (15% penalty)
+5. **Partial Match (0.85)**: Query contains target as substring
+6. **Fuzzy Match (0-0.8)**: Match based on Levenshtein distance
+
+### Field Priority Weighting
+When searching across multiple fields (e.g., name, baseSpirit, tags):
+- **Primary field** (first field, typically name): Full score
+- **Secondary fields**: 95% of score (5% penalty)
+
+This ensures "Vodka Tonic" in the name ranks higher than "Vodka" in baseSpirit or "Tonic" in tags.
+
+### Example Ranking
+Searching for "Vodka Tonic":
+1. **Vodka Tonic** - Exact name match (score: 1.0)
+2. **Vodka Gimlet** - Word "Vodka" in name + "Vodka" in baseSpirit (score: ~0.81)
+3. **Gin and Tonic** - Word "Tonic" in name (score: ~0.72)
+
+The improved scoring ensures exact multi-word matches always rank above partial single-word matches.
 
 ## Configuration Guidelines
 
