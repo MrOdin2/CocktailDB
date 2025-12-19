@@ -6,6 +6,7 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 - **Ingredient Management**: Track all your cocktail ingredients with details like type (spirit, juice, syrup, etc.), ABV, and stock status
 - **Cocktail Recipes**: Store your favorite cocktail recipes with ingredients, measurements, and step-by-step instructions
 - **Smart Filtering**: Instantly see which cocktails you can make with ingredients currently in stock
+- **Fuzzy Search**: Typo-tolerant search across all search fields - find cocktails and ingredients even with spelling errors
 - **Full CRUD Operations**: Create, read, update, and delete both ingredients and cocktails
 - **Access Control**: Three access modes (Admin, Barkeeper, Visitor) with role-based permissions - see [SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)
 
@@ -428,6 +429,7 @@ For contributors and developers:
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
 - **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** - Database migrations with Flyway and backup/restore procedures
 - **[docs/NON_VOLUME_MEASURES.md](docs/NON_VOLUME_MEASURES.md)** - Guide to handling count-based ingredients (garnishes, etc.) alongside volume measures
+- **[docs/FUZZY_SEARCH.md](docs/FUZZY_SEARCH.md)** - Fuzzy search implementation using Levenshtein distance for typo-tolerant searching
 - **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards
 - **[SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)** - Contributor guidance on access control implementation
 

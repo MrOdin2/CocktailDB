@@ -6,6 +6,7 @@ import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit }
 import { ApiService } from '../../services/api.service';
 import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
 import { MeasureService } from '../../services/measure.service';
+import { FuzzySearchService } from '../../services/fuzzy-search.service';
 import { ModalComponent } from '../util/modal.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslateService } from '../../services/translate.service';
@@ -85,7 +86,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     private apiService: ApiService, 
     private exportService: ExportService,
     private measureService: MeasureService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private fuzzySearchService: FuzzySearchService
   ) {}
 
   ngOnInit(): void {
@@ -146,32 +148,38 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       return this.cocktails;
     }
     
-    return this.cocktails.filter(cocktail => {
-      let matches = true;
-      
-      // Name filter
-      if (this.nameFilter) {
-        matches = matches && cocktail.name.toLowerCase().includes(this.nameFilter.toLowerCase());
-      }
-      
-      // Spirit filter
-      if (this.spiritFilter) {
-        const hasSpirit = cocktail.ingredients.some(ing => {
+    let filtered = this.cocktails;
+    
+    // Apply name filter with fuzzy search (returns scored and sorted results)
+    if (this.nameFilter) {
+      const results = this.fuzzySearchService.search(
+        this.nameFilter,
+        filtered,
+        cocktail => cocktail.name
+      );
+      filtered = results.map(r => r.item);
+    }
+    
+    // Apply spirit filter with fuzzy matching
+    if (this.spiritFilter) {
+      filtered = filtered.filter(cocktail => {
+        return cocktail.ingredients.some(ing => {
           const ingredient = this.ingredients.find(i => i.id === ing.ingredientId);
-          return ingredient && ingredient.name.toLowerCase() === this.spiritFilter.toLowerCase();
+          return ingredient && this.fuzzySearchService.matches(this.spiritFilter, ingredient.name);
         });
-        matches = matches && hasSpirit;
-      }
-      
-      // Tag filter
-      if (this.tagFilter) {
-        matches = matches && cocktail.tags.some(tag => 
-          tag.toLowerCase().includes(this.tagFilter.toLowerCase())
-        );
-      }
-      
-      return matches;
-    });
+      });
+    }
+    
+    // Apply tag filter with fuzzy matching
+    if (this.tagFilter) {
+      filtered = filtered.filter(cocktail => 
+        cocktail.tags.some(tag => 
+          this.fuzzySearchService.matches(this.tagFilter, tag)
+        )
+      );
+    }
+    
+    return filtered;
   }
 
   openModal(): void {
@@ -388,9 +396,13 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     if (!this.ingredientSearchFilter) {
       return this.ingredients;
     }
-    return this.ingredients.filter(ingredient =>
-      ingredient.name.toLowerCase().includes(this.ingredientSearchFilter.toLowerCase())
+    // Use fuzzy search and extract just the items
+    const results = this.fuzzySearchService.search(
+      this.ingredientSearchFilter,
+      this.ingredients,
+      ingredient => ingredient.name
     );
+    return results.map(r => r.item);
   }
   
   get ingredientTypes(): string[] {

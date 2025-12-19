@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { ExportService } from '../../services/export.service';
 import { MeasureService } from '../../services/measure.service';
 import { TranslateService } from '../../services/translate.service';
+import { FuzzySearchService } from '../../services/fuzzy-search.service';
 import { of } from 'rxjs';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../../models/models';
 
@@ -57,7 +58,8 @@ describe('CocktailsComponent - Drag and Drop', () => {
         { provide: ApiService, useValue: apiServiceSpy },
         { provide: ExportService, useValue: exportServiceSpy },
         { provide: MeasureService, useValue: measureServiceSpy },
-        { provide: TranslateService, useValue: translateServiceSpy }
+        { provide: TranslateService, useValue: translateServiceSpy },
+        FuzzySearchService
       ]
     }).compileComponents();
 
@@ -259,6 +261,77 @@ describe('CocktailsComponent - Drag and Drop', () => {
       expect(component.newCocktail.ingredients[1]).toEqual(ingredient1);
       expect(component.newCocktail.ingredients[0].ingredientId).toBe(20);
       expect(component.newCocktail.ingredients[0].measureMl).toBe(30);
+    });
+  });
+
+  describe('Fuzzy Search', () => {
+    beforeEach(() => {
+      const testCocktails: Cocktail[] = [
+        { id: 1, name: 'Mojito', ingredients: [], steps: [], tags: ['rum', 'mint'], abv: 10, baseSpirit: 'Rum' },
+        { id: 2, name: 'Martini', ingredients: [], steps: [], tags: ['gin', 'classic'], abv: 25, baseSpirit: 'Gin' },
+        { id: 3, name: 'Manhattan', ingredients: [], steps: [], tags: ['whiskey', 'classic'], abv: 30, baseSpirit: 'Whiskey' }
+      ];
+      apiService.getAllCocktails.and.returnValue(of(testCocktails));
+      component.ngOnInit();
+    });
+
+    it('should find cocktails with exact name match', () => {
+      component.nameFilter = 'Mojito';
+      const displayed = component.displayedCocktails;
+      expect(displayed.length).toBe(1);
+      expect(displayed[0].name).toBe('Mojito');
+    });
+
+    it('should find cocktails with typo in name (fuzzy match)', () => {
+      component.nameFilter = 'Mojto'; // Missing 'i'
+      const displayed = component.displayedCocktails;
+      expect(displayed.length).toBeGreaterThan(0);
+      expect(displayed.some(c => c.name === 'Mojito')).toBe(true);
+    });
+
+    it('should find cocktails with partial name match', () => {
+      component.nameFilter = 'Man';
+      const displayed = component.displayedCocktails;
+      expect(displayed.some(c => c.name === 'Manhattan')).toBe(true);
+    });
+
+    it('should find cocktails by tag with typo (fuzzy match)', () => {
+      component.tagFilter = 'clasic'; // Missing 's'
+      const displayed = component.displayedCocktails;
+      expect(displayed.length).toBeGreaterThan(0);
+      expect(displayed.some(c => c.tags.includes('classic'))).toBe(true);
+    });
+
+    it('should filter ingredients with fuzzy search', () => {
+      const testIngredients: Ingredient[] = [
+        { id: 1, name: 'Vodka', type: IngredientType.SPIRIT, abv: 40, inStock: true },
+        { id: 2, name: 'Gin', type: IngredientType.SPIRIT, abv: 40, inStock: true },
+        { id: 3, name: 'Rum', type: IngredientType.SPIRIT, abv: 40, inStock: true }
+      ];
+      apiService.getAllIngredients.and.returnValue(of(testIngredients));
+      component.loadIngredients();
+      
+      component.ingredientSearchFilter = 'Vokda'; // Typo
+      const filtered = component.filteredIngredients;
+      expect(filtered.length).toBeGreaterThan(0);
+      expect(filtered.some(i => i.name === 'Vodka')).toBe(true);
+    });
+
+    it('should sort results by fuzzy search score (best match first)', () => {
+      const testCocktails: Cocktail[] = [
+        { id: 1, name: 'Gin and Tonic', ingredients: [], steps: [], tags: [], abv: 10, baseSpirit: 'Gin' },
+        { id: 2, name: 'Vodka Tonic', ingredients: [], steps: [], tags: [], abv: 10, baseSpirit: 'Vodka' },
+        { id: 3, name: 'Vodka Gimlet', ingredients: [], steps: [], tags: [], abv: 15, baseSpirit: 'Vodka' }
+      ];
+      apiService.getAllCocktails.and.returnValue(of(testCocktails));
+      component.ngOnInit();
+      
+      component.nameFilter = 'Vodka Tonic';
+      const displayed = component.displayedCocktails;
+      
+      // Vodka Tonic should be first (exact match)
+      expect(displayed.length).toBeGreaterThan(0);
+      expect(displayed[0].name).toBe('Vodka Tonic');
     });
   });
 

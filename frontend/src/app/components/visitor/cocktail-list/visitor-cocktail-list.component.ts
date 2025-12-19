@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { TranslateService } from '../../../services/translate.service';
+import { FuzzySearchService } from '../../../services/fuzzy-search.service';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { StockUpdateService } from '../../../services/stock-update.service';
 import { Cocktail, CocktailsWithSubstitutions } from '../../../models/models';
@@ -32,6 +33,7 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
     private router: Router,
     private translateService: TranslateService,
     private stockUpdateService: StockUpdateService,
+    private fuzzySearchService: FuzzySearchService
   ) {}
 
   ngOnInit(): void {
@@ -88,22 +90,13 @@ export class VisitorCocktailListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const search = this.searchTerm.toLowerCase().trim();
-    this.filteredCocktails = this.cocktails.filter(cocktail => {
-      // Search in name
-      if (cocktail.name.toLowerCase().includes(search)) {
-        return true;
-      }
-      // Search in base spirit
-      if (cocktail.baseSpirit.toLowerCase().includes(search)) {
-        return true;
-      }
-      // Search in tags
-      if (cocktail.tags.some(tag => tag.toLowerCase().includes(search))) {
-        return true;
-      }
-      return false;
-    });
+    // Use fuzzy search across name, base spirit, and tags
+    const results = this.fuzzySearchService.search(
+      this.searchTerm.trim(),
+      this.cocktails,
+      cocktail => [cocktail.name, cocktail.baseSpirit, ...cocktail.tags]
+    );
+    this.filteredCocktails = results.map(r => r.item);
   }
 
   clearSearch(): void {

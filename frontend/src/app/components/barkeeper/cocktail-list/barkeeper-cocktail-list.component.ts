@@ -238,8 +238,9 @@ export class BarkeeperCocktailListComponent implements OnInit, OnDestroy {
 
   filterByLetter(): void {
     if (this.letter) {
+      // Use exact letter matching for alphabet filtering
       this.filteredCocktails = this.cocktails.filter(c => 
-        c.name.toUpperCase().startsWith(this.letter)
+        c.name.toUpperCase().startsWith(this.letter.toUpperCase())
       );
     } else {
       this.filteredCocktails = this.cocktails;
