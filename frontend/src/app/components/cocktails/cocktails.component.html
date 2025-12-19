@@ -130,28 +130,52 @@
             </div>
 
             <div class="form-group">
-                <label>{{ 'cocktails.glasswareType' | translate }}</label>
-                <div class="glassware-input">
-                    <select [(ngModel)]="newCocktail.glasswareType" name="glasswareType" class="glassware-select">
-                        <option [ngValue]="undefined">{{ 'cocktails.selectGlassware' | translate }}</option>
-                        @for (type of glasswareTypes; track type) {
+                <label>{{ 'cocktails.glasswareTypes' | translate }}</label>
+                <div class="glassware-inputs">
+                    <select [(ngModel)]="newGlassware" name="newGlassware" class="glassware-select">
+                        <option value="">{{ 'cocktails.selectGlassware' | translate }}</option>
+                        @for (type of allGlasswareTypes; track type) {
                             <option [value]="type">{{ type }}</option>
                         }
                     </select>
-                    <span class="input-hint">{{ 'cocktails.glasswareHint' | translate }}</span>
+                    <input type="text" [(ngModel)]="customGlassware" name="customGlassware"
+                           [placeholder]="'cocktails.typeNewGlassware' | translate">
+                    <button type="button" class="btn-secondary"
+                            (click)="addGlassware()">{{ 'cocktails.addGlassware' | translate }}
+                    </button>
+                </div>
+                <div class="glassware-list">
+                    @for (glassware of newCocktail.glasswareTypes; track glassware; let i = $index) {
+                        <span class="tag-badge">
+                            {{ glassware }}
+                            <button type="button" class="tag-remove" (click)="removeGlassware(i)">×</button>
+                        </span>
+                    }
                 </div>
             </div>
 
             <div class="form-group">
-                <label>{{ 'cocktails.iceType' | translate }}</label>
-                <div class="ice-input">
-                    <select [(ngModel)]="newCocktail.iceType" name="iceType" class="ice-select">
-                        <option [ngValue]="undefined">{{ 'cocktails.selectIce' | translate }}</option>
-                        @for (type of iceTypes; track type) {
+                <label>{{ 'cocktails.iceTypes' | translate }}</label>
+                <div class="ice-inputs">
+                    <select [(ngModel)]="newIce" name="newIce" class="ice-select">
+                        <option value="">{{ 'cocktails.selectIce' | translate }}</option>
+                        @for (type of allIceTypes; track type) {
                             <option [value]="type">{{ type }}</option>
                         }
                     </select>
-                    <span class="input-hint">{{ 'cocktails.iceHint' | translate }}</span>
+                    <input type="text" [(ngModel)]="customIce" name="customIce"
+                           [placeholder]="'cocktails.typeNewIce' | translate">
+                    <button type="button" class="btn-secondary"
+                            (click)="addIce()">{{ 'cocktails.addIce' | translate }}
+                    </button>
+                </div>
+                <div class="ice-list">
+                    @for (ice of newCocktail.iceTypes; track ice; let i = $index) {
+                        <span class="tag-badge">
+                            {{ ice }}
+                            <button type="button" class="tag-remove" (click)="removeIce(i)">×</button>
+                        </span>
+                    }
                 </div>
             </div>
 
@@ -287,13 +311,23 @@
                             </div>
                         </div>
                     }
-                    @if (cocktail.glasswareType || cocktail.iceType) {
+                    @if (cocktail.glasswareTypes?.length || cocktail.iceTypes?.length) {
                         <div class="card-section">
-                            @if (cocktail.glasswareType) {
-                                <p><strong>{{ 'cocktails.glasswareType' | translate }}:</strong> {{ cocktail.glasswareType }}</p>
+                            @if (cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0) {
+                                <p><strong>{{ 'cocktails.glasswareTypes' | translate }}:</strong></p>
+                                <div class="tags-display">
+                                    @for (glassware of cocktail.glasswareTypes; track glassware) {
+                                        <span class="tag-badge">{{ glassware }}</span>
+                                    }
+                                </div>
                             }
-                            @if (cocktail.iceType) {
-                                <p><strong>{{ 'cocktails.iceType' | translate }}:</strong> {{ cocktail.iceType }}</p>
+                            @if (cocktail.iceTypes && cocktail.iceTypes.length > 0) {
+                                <p><strong>{{ 'cocktails.iceTypes' | translate }}:</strong></p>
+                                <div class="tags-display">
+                                    @for (ice of cocktail.iceTypes; track ice) {
+                                        <span class="tag-badge">{{ ice }}</span>
+                                    }
+                                </div>
                             }
                         </div>
                     }

@@ -44,8 +44,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     tags: [],
     abv: 0,
     baseSpirit: 'none',
-    glasswareType: undefined,
-    iceType: undefined
+    glasswareTypes: [],
+    iceTypes: []
   };
   
   // For ingredient entry - store value in display unit, convert to ml on add
@@ -84,8 +84,14 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   availableTagsForExport: string[] = [];
   selectedTagsForExport: string[] = [];
   
-  // Predefined glassware types
-  readonly glasswareTypes = [
+  // Input fields for adding glassware and ice
+  newGlassware = '';
+  customGlassware = '';
+  newIce = '';
+  customIce = '';
+  
+  // Predefined suggestions for glassware types (defaults)
+  readonly defaultGlasswareTypes = [
     'Coupe',
     'Highball',
     'Rocks / Old Fashioned',
@@ -102,8 +108,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     'Snifter'
   ];
   
-  // Predefined ice types
-  readonly iceTypes = [
+  // Predefined suggestions for ice types (defaults)
+  readonly defaultIceTypes = [
     'None',
     'Cubed',
     'Crushed',
@@ -231,8 +237,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       tags: [...cocktail.tags],
       abv: cocktail.abv,
       baseSpirit: cocktail.baseSpirit,
-      glasswareType: cocktail.glasswareType,
-      iceType: cocktail.iceType
+      glasswareTypes: [...(cocktail.glasswareTypes || [])],
+      iceTypes: [...(cocktail.iceTypes || [])]
     };
     this.isModalOpen = true;
   }
@@ -323,6 +329,32 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   removeTag(index: number): void {
     this.newCocktail.tags.splice(index, 1);
   }
+  
+  addGlassware(): void {
+    const glasswareToAdd = this.customGlassware.trim() || this.newGlassware.trim();
+    if (glasswareToAdd && !this.newCocktail.glasswareTypes.includes(glasswareToAdd)) {
+      this.newCocktail.glasswareTypes.push(glasswareToAdd);
+      this.newGlassware = '';
+      this.customGlassware = '';
+    }
+  }
+  
+  removeGlassware(index: number): void {
+    this.newCocktail.glasswareTypes.splice(index, 1);
+  }
+  
+  addIce(): void {
+    const iceToAdd = this.customIce.trim() || this.newIce.trim();
+    if (iceToAdd && !this.newCocktail.iceTypes.includes(iceToAdd)) {
+      this.newCocktail.iceTypes.push(iceToAdd);
+      this.newIce = '';
+      this.customIce = '';
+    }
+  }
+  
+  removeIce(index: number): void {
+    this.newCocktail.iceTypes.splice(index, 1);
+  }
 
   createCocktail(): void {
     if (this.newCocktail.name && this.newCocktail.ingredients.length > 0) {
@@ -394,8 +426,8 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       tags: [],
       abv: 0,
       baseSpirit: 'none',
-      glasswareType: undefined,
-      iceType: undefined
+      glasswareTypes: [],
+      iceTypes: []
     };
     this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
   }
@@ -425,6 +457,28 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       cocktail.tags.forEach(tag => tags.add(tag));
     });
     return Array.from(tags).sort();
+  }
+  
+  get allGlasswareTypes(): string[] {
+    const glassware = new Set<string>();
+    // Add defaults first
+    this.defaultGlasswareTypes.forEach(type => glassware.add(type));
+    // Add existing types from cocktails
+    this.cocktails.forEach(cocktail => {
+      (cocktail.glasswareTypes || []).forEach(type => glassware.add(type));
+    });
+    return Array.from(glassware).sort();
+  }
+  
+  get allIceTypes(): string[] {
+    const ice = new Set<string>();
+    // Add defaults first
+    this.defaultIceTypes.forEach(type => ice.add(type));
+    // Add existing types from cocktails
+    this.cocktails.forEach(cocktail => {
+      (cocktail.iceTypes || []).forEach(type => ice.add(type));
+    });
+    return Array.from(ice).sort();
   }
   
   get filteredIngredients(): Ingredient[] {

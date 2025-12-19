@@ -55,11 +55,15 @@ data class Cocktail(
     @Schema(description = "Base spirit type (automatically calculated)", accessMode = Schema.AccessMode.READ_ONLY, example = "rum")
     var baseSpirit: String = "none",
 
-    @Column(length = 50)
-    @Schema(description = "Type of glassware required for serving", example = "highball")
-    var glasswareType: String? = null,
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "cocktail_glassware", joinColumns = [JoinColumn(name = "cocktail_id")])
+    @Column(name = "glassware")
+    @Schema(description = "Types of glassware suitable for serving", example = "[\"highball\", \"collins\"]")
+    var glasswareTypes: MutableList<String> = mutableListOf(),
 
-    @Column(length = 50)
-    @Schema(description = "Type of ice required", example = "cubed")
-    var iceType: String? = null
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "cocktail_ice", joinColumns = [JoinColumn(name = "cocktail_id")])
+    @Column(name = "ice")
+    @Schema(description = "Types of ice suitable for this cocktail", example = "[\"cubed\", \"crushed\"]")
+    var iceTypes: MutableList<String> = mutableListOf()
 )

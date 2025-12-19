@@ -50,14 +50,20 @@
     </div>
 
     <!-- Glassware and Ice -->
-    <div *ngIf="cocktail.glasswareType || cocktail.iceType" class="info-card">
+    <div *ngIf="cocktail.glasswareTypes?.length || cocktail.iceTypes?.length" class="info-card">
       <h3 class="section-title">{{ 'visitor.recipe.servingInfo' | translate }}</h3>
       <div class="serving-info">
-        <p *ngIf="cocktail.glasswareType">
-          <strong>{{ 'visitor.recipe.glassware' | translate }}:</strong> {{ cocktail.glasswareType }}
+        <p *ngIf="cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0">
+          <strong>{{ 'visitor.recipe.glassware' | translate }}:</strong>
+          <span *ngFor="let glassware of cocktail.glasswareTypes; let i = index">
+            {{ glassware }}<ng-container *ngIf="i < cocktail.glasswareTypes.length - 1">, </ng-container>
+          </span>
         </p>
-        <p *ngIf="cocktail.iceType">
-          <strong>{{ 'visitor.recipe.ice' | translate }}:</strong> {{ cocktail.iceType }}
+        <p *ngIf="cocktail.iceTypes && cocktail.iceTypes.length > 0">
+          <strong>{{ 'visitor.recipe.ice' | translate }}:</strong>
+          <span *ngFor="let ice of cocktail.iceTypes; let i = index">
+            {{ ice }}<ng-container *ngIf="i < cocktail.iceTypes.length - 1">, </ng-container>
+          </span>
         </p>
       </div>
     </div>

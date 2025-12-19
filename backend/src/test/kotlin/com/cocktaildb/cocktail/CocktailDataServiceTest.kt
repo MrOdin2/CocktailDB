@@ -146,15 +146,17 @@ class CocktailDataServiceTest {
     }
     
     @Test
-    fun `createCocktail should save cocktail with glassware and ice type`() {
+    fun `createCocktail should save cocktail with glassware and ice types`() {
         // Given
         val newCocktail = createTestCocktail(null, "Martini").apply {
-            glasswareType = "martini"
-            iceType = "none"
+            glasswareTypes.add("martini")
+            glasswareTypes.add("coupe")
+            iceTypes.add("none")
         }
         val savedCocktail = createTestCocktail(1, "Martini").apply {
-            glasswareType = "martini"
-            iceType = "none"
+            glasswareTypes.add("martini")
+            glasswareTypes.add("coupe")
+            iceTypes.add("none")
         }
         every { cocktailRepository.save(newCocktail) } returns savedCocktail
         
@@ -164,8 +166,11 @@ class CocktailDataServiceTest {
         // Then
         assertNotNull(result.id)
         assertEquals("Martini", result.name)
-        assertEquals("martini", result.glasswareType)
-        assertEquals("none", result.iceType)
+        assertEquals(2, result.glasswareTypes.size)
+        assertTrue(result.glasswareTypes.contains("martini"))
+        assertTrue(result.glasswareTypes.contains("coupe"))
+        assertEquals(1, result.iceTypes.size)
+        assertTrue(result.iceTypes.contains("none"))
         verify { cocktailRepository.save(newCocktail) }
     }
     
@@ -179,8 +184,8 @@ class CocktailDataServiceTest {
             tags = mutableListOf("test"),
             abv = 15,
             baseSpirit = "Vodka",
-            glasswareType = null,
-            iceType = null
+            glasswareTypes = mutableListOf(),
+            iceTypes = mutableListOf()
         )
     }
 }
