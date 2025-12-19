@@ -162,7 +162,7 @@ export class FuzzySearchService {
       const searchTexts = getSearchText(item);
       const textsArray = Array.isArray(searchTexts) ? searchTexts : [searchTexts];
       
-      let bestMatch = { score: 0, matchedText: undefined as string | undefined, matchIndex: undefined as number | undefined };
+      let bestMatch: { score: number; matchedText?: string; matchIndex?: number } = { score: 0, matchedText: undefined as string | undefined, matchIndex: undefined as number | undefined };
 
       // Find best match across all searchable fields
       for (const text of textsArray) {
