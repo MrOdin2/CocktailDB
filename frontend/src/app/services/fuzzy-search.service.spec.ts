@@ -100,6 +100,40 @@ describe('FuzzySearchService', () => {
       expect(results.some(r => r.item.name === 'Mojito')).toBe(true);
     });
 
+    it('should prioritize full multi-word matches over partial single-word matches', () => {
+      const cocktails = [
+        { name: 'Vodka Tonic', category: 'Vodka' },
+        { name: 'Gin and Tonic', category: 'Gin' },
+        { name: 'Vodka Gimlet', category: 'Vodka' }
+      ];
+      
+      const results = service.search('Vodka Tonic', cocktails, c => [c.name, c.category]);
+      
+      // Vodka Tonic should be first (exact match on name)
+      expect(results[0].item.name).toBe('Vodka Tonic');
+      expect(results[0].score).toBeGreaterThan(0.95);
+      
+      // Other cocktails should score lower
+      if (results.length > 1) {
+        expect(results[0].score).toBeGreaterThan(results[1].score);
+      }
+    });
+
+    it('should match all words in multi-word queries', () => {
+      const cocktails = [
+        { name: 'Vodka Tonic', category: 'Vodka' },
+        { name: 'Tonic Water', category: 'Mixer' },
+        { name: 'Vodka Martini', category: 'Vodka' }
+      ];
+      
+      const results = service.search('Vodka Tonic', cocktails, c => c.name);
+      
+      // Vodka Tonic should match with high score (both words match)
+      const vodkaTonic = results.find(r => r.item.name === 'Vodka Tonic');
+      expect(vodkaTonic).toBeDefined();
+      expect(vodkaTonic!.score).toBeGreaterThan(0.9);
+    });
+
     it('should respect custom threshold', () => {
       // With threshold 0, only exact/substring matches should work
       const strictResults = service.search('mojto', testItems, item => item.name, 0);

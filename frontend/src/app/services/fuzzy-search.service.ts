@@ -104,6 +104,7 @@ export class FuzzySearchService {
     // Try exact match first
     let bestScore = this.calculateScore(query, target, threshold);
     let bestMatch = { score: bestScore, matchedText: target, matchIndex: 0 };
+    let isFullMatch = true;
 
     if (bestScore >= 0.9) {
       return bestMatch;
@@ -111,6 +112,48 @@ export class FuzzySearchService {
 
     // Try matching against individual words in target
     const words = targetLower.split(/\s+/);
+    const queryWords = queryLower.split(/\s+/);
+    
+    // If query has multiple words, check if all words match (in any order)
+    if (queryWords.length > 1 && words.length > 1) {
+      let allWordsMatch = true;
+      let matchedWordsScore = 0;
+      
+      for (const qWord of queryWords) {
+        let foundMatch = false;
+        for (const tWord of words) {
+          const wordScore = this.calculateScore(qWord, tWord, threshold);
+          if (wordScore >= 0.7) {
+            foundMatch = true;
+            matchedWordsScore += wordScore;
+            break;
+          }
+        }
+        if (!foundMatch) {
+          allWordsMatch = false;
+          break;
+        }
+      }
+      
+      if (allWordsMatch) {
+        // Multi-word match: average score but boost for matching all words
+        const avgScore = matchedWordsScore / queryWords.length;
+        const multiWordBonus = 0.05; // Small boost for matching all query words
+        const multiWordScore = Math.min(0.98, avgScore + multiWordBonus);
+        
+        if (multiWordScore > bestScore) {
+          bestScore = multiWordScore;
+          bestMatch = {
+            score: multiWordScore,
+            matchedText: target,
+            matchIndex: 0
+          };
+          isFullMatch = false;
+        }
+      }
+    }
+    
+    // Try matching individual words
     let searchIndex = 0;
     for (let i = 0; i < words.length; i++) {
       const wordScore = this.calculateScore(queryLower, words[i], threshold);
@@ -118,13 +161,19 @@ export class FuzzySearchService {
       // Note: This uses indexOf which may find duplicate words, but for typical
       // cocktail/ingredient names this is rare and acceptable for the MVP
       const wordIndex = targetLower.indexOf(words[i], searchIndex);
-      if (wordScore > bestScore) {
-        bestScore = wordScore;
+      
+      // Penalize single-word matches compared to full-string matches
+      // Single word match gets 0.85x of its score to ensure full matches rank higher
+      const adjustedScore = wordScore * 0.85;
+      
+      if (adjustedScore > bestScore) {
+        bestScore = adjustedScore;
         bestMatch = {
-          score: wordScore,
+          score: adjustedScore,
           matchedText: words[i],
           matchIndex: wordIndex >= 0 ? wordIndex : 0
         };
+        isFullMatch = false;
       }
       // Update search position to after this word
       if (wordIndex >= 0) {
@@ -165,12 +214,27 @@ export class FuzzySearchService {
       let bestMatch: { score: number; matchedText?: string; matchIndex?: number } = { score: 0, matchedText: undefined as string | undefined, matchIndex: undefined as number | undefined };
 
       // Find best match across all searchable fields
-      for (const text of textsArray) {
+      // First field gets priority (typically the primary field like name)
+      for (let fieldIndex = 0; fieldIndex < textsArray.length; fieldIndex++) {
+        const text = textsArray[fieldIndex];
         if (!text) continue;
         
         const match = this.findBestMatch(query, text, threshold);
-        if (match.score > bestMatch.score) {
-          bestMatch = match;
+        
+        // Apply field priority weighting
+        // First field (index 0) gets full score, subsequent fields get reduced weight
+        let weightedScore = match.score;
+        if (fieldIndex > 0) {
+          // Reduce score for secondary fields to prioritize primary field matches
+          weightedScore = match.score * 0.95;
+        }
+        
+        if (weightedScore > bestMatch.score) {
+          bestMatch = {
+            score: weightedScore,
+            matchedText: match.matchedText,
+            matchIndex: match.matchIndex
+          };
         }
       }
 
