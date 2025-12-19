@@ -145,6 +145,30 @@ class CocktailDataServiceTest {
         verify { cocktailRepository.deleteById(999) }
     }
     
+    @Test
+    fun `createCocktail should save cocktail with glassware and ice type`() {
+        // Given
+        val newCocktail = createTestCocktail(null, "Martini").apply {
+            glasswareType = "martini"
+            iceType = "none"
+        }
+        val savedCocktail = createTestCocktail(1, "Martini").apply {
+            glasswareType = "martini"
+            iceType = "none"
+        }
+        every { cocktailRepository.save(newCocktail) } returns savedCocktail
+        
+        // When
+        val result = cocktailDataService.createCocktail(newCocktail)
+        
+        // Then
+        assertNotNull(result.id)
+        assertEquals("Martini", result.name)
+        assertEquals("martini", result.glasswareType)
+        assertEquals("none", result.iceType)
+        verify { cocktailRepository.save(newCocktail) }
+    }
+    
     private fun createTestCocktail(id: Long?, name: String): Cocktail {
         return Cocktail(
             id = id,
@@ -154,7 +178,9 @@ class CocktailDataServiceTest {
             notes = "Test notes",
             tags = mutableListOf("test"),
             abv = 15,
-            baseSpirit = "Vodka"
+            baseSpirit = "Vodka",
+            glasswareType = null,
+            iceType = null
         )
     }
 }

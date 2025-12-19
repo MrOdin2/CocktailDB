@@ -53,5 +53,13 @@ data class Cocktail(
 
     @Column(nullable = false, length = 50)
     @Schema(description = "Base spirit type (automatically calculated)", accessMode = Schema.AccessMode.READ_ONLY, example = "rum")
-    var baseSpirit: String = "none"
+    var baseSpirit: String = "none",
+
+    @Column(length = 50)
+    @Schema(description = "Type of glassware required for serving", example = "highball")
+    var glasswareType: String? = null,
+
+    @Column(length = 50)
+    @Schema(description = "Type of ice required", example = "cubed")
+    var iceType: String? = null
 )

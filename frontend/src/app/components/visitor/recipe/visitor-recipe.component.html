@@ -49,6 +49,19 @@
       </div>
     </div>
 
+    <!-- Glassware and Ice -->
+    <div *ngIf="cocktail.glasswareType || cocktail.iceType" class="info-card">
+      <h3 class="section-title">{{ 'visitor.recipe.servingInfo' | translate }}</h3>
+      <div class="serving-info">
+        <p *ngIf="cocktail.glasswareType">
+          <strong>{{ 'visitor.recipe.glassware' | translate }}:</strong> {{ cocktail.glasswareType }}
+        </p>
+        <p *ngIf="cocktail.iceType">
+          <strong>{{ 'visitor.recipe.ice' | translate }}:</strong> {{ cocktail.iceType }}
+        </p>
+      </div>
+    </div>
+
     <!-- Ingredients -->
     <div class="info-card">
       <h3 class="section-title">{{ 'visitor.recipe.ingredients' | translate }}</h3>

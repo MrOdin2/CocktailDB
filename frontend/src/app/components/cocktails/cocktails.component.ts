@@ -43,7 +43,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     notes: '',
     tags: [],
     abv: 0,
-    baseSpirit: 'none'
+    baseSpirit: 'none',
+    glasswareType: undefined,
+    iceType: undefined
   };
   
   // For ingredient entry - store value in display unit, convert to ml on add
@@ -81,6 +83,35 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   isTagSelectionModalOpen = false;
   availableTagsForExport: string[] = [];
   selectedTagsForExport: string[] = [];
+  
+  // Predefined glassware types
+  readonly glasswareTypes = [
+    'Coupe',
+    'Highball',
+    'Rocks / Old Fashioned',
+    'Martini / Cocktail',
+    'Collins',
+    'Hurricane',
+    'Margarita',
+    'Wine',
+    'Champagne Flute',
+    'Shot',
+    'Mug',
+    'Tiki',
+    'Nick & Nora',
+    'Snifter'
+  ];
+  
+  // Predefined ice types
+  readonly iceTypes = [
+    'None',
+    'Cubed',
+    'Crushed',
+    'Large Cube',
+    'Ice Sphere',
+    'Cracked',
+    'Shaved'
+  ];
 
   constructor(
     private apiService: ApiService, 
@@ -199,7 +230,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       notes: cocktail.notes || '',
       tags: [...cocktail.tags],
       abv: cocktail.abv,
-      baseSpirit: cocktail.baseSpirit
+      baseSpirit: cocktail.baseSpirit,
+      glasswareType: cocktail.glasswareType,
+      iceType: cocktail.iceType
     };
     this.isModalOpen = true;
   }
@@ -360,7 +393,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       notes: '',
       tags: [],
       abv: 0,
-      baseSpirit: 'none'
+      baseSpirit: 'none',
+      glasswareType: undefined,
+      iceType: undefined
     };
     this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
   }

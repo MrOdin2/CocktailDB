@@ -31,6 +31,16 @@
       </span>
     </div>
 
+      <!-- Glassware and Ice Section -->
+      <div *ngIf="cocktail.glasswareType || cocktail.iceType" class="recipe-section glassware-ice-section">
+        <div *ngIf="cocktail.glasswareType" class="info-item">
+          <strong>{{ 'barkeeper.recipe.glassware' | translate }}:</strong> {{ cocktail.glasswareType }}
+        </div>
+        <div *ngIf="cocktail.iceType" class="info-item">
+          <strong>{{ 'barkeeper.recipe.ice' | translate }}:</strong> {{ cocktail.iceType }}
+        </div>
+      </div>
+
       <div class="important-section">
           <div class="recipe-section">
               <h3>{{ 'barkeeper.recipe.ingredients' | translate }}</h3>
