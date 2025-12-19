@@ -104,7 +104,6 @@ export class FuzzySearchService {
     // Try exact match first
     let bestScore = this.calculateScore(query, target, threshold);
     let bestMatch = { score: bestScore, matchedText: target, matchIndex: 0 };
-    let isFullMatch = true;
 
     if (bestScore >= 0.9) {
       return bestMatch;
@@ -148,7 +147,6 @@ export class FuzzySearchService {
             matchedText: target,
             matchIndex: 0
           };
-          isFullMatch = false;
         }
       }
     }
@@ -173,7 +171,6 @@ export class FuzzySearchService {
           matchedText: words[i],
           matchIndex: wordIndex >= 0 ? wordIndex : 0
         };
-        isFullMatch = false;
       }
       // Update search position to after this word
       if (wordIndex >= 0) {
