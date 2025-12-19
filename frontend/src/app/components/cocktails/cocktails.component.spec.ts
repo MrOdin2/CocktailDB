@@ -316,6 +316,23 @@ describe('CocktailsComponent - Drag and Drop', () => {
       expect(filtered.length).toBeGreaterThan(0);
       expect(filtered.some(i => i.name === 'Vodka')).toBe(true);
     });
+
+    it('should sort results by fuzzy search score (best match first)', () => {
+      const testCocktails: Cocktail[] = [
+        { id: 1, name: 'Gin and Tonic', ingredients: [], steps: [], tags: [], abv: 10, baseSpirit: 'Gin' },
+        { id: 2, name: 'Vodka Tonic', ingredients: [], steps: [], tags: [], abv: 10, baseSpirit: 'Vodka' },
+        { id: 3, name: 'Vodka Gimlet', ingredients: [], steps: [], tags: [], abv: 15, baseSpirit: 'Vodka' }
+      ];
+      apiService.getAllCocktails.and.returnValue(of(testCocktails));
+      component.ngOnInit();
+      
+      component.nameFilter = 'Vodka Tonic';
+      const displayed = component.displayedCocktails;
+      
+      // Vodka Tonic should be first (exact match)
+      expect(displayed.length).toBeGreaterThan(0);
+      expect(displayed[0].name).toBe('Vodka Tonic');
+    });
   });
 
   describe('Reordered data persistence', () => {

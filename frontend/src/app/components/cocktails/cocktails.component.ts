@@ -148,32 +148,38 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       return this.cocktails;
     }
     
-    return this.cocktails.filter(cocktail => {
-      let matches = true;
-      
-      // Name filter with fuzzy matching
-      if (this.nameFilter) {
-        matches = matches && this.fuzzySearchService.matches(this.nameFilter, cocktail.name);
-      }
-      
-      // Spirit filter with fuzzy matching
-      if (this.spiritFilter) {
-        const hasSpirit = cocktail.ingredients.some(ing => {
+    let filtered = this.cocktails;
+    
+    // Apply name filter with fuzzy search (returns scored and sorted results)
+    if (this.nameFilter) {
+      const results = this.fuzzySearchService.search(
+        this.nameFilter,
+        filtered,
+        cocktail => cocktail.name
+      );
+      filtered = results.map(r => r.item);
+    }
+    
+    // Apply spirit filter with fuzzy matching
+    if (this.spiritFilter) {
+      filtered = filtered.filter(cocktail => {
+        return cocktail.ingredients.some(ing => {
           const ingredient = this.ingredients.find(i => i.id === ing.ingredientId);
           return ingredient && this.fuzzySearchService.matches(this.spiritFilter, ingredient.name);
         });
-        matches = matches && hasSpirit;
-      }
-      
-      // Tag filter with fuzzy matching
-      if (this.tagFilter) {
-        matches = matches && cocktail.tags.some(tag => 
+      });
+    }
+    
+    // Apply tag filter with fuzzy matching
+    if (this.tagFilter) {
+      filtered = filtered.filter(cocktail => 
+        cocktail.tags.some(tag => 
           this.fuzzySearchService.matches(this.tagFilter, tag)
-        );
-      }
-      
-      return matches;
-    });
+        )
+      );
+    }
+    
+    return filtered;
   }
 
   openModal(): void {
