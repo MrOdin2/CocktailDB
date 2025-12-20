@@ -53,6 +53,7 @@
         [isEditMode]="isEditMode"
         [cocktail]="editingCocktail"
         [ingredients]="ingredients"
+        [allCocktails]="cocktails"
         [currentUnit]="currentUnit"
         [availableUnits]="availableUnits"
         [allTags]="allTags"
@@ -79,6 +80,7 @@
                 <app-cocktail-card 
                     [cocktail]="cocktail"
                     [ingredients]="ingredients"
+                    [allCocktails]="cocktails"
                     [currentUnit]="currentUnit"
                     (edit)="openEditModal($event)"
                     (delete)="deleteCocktail($event)">

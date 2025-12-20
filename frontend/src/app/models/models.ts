@@ -43,6 +43,7 @@ export interface Cocktail {
   baseSpirit: string;
   glasswareTypes: string[];
   iceTypes: string[];
+  variationOfId?: number;
 }
 
 export interface CocktailsWithSubstitutions {

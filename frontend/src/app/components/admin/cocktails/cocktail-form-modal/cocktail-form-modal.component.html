@@ -188,6 +188,17 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>{{ 'cocktails.variationOf' | translate }}</label>
+            <select [(ngModel)]="formCocktail.variationOfId" name="variationOf" class="variation-select">
+                <option [ngValue]="undefined">{{ 'cocktails.notAVariation' | translate }}</option>
+                @for (baseCocktail of availableBaseCocktails; track baseCocktail.id) {
+                    <option [ngValue]="baseCocktail.id">{{ baseCocktail.name }}</option>
+                }
+            </select>
+            <small class="help-text">{{ 'cocktails.variationHelp' | translate }}</small>
+        </div>
+
         <div class="modal-actions">
             <button type="button" class="btn-secondary" (click)="onClose()">{{ 'common.cancel' | translate }}
             </button>

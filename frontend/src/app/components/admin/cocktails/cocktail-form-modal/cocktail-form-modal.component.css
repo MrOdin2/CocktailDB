@@ -1,1 +1,13 @@
 /* Cocktail form modal styles - inherits from parent cocktails component */
+
+.help-text {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+.variation-select {
+  width: 100%;
+}
+

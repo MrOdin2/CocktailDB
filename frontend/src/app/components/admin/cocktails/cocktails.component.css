@@ -132,6 +132,22 @@
   gap: 0.5rem;
 }
 
+.variation-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 2px solid;
+  background: rgba(100, 150, 255, 0.1);
+  border-color: rgba(100, 150, 255, 0.5);
+}
+
+.variation-info {
+  margin-bottom: 0.75rem;
+}
+
 .tag-remove {
   background: none;
   border: none;

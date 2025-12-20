@@ -11,6 +11,8 @@ class PatchCocktailService(
 ) {
 
     fun createCocktail(cocktail: Cocktail): Cocktail {
+        // Validate variation reference
+        validateVariationReference(null, cocktail.variationOfId)
 
         cocktail.abv = calculateAbv(cocktail.ingredients)
         cocktail.baseSpirit = determineBaseSpirit(cocktail.ingredients)
@@ -20,6 +22,10 @@ class PatchCocktailService(
 
     fun updateCocktail(id: Long, cocktail: Cocktail): Cocktail? {
         val existing = cocktailDataService.getCocktailById(id) ?: return null
+        
+        // Validate variation reference
+        validateVariationReference(id, cocktail.variationOfId)
+        
         existing.name = cocktail.name
         existing.ingredients = cocktail.ingredients
         existing.steps = cocktail.steps
@@ -27,6 +33,7 @@ class PatchCocktailService(
         existing.tags = cocktail.tags
         existing.glasswareTypes = cocktail.glasswareTypes
         existing.iceTypes = cocktail.iceTypes
+        existing.variationOfId = cocktail.variationOfId
 
         existing.abv = calculateAbv(cocktail.ingredients)
         existing.baseSpirit = determineBaseSpirit(cocktail.ingredients)
@@ -69,6 +76,45 @@ class PatchCocktailService(
         // If no spirits, use the ingredient with highest volume
         return baseSpirit?.name
             ?: "none"
+    }
+
+    /**
+     * Validates that the variation reference does not create circular dependencies.
+     * @param cocktailId The ID of the cocktail being created/updated (null for create)
+     * @param variationOfId The ID of the base cocktail
+     * @throws IllegalArgumentException if the reference creates a circular dependency
+     */
+    private fun validateVariationReference(cocktailId: Long?, variationOfId: Long?) {
+        // No validation needed if no variation is set
+        if (variationOfId == null) return
+        
+        // Cannot reference itself
+        if (cocktailId != null && cocktailId == variationOfId) {
+            throw IllegalArgumentException("A cocktail cannot be a variation of itself")
+        }
+        
+        // Check if base cocktail exists
+        val baseCocktail = cocktailDataService.getCocktailById(variationOfId)
+            ?: throw IllegalArgumentException("Base cocktail with ID $variationOfId does not exist")
+        
+        // Check for circular references by traversing the chain
+        val visited = mutableSetOf<Long>()
+        var currentId: Long? = variationOfId
+        
+        while (currentId != null) {
+            if (currentId == cocktailId) {
+                throw IllegalArgumentException("Circular reference detected: cocktail $cocktailId is already in the variation chain")
+            }
+            
+            if (visited.contains(currentId)) {
+                // Already visited this node, circular reference exists in the chain but doesn't involve current cocktail
+                break
+            }
+            
+            visited.add(currentId)
+            val current = cocktailDataService.getCocktailById(currentId)
+            currentId = current?.variationOfId
+        }
     }
 
 }

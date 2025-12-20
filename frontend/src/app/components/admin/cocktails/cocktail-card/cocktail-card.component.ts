@@ -14,6 +14,7 @@ import { TranslatePipe } from '../../../../pipes/translate.pipe';
 export class CocktailCardComponent {
   @Input() cocktail!: Cocktail;
   @Input() ingredients: Ingredient[] = [];
+  @Input() allCocktails: Cocktail[] = [];
   @Input() currentUnit: MeasureUnit = MeasureUnit.ML;
   
   @Output() edit = new EventEmitter<Cocktail>();
@@ -34,6 +35,11 @@ export class CocktailCardComponent {
   getIngredientName(ingredientId: number): string {
     const ingredient = this.ingredients.find(i => i.id === ingredientId);
     return ingredient ? ingredient.name : 'Unknown';
+  }
+  
+  getBaseCocktailName(baseCocktailId: number): string {
+    const baseCocktail = this.allCocktails.find(c => c.id === baseCocktailId);
+    return baseCocktail ? baseCocktail.name : 'Unknown';
   }
 
   formatMeasure(measureMl: number): string {
