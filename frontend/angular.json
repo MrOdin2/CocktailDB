@@ -27,15 +27,10 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/styles-theme0-basic.css",
-              "src/styles-theme1-terminal-green.css",
-              "src/styles-theme2-cyberpunk.css",
-              "src/styles-theme3-amber.css"
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/app/components/visitor/visitor-shared.css"
+              "src/styles.css"
             ],
             "scripts": [],
             "browser": "src/main.ts"
@@ -99,15 +94,10 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/styles-theme0-basic.css",
-              "src/styles-theme1-terminal-green.css",
-              "src/styles-theme2-cyberpunk.css",
-              "src/styles-theme3-amber.css"
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/app/components/visitor/visitor-shared.css"
+              "src/styles.css"
             ],
             "scripts": []
           }

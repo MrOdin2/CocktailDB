@@ -1,80 +1,85 @@
-* {
-  box-sizing: border-box;
-}
+/* Import shared component styles at the top */
+@import './app/components/admin/admin-shared.css' layer(components);
+@import './app/components/visitor/visitor-shared.css' layer(components);
 
-body {
-  margin: 0;
-  font-family: 'Courier New', 'Courier', monospace;
-  background-color: #000000 !important;
-  color: #00ff00;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: 'Courier New', 'Courier', monospace;
-}
-
-/* CRT scanline effect - reduced intensity, will be overridden by theme-specific styles */
-body::before {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-  background-size: 100% 3px;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.3;
-}
-
-/* Responsive Typography */
-html {
-  font-size: 16px;
-}
-
-@media (max-width: 767px) {
+@layer base {
   html {
-    font-size: 14px;
+    @apply text-base;
+  }
+
+  body {
+    @apply m-0 font-mono;
+    background-color: oklch(var(--b1));
+    color: oklch(var(--bc));
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+  }
+
+  code {
+    @apply font-mono;
+  }
+
+  /* Responsive Typography */
+  @media (max-width: 767px) {
+    html {
+      @apply text-sm;
+    }
   }
 }
 
-/* Responsive Utilities */
-.mobile-only {
-  display: block;
+@layer components {
+  /* CRT scanline effect for retro themes */
+  [data-theme="terminal-green"] body::before,
+  [data-theme="cyberpunk"] body::before,
+  [data-theme="amber"] body::before {
+    content: " ";
+    @apply block fixed top-0 left-0 bottom-0 right-0 pointer-events-none z-[1] opacity-30;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 3px;
+  }
+
+  /* Text glow effects for retro themes */
+  [data-theme="terminal-green"] {
+    h1, h2, h3, h4, h5, h6 {
+      text-shadow: 0 0 5px currentColor;
+    }
+  }
+
+  [data-theme="cyberpunk"] {
+    h1, h2, h3, h4, h5, h6 {
+      text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+  }
+
+  [data-theme="amber"] {
+    h1, h2, h3, h4, h5, h6 {
+      text-shadow: 0 0 5px currentColor;
+    }
+  }
+
+  /* Touch-friendly interactive elements on mobile */
+  @media (max-width: 1023px) {
+    button, a, input[type="checkbox"], input[type="radio"], select {
+      @apply min-h-[44px] min-w-[44px];
+    }
+  }
 }
 
-.tablet-up {
-  display: none;
-}
-
-.desktop-only {
-  display: none;
-}
-
-@media (min-width: 768px) {
+@layer utilities {
+  /* Responsive display utilities */
   .mobile-only {
-    display: none;
+    @apply block md:hidden;
   }
-  
+
   .tablet-up {
-    display: block;
+    @apply hidden md:block;
   }
-}
 
-@media (min-width: 1024px) {
   .desktop-only {
-    display: block;
-  }
-}
-
-/* Touch-friendly interactive elements */
-@media (max-width: 1023px) {
-  button, a, input[type="checkbox"], input[type="radio"], select {
-    min-height: 44px;
-    min-width: 44px;
+    @apply hidden lg:block;
   }
 }
