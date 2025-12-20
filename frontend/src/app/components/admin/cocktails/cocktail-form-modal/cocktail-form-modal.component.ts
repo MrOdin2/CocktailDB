@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../../../models/models';
 import { MeasureService } from '../../../../services/measure.service';
+import { FuzzySearchService } from '../../../../services/fuzzy-search.service';
 import { ModalComponent } from '../../../util/modal.component';
 import { TranslatePipe } from '../../../../pipes/translate.pipe';
 
@@ -49,7 +50,10 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   newIce = '';
   customIce = '';
 
-  constructor(private measureService: MeasureService) {}
+  constructor(
+    private measureService: MeasureService,
+    private fuzzySearchService: FuzzySearchService
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -97,10 +101,13 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
     if (!this.ingredientSearchFilter.trim()) {
       return this.ingredients;
     }
-    const searchText = this.ingredientSearchFilter.toLowerCase();
-    return this.ingredients.filter(ingredient =>
-      ingredient.name.toLowerCase().includes(searchText)
+    // Use fuzzy search and extract just the items
+    const results = this.fuzzySearchService.search(
+      this.ingredientSearchFilter,
+      this.ingredients,
+      ingredient => ingredient.name
     );
+    return results.map(r => r.item);
   }
 
   onIngredientSelected(): void {
