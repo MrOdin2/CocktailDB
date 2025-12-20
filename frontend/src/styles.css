@@ -6,6 +6,67 @@
 @tailwind components;
 @tailwind utilities;
 
+/* DaisyUI theme variables - manually defined since daisyUI 5.x has issues */
+[data-theme="basic"] {
+  --p: 0.35 0 0;           /* primary #333333 */
+  --pc: 1 0 0;              /* primary-content #ffffff */
+  --s: 1 0 0;               /* secondary #ffffff */
+  --sc: 0.35 0 0;           /* secondary-content #333333 */
+  --a: 0.35 0 0;            /* accent #333333 */
+  --ac: 1 0 0;              /* accent-content #ffffff */
+  --n: 0.96 0 0;            /* neutral #f5f5f5 */
+  --nc: 0.35 0 0;           /* neutral-content #333333 */
+  --b1: 1 0 0;              /* base-100 #ffffff */
+  --b2: 0.98 0 0;           /* base-200 #f9f9f9 */
+  --b3: 0.96 0 0;           /* base-300 #f5f5f5 */
+  --bc: 0.35 0 0;           /* base-content #333333 */
+}
+
+[data-theme="terminal-green"] {
+  --p: 0.90 0.30 145;       /* primary #00ff00 */
+  --pc: 0 0 0;              /* primary-content #000000 */
+  --s: 0.50 0.20 145;       /* secondary #008800 */
+  --sc: 0.90 0.30 145;      /* secondary-content #00ff00 */
+  --a: 0.90 0.30 145;       /* accent #00ff00 */
+  --ac: 0 0 0;              /* accent-content #000000 */
+  --n: 0.10 0.05 145;       /* neutral #001100 */
+  --nc: 0.90 0.30 145;      /* neutral-content #00ff00 */
+  --b1: 0 0 0;              /* base-100 #000000 */
+  --b2: 0.10 0.05 145;      /* base-200 #001100 */
+  --b3: 0.15 0.05 145;      /* base-300 #002200 */
+  --bc: 0.90 0.30 145;      /* base-content #00ff00 */
+}
+
+[data-theme="cyberpunk"] {
+  --p: 0.85 0.20 195;       /* primary #00ffff */
+  --pc: 0.20 0.05 250;      /* primary-content #0a0e27 */
+  --s: 0.70 0.30 320;       /* secondary #ff00ff */
+  --sc: 0.20 0.05 250;      /* secondary-content #0a0e27 */
+  --a: 0.85 0.20 195;       /* accent #00ffff */
+  --ac: 0.20 0.05 250;      /* accent-content #0a0e27 */
+  --n: 0.20 0.05 250;       /* neutral #0a0e27 */
+  --nc: 0.85 0.20 195;      /* neutral-content #00ffff */
+  --b1: 0.20 0.05 250;      /* base-100 #0a0e27 */
+  --b2: 0.25 0.05 250;      /* base-200 #141933 */
+  --b3: 0.30 0.05 250;      /* base-300 #1e2440 */
+  --bc: 0.85 0.20 195;      /* base-content #00ffff */
+}
+
+[data-theme="amber"] {
+  --p: 0.75 0.15 75;        /* primary #ffb000 */
+  --pc: 0.15 0.05 75;       /* primary-content #1a0f00 */
+  --s: 0.60 0.15 75;        /* secondary #cc8800 */
+  --sc: 0.15 0.05 75;       /* secondary-content #1a0f00 */
+  --a: 0.75 0.15 75;        /* accent #ffb000 */
+  --ac: 0.15 0.05 75;       /* accent-content #1a0f00 */
+  --n: 0.15 0.05 75;        /* neutral #1a0f00 */
+  --nc: 0.75 0.15 75;       /* neutral-content #ffb000 */
+  --b1: 0.15 0.05 75;       /* base-100 #1a0f00 */
+  --b2: 0.20 0.05 75;       /* base-200 #2a1f00 */
+  --b3: 0.25 0.05 75;       /* base-300 #3a2f00 */
+  --bc: 0.75 0.15 75;       /* base-content #ffb000 */
+}
+
 @layer base {
   html {
     @apply text-base;
