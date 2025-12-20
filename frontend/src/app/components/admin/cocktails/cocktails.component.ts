@@ -8,13 +8,14 @@ import { ExportService, ExportFormat, ExportType } from '../../../services/expor
 import { MeasureService } from '../../../services/measure.service';
 import { FuzzySearchService } from '../../../services/fuzzy-search.service';
 import { ModalComponent } from '../../util/modal.component';
+import { CocktailCardComponent } from './cocktail-card/cocktail-card.component';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { TranslateService } from '../../../services/translate.service';
 import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-cocktails',
-    imports: [FormsModule, ModalComponent, TranslatePipe, DragDropModule],
+    imports: [FormsModule, ModalComponent, TranslatePipe, DragDropModule, CocktailCardComponent],
     templateUrl: './cocktails.component.html',
     styleUrls: ['../admin-shared.css', './cocktails.component.css']
 })
