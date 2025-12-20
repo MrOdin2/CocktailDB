@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CocktailsComponent } from './cocktails.component';
-import { ApiService } from '../../services/api.service';
-import { ExportService } from '../../services/export.service';
-import { MeasureService } from '../../services/measure.service';
-import { TranslateService } from '../../services/translate.service';
-import { FuzzySearchService } from '../../services/fuzzy-search.service';
+import { ApiService } from '../../../services/api.service';
+import { ExportService } from '../../../services/export.service';
+import { MeasureService } from '../../../services/measure.service';
+import { TranslateService } from '../../../services/translate.service';
+import { FuzzySearchService } from '../../../services/fuzzy-search.service';
 import { of } from 'rxjs';
-import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../../models/models';
+import { Cocktail, CocktailIngredient, Ingredient, IngredientType } from '../../../models/models';
 
 describe('CocktailsComponent - Drag and Drop', () => {
   let component: CocktailsComponent;

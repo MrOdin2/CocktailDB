@@ -1,18 +1,4 @@
 <div class="app">
-  <header *ngIf="isAuthenticated && isAdmin()">
-    <div class="header-content">
-      <h1>🍸 {{ title }}</h1>
-      <div class="admin-badge">{{ 'app.adminMode' | translate }}</div>
-    </div>
-    <nav>
-      <a routerLink="/ingredients" routerLinkActive="active">{{ 'nav.ingredients' | translate }}</a>
-      <a routerLink="/cocktails" routerLinkActive="active">{{ 'nav.cocktails' | translate }}</a>
-      <a routerLink="/visualizations" routerLinkActive="active">{{ 'nav.visualizations' | translate }}</a>
-      <a routerLink="/settings" routerLinkActive="active">{{ 'nav.settings' | translate }}</a>
-      <button (click)="logout()" class="logout-button">{{ 'common.logout' | translate }}</button>
-    </nav>
-  </header>
-  
   <main>
     <router-outlet></router-outlet>
   </main>

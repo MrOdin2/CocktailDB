@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
-import { Ingredient, Cocktail } from '../../../../models/models';
+import { Ingredient, Cocktail } from '../../../../../models/models';
 
 interface ChartData {
   name: string;

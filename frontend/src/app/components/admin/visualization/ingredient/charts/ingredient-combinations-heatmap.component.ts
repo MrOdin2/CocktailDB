@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
-import { Ingredient, Cocktail } from '../../../../models/models';
-import { ThemeService, Theme } from '../../../../services/theme.service';
+import { Ingredient, Cocktail } from '../../../../../models/models';
+import { ThemeService, Theme } from '../../../../../services/theme.service';
 import { Subscription } from 'rxjs';
 
 interface IngredientPair {

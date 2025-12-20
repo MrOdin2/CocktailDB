@@ -1,0 +1,19 @@
+<div class="admin-container">
+  <header>
+    <div class="header-content">
+      <h1>🍸 CocktailDB</h1>
+      <div class="admin-badge">{{ 'app.adminMode' | translate }}</div>
+    </div>
+    <nav>
+      <a routerLink="/admin/ingredients" routerLinkActive="active">{{ 'nav.ingredients' | translate }}</a>
+      <a routerLink="/admin/cocktails" routerLinkActive="active">{{ 'nav.cocktails' | translate }}</a>
+      <a routerLink="/admin/visualizations" routerLinkActive="active">{{ 'nav.visualizations' | translate }}</a>
+      <a routerLink="/admin/settings" routerLinkActive="active">{{ 'nav.settings' | translate }}</a>
+      <button (click)="logout()" class="logout-button">{{ 'common.logout' | translate }}</button>
+    </nav>
+  </header>
+  
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

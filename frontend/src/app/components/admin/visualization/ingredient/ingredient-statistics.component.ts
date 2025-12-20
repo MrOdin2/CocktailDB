@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Ingredient, Cocktail } from '../../../models/models';
-import { ApiService } from '../../../services/api.service';
-import { ThemeService, Theme } from '../../../services/theme.service';
+import { Ingredient, Cocktail } from '../../../../models/models';
+import { ApiService } from '../../../../services/api.service';
+import { ThemeService, Theme } from '../../../../services/theme.service';
 import { Subscription } from 'rxjs';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { IngredientAvailabilityChartComponent } from './charts/ingredient-availability-chart.component';

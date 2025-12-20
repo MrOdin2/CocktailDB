@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ThemeService, Theme } from '../../services/theme.service';
-import { MeasureService } from '../../services/measure.service';
-import { TranslateService, Language } from '../../services/translate.service';
-import { TranslatePipe } from '../../pipes/translate.pipe';
-import { MeasureUnit } from '../../models/models';
+import { ThemeService, Theme } from '../../../services/theme.service';
+import { MeasureService } from '../../../services/measure.service';
+import { TranslateService, Language } from '../../../services/translate.service';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
+import { MeasureUnit } from '../../../models/models';
 
 @Component({
     selector: 'app-settings',
