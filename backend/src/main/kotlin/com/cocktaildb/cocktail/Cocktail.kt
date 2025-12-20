@@ -65,5 +65,9 @@ data class Cocktail(
     @CollectionTable(name = "cocktail_ice", joinColumns = [JoinColumn(name = "cocktail_id")])
     @Column(name = "ice")
     @Schema(description = "Types of ice suitable for this cocktail", example = "[\"cubed\", \"crushed\"]")
-    var iceTypes: MutableList<String> = mutableListOf()
+    var iceTypes: MutableList<String> = mutableListOf(),
+
+    @Column(nullable = true)
+    @Schema(description = "ID of the base cocktail if this is a variation", example = "1")
+    var variationOfId: Long? = null
 )

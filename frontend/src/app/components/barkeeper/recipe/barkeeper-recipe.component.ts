@@ -17,6 +17,7 @@ import { Cocktail, Ingredient, MeasureUnit, CocktailsWithSubstitutions } from '.
 })
 export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
   cocktail: Cocktail | null = null;
+  baseCocktail: Cocktail | null = null;
   ingredients: Ingredient[] = [];
   ingredientMap: Map<number, Ingredient> = new Map();
   cocktailsWithSubstitutions: CocktailsWithSubstitutions | null = null;
@@ -63,6 +64,10 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
     this.apiService.getCocktailById(id).subscribe({
       next: (cocktail: Cocktail) => {
         this.cocktail = cocktail;
+        // Load base cocktail if this is a variation
+        if (cocktail.variationOfId) {
+          this.loadBaseCocktail(cocktail.variationOfId);
+        }
         // Compute substitute info after cocktail is loaded (if ingredients are ready)
         if (this.ingredientMap.size > 0) {
           this.computeSubstituteInfo();
@@ -72,6 +77,18 @@ export class BarkeeperRecipeComponent implements OnInit, OnDestroy {
       error: (error: any) => {
         console.error('Error loading cocktail:', error);
         this.isLoading = false;
+      }
+    });
+  }
+  
+  loadBaseCocktail(baseCocktailId: number): void {
+    this.apiService.getCocktailById(baseCocktailId).subscribe({
+      next: (cocktail) => {
+        this.baseCocktail = cocktail;
+      },
+      error: (err) => {
+        console.error('Error loading base cocktail:', err);
+        // Non-critical error, don't show to user
       }
     });
   }

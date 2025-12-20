@@ -124,5 +124,16 @@
         <span *ngFor="let tag of cocktail.tags" class="tag">{{ tag }}</span>
       </div>
     </div>
+
+    <!-- Variation Info Section -->
+    <div *ngIf="cocktail.variationOfId && baseCocktail" class="recipe-section">
+      <h3>{{ 'barkeeper.recipe.variationInfo' | translate }}</h3>
+      <p class="variation-text">
+        {{ 'barkeeper.recipe.thisIsVariationOf' | translate }} 
+        <a [routerLink]="['/barkeeper/recipe', cocktail.variationOfId]" class="variation-link">
+          {{ baseCocktail.name }}
+        </a>
+      </p>
+    </div>
   </div>
 </div>

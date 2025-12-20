@@ -19,6 +19,7 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   @Input() isEditMode = false;
   @Input() cocktail?: Cocktail;
   @Input() ingredients: Ingredient[] = [];
+  @Input() allCocktails: Cocktail[] = [];
   @Input() currentUnit: MeasureUnit = MeasureUnit.ML;
   @Input() availableUnits: MeasureUnit[] = Object.values(MeasureUnit);
   @Input() allTags: string[] = [];
@@ -40,6 +41,7 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   
   isCountBasedIngredient = false;
   ingredientSearchFilter = '';
+  variationSearchFilter = '';
   
   // Form fields
   newStep = '';
@@ -76,7 +78,8 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
         abv: this.cocktail.abv,
         baseSpirit: this.cocktail.baseSpirit,
         glasswareTypes: [...(this.cocktail.glasswareTypes || [])],
-        iceTypes: [...(this.cocktail.iceTypes || [])]
+        iceTypes: [...(this.cocktail.iceTypes || [])],
+        variationOfId: this.cocktail.variationOfId
       };
     } else {
       this.formCocktail = this.getEmptyCocktail();
@@ -228,6 +231,61 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   onOpenIngredientModal(): void {
     this.openIngredientModal.emit();
   }
+  
+  get availableBaseCocktails(): Cocktail[] {
+    // Filter out current cocktail and any that are variations of this cocktail
+    const currentId = this.cocktail?.id;
+    if (!currentId && !this.isEditMode) {
+      // For new cocktails, return all cocktails
+      return this.allCocktails;
+    }
+    
+    // Find all cocktails that are variations of the current one (descendants)
+    const descendants = this.getDescendants(currentId);
+    
+    return this.allCocktails.filter(c => {
+      // Exclude current cocktail
+      if (c.id === currentId) return false;
+      // Exclude descendants to prevent circular references
+      if (c.id && descendants.has(c.id)) return false;
+      return true;
+    });
+  }
+  
+  get filteredAvailableBaseCocktails(): Cocktail[] {
+    const available = this.availableBaseCocktails;
+    
+    if (!this.variationSearchFilter.trim()) {
+      return available;
+    }
+    
+    // Use fuzzy search to filter cocktails by name
+    const results = this.fuzzySearchService.search(
+      this.variationSearchFilter,
+      available,
+      cocktail => cocktail.name
+    );
+    return results.map(r => r.item);
+  }
+  
+  private getDescendants(cocktailId?: number): Set<number> {
+    const descendants = new Set<number>();
+    if (!cocktailId) return descendants;
+    
+    // Find all cocktails that have this one as their base (direct children)
+    const children = this.allCocktails.filter(c => c.variationOfId === cocktailId);
+    
+    for (const child of children) {
+      if (child.id) {
+        descendants.add(child.id);
+        // Recursively add descendants of this child
+        const childDescendants = this.getDescendants(child.id);
+        childDescendants.forEach(id => descendants.add(id));
+      }
+    }
+    
+    return descendants;
+  }
 
   onClose(): void {
     this.resetForm();
@@ -246,6 +304,7 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
     this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
     this.isCountBasedIngredient = false;
     this.ingredientSearchFilter = '';
+    this.variationSearchFilter = '';
     this.newStep = '';
     this.newTag = '';
     this.customTag = '';

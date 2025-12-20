@@ -1,5 +1,12 @@
 <div class="cocktail-card">
     <h4>{{ cocktail.name }}</h4>
+    @if (cocktail.variationOfId) {
+        <div class="card-section variation-info">
+            <span class="variation-badge">
+                {{ 'cocktails.variationOf' | translate }}: {{ getBaseCocktailName(cocktail.variationOfId) }}
+            </span>
+        </div>
+    }
     @if (cocktail.tags && cocktail.tags.length > 0) {
         <div class="card-section">
             <div class="tags-display">
