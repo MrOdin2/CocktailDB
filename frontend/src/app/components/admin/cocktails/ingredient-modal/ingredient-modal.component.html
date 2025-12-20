@@ -1,0 +1,45 @@
+<app-modal [isOpen]="isOpen" [title]="'ingredients.modal.title' | translate" (closed)="onClose()">
+    <form #ingredientForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>{{ 'common.name' | translate }}:</label>
+            <input type="text" [(ngModel)]="newIngredient.name" name="ingredientName" required
+                   #ingredientNameInput="ngModel">
+            @if (ingredientNameInput.invalid && ingredientNameInput.touched) {
+                <div class="error-message">
+                    {{ 'ingredients.nameRequired' | translate }}
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'common.type' | translate }}:</label>
+            <select [(ngModel)]="newIngredient.type" name="ingredientType" required>
+                @for (type of ingredientTypes; track type) {
+                    <option [value]="type">{{ type }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'ingredients.abvPercent' | translate }}</label>
+            <input type="number" [(ngModel)]="newIngredient.abv" name="ingredientAbv" min="0" max="100"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" [(ngModel)]="newIngredient.inStock" name="ingredientInStock">
+                {{ 'ingredients.inStock' | translate }}
+            </label>
+        </div>
+
+        <div class="modal-actions">
+            <button type="button" class="btn-secondary"
+                    (click)="onClose()">{{ 'common.cancel' | translate }}
+            </button>
+            <button type="submit" class="btn-primary"
+                    [disabled]="ingredientForm.invalid">{{ 'ingredients.addIngredient' | translate }}
+            </button>
+        </div>
+    </form>
+</app-modal>

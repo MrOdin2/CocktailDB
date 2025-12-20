@@ -29,23 +29,15 @@ export const routes: Routes = [
   
   // Admin routes (lazy loaded, protected)
   { 
-    path: 'ingredients', 
-    loadComponent: () => import('./components/ingredients/ingredients.component').then(m => m.IngredientsComponent),
+    path: 'admin', 
+    loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent),
+    loadChildren: () => import('./components/admin/admin.routes').then(m => m.ADMIN_ROUTES),
     canActivate: [adminGuard]
   },
-  { 
-    path: 'cocktails', 
-    loadComponent: () => import('./components/cocktails/cocktails.component').then(m => m.CocktailsComponent),
-    canActivate: [adminGuard]
-  },
-  { 
-    path: 'visualizations', 
-    loadComponent: () => import('./components/visualization/visualization.component').then(m => m.VisualizationComponent),
-    canActivate: [adminGuard]
-  },
-  { 
-    path: 'settings', 
-    loadComponent: () => import('./components/settings/settings.component').then(m => m.SettingsComponent),
-    canActivate: [adminGuard]
-  }
+  
+  // Redirect old admin routes to new structure
+  { path: 'ingredients', redirectTo: '/admin/ingredients', pathMatch: 'full' },
+  { path: 'cocktails', redirectTo: '/admin/cocktails', pathMatch: 'full' },
+  { path: 'visualizations', redirectTo: '/admin/visualizations', pathMatch: 'full' },
+  { path: 'settings', redirectTo: '/admin/settings', pathMatch: 'full' }
 ];

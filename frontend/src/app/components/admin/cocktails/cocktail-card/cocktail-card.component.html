@@ -1,0 +1,66 @@
+<div class="cocktail-card">
+    <h4>{{ cocktail.name }}</h4>
+    @if (cocktail.tags && cocktail.tags.length > 0) {
+        <div class="card-section">
+            <div class="tags-display">
+                @for (tag of cocktail.tags; track tag) {
+                    <span class="tag-badge">{{ tag }}</span>
+                }
+            </div>
+        </div>
+    }
+    @if (cocktail.glasswareTypes?.length || cocktail.iceTypes?.length) {
+        <div class="card-section">
+            @if (cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0) {
+                <p><strong>{{ 'cocktails.glasswareTypes' | translate }}:</strong></p>
+                <div class="tags-display">
+                    @for (glassware of cocktail.glasswareTypes; track glassware) {
+                        <span class="tag-badge">{{ glassware }}</span>
+                    }
+                </div>
+            }
+            @if (cocktail.iceTypes && cocktail.iceTypes.length > 0) {
+                <p><strong>{{ 'cocktails.iceTypes' | translate }}:</strong></p>
+                <div class="tags-display">
+                    @for (ice of cocktail.iceTypes; track ice) {
+                        <span class="tag-badge">{{ ice }}</span>
+                    }
+                </div>
+            }
+        </div>
+    }
+    <div class="card-section">
+        <strong>{{ 'common.ingredients' | translate }}:</strong>
+        <ul>
+            @for (ing of cocktail.ingredients; track ing.ingredientId) {
+                <li>
+                    {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
+                </li>
+            }
+        </ul>
+    </div>
+    @if (cocktail.steps && cocktail.steps.length > 0) {
+        <div class="card-section">
+            <strong>{{ 'cocktails.steps' | translate }}</strong>
+            <ol>
+                @for (step of cocktail.steps; track step) {
+                    <li>{{ step }}</li>
+                }
+            </ol>
+        </div>
+    }
+    @if (cocktail.notes) {
+        <div class="card-section">
+            <strong>{{ 'common.notes' | translate }}:</strong>
+            <p>{{ cocktail.notes }}</p>
+        </div>
+    }
+    <div class="card-actions">
+        <button class="btn-secondary"
+                (click)="onEdit()">{{ 'common.edit' | translate }}
+        </button>
+        <button class="btn-danger"
+                (click)="onDelete()">{{ 'common.delete' | translate }}
+        </button>
+    </div>
+</div>

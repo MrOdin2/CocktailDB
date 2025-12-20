@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
-import { Ingredient, Cocktail } from '../../../../models/models';
+import { Ingredient, Cocktail } from '../../../../../models/models';
 
 interface ChartData {
   name: string;
@@ -9,29 +9,29 @@ interface ChartData {
 }
 
 @Component({
-    selector: 'app-most-used-ingredients-ngx-chart',
+    selector: 'app-ingredient-usage-by-type-chart',
     imports: [CommonModule, NgxChartsModule],
     template: `
         <div class="chart-container">
             @if (chartData.length > 0) {
-                <ngx-charts-bar-horizontal
+                <ngx-charts-bar-vertical
                         [view]="view"
                         [results]="chartData"
                         [xAxis]="true"
                         [yAxis]="true"
                         [showXAxisLabel]="true"
                         [showYAxisLabel]="true"
-                        [xAxisLabel]="'Usage Count'"
-                        [yAxisLabel]="'Ingredient'"
+                        [xAxisLabel]="'Ingredient Type'"
+                        [yAxisLabel]="'Usage Count'"
                         [scheme]="colorScheme">
-                </ngx-charts-bar-horizontal>
+                </ngx-charts-bar-vertical>
             }
         </div>
     `,
     standalone: true,
     styles: [`
         :host {
-            display: flex;
+            display: block;
             width: 100%;
             height: 100%;
         }
@@ -43,7 +43,7 @@ interface ChartData {
         }
     `]
 })
-export class MostUsedIngredientsNgxChartComponent implements OnChanges {
+export class IngredientUsageByTypeChartComponent implements OnChanges {
   @Input() ingredients: Ingredient[] = [];
   @Input() cocktails: Cocktail[] = [];
   @Input() colorScheme: Color = {
@@ -63,24 +63,19 @@ export class MostUsedIngredientsNgxChartComponent implements OnChanges {
   }
 
   private updateChartData(): void {
-    // Calculate ingredient usage frequency
-    const usageMap = new Map<number, number>();
+    // Calculate ingredient usage by type
+    const typeUsageMap = new Map<string, number>();
     this.cocktails.forEach(cocktail => {
       cocktail.ingredients.forEach(ci => {
-        usageMap.set(ci.ingredientId, (usageMap.get(ci.ingredientId) || 0) + 1);
+        const ingredient = this.ingredients.find(i => i.id === ci.ingredientId);
+        if (ingredient) {
+          typeUsageMap.set(ingredient.type, (typeUsageMap.get(ingredient.type) || 0) + 1);
+        }
       });
     });
 
-    // Create chart data sorted by usage
-    this.chartData = Array.from(usageMap.entries())
-      .map(([ingredientId, count]) => {
-        const ingredient = this.ingredients.find(i => i.id === ingredientId);
-        return {
-          name: ingredient?.name || 'Unknown',
-          value: count
-        };
-      })
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 20); // Top 15 ingredients
+    this.chartData = Array.from(typeUsageMap.entries())
+      .map(([type, count]) => ({ name: type, value: count }))
+      .sort((a, b) => b.value - a.value);
   }
 }

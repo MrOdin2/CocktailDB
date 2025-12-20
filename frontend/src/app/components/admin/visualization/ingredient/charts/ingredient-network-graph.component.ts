@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
-import { Ingredient, Cocktail } from '../../../../models/models';
+import { Ingredient, Cocktail } from '../../../../../models/models';
 
 // D3 types for force-directed graph
 interface GraphNode extends d3.SimulationNodeDatum {

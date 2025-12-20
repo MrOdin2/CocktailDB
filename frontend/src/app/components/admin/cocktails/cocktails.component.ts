@@ -1,20 +1,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../models/models';
-import { ApiService } from '../../services/api.service';
-import { ExportService, ExportFormat, ExportType } from '../../services/export.service';
-import { MeasureService } from '../../services/measure.service';
-import { FuzzySearchService } from '../../services/fuzzy-search.service';
-import { ModalComponent } from '../util/modal.component';
-import { TranslatePipe } from '../../pipes/translate.pipe';
-import { TranslateService } from '../../services/translate.service';
+import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../../models/models';
+import { ApiService } from '../../../services/api.service';
+import { ExportService, ExportFormat, ExportType } from '../../../services/export.service';
+import { MeasureService } from '../../../services/measure.service';
+import { FuzzySearchService } from '../../../services/fuzzy-search.service';
+import { ModalComponent } from '../../util/modal.component';
+import { CocktailCardComponent } from './cocktail-card/cocktail-card.component';
+import { CocktailFormModalComponent } from './cocktail-form-modal/cocktail-form-modal.component';
+import { IngredientModalComponent } from './ingredient-modal/ingredient-modal.component';
+import { TranslatePipe } from '../../../pipes/translate.pipe';
+import { TranslateService } from '../../../services/translate.service';
 import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-cocktails',
-    imports: [FormsModule, ModalComponent, TranslatePipe, DragDropModule],
+    imports: [FormsModule, ModalComponent, TranslatePipe, CocktailCardComponent, CocktailFormModalComponent, IngredientModalComponent],
     templateUrl: './cocktails.component.html',
     styleUrls: ['../admin-shared.css', './cocktails.component.css']
 })
@@ -23,12 +25,13 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   availableCocktails: Cocktail[] = [];
   ingredients: Ingredient[] = [];
   showOnlyAvailable = false;
-  isModalOpen = false;
+  isCocktailModalOpen = false;
   isEditMode = false;
-  editingCocktailId?: number;
+  editingCocktail?: Cocktail;
   
   // Measurement unit
   currentUnit: MeasureUnit = MeasureUnit.ML;
+  availableUnits = Object.values(MeasureUnit);
   private unitSubscription?: Subscription;
   
   // Filter properties
@@ -36,42 +39,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   spiritFilter = '';
   tagFilter = '';
   
-  newCocktail: Cocktail = {
-    name: '',
-    ingredients: [],
-    steps: [],
-    notes: '',
-    tags: [],
-    abv: 0,
-    baseSpirit: 'none',
-    glasswareTypes: [],
-    iceTypes: []
-  };
-  
-  // For ingredient entry - store value in display unit, convert to ml on add
-  newIngredientEntry: { ingredientId: number; measureValue: number } = {
-    ingredientId: 0,
-    measureValue: 0
-  };
-  
-  // Track if current ingredient is count-based (GARNISH/OTHER)
-  isCountBasedIngredient = false;
-  
-  newStep = '';
-  newTag = '';
-  customTag = '';
-  
-  // Ingredient search filter
-  ingredientSearchFilter = '';
-  
   // Nested ingredient creation modal
   isIngredientModalOpen = false;
-  newIngredientForCocktail: Ingredient = {
-    name: '',
-    type: IngredientType.SPIRIT,
-    abv: 0,
-    inStock: false
-  };
+  ingredientTypes = Object.values(IngredientType);
   
   // Export modal
   isExportModalOpen = false;
@@ -83,12 +53,6 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   isTagSelectionModalOpen = false;
   availableTagsForExport: string[] = [];
   selectedTagsForExport: string[] = [];
-  
-  // Input fields for adding glassware and ice
-  newGlassware = '';
-  customGlassware = '';
-  newIce = '';
-  customIce = '';
   
   // Predefined suggestions for glassware types (defaults)
   readonly defaultGlasswareTypes = [
@@ -221,169 +185,52 @@ export class CocktailsComponent implements OnInit, OnDestroy {
 
   openModal(): void {
     this.isEditMode = false;
-    this.editingCocktailId = undefined;
-    this.resetNewCocktail();
-    this.isModalOpen = true;
+    this.editingCocktail = undefined;
+    this.isCocktailModalOpen = true;
   }
 
   openEditModal(cocktail: Cocktail): void {
     this.isEditMode = true;
-    this.editingCocktailId = cocktail.id;
-    this.newCocktail = {
-      name: cocktail.name,
-      ingredients: [...cocktail.ingredients],
-      steps: [...cocktail.steps],
-      notes: cocktail.notes || '',
-      tags: [...cocktail.tags],
-      abv: cocktail.abv,
-      baseSpirit: cocktail.baseSpirit,
-      glasswareTypes: [...(cocktail.glasswareTypes || [])],
-      iceTypes: [...(cocktail.iceTypes || [])]
-    };
-    this.isModalOpen = true;
+    this.editingCocktail = cocktail;
+    this.isCocktailModalOpen = true;
   }
 
-  closeModal(): void {
-    this.isModalOpen = false;
+  closeCocktailModal(): void {
+    this.isCocktailModalOpen = false;
     this.isEditMode = false;
-    this.editingCocktailId = undefined;
-    this.resetNewCocktail();
+    this.editingCocktail = undefined;
   }
 
-  addIngredientToCocktail(): void {
-    // Check if search filter matches an ingredient name exactly (case-insensitive)
-    const searchText = this.ingredientSearchFilter.trim().toLowerCase();
-    if (searchText && this.newIngredientEntry.ingredientId === 0) {
-      const matchingIngredient = this.ingredients.find(
-        ing => ing.name.toLowerCase() === searchText
-      );
-      if (matchingIngredient && matchingIngredient.id) {
-        this.newIngredientEntry.ingredientId = matchingIngredient.id;
-      }
-    }
-    
-    if (this.newIngredientEntry.ingredientId > 0 && this.newIngredientEntry.measureValue > 0) {
-      let measureMl: number;
-      
-      // For count-based ingredients (GARNISH/OTHER), store as negative value
-      if (this.isCountBasedIngredient) {
-        measureMl = -Math.abs(this.newIngredientEntry.measureValue);
-      } else {
-        // Convert from current display unit to ml for volume-based storage
-        measureMl = this.measureService.convertToMl(this.newIngredientEntry.measureValue, this.currentUnit);
-      }
-      
-      this.newCocktail.ingredients.push({ 
-        ingredientId: this.newIngredientEntry.ingredientId, 
-        measureMl: measureMl 
+  onCocktailSaved(cocktail: Cocktail): void {
+    if (this.isEditMode && this.editingCocktail?.id) {
+      // Update existing cocktail
+      this.apiService.updateCocktail(this.editingCocktail.id, cocktail).subscribe({
+        next: () => {
+          this.loadCocktails();
+          this.loadAvailableCocktails();
+          this.closeCocktailModal();
+        },
+        error: (error: any) => {
+          console.error('Error updating cocktail:', error);
+        }
       });
-      this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
-      this.isCountBasedIngredient = false;
-      // Clear search filter after adding ingredient
-      this.ingredientSearchFilter = '';
-    }
-  }
-  
-  onIngredientSelected(): void {
-    // Check if selected ingredient is count-based (GARNISH or OTHER type)
-    const selectedIngredient = this.ingredients.find(
-      ing => ing.id === this.newIngredientEntry.ingredientId
-    );
-    this.isCountBasedIngredient = selectedIngredient 
-      ? (selectedIngredient.type === IngredientType.GARNISH || selectedIngredient.type === IngredientType.OTHER)
-      : false;
-  }
-
-  removeIngredient(index: number): void {
-    this.newCocktail.ingredients.splice(index, 1);
-  }
-
-  dropIngredient(event: CdkDragDrop<CocktailIngredient[]>): void {
-    moveItemInArray(this.newCocktail.ingredients, event.previousIndex, event.currentIndex);
-  }
-
-  addStep(): void {
-    if (this.newStep.trim()) {
-      this.newCocktail.steps.push(this.newStep);
-      this.newStep = '';
+    } else {
+      // Create new cocktail
+      this.apiService.createCocktail(cocktail).subscribe({
+        next: () => {
+          this.loadCocktails();
+          this.loadAvailableCocktails();
+          this.closeCocktailModal();
+        },
+        error: (error: any) => {
+          console.error('Error creating cocktail:', error);
+        }
+      });
     }
   }
 
-  removeStep(index: number): void {
-    this.newCocktail.steps.splice(index, 1);
-  }
-
-  dropStep(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.newCocktail.steps, event.previousIndex, event.currentIndex);
-  }
-
-  addTag(): void {
-    const tagToAdd = this.customTag.trim() || this.newTag.trim();
-    if (tagToAdd && !this.newCocktail.tags.includes(tagToAdd)) {
-      this.newCocktail.tags.push(tagToAdd);
-      this.newTag = '';
-      this.customTag = '';
-    }
-  }
-
-  removeTag(index: number): void {
-    this.newCocktail.tags.splice(index, 1);
-  }
-  
-  addGlassware(): void {
-    const glasswareToAdd = this.customGlassware.trim() || this.newGlassware.trim();
-    if (glasswareToAdd && !this.newCocktail.glasswareTypes.includes(glasswareToAdd)) {
-      this.newCocktail.glasswareTypes.push(glasswareToAdd);
-      this.newGlassware = '';
-      this.customGlassware = '';
-    }
-  }
-  
-  removeGlassware(index: number): void {
-    this.newCocktail.glasswareTypes.splice(index, 1);
-  }
-  
-  addIce(): void {
-    const iceToAdd = this.customIce.trim() || this.newIce.trim();
-    if (iceToAdd && !this.newCocktail.iceTypes.includes(iceToAdd)) {
-      this.newCocktail.iceTypes.push(iceToAdd);
-      this.newIce = '';
-      this.customIce = '';
-    }
-  }
-  
-  removeIce(index: number): void {
-    this.newCocktail.iceTypes.splice(index, 1);
-  }
-
-  createCocktail(): void {
-    if (this.newCocktail.name && this.newCocktail.ingredients.length > 0) {
-      if (this.isEditMode && this.editingCocktailId) {
-        // Update existing cocktail
-        this.apiService.updateCocktail(this.editingCocktailId, this.newCocktail).subscribe({
-          next: () => {
-            this.loadCocktails();
-            this.loadAvailableCocktails();
-            this.closeModal();
-          },
-          error: (error: any) => {
-            console.error('Error updating cocktail:', error);
-          }
-        });
-      } else {
-        // Create new cocktail
-        this.apiService.createCocktail(this.newCocktail).subscribe({
-          next: () => {
-            this.loadCocktails();
-            this.loadAvailableCocktails();
-            this.closeModal();
-          },
-          error: (error: any) => {
-            console.error('Error creating cocktail:', error);
-          }
-        });
-      }
-    }
+  setUnit(unit: MeasureUnit): void {
+    this.measureService.setUnit(unit);
   }
 
   deleteCocktail(id: number | undefined): void {
@@ -407,29 +254,6 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   
   formatMeasure(measureMl: number): string {
     return this.measureService.formatMeasure(measureMl, this.currentUnit);
-  }
-  
-  get availableUnits(): MeasureUnit[] {
-    return this.measureService.getAvailableUnits();
-  }
-  
-  setUnit(unit: MeasureUnit): void {
-    this.measureService.setUnit(unit);
-  }
-
-  resetNewCocktail(): void {
-    this.newCocktail = {
-      name: '',
-      ingredients: [],
-      steps: [],
-      notes: '',
-      tags: [],
-      abv: 0,
-      baseSpirit: 'none',
-      glasswareTypes: [],
-      iceTypes: []
-    };
-    this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
   }
 
   toggleAvailableOnly(): void {
@@ -481,57 +305,24 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     return Array.from(ice).sort();
   }
   
-  get filteredIngredients(): Ingredient[] {
-    if (!this.ingredientSearchFilter) {
-      return this.ingredients;
-    }
-    // Use fuzzy search and extract just the items
-    const results = this.fuzzySearchService.search(
-      this.ingredientSearchFilter,
-      this.ingredients,
-      ingredient => ingredient.name
-    );
-    return results.map(r => r.item);
-  }
-  
-  get ingredientTypes(): string[] {
-    return Object.values(IngredientType);
-  }
-  
   openIngredientModal(): void {
     this.isIngredientModalOpen = true;
   }
   
   closeIngredientModal(): void {
     this.isIngredientModalOpen = false;
-    this.resetNewIngredientForCocktail();
   }
   
-  createIngredientFromCocktail(): void {
-    this.apiService.createIngredient(this.newIngredientForCocktail).subscribe({
+  onIngredientCreated(ingredient: Ingredient): void {
+    this.apiService.createIngredient(ingredient).subscribe({
       next: (createdIngredient: Ingredient) => {
         this.loadIngredients();
-        // Auto-select the newly created ingredient
-        if (createdIngredient && createdIngredient.id) {
-          this.newIngredientEntry.ingredientId = createdIngredient.id;
-          // Clear search filter to show the selected ingredient
-          this.ingredientSearchFilter = '';
-        }
         this.closeIngredientModal();
       },
       error: (error: any) => {
         console.error('Error creating ingredient:', error);
       }
     });
-  }
-  
-  resetNewIngredientForCocktail(): void {
-    this.newIngredientForCocktail = {
-      name: '',
-      type: IngredientType.SPIRIT,
-      abv: 0,
-      inStock: false
-    };
   }
   
   openExportModal(): void {
