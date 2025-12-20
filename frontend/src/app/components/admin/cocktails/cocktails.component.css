@@ -263,11 +263,15 @@
   padding: 1.25rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid;
+  border-color: oklch(var(--b3));
+  background-color: oklch(var(--b2));
 }
 
 .cocktail-card h4 {
   margin-top: 0;
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid;
+  border-color: oklch(var(--p));
   padding-bottom: 0.75rem;
   font-size: 1.25rem;
 }
