@@ -44,8 +44,9 @@
 
   /* Cocktail Cards */
   .cocktail-card {
-    @apply border-2 rounded-lg p-6 transition-all duration-300 hover:shadow-lg;
-    border-color: oklch(var(--p));
+    @apply rounded-lg p-6 transition-all duration-300 hover:shadow-lg;
+    border: 2px solid oklch(var(--p));
+    background-color: oklch(var(--b2));
   }
 
   .cocktail-header {
@@ -53,24 +54,27 @@
   }
 
   .cocktail-name {
-    @apply m-0 text-2xl flex-1 min-w-[150px];
+    @apply m-0 flex-1 min-w-[150px];
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 
   /* Badges */
   .alcohol-badge {
     @apply px-3 py-2 rounded text-sm font-bold whitespace-nowrap;
+    border: 2px solid;
   }
 
   .alcohol-badge.alcoholic {
-    border: 1px solid oklch(var(--wa));
-    background-color: oklch(var(--wa) / 0.2);
-    color: oklch(var(--wa));
+    border-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
   }
 
   .alcohol-badge.non-alcoholic {
-    border: 1px solid oklch(var(--in));
-    background-color: oklch(var(--in) / 0.2);
-    color: oklch(var(--in));
+    border-color: #51cf66;
+    background-color: rgba(81, 207, 102, 0.2);
+    color: #51cf66;
   }
 
   /* Info Rows */
