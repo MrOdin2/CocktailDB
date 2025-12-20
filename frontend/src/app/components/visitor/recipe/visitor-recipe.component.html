@@ -49,6 +49,17 @@
       </div>
     </div>
 
+    <!-- Variation Info -->
+    <div *ngIf="cocktail.variationOfId && baseCocktail" class="info-card">
+      <h3 class="section-title">{{ 'visitor.recipe.variationInfo' | translate }}</h3>
+      <p class="variation-text">
+        {{ 'visitor.recipe.thisIsVariationOf' | translate }} 
+        <a [routerLink]="['/visitor/recipe', cocktail.variationOfId]" class="variation-link">
+          {{ baseCocktail.name }}
+        </a>
+      </p>
+    </div>
+
     <!-- Glassware and Ice -->
     <div *ngIf="cocktail.glasswareTypes?.length || cocktail.iceTypes?.length" class="info-card">
       <h3 class="section-title">{{ 'visitor.recipe.servingInfo' | translate }}</h3>
