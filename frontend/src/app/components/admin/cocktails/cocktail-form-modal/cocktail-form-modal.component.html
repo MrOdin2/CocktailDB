@@ -53,31 +53,31 @@
                 <button type="button" class="btn-secondary"
                         (click)="addIngredientToCocktail()">{{ 'common.add' | translate }}
                 </button>
-                <ul class="ingredient-list" 
-                    cdkDropList
-                    (cdkDropListDropped)="dropIngredient($event)"
-                    [cdkDropListDisabled]="formCocktail.ingredients.length <= 1">
-                    @for (ing of formCocktail.ingredients; track ing; let i = $index) {
-                        <li cdkDrag 
-                            [cdkDragDisabled]="formCocktail.ingredients.length <= 1"
-                            class="draggable-item"
-                            [attr.aria-label]="'cocktails.reorderIngredient' | translate:{ name: getIngredientName(ing.ingredientId) }">
-                            <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder ingredient">⋮⋮</span>
-                            <span class="item-content">
+            </div>
+            <ul class="ingredient-list"
+                cdkDropList
+                (cdkDropListDropped)="dropIngredient($event)"
+                [cdkDropListDisabled]="formCocktail.ingredients.length <= 1">
+                @for (ing of formCocktail.ingredients; track ing; let i = $index) {
+                    <li cdkDrag
+                        [cdkDragDisabled]="formCocktail.ingredients.length <= 1"
+                        class="draggable-item"
+                        [attr.aria-label]="'cocktails.reorderIngredient' | translate:{ name: getIngredientName(ing.ingredientId) }">
+                        <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder ingredient">⋮⋮</span>
+                        <span class="item-content">
                                 {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
                             </span>
-                            <button type="button" class="btn-small"
-                                    (click)="removeIngredient(i)">{{ 'common.remove' | translate }}
-                            </button>
-                        </li>
-                    }
-                </ul>
-                @if (formCocktail.ingredients.length === 0 && cocktailForm.submitted) {
-                    <div class="error-message">
-                        {{ 'cocktails.ingredientRequired' | translate }}
-                    </div>
+                        <button type="button" class="btn-small"
+                                (click)="removeIngredient(i)">{{ 'common.remove' | translate }}
+                        </button>
+                    </li>
                 }
-            </div>
+            </ul>
+            @if (formCocktail.ingredients.length === 0 && cocktailForm.submitted) {
+                <div class="error-message">
+                    {{ 'cocktails.ingredientRequired' | translate }}
+                </div>
+            }
         </div>
 
         <div class="form-group">
