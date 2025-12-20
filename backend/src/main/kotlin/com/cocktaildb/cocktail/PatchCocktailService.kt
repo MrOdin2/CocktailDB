@@ -25,6 +25,8 @@ class PatchCocktailService(
         existing.steps = cocktail.steps
         existing.notes = cocktail.notes
         existing.tags = cocktail.tags
+        existing.glasswareTypes = cocktail.glasswareTypes
+        existing.iceTypes = cocktail.iceTypes
 
         existing.abv = calculateAbv(cocktail.ingredients)
         existing.baseSpirit = determineBaseSpirit(cocktail.ingredients)

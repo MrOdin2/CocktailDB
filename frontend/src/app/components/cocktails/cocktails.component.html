@@ -130,6 +130,56 @@
             </div>
 
             <div class="form-group">
+                <label>{{ 'cocktails.glasswareTypes' | translate }}</label>
+                <div class="glassware-inputs">
+                    <select [(ngModel)]="newGlassware" name="newGlassware" class="glassware-select">
+                        <option value="">{{ 'cocktails.selectGlassware' | translate }}</option>
+                        @for (type of allGlasswareTypes; track type) {
+                            <option [value]="type">{{ type }}</option>
+                        }
+                    </select>
+                    <input type="text" [(ngModel)]="customGlassware" name="customGlassware"
+                           [placeholder]="'cocktails.typeNewGlassware' | translate">
+                    <button type="button" class="btn-secondary"
+                            (click)="addGlassware()">{{ 'cocktails.addGlassware' | translate }}
+                    </button>
+                </div>
+                <div class="glassware-list">
+                    @for (glassware of newCocktail.glasswareTypes; track glassware; let i = $index) {
+                        <span class="tag-badge">
+                            {{ glassware }}
+                            <button type="button" class="tag-remove" (click)="removeGlassware(i)">×</button>
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{{ 'cocktails.iceTypes' | translate }}</label>
+                <div class="ice-inputs">
+                    <select [(ngModel)]="newIce" name="newIce" class="ice-select">
+                        <option value="">{{ 'cocktails.selectIce' | translate }}</option>
+                        @for (type of allIceTypes; track type) {
+                            <option [value]="type">{{ type }}</option>
+                        }
+                    </select>
+                    <input type="text" [(ngModel)]="customIce" name="customIce"
+                           [placeholder]="'cocktails.typeNewIce' | translate">
+                    <button type="button" class="btn-secondary"
+                            (click)="addIce()">{{ 'cocktails.addIce' | translate }}
+                    </button>
+                </div>
+                <div class="ice-list">
+                    @for (ice of newCocktail.iceTypes; track ice; let i = $index) {
+                        <span class="tag-badge">
+                            {{ ice }}
+                            <button type="button" class="tag-remove" (click)="removeIce(i)">×</button>
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label>{{ 'cocktails.steps' | translate }}</label>
                 <div class="step-inputs">
                     <input type="text" [(ngModel)]="newStep" name="newStep"
@@ -259,6 +309,26 @@
                                     <span class="tag-badge">{{ tag }}</span>
                                 }
                             </div>
+                        </div>
+                    }
+                    @if (cocktail.glasswareTypes?.length || cocktail.iceTypes?.length) {
+                        <div class="card-section">
+                            @if (cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0) {
+                                <p><strong>{{ 'cocktails.glasswareTypes' | translate }}:</strong></p>
+                                <div class="tags-display">
+                                    @for (glassware of cocktail.glasswareTypes; track glassware) {
+                                        <span class="tag-badge">{{ glassware }}</span>
+                                    }
+                                </div>
+                            }
+                            @if (cocktail.iceTypes && cocktail.iceTypes.length > 0) {
+                                <p><strong>{{ 'cocktails.iceTypes' | translate }}:</strong></p>
+                                <div class="tags-display">
+                                    @for (ice of cocktail.iceTypes; track ice) {
+                                        <span class="tag-badge">{{ ice }}</span>
+                                    }
+                                </div>
+                            }
                         </div>
                     }
                     <div class="card-section">

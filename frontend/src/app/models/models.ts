@@ -41,6 +41,8 @@ export interface Cocktail {
   tags: string[];
   abv: number;
   baseSpirit: string;
+  glasswareTypes: string[];
+  iceTypes: string[];
 }
 
 export interface CocktailsWithSubstitutions {
