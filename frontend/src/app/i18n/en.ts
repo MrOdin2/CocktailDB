@@ -188,6 +188,7 @@ export const en = {
     addIce: 'Add Ice',
     variationOf: 'Variation Of',
     notAVariation: 'Not a variation (original recipe)',
+    searchCocktails: 'Search cocktails...',
     variationHelp: 'Select a base cocktail if this is a variation (e.g., Dirty Martini is a variation of Martini)',
     substitute: 'Substitute',
     alternative: 'Alternative',

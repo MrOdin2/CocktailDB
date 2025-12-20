@@ -190,12 +190,19 @@
 
         <div class="form-group">
             <label>{{ 'cocktails.variationOf' | translate }}</label>
-            <select [(ngModel)]="formCocktail.variationOfId" name="variationOf" class="variation-select">
-                <option [ngValue]="undefined">{{ 'cocktails.notAVariation' | translate }}</option>
-                @for (baseCocktail of availableBaseCocktails; track baseCocktail.id) {
-                    <option [ngValue]="baseCocktail.id">{{ baseCocktail.name }}</option>
-                }
-            </select>
+            <div class="variation-inputs">
+                <input type="text"
+                       [(ngModel)]="variationSearchFilter"
+                       name="variationSearch"
+                       [placeholder]="'cocktails.searchCocktails' | translate"
+                       class="variation-search">
+                <select [(ngModel)]="formCocktail.variationOfId" name="variationOf" class="variation-select">
+                    <option [ngValue]="undefined">{{ 'cocktails.notAVariation' | translate }}</option>
+                    @for (baseCocktail of filteredAvailableBaseCocktails; track baseCocktail.id) {
+                        <option [ngValue]="baseCocktail.id">{{ baseCocktail.name }}</option>
+                    }
+                </select>
+            </div>
             <small class="help-text">{{ 'cocktails.variationHelp' | translate }}</small>
         </div>
 

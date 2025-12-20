@@ -188,6 +188,7 @@ export const de = {
     addIce: 'Eisart hinzufügen',
     variationOf: 'Variation von',
     notAVariation: 'Keine Variation (Originalrezept)',
+    searchCocktails: 'Cocktails suchen...',
     variationHelp: 'Wählen Sie einen Basis-Cocktail aus, wenn dies eine Variation ist (z.B. Dirty Martini ist eine Variation von Martini)',
     substitute: 'Ersatz',
     alternative: 'Alternative',

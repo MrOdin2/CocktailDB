@@ -41,6 +41,7 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   
   isCountBasedIngredient = false;
   ingredientSearchFilter = '';
+  variationSearchFilter = '';
   
   // Form fields
   newStep = '';
@@ -251,6 +252,22 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
     });
   }
   
+  get filteredAvailableBaseCocktails(): Cocktail[] {
+    const available = this.availableBaseCocktails;
+    
+    if (!this.variationSearchFilter.trim()) {
+      return available;
+    }
+    
+    // Use fuzzy search to filter cocktails by name
+    const results = this.fuzzySearchService.search(
+      this.variationSearchFilter,
+      available,
+      cocktail => cocktail.name
+    );
+    return results.map(r => r.item);
+  }
+  
   private getDescendants(cocktailId?: number): Set<number> {
     const descendants = new Set<number>();
     if (!cocktailId) return descendants;
@@ -287,6 +304,7 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
     this.newIngredientEntry = { ingredientId: 0, measureValue: 0 };
     this.isCountBasedIngredient = false;
     this.ingredientSearchFilter = '';
+    this.variationSearchFilter = '';
     this.newStep = '';
     this.newTag = '';
     this.customTag = '';
