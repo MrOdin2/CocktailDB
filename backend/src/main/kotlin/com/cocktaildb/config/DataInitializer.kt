@@ -226,7 +226,9 @@ class DataInitializer(
                 notes = "A classic Mexican cocktail",
                 tags = mutableListOf("sour", "refreshing", "classic"),
                 abv = 27,
-                baseSpirit = "tequila"
+                baseSpirit = "tequila",
+                glasswareTypes = mutableListOf("Margarita", "Coupe"),
+                iceTypes = mutableListOf("Cubed", "Crushed")
             ),
             
             // 2. Mojito
@@ -249,7 +251,9 @@ class DataInitializer(
                 notes = "A refreshing Cuban classic",
                 tags = mutableListOf("refreshing", "sweet", "minty"),
                 abv = 13,
-                baseSpirit = "rum"
+                baseSpirit = "rum",
+                glasswareTypes = mutableListOf("Highball", "Collins"),
+                iceTypes = mutableListOf("Crushed")
             ),
             
             // 3. Old Fashioned
@@ -269,7 +273,9 @@ class DataInitializer(
                 notes = "A timeless whiskey cocktail",
                 tags = mutableListOf("spirit forward", "classic", "strong"),
                 abv = 32,
-                baseSpirit = "bourbon"
+                baseSpirit = "bourbon",
+                glasswareTypes = mutableListOf("Rocks / Old Fashioned"),
+                iceTypes = mutableListOf("Large Cube", "Ice Sphere")
             ),
             
             // 4. Cosmopolitan
@@ -310,7 +316,9 @@ class DataInitializer(
                 notes = "Ernest Hemingway's favorite",
                 tags = mutableListOf("sour", "refreshing", "classic"),
                 abv = 20,
-                baseSpirit = "rum"
+                baseSpirit = "rum",
+                glasswareTypes = mutableListOf("Coupe", "Martini / Cocktail"),
+                iceTypes = mutableListOf("None")
             ),
             
             // 6. Moscow Mule
@@ -350,7 +358,9 @@ class DataInitializer(
                 notes = "The official drink of Puerto Rico",
                 tags = mutableListOf("sweet", "creamy", "tropical"),
                 abv = 12,
-                baseSpirit = "rum"
+                baseSpirit = "rum",
+                glasswareTypes = mutableListOf("Hurricane", "Tiki"),
+                iceTypes = mutableListOf("Crushed")
             ),
             
             // 8. Gin and Tonic
@@ -453,7 +463,9 @@ class DataInitializer(
                 notes = "The Dude's favorite drink",
                 tags = mutableListOf("creamy", "sweet", "dessert"),
                 abv = 16,
-                baseSpirit = "vodka"
+                baseSpirit = "vodka",
+                glasswareTypes = mutableListOf("Rocks / Old Fashioned"),
+                iceTypes = mutableListOf("Cubed")
             ),
             
             // 13. Negroni
@@ -472,7 +484,9 @@ class DataInitializer(
                 notes = "A bitter Italian aperitif",
                 tags = mutableListOf("bitter", "spirit forward", "classic"),
                 abv = 24,
-                baseSpirit = "gin"
+                baseSpirit = "gin",
+                glasswareTypes = mutableListOf("Rocks / Old Fashioned"),
+                iceTypes = mutableListOf("Cubed", "Large Cube")
             ),
             
             // 14. Martini
@@ -491,7 +505,9 @@ class DataInitializer(
                 notes = "Shaken or stirred - your choice",
                 tags = mutableListOf("spirit forward", "classic", "elegant"),
                 abv = 28,
-                baseSpirit = "gin"
+                baseSpirit = "gin",
+                glasswareTypes = mutableListOf("Martini / Cocktail", "Nick & Nora"),
+                iceTypes = mutableListOf("None")
             ),
             
             // 15. Manhattan
@@ -658,7 +674,9 @@ class DataInitializer(
                 notes = "Created by Dick Bradsell in London",
                 tags = mutableListOf("coffee", "dessert", "energizing"),
                 abv = 15,
-                baseSpirit = "vodka"
+                baseSpirit = "vodka",
+                glasswareTypes = mutableListOf("Martini / Cocktail", "Coupe"),
+                iceTypes = mutableListOf("None")
             ),
             
             // 23. Vodka Gimlet
@@ -1821,7 +1839,9 @@ class DataInitializer(
                 notes = "A classic brunch cocktail",
                 tags = mutableListOf("bubbly", "refreshing", "brunch"),
                 abv = 6,
-                baseSpirit = "champagne"
+                baseSpirit = "champagne",
+                glasswareTypes = mutableListOf("Champagne Flute"),
+                iceTypes = mutableListOf("None")
             ),            
             // 82. Bellini
             Cocktail(
