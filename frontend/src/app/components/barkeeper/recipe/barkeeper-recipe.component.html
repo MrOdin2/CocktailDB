@@ -31,19 +31,19 @@
       </span>
     </div>
 
-      <!-- Glassware and Ice Section -->
-      <div *ngIf="cocktail.glasswareTypes?.length || cocktail.iceTypes?.length" class="recipe-section glassware-ice-section">
-        <div *ngIf="cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0" class="info-item">
-          <strong>{{ 'barkeeper.recipe.glassware' | translate }}:</strong>
-          <span *ngFor="let glassware of cocktail.glasswareTypes; let i = index">
-            {{ glassware }}<ng-container *ngIf="i < cocktail.glasswareTypes.length - 1">, </ng-container>
-          </span>
+      <!-- Glassware Section -->
+      <div *ngIf="cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0" class="recipe-section">
+        <h3>{{ 'barkeeper.recipe.glassware' | translate }}</h3>
+        <div class="glassware-list">
+          <span *ngFor="let glassware of cocktail.glasswareTypes" class="tag">{{ glassware }}</span>
         </div>
-        <div *ngIf="cocktail.iceTypes && cocktail.iceTypes.length > 0" class="info-item">
-          <strong>{{ 'barkeeper.recipe.ice' | translate }}:</strong>
-          <span *ngFor="let ice of cocktail.iceTypes; let i = index">
-            {{ ice }}<ng-container *ngIf="i < cocktail.iceTypes.length - 1">, </ng-container>
-          </span>
+      </div>
+
+      <!-- Ice Type Section -->
+      <div *ngIf="cocktail.iceTypes && cocktail.iceTypes.length > 0" class="recipe-section">
+        <h3>{{ 'barkeeper.recipe.ice' | translate }}</h3>
+        <div class="ice-list">
+          <span *ngFor="let ice of cocktail.iceTypes" class="tag">{{ ice }}</span>
         </div>
       </div>
 
