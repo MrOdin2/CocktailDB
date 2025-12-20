@@ -11,7 +11,7 @@ CocktailDB is a full-stack web application for managing cocktail recipes and ing
 
 ## Project Structure
 ```
-CocktailDB_2/
+CocktailDB/
 ├── backend/                    # Spring Boot backend
 │   ├── src/main/kotlin/com/cocktaildb/
 │   │   ├── appsettings/       # Application settings (database storage, theme, language)
