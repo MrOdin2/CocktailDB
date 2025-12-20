@@ -38,33 +38,33 @@
 }
 
 [data-theme="cyberpunk"] {
-  --p: 0.85 0.20 195;       /* primary #00ffff */
-  --pc: 0.20 0.05 250;      /* primary-content #0a0e27 */
-  --s: 0.70 0.30 320;       /* secondary #ff00ff */
-  --sc: 0.20 0.05 250;      /* secondary-content #0a0e27 */
-  --a: 0.85 0.20 195;       /* accent #00ffff */
-  --ac: 0.20 0.05 250;      /* accent-content #0a0e27 */
-  --n: 0.20 0.05 250;       /* neutral #0a0e27 */
-  --nc: 0.85 0.20 195;      /* neutral-content #00ffff */
-  --b1: 0.20 0.05 250;      /* base-100 #0a0e27 */
-  --b2: 0.25 0.05 250;      /* base-200 #141933 */
-  --b3: 0.30 0.05 250;      /* base-300 #1e2440 */
-  --bc: 0.85 0.20 195;      /* base-content #00ffff */
+  --p: 0.91 0.19 195;       /* primary #00ffff - cyan */
+  --pc: 0.18 0.03 265;      /* primary-content #0a0e27 */
+  --s: 0.70 0.29 328;       /* secondary #ff00ff - magenta */
+  --sc: 0.18 0.03 265;      /* secondary-content #0a0e27 */
+  --a: 0.91 0.19 195;       /* accent #00ffff - cyan */
+  --ac: 0.18 0.03 265;      /* accent-content #0a0e27 */
+  --n: 0.18 0.03 265;       /* neutral #0a0e27 */
+  --nc: 0.91 0.19 195;      /* neutral-content #00ffff */
+  --b1: 0.18 0.03 265;      /* base-100 #0a0e27 - dark blue */
+  --b2: 0.22 0.03 265;      /* base-200 #141933 */
+  --b3: 0.26 0.03 265;      /* base-300 #1e2440 */
+  --bc: 0.91 0.19 195;      /* base-content #00ffff - cyan text */
 }
 
 [data-theme="amber"] {
-  --p: 0.75 0.15 75;        /* primary #ffb000 */
-  --pc: 0.15 0.05 75;       /* primary-content #1a0f00 */
-  --s: 0.60 0.15 75;        /* secondary #cc8800 */
-  --sc: 0.15 0.05 75;       /* secondary-content #1a0f00 */
-  --a: 0.75 0.15 75;        /* accent #ffb000 */
-  --ac: 0.15 0.05 75;       /* accent-content #1a0f00 */
-  --n: 0.15 0.05 75;        /* neutral #1a0f00 */
-  --nc: 0.75 0.15 75;       /* neutral-content #ffb000 */
-  --b1: 0.15 0.05 75;       /* base-100 #1a0f00 */
-  --b2: 0.20 0.05 75;       /* base-200 #2a1f00 */
-  --b3: 0.25 0.05 75;       /* base-300 #3a2f00 */
-  --bc: 0.75 0.15 75;       /* base-content #ffb000 */
+  --p: 0.77 0.14 65;        /* primary #ffb000 - amber/orange */
+  --pc: 0.13 0.02 65;       /* primary-content #1a0f00 */
+  --s: 0.65 0.13 55;        /* secondary #cc8800 - darker orange */
+  --sc: 0.13 0.02 65;       /* secondary-content #1a0f00 */
+  --a: 0.77 0.14 65;        /* accent #ffb000 - amber */
+  --ac: 0.13 0.02 65;       /* accent-content #1a0f00 */
+  --n: 0.13 0.02 65;        /* neutral #1a0f00 - dark brown */
+  --nc: 0.77 0.14 65;       /* neutral-content #ffb000 */
+  --b1: 0.13 0.02 65;       /* base-100 #1a0f00 - dark brown */
+  --b2: 0.18 0.02 65;       /* base-200 #2a1f00 */
+  --b3: 0.23 0.02 65;       /* base-300 #3a2f00 */
+  --bc: 0.77 0.14 65;       /* base-content #ffb000 - amber text */
 }
 
 @layer base {
