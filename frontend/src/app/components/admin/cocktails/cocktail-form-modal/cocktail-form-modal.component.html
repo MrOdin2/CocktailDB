@@ -1,0 +1,200 @@
+<app-modal [isOpen]="isOpen"
+           [title]="isEditMode ? ('cocktails.editCocktail' | translate) : ('cocktails.addNew' | translate)"
+           (closed)="onClose()">
+    <form #cocktailForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label>{{ 'cocktails.cocktailName' | translate }}</label>
+            <input type="text" [(ngModel)]="formCocktail.name" name="name" required #nameInput="ngModel">
+            @if (nameInput.invalid && nameInput.touched) {
+                <div class="error-message">
+                    {{ 'cocktails.cocktailNameRequired' | translate }}
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'cocktails.ingredientsLabel' | translate }}</label>
+            <div class="ingredient-inputs">
+                <div class="ingredient-search-group">
+                    <input type="text"
+                           [(ngModel)]="ingredientSearchFilter"
+                           name="ingredientSearch"
+                           [placeholder]="'cocktails.searchIngredients' | translate"
+                           class="ingredient-search">
+                    <select [(ngModel)]="newIngredientEntry.ingredientId" name="ingredientId" 
+                            (ngModelChange)="onIngredientSelected()">
+                        <option [ngValue]="0">{{ 'cocktails.selectIngredient' | translate }}</option>
+                        @for (ingredient of filteredIngredients; track ingredient.id) {
+                            <option [ngValue]="ingredient.id">
+                                {{ ingredient.name }}
+                            </option>
+                        }
+                    </select>
+                    <button type="button" class="btn-primary"
+                            (click)="onOpenIngredientModal()">{{ 'cocktails.newIngredient' | translate }}
+                    </button>
+                </div>
+                <div class="measure-input-group">
+                    @if (isCountBasedIngredient) {
+                        <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
+                               [placeholder]="'cocktails.count' | translate" min="0" step="1">
+                        <span class="unit-label">{{ 'cocktails.items' | translate }}</span>
+                    } @else {
+                        <input type="number" [(ngModel)]="newIngredientEntry.measureValue" name="measureValue"
+                               [placeholder]="'cocktails.amount' | translate" min="0" step="0.5">
+                        <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" name="measureUnit"
+                                class="unit-select">
+                            @for (unit of availableUnits; track unit) {
+                                <option [value]="unit">{{ unit }}</option>
+                            }
+                        </select>
+                    }
+                </div>
+                <button type="button" class="btn-secondary"
+                        (click)="addIngredientToCocktail()">{{ 'common.add' | translate }}
+                </button>
+                <ul class="ingredient-list" 
+                    cdkDropList
+                    (cdkDropListDropped)="dropIngredient($event)"
+                    [cdkDropListDisabled]="formCocktail.ingredients.length <= 1">
+                    @for (ing of formCocktail.ingredients; track ing; let i = $index) {
+                        <li cdkDrag 
+                            [cdkDragDisabled]="formCocktail.ingredients.length <= 1"
+                            class="draggable-item"
+                            [attr.aria-label]="'cocktails.reorderIngredient' | translate:{ name: getIngredientName(ing.ingredientId) }">
+                            <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder ingredient">⋮⋮</span>
+                            <span class="item-content">
+                                {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
+                            </span>
+                            <button type="button" class="btn-small"
+                                    (click)="removeIngredient(i)">{{ 'common.remove' | translate }}
+                            </button>
+                        </li>
+                    }
+                </ul>
+                @if (formCocktail.ingredients.length === 0 && cocktailForm.submitted) {
+                    <div class="error-message">
+                        {{ 'cocktails.ingredientRequired' | translate }}
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'cocktails.glasswareTypes' | translate }}</label>
+            <div class="glassware-inputs">
+                <select [(ngModel)]="newGlassware" name="newGlassware" class="glassware-select">
+                    <option value="">{{ 'cocktails.selectGlassware' | translate }}</option>
+                    @for (type of allGlasswareTypes; track type) {
+                        <option [value]="type">{{ type }}</option>
+                    }
+                </select>
+                <input type="text" [(ngModel)]="customGlassware" name="customGlassware"
+                       [placeholder]="'cocktails.typeNewGlassware' | translate">
+                <button type="button" class="btn-secondary"
+                        (click)="addGlassware()">{{ 'cocktails.addGlassware' | translate }}
+                </button>
+            </div>
+            <div class="glassware-list">
+                @for (glassware of formCocktail.glasswareTypes; track glassware; let i = $index) {
+                    <span class="tag-badge">
+                        {{ glassware }}
+                        <button type="button" class="tag-remove" (click)="removeGlassware(i)">×</button>
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'cocktails.iceTypes' | translate }}</label>
+            <div class="ice-inputs">
+                <select [(ngModel)]="newIce" name="newIce" class="ice-select">
+                    <option value="">{{ 'cocktails.selectIce' | translate }}</option>
+                    @for (type of allIceTypes; track type) {
+                        <option [value]="type">{{ type }}</option>
+                    }
+                </select>
+                <input type="text" [(ngModel)]="customIce" name="customIce"
+                       [placeholder]="'cocktails.typeNewIce' | translate">
+                <button type="button" class="btn-secondary"
+                        (click)="addIce()">{{ 'cocktails.addIce' | translate }}
+                </button>
+            </div>
+            <div class="ice-list">
+                @for (ice of formCocktail.iceTypes; track ice; let i = $index) {
+                    <span class="tag-badge">
+                        {{ ice }}
+                        <button type="button" class="tag-remove" (click)="removeIce(i)">×</button>
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'cocktails.steps' | translate }}</label>
+            <div class="step-inputs">
+                <input type="text" [(ngModel)]="newStep" name="newStep"
+                       [placeholder]="'cocktails.addStep' | translate">
+                <button type="button" class="btn-secondary"
+                        (click)="addStep()">{{ 'cocktails.addStepButton' | translate }}
+                </button>
+            </div>
+            <ol class="steps-list" 
+                cdkDropList
+                (cdkDropListDropped)="dropStep($event)"
+                [cdkDropListDisabled]="formCocktail.steps.length <= 1">
+                @for (step of formCocktail.steps; track step; let i = $index) {
+                    <li cdkDrag 
+                        [cdkDragDisabled]="formCocktail.steps.length <= 1"
+                        class="draggable-item"
+                        [attr.aria-label]="'Reorder step ' + (i + 1)">
+                        <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder step">⋮⋮</span>
+                        <span class="item-content">{{ step }}</span>
+                        <button type="button" class="btn-small"
+                                (click)="removeStep(i)">{{ 'common.remove' | translate }}
+                        </button>
+                    </li>
+                }
+            </ol>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'cocktails.notesLabel' | translate }}</label>
+            <textarea [(ngModel)]="formCocktail.notes" name="notes" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>{{ 'cocktails.tagsLabel' | translate }}</label>
+            <div class="tag-inputs">
+                <select [(ngModel)]="newTag" name="newTag" class="tag-select">
+                    <option value="">{{ 'cocktails.selectTag' | translate }}</option>
+                    @for (tag of allTags; track tag) {
+                        <option [value]="tag">{{ tag }}</option>
+                    }
+                </select>
+                <input type="text" [(ngModel)]="customTag" name="customTag"
+                       [placeholder]="'cocktails.typeNewTag' | translate">
+                <button type="button" class="btn-secondary"
+                        (click)="addTag()">{{ 'cocktails.addTag' | translate }}
+                </button>
+            </div>
+            <div class="tag-list">
+                @for (tag of formCocktail.tags; track tag; let i = $index) {
+                    <span class="tag-badge">
+                        {{ tag }}
+                        <button type="button" class="tag-remove" (click)="removeTag(i)">×</button>
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button type="button" class="btn-secondary" (click)="onClose()">{{ 'common.cancel' | translate }}
+            </button>
+            <button type="submit" class="btn-primary"
+                    [disabled]="cocktailForm.invalid || formCocktail.ingredients.length === 0">
+                {{ isEditMode ? ('cocktails.updateCocktail' | translate) : ('cocktails.addCocktail' | translate) }}
+            </button>
+        </div>
+    </form>
+</app-modal>
