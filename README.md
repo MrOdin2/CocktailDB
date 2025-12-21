@@ -5,10 +5,13 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 
 - **Ingredient Management**: Track all your cocktail ingredients with details like type (spirit, juice, syrup, etc.), ABV, and stock status
 - **Cocktail Recipes**: Store your favorite cocktail recipes with ingredients, measurements, and step-by-step instructions
-- **Smart Filtering**: Instantly see which cocktails you can make with ingredients currently in stock
+- **Cocktail Variations**: Mark cocktails as variations of base recipes to organize related drinks (e.g., Dirty Martini as variation of Martini)
+- **Ingredient Substitutions**: Define substitute and alternative ingredients for flexible recipe preparation
+- **Smart Filtering**: Instantly see which cocktails you can make with ingredients currently in stock, including substitution options
 - **Fuzzy Search**: Typo-tolerant search across all search fields - find cocktails and ingredients even with spelling errors
 - **Full CRUD Operations**: Create, read, update, and delete both ingredients and cocktails
 - **Access Control**: Three access modes (Admin, Barkeeper, Visitor) with role-based permissions - see [SECURITY_CONCEPT.md](SECURITY_CONCEPT.md)
+- **OpenAPI Documentation**: Complete API documentation with interactive Swagger UI at `/swagger-ui.html`
 
 ## Technology Stack
 
@@ -35,16 +38,29 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 CocktailDB/
 ├── backend/                             # Spring Boot backend
 │   ├── src/main/kotlin/com/cocktaildb/  # Backend Kotlin code
-│   │   ├── controller/                  # REST API controllers
-│   │   ├── model/                       # JPA entities
-│   │   ├── repository/                  # Data repositories
-│   │   └── service/                     # Business logic
+│   │   ├── appsettings/                 # Application settings
+│   │   ├── cocktail/                    # Cocktail domain (entity, repository, services, controller)
+│   │   ├── ingredient/                  # Ingredient domain (entity, repository, services, controller)
+│   │   ├── security/                    # Authentication & authorization
+│   │   ├── controller/                  # Shared controllers (auth, settings, stock updates)
+│   │   ├── config/                      # Configuration (CORS, Security, OpenAPI, DataInitializer)
+│   │   └── util/                        # Utilities
+│   ├── src/main/resources/
+│   │   └── db/migration/                # Flyway database migrations
 │   └── build.gradle.kts                 # Gradle build file
 └── frontend/                            # Angular frontend
     └── src/app/
         ├── components/                  # UI components
+        │   ├── admin/                   # Admin section (cocktails, ingredients, settings, visualization)
+        │   ├── barkeeper/               # Barkeeper mode components
+        │   ├── visitor/                 # Visitor mode components
+        │   ├── login/                   # Authentication
+        │   └── util/                    # Shared utilities
+        ├── guards/                      # Route guards
+        ├── services/                    # API services
         ├── models/                      # TypeScript interfaces
-        └── services/                    # API service
+        ├── pipes/                       # Custom pipes
+        └── i18n/                        # Internationalization
 ```
 
 ## Getting Started
@@ -183,6 +199,7 @@ For detailed OpenAPI documentation, see **[docs/OPENAPI.md](docs/OPENAPI.md)**.
 - `GET /api/cocktails` - Get all cocktails
 - `GET /api/cocktails/{id}` - Get cocktail by ID
 - `GET /api/cocktails/available` - Get cocktails that can be made with in-stock ingredients
+- `GET /api/cocktails/available-with-substitutions` - Get cocktails categorized by ingredient availability (exact, substitutes, alternatives)
 - `POST /api/cocktails` - Create new cocktail
 - `PUT /api/cocktails/{id}` - Update cocktail
 - `DELETE /api/cocktails/{id}` - Delete cocktail
@@ -196,9 +213,16 @@ For detailed OpenAPI documentation, see **[docs/OPENAPI.md](docs/OPENAPI.md)**.
   "name": String,
   "type": IngredientType,  // SPIRIT, LIQUEUR, WINE, BEER, JUICE, SODA, SYRUP, BITTERS, GARNISH, OTHER
   "abv": Int,              // Alcohol by volume percentage
-  "inStock": Boolean       // Whether you have this ingredient
+  "inStock": Boolean,      // Whether you have this ingredient
+  "substituteIds": [Long], // IDs of ingredients that can directly substitute for this one
+  "alternativeIds": [Long] // IDs of alternative ingredients that may alter the cocktail
 }
 ```
+
+**Ingredient Substitutions**: 
+- **Substitutes**: Direct replacements (e.g., generic "Coconut Rum" for "Malibu")
+- **Alternatives**: Different but usable ingredients (e.g., "Champagne" vs "Prosecco")
+- See [docs/INGREDIENT_SUBSTITUTIONS.md](docs/INGREDIENT_SUBSTITUTIONS.md) for complete documentation
 
 ### Cocktail
 ```kotlin
@@ -212,7 +236,13 @@ For detailed OpenAPI documentation, see **[docs/OPENAPI.md](docs/OPENAPI.md)**.
     }
   ],
   "steps": [String],       // Step-by-step instructions
-  "notes": String          // Optional notes
+  "notes": String,         // Optional notes
+  "tags": [String],        // Tags for categorization
+  "abv": Int,              // Calculated alcohol percentage
+  "baseSpirit": String,    // Calculated base spirit
+  "glasswareTypes": [String], // Recommended glassware (e.g., "highball", "martini")
+  "iceTypes": [String],    // Recommended ice (e.g., "cubed", "crushed")
+  "variationOfId": Long    // Optional: ID of base cocktail if this is a variation
 }
 ```
 
@@ -294,7 +324,7 @@ The Docker setup consists of three services:
 
 Data is persisted in a Docker volume named `postgres_data`, and backups are stored in `postgres_backups`. Your cocktails and ingredients will be preserved even when containers are stopped.
 
-**Database Management**: The application uses Flyway for database migrations and includes automated daily backups. See **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** for details on migrations, backups, and restoration.
+**Database Management**: The application uses Flyway for database migrations and includes automated daily backups. Migrations are version-controlled SQL files in `backend/src/main/resources/db/migration/` that run automatically on startup. See **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** for details on migrations, backups, and restoration.
 
 ### Local Network Testing
 
@@ -427,7 +457,9 @@ For detailed information about the security implementation, authentication, and 
 
 For contributors and developers:
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
+- **[docs/OPENAPI.md](docs/OPENAPI.md)** - OpenAPI/Swagger UI documentation and usage guide
 - **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** - Database migrations with Flyway and backup/restore procedures
+- **[docs/INGREDIENT_SUBSTITUTIONS.md](docs/INGREDIENT_SUBSTITUTIONS.md)** - Ingredient substitutions and alternatives feature guide
 - **[docs/NON_VOLUME_MEASURES.md](docs/NON_VOLUME_MEASURES.md)** - Guide to handling count-based ingredients (garnishes, etc.) alongside volume measures
 - **[docs/FUZZY_SEARCH.md](docs/FUZZY_SEARCH.md)** - Fuzzy search implementation using Levenshtein distance for typo-tolerant searching
 - **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Repository conventions and coding standards

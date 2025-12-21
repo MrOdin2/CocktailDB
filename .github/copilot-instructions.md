@@ -11,7 +11,7 @@ CocktailDB is a full-stack web application for managing cocktail recipes and ing
 
 ## Project Structure
 ```
-CocktailDB_2/
+CocktailDB/
 ├── backend/                    # Spring Boot backend
 │   ├── src/main/kotlin/com/cocktaildb/
 │   │   ├── appsettings/       # Application settings (database storage, theme, language)
@@ -73,12 +73,13 @@ CocktailDB_2/
 ├── frontend/                   # Angular frontend
 │   ├── src/app/
 │   │   ├── components/        # UI components (organized by feature)
+│   │   │   ├── admin/         # Admin section container
+│   │   │   │   ├── cocktails/     # Cocktail management (admin)
+│   │   │   │   ├── ingredients/   # Ingredient management (admin)
+│   │   │   │   ├── settings/      # App settings (theme, language, password)
+│   │   │   │   └── visualization/ # Data visualizations (cocktail, ingredient, trends)
 │   │   │   ├── barkeeper/     # Barkeeper mode (menu, recipe, stock-management, etc.)
 │   │   │   ├── visitor/       # Visitor mode (menu, recipe, categories, etc.)
-│   │   │   ├── cocktails/     # Cocktail management (admin)
-│   │   │   ├── ingredients/   # Ingredient management (admin)
-│   │   │   ├── visualization/ # Data visualizations (cocktail, ingredient, trends)
-│   │   │   ├── settings/      # App settings (theme, language, password)
 │   │   │   ├── login/         # Authentication
 │   │   │   └── util/          # Shared utilities
 │   │   ├── guards/            # Route guards (auth, admin, barkeeper)
@@ -149,7 +150,10 @@ CocktailDB_2/
 - Use TypeScript strict mode
 - Prefer reactive programming with RxJS
 - Use services for API calls and shared state
-- **Component Organization**: Feature-based structure - components grouped by feature area (barkeeper, visitor, cocktails, ingredients, visualization, settings, login)
+- **Component Organization**: Feature-based structure - components grouped by feature area
+  - Admin components are under `admin/` subdirectory (cocktails, ingredients, settings, visualization)
+  - Barkeeper and visitor modes have their own directories
+  - Shared utilities in `util/`
 - Components should be focused and reusable
 - Use Angular's reactive forms for form handling
 - Route guards protect different user roles (auth, admin, barkeeper)
@@ -291,6 +295,7 @@ All API endpoints are under `/api` prefix:
 - `GET /api/cocktails` - List all cocktails
 - `GET /api/cocktails/{id}` - Get cocktail by ID
 - `GET /api/cocktails/available` - List makeable cocktails
+- `GET /api/cocktails/available-with-substitutions` - List cocktails with substitution categorization
 - `POST /api/cocktails` - Create cocktail
 - `PUT /api/cocktails/{id}` - Update cocktail
 - `DELETE /api/cocktails/{id}` - Delete cocktail
@@ -307,7 +312,22 @@ data class Ingredient(
     val name: String,
     val type: IngredientType,
     val abv: Int,
-    val inStock: Boolean
+    val inStock: Boolean,
+    val substitutes: Set<Ingredient>,
+    val alternatives: Set<Ingredient>
+)
+```
+
+**IngredientDTO** (for API responses to avoid circular references)
+```kotlin
+data class IngredientDTO(
+    val id: Long?,
+    val name: String,
+    val type: IngredientType,
+    val abv: Int,
+    val inStock: Boolean,
+    val substituteIds: Set<Long>,
+    val alternativeIds: Set<Long>
 )
 ```
 
@@ -323,7 +343,10 @@ data class Cocktail(
     val notes: String?,
     val tags: List<String>,
     val abv: Int,
-    val baseSpirit: String
+    val baseSpirit: String,
+    val glasswareTypes: List<String>,
+    val iceTypes: List<String>,
+    val variationOfId: Long?
 )
 ```
 
@@ -334,6 +357,38 @@ data class CocktailIngredient(
     val measureMl: Int
 )
 ```
+
+## Key Features
+
+### Cocktail Variations
+Cocktails can be marked as variations of a base recipe using the `variationOfId` field. This allows organizing related cocktails (e.g., Dirty Martini as a variation of Martini). The feature helps users discover recipe variations and understand cocktail families.
+
+### Ingredient Substitutions and Alternatives
+Ingredients support two types of relationships:
+- **Substitutes**: Direct replacements that don't significantly change the cocktail (e.g., generic "Coconut Rum" for branded "Malibu")
+- **Alternatives**: Different ingredients that can be used but may alter the cocktail's character (e.g., "Champagne" vs "Prosecco")
+
+The `/api/cocktails/available-with-substitutions` endpoint categorizes cocktails into three groups:
+- **exact**: Can be made with exact in-stock ingredients
+- **withSubstitutes**: Can be made using substitutes
+- **withAlternatives**: Can be made using alternatives
+
+Relationships are bidirectional and managed through many-to-many join tables. DTOs are used for serialization to avoid circular references.
+
+### OpenAPI Documentation
+The API is fully documented using OpenAPI 3.0 specification with SpringDoc:
+- **Swagger UI**: Interactive API documentation at `http://localhost:8080/swagger-ui.html`
+- **JSON Spec**: Raw OpenAPI specification at `http://localhost:8080/api-docs`
+- All endpoints are documented with descriptions, parameters, request/response schemas, and authentication requirements
+- Security scheme uses cookie-based session authentication
+
+### Glassware and Ice Types
+Cocktails can specify recommended glassware types (e.g., "highball", "martini") and ice types (e.g., "cubed", "crushed") in the `glasswareTypes` and `iceTypes` fields. These are stored as collections and help users prepare cocktails correctly.
+
+For more details, see:
+- `docs/INGREDIENT_SUBSTITUTIONS.md` - Complete guide to substitutions feature
+- `docs/OPENAPI.md` - OpenAPI documentation guide
+- `docs/DATABASE_MANAGEMENT.md` - Flyway migrations and database management
 
 ## Development Workflow
 
@@ -353,8 +408,9 @@ data class CocktailIngredient(
 
 ### Database Changes
 - Models use JPA annotations
-- Schema is auto-generated by Hibernate (ddl-auto setting varies by profile)
-- For production, consider using Flyway or Liquibase for migrations
+- Schema is managed by Flyway migrations in `backend/src/main/resources/db/migration/`
+- Migrations are versioned (V1, V2, V3, etc.) and run automatically on startup
+- For production, Flyway ensures consistent schema evolution across deployments
 
 ## Testing
 
