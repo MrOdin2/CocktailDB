@@ -195,6 +195,17 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     this.isCocktailModalOpen = true;
   }
 
+  openDuplicateModal(cocktail: Cocktail): void {
+    this.isEditMode = false;
+    // Create a copy with "Copy of" prefix and without the id
+    this.editingCocktail = {
+      ...cocktail,
+      id: undefined,
+      name: `Copy of ${cocktail.name}`
+    };
+    this.isCocktailModalOpen = true;
+  }
+
   closeCocktailModal(): void {
     this.isCocktailModalOpen = false;
     this.isEditMode = false;

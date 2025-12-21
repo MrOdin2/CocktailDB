@@ -5,6 +5,7 @@ export const de = {
     cancel: 'Abbrechen',
     save: 'Sichern des momentanen Zustands',
     edit: 'Bearbeiten',
+    duplicate: 'Duplizieren',
     delete: 'Löschen',
     add: 'Hinzufügen',
     remove: 'Entfernen',
