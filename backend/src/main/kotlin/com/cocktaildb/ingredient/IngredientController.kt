@@ -9,7 +9,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/ingredients")
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController
 class IngredientController(
     private val ingredientDataService: IngredientDataService,
     private val patchIngredientService: PatchIngredientService,
+    private val ingredientCsvService: IngredientCsvService,
 ) {
 
     @GetMapping
@@ -185,5 +190,57 @@ class IngredientController(
     )
     fun getInStockIngredients(): List<IngredientDTO> {
         return ingredientDataService.getInStockIngredients().toDTOs()
+    }
+
+    @GetMapping("/export/csv")
+    @Operation(
+        summary = "Export ingredients to CSV",
+        description = "Export all ingredients to CSV format for backup or sharing"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "CSV file generated successfully"
+    )
+    fun exportIngredientsCsv(): ResponseEntity<String> {
+        val csv = ingredientCsvService.exportToCsv()
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.parseMediaType("text/csv")
+        headers.setContentDispositionFormData("attachment", "ingredients.csv")
+        return ResponseEntity.ok().headers(headers).body(csv)
+    }
+
+    @PostMapping("/import/csv")
+    @Operation(
+        summary = "Import ingredients from CSV",
+        description = "Import ingredients from CSV file. Validates data and reports errors. Requires admin authentication.",
+        security = [SecurityRequirement(name = "cookieAuth")]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Import completed with results",
+                content = [Content(schema = Schema(implementation = IngredientImportResult::class))]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "Invalid file format"
+            ),
+            ApiResponse(
+                responseCode = "401",
+                description = "Unauthorized - authentication required"
+            )
+        ]
+    )
+    fun importIngredientsCsv(
+        @Parameter(description = "CSV file to import", required = true)
+        @RequestParam("file") file: MultipartFile
+    ): ResponseEntity<IngredientImportResult> {
+        if (file.isEmpty) {
+            return ResponseEntity.badRequest().build()
+        }
+        
+        val result = ingredientCsvService.importFromCsv(file)
+        return ResponseEntity.ok(result)
     }
 }

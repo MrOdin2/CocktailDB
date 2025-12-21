@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/cocktails")
@@ -29,6 +32,7 @@ class CocktailController(
     private val cocktailDataService: CocktailDataService,
     private val cocktailSearchService: CocktailSearchService,
     private val patchCocktailService: PatchCocktailService,
+    private val cocktailCsvService: CocktailCsvService,
 ) {
 
     @GetMapping
@@ -216,5 +220,57 @@ class CocktailController(
         @RequestParam(required = false) tags: List<String>?
     ): List<Cocktail> {
         return cocktailSearchService.searchCocktails(name, spirit, tags)
+    }
+
+    @GetMapping("/export/csv")
+    @Operation(
+        summary = "Export cocktails to CSV",
+        description = "Export all cocktails to CSV format for backup or sharing"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "CSV file generated successfully"
+    )
+    fun exportCocktailsCsv(): ResponseEntity<String> {
+        val csv = cocktailCsvService.exportToCsv()
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.parseMediaType("text/csv")
+        headers.setContentDispositionFormData("attachment", "cocktails.csv")
+        return ResponseEntity.ok().headers(headers).body(csv)
+    }
+
+    @PostMapping("/import/csv")
+    @Operation(
+        summary = "Import cocktails from CSV",
+        description = "Import cocktails from CSV file. Validates data and reports errors. Requires admin authentication.",
+        security = [SecurityRequirement(name = "cookieAuth")]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Import completed with results",
+                content = [Content(schema = Schema(implementation = ImportResult::class))]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "Invalid file format"
+            ),
+            ApiResponse(
+                responseCode = "401",
+                description = "Unauthorized - authentication required"
+            )
+        ]
+    )
+    fun importCocktailsCsv(
+        @Parameter(description = "CSV file to import", required = true)
+        @RequestParam("file") file: MultipartFile
+    ): ResponseEntity<ImportResult> {
+        if (file.isEmpty) {
+            return ResponseEntity.badRequest().build()
+        }
+        
+        val result = cocktailCsvService.importFromCsv(file)
+        return ResponseEntity.ok(result)
     }
 }
