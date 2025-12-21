@@ -6,8 +6,8 @@
             <button class="btn-secondary" (click)="openExportModal()">{{ 'cocktails.exportCocktails' | translate }}
             </button>
             <button class="btn-secondary" (click)="exportCsv()">{{ 'cocktails.exportCsv' | translate }}</button>
-            <button class="btn-secondary" (click)="importCsvFileInput.click()">{{ 'cocktails.importCsv' | translate }}</button>
-            <input #importCsvFileInput type="file" accept=".csv" style="display: none" (change)="onCsvFileSelected($event)">
+            <button class="btn-secondary" (click)="importCsvFileInput.click()" aria-label="Import cocktails from CSV file">{{ 'cocktails.importCsv' | translate }}</button>
+            <input #importCsvFileInput type="file" accept=".csv" style="display: none" (change)="onCsvFileSelected($event)" aria-hidden="true">
         </div>
     </div>
 

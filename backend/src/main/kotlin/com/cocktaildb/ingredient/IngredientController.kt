@@ -235,9 +235,19 @@ class IngredientController(
     fun importIngredientsCsv(
         @Parameter(description = "CSV file to import", required = true)
         @RequestParam("file") file: MultipartFile
-    ): ResponseEntity<IngredientImportResult> {
+    ): ResponseEntity<Any> {
         if (file.isEmpty) {
-            return ResponseEntity.badRequest().build()
+            val error = mapOf(
+                "imported" to emptyList<Ingredient>(),
+                "errors" to listOf(
+                    mapOf(
+                        "row" to 0,
+                        "message" to "No file uploaded or file is empty",
+                        "data" to ""
+                    )
+                )
+            )
+            return ResponseEntity.badRequest().body(error)
         }
         
         val result = ingredientCsvService.importFromCsv(file)

@@ -1,5 +1,6 @@
 package com.cocktaildb.ingredient
 
+import com.cocktaildb.util.CsvUtil
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.BufferedReader
@@ -27,18 +28,18 @@ class IngredientCsvService(
         sb.append("name,type,abv,inStock,substituteNames,alternativeNames\n")
         
         for (ingredient in ingredients) {
-            sb.append(escapeCsv(ingredient.name)).append(",")
+            sb.append(CsvUtil.escapeCsv(ingredient.name)).append(",")
             sb.append(ingredient.type.name).append(",")
             sb.append(ingredient.abv).append(",")
             sb.append(ingredient.inStock).append(",")
             
             // Substitutes (names)
             val substituteNames = ingredient.substitutes.map { it.name }
-            sb.append(escapeCsv(substituteNames.joinToString(";"))).append(",")
+            sb.append(CsvUtil.escapeCsv(substituteNames.joinToString(";"))).append(",")
             
             // Alternatives (names)
             val alternativeNames = ingredient.alternatives.map { it.name }
-            sb.append(escapeCsv(alternativeNames.joinToString(";")))
+            sb.append(CsvUtil.escapeCsv(alternativeNames.joinToString(";")))
             
             sb.append("\n")
         }
@@ -83,7 +84,7 @@ class IngredientCsvService(
             if (line.trim().isEmpty()) continue
             
             try {
-                val parts = parseCsvLine(line)
+                val parts = CsvUtil.parseCsvLine(line)
                 
                 if (parts.size < 6) {
                     errors.add(IngredientImportError(rowNumber, "Invalid format: expected 6 columns", line))
@@ -198,49 +199,6 @@ class IngredientCsvService(
         }
         
         return IngredientImportResult(imported, errors)
-    }
-
-    /**
-     * Parse a CSV line handling quoted fields
-     */
-    private fun parseCsvLine(line: String): List<String> {
-        val parts = mutableListOf<String>()
-        val current = StringBuilder()
-        var inQuotes = false
-        var i = 0
-        
-        while (i < line.length) {
-            val char = line[i]
-            
-            when {
-                char == '"' && (i == 0 || line[i - 1] != '\\') -> {
-                    inQuotes = !inQuotes
-                }
-                char == ',' && !inQuotes -> {
-                    parts.add(current.toString().trim().removeSurrounding("\""))
-                    current.clear()
-                }
-                else -> {
-                    current.append(char)
-                }
-            }
-            i++
-        }
-        
-        // Add last part
-        parts.add(current.toString().trim().removeSurrounding("\""))
-        
-        return parts
-    }
-
-    /**
-     * Escape CSV field (add quotes if contains comma, quote, or newline)
-     */
-    private fun escapeCsv(value: String): String {
-        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
-            return "\"${value.replace("\"", "\"\"")}\""
-        }
-        return value
     }
 }
 

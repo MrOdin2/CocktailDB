@@ -4,8 +4,8 @@
     <div class="header-buttons">
       <button class="btn-primary" (click)="openModal()">{{ 'ingredients.addNew' | translate }}</button>
       <button class="btn-secondary" (click)="exportCsv()">{{ 'ingredients.exportCsv' | translate }}</button>
-      <button class="btn-secondary" (click)="importCsvFileInput.click()">{{ 'ingredients.importCsv' | translate }}</button>
-      <input #importCsvFileInput type="file" accept=".csv" style="display: none" (change)="onCsvFileSelected($event)">
+      <button class="btn-secondary" (click)="importCsvFileInput.click()" aria-label="Import ingredients from CSV file">{{ 'ingredients.importCsv' | translate }}</button>
+      <input #importCsvFileInput type="file" accept=".csv" style="display: none" (change)="onCsvFileSelected($event)" aria-hidden="true">
     </div>
   </div>
 

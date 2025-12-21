@@ -1,6 +1,7 @@
 package com.cocktaildb.cocktail
 
 import com.cocktaildb.ingredient.IngredientRepository
+import com.cocktaildb.util.CsvUtil
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.BufferedReader
@@ -35,33 +36,33 @@ class CocktailCsvService(
         sb.append("name,ingredients,ingredientAmounts,steps,notes,tags,glasswareTypes,iceTypes,variationOfId\n")
         
         for (cocktail in cocktails) {
-            sb.append(escapeCsv(cocktail.name)).append(",")
+            sb.append(CsvUtil.escapeCsv(cocktail.name)).append(",")
             
             // Ingredients (names)
             val ingredientNames = cocktail.ingredients.map { ing ->
                 val ingredient = allIngredients.find { it.id == ing.ingredientId }
                 ingredient?.name ?: "Unknown"
             }
-            sb.append(escapeCsv(ingredientNames.joinToString(";"))).append(",")
+            sb.append(CsvUtil.escapeCsv(ingredientNames.joinToString(";"))).append(",")
             
             // Ingredient amounts
             val amounts = cocktail.ingredients.map { it.measureMl.toString() }
-            sb.append(escapeCsv(amounts.joinToString(";"))).append(",")
+            sb.append(CsvUtil.escapeCsv(amounts.joinToString(";"))).append(",")
             
             // Steps (pipe-separated to avoid conflict with semicolons)
-            sb.append(escapeCsv(cocktail.steps.joinToString("|"))).append(",")
+            sb.append(CsvUtil.escapeCsv(cocktail.steps.joinToString("|"))).append(",")
             
             // Notes
-            sb.append(escapeCsv(cocktail.notes ?: "")).append(",")
+            sb.append(CsvUtil.escapeCsv(cocktail.notes ?: "")).append(",")
             
             // Tags
-            sb.append(escapeCsv(cocktail.tags.joinToString(";"))).append(",")
+            sb.append(CsvUtil.escapeCsv(cocktail.tags.joinToString(";"))).append(",")
             
             // Glassware types
-            sb.append(escapeCsv(cocktail.glasswareTypes.joinToString(";"))).append(",")
+            sb.append(CsvUtil.escapeCsv(cocktail.glasswareTypes.joinToString(";"))).append(",")
             
             // Ice types
-            sb.append(escapeCsv(cocktail.iceTypes.joinToString(";"))).append(",")
+            sb.append(CsvUtil.escapeCsv(cocktail.iceTypes.joinToString(";"))).append(",")
             
             // Variation of ID
             sb.append(cocktail.variationOfId?.toString() ?: "")
@@ -104,7 +105,7 @@ class CocktailCsvService(
             if (line.trim().isEmpty()) continue
             
             try {
-                val parts = parseCsvLine(line)
+                val parts = CsvUtil.parseCsvLine(line)
                 
                 if (parts.size < 9) {
                     errors.add(ImportError(rowNumber, "Invalid format: expected 9 columns", line))
@@ -198,50 +199,8 @@ class CocktailCsvService(
         
         return ImportResult(imported, errors)
     }
-
-    /**
-     * Parse a CSV line handling quoted fields
-     */
-    private fun parseCsvLine(line: String): List<String> {
-        val parts = mutableListOf<String>()
-        val current = StringBuilder()
-        var inQuotes = false
-        var i = 0
-        
-        while (i < line.length) {
-            val char = line[i]
-            
-            when {
-                char == '"' && (i == 0 || line[i - 1] != '\\') -> {
-                    inQuotes = !inQuotes
-                }
-                char == ',' && !inQuotes -> {
-                    parts.add(current.toString().trim().removeSurrounding("\""))
-                    current.clear()
-                }
-                else -> {
-                    current.append(char)
-                }
-            }
-            i++
-        }
-        
-        // Add last part
-        parts.add(current.toString().trim().removeSurrounding("\""))
-        
-        return parts
-    }
-
-    /**
-     * Escape CSV field (add quotes if contains comma, quote, or newline)
-     */
-    private fun escapeCsv(value: String): String {
-        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
-            return "\"${value.replace("\"", "\"\"")}\""
-        }
-        return value
-    }
 }
+
 
 /**
  * Result of CSV import operation
