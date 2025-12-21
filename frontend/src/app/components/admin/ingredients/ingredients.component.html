@@ -1,7 +1,12 @@
 <div class="container">
   <div class="header-section">
     <h2>{{ 'ingredients.title' | translate }}</h2>
-    <button class="btn-primary" (click)="openModal()">{{ 'ingredients.addNew' | translate }}</button>
+    <div class="header-buttons">
+      <button class="btn-primary" (click)="openModal()">{{ 'ingredients.addNew' | translate }}</button>
+      <button class="btn-secondary" (click)="exportCsv()">{{ 'ingredients.exportCsv' | translate }}</button>
+      <button class="btn-secondary" (click)="importCsvFileInput.click()">{{ 'ingredients.importCsv' | translate }}</button>
+      <input #importCsvFileInput type="file" accept=".csv" style="display: none" (change)="onCsvFileSelected($event)">
+    </div>
   </div>
 
   <div class="filter-section">
@@ -494,4 +499,43 @@
       }
     </div>
   </div>
+
+  <!-- CSV Import Result Modal -->
+  <app-modal [isOpen]="isCsvImportModalOpen" (close)="closeCsvImportModal()">
+    <div class="modal-content">
+      <h3>{{ 'ingredients.csvImportResults' | translate }}</h3>
+      
+      @if (csvImportResult) {
+        <div class="import-summary">
+          <p><strong>{{ 'ingredients.csvImported' | translate }}:</strong> {{ csvImportResult.imported.length }}</p>
+          <p><strong>{{ 'ingredients.csvErrors' | translate }}:</strong> {{ csvImportResult.errors.length }}</p>
+        </div>
+
+        @if (csvImportResult.errors.length > 0) {
+          <div class="error-list">
+            <h4>{{ 'ingredients.csvErrorDetails' | translate }}</h4>
+            <div class="error-items">
+              @for (error of csvImportResult.errors; track error.row) {
+                <div class="error-item">
+                  <strong>{{ 'ingredients.csvRow' | translate }} {{ error.row }}:</strong> {{ error.message }}
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (csvImportResult.imported.length > 0) {
+          <div class="success-message">
+            {{ 'ingredients.csvImportSuccess' | translate }}
+          </div>
+        }
+      }
+
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" (click)="closeCsvImportModal()">
+          {{ 'common.close' | translate }}
+        </button>
+      </div>
+    </div>
+  </app-modal>
   </div>

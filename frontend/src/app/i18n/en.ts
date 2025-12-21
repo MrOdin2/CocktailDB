@@ -141,6 +141,14 @@ export const en = {
     editRelationshipsInfo: 'Edit substitutes/alternatives below',
     searchIngredients: 'Search ingredients...',
     noMatch: 'No matching ingredients',
+    exportCsv: 'Export CSV',
+    importCsv: 'Import CSV',
+    csvImportResults: 'CSV Import Results',
+    csvImported: 'Successfully imported',
+    csvErrors: 'Errors',
+    csvErrorDetails: 'Error Details',
+    csvRow: 'Row',
+    csvImportSuccess: 'Ingredients have been imported successfully!',
     modal: {
       title: 'Add New Ingredient'
     }
@@ -195,6 +203,14 @@ export const en = {
     alternative: 'Alternative',
     usesSubstitutes: 'This cocktail can be made with substitute ingredients',
     usesAlternatives: 'This cocktail can be made with alternative ingredients',
+    exportCsv: 'Export CSV',
+    importCsv: 'Import CSV',
+    csvImportResults: 'CSV Import Results',
+    csvImported: 'Successfully imported',
+    csvErrors: 'Errors',
+    csvErrorDetails: 'Error Details',
+    csvRow: 'Row',
+    csvImportSuccess: 'Cocktails have been imported successfully!',
     export: {
       title: 'Export Cocktails',
       exportType: 'Export Type:',

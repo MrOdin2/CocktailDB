@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Cocktail, CocktailIngredient, Ingredient, IngredientType, MeasureUnit } from '../../../models/models';
-import { ApiService } from '../../../services/api.service';
+import { ApiService, CsvImportResult } from '../../../services/api.service';
 import { ExportService, ExportFormat, ExportType } from '../../../services/export.service';
 import { MeasureService } from '../../../services/measure.service';
 import { FuzzySearchService } from '../../../services/fuzzy-search.service';
@@ -53,6 +53,10 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   isTagSelectionModalOpen = false;
   availableTagsForExport: string[] = [];
   selectedTagsForExport: string[] = [];
+  
+  // CSV import modal
+  isCsvImportModalOpen = false;
+  csvImportResult: CsvImportResult | null = null;
   
   // Predefined suggestions for glassware types (defaults)
   readonly defaultGlasswareTypes = [
@@ -426,6 +430,57 @@ export class CocktailsComponent implements OnInit, OnDestroy {
     );
     
     this.closeExportModal();
+  }
+  
+  // CSV Import/Export methods
+  exportCsv(): void {
+    this.apiService.exportCocktailsCsv().subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `cocktails-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error: any) => {
+        console.error('Error exporting cocktails CSV:', error);
+        alert('Failed to export cocktails. Please try again.');
+      }
+    });
+  }
+
+  onCsvFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.apiService.importCocktailsCsv(file).subscribe({
+        next: (result: CsvImportResult) => {
+          this.csvImportResult = result;
+          this.isCsvImportModalOpen = true;
+          
+          // Reload cocktails if any were imported
+          if (result.imported.length > 0) {
+            this.loadCocktails();
+            this.loadAvailableCocktails();
+          }
+          
+          // Reset file input
+          event.target.value = '';
+        },
+        error: (error: any) => {
+          console.error('Error importing cocktails CSV:', error);
+          alert('Failed to import cocktails. Please check the file format and try again.');
+          event.target.value = '';
+        }
+      });
+    }
+  }
+
+  closeCsvImportModal(): void {
+    this.isCsvImportModalOpen = false;
+    this.csvImportResult = null;
   }
   
   get ExportType() {

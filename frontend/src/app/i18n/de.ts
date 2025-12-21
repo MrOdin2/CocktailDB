@@ -141,6 +141,14 @@ export const de = {
     editRelationshipsInfo: 'Ersatzstoffe/Alternativen unten bearbeiten',
     searchIngredients: 'Zutaten suchen...',
     noMatch: 'Keine passenden Zutaten',
+    exportCsv: 'CSV exportieren',
+    importCsv: 'CSV importieren',
+    csvImportResults: 'CSV-Import-Ergebnisse',
+    csvImported: 'Erfolgreich importiert',
+    csvErrors: 'Fehler',
+    csvErrorDetails: 'Fehlerdetails',
+    csvRow: 'Zeile',
+    csvImportSuccess: 'Zutaten wurden erfolgreich importiert!',
     modal: {
       title: 'Neue Zutat hinzufügen'
     }
@@ -195,6 +203,14 @@ export const de = {
     alternative: 'Alternative',
     usesSubstitutes: 'Dieser Cocktail kann mit Ersatzzutaten zubereitet werden',
     usesAlternatives: 'Dieser Cocktail kann mit alternativen Zutaten zubereitet werden',
+    exportCsv: 'CSV exportieren',
+    importCsv: 'CSV importieren',
+    csvImportResults: 'CSV-Import-Ergebnisse',
+    csvImported: 'Erfolgreich importiert',
+    csvErrors: 'Fehler',
+    csvErrorDetails: 'Fehlerdetails',
+    csvRow: 'Zeile',
+    csvImportSuccess: 'Cocktails wurden erfolgreich importiert!',
     export: {
       title: 'Cocktails exportieren',
       exportType: 'Exporttyp:',
