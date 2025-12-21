@@ -16,7 +16,7 @@
             </div>
         </div>
     }
-    @if (cocktail.glasswareTypes?.length || cocktail.iceTypes?.length) {
+    @if (cocktail.glasswareTypes.length || cocktail.iceTypes.length) {
         <div class="card-section">
             @if (cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0) {
                 <p><strong>{{ 'cocktails.glasswareTypes' | translate }}:</strong></p>
