@@ -83,6 +83,7 @@
                     [allCocktails]="cocktails"
                     [currentUnit]="currentUnit"
                     (edit)="openEditModal($event)"
+                    (duplicate)="openDuplicateModal($event)"
                     (delete)="deleteCocktail($event)">
                 </app-cocktail-card>
             }

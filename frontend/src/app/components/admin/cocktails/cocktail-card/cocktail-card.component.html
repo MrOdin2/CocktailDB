@@ -16,7 +16,7 @@
             </div>
         </div>
     }
-    @if (cocktail.glasswareTypes?.length || cocktail.iceTypes?.length) {
+    @if (cocktail.glasswareTypes.length || cocktail.iceTypes.length) {
         <div class="card-section">
             @if (cocktail.glasswareTypes && cocktail.glasswareTypes.length > 0) {
                 <p><strong>{{ 'cocktails.glasswareTypes' | translate }}:</strong></p>
@@ -65,6 +65,9 @@
     <div class="card-actions">
         <button class="btn-secondary"
                 (click)="onEdit()">{{ 'common.edit' | translate }}
+        </button>
+        <button class="btn-secondary"
+                (click)="onDuplicate()">{{ 'common.duplicate' | translate }}
         </button>
         <button class="btn-danger"
                 (click)="onDelete()">{{ 'common.delete' | translate }}

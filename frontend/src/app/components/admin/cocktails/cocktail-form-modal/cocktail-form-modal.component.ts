@@ -68,7 +68,7 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   }
 
   private initializeForm(): void {
-    if (this.isEditMode && this.cocktail) {
+    if (this.cocktail) {
       this.formCocktail = {
         name: this.cocktail.name,
         ingredients: [...this.cocktail.ingredients],

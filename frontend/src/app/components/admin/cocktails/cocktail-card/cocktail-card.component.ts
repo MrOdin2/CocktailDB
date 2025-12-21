@@ -19,6 +19,7 @@ export class CocktailCardComponent {
   
   @Output() edit = new EventEmitter<Cocktail>();
   @Output() delete = new EventEmitter<number>();
+  @Output() duplicate = new EventEmitter<Cocktail>();
 
   constructor(private measureService: MeasureService) {}
 
@@ -30,6 +31,10 @@ export class CocktailCardComponent {
     if (this.cocktail.id) {
       this.delete.emit(this.cocktail.id);
     }
+  }
+
+  onDuplicate(): void {
+    this.duplicate.emit(this.cocktail);
   }
 
   getIngredientName(ingredientId: number): string {
