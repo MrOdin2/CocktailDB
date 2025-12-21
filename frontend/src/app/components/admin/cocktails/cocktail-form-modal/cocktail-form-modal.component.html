@@ -60,16 +60,51 @@
                 [cdkDropListDisabled]="formCocktail.ingredients.length <= 1">
                 @for (ing of formCocktail.ingredients; track ing; let i = $index) {
                     <li cdkDrag
-                        [cdkDragDisabled]="formCocktail.ingredients.length <= 1"
+                        [cdkDragDisabled]="formCocktail.ingredients.length <= 1 || editingIngredientIndex === i"
                         class="draggable-item"
                         [attr.aria-label]="'cocktails.reorderIngredient' | translate:{ name: getIngredientName(ing.ingredientId) }">
-                        <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder ingredient">⋮⋮</span>
-                        <span class="item-content">
+                        <span class="drag-handle" cdkDragHandle 
+                              [class.edit-mode-disabled]="editingIngredientIndex === i"
+                              aria-label="Drag to reorder ingredient">⋮⋮</span>
+                        @if (editingIngredientIndex === i) {
+                            <div class="edit-ingredient-form">
+                                @if (editingIngredientIsCountBased) {
+                                    <input type="number" [(ngModel)]="editingIngredientEntry.measureValue" 
+                                           [name]="'editMeasureValue' + i"
+                                           [placeholder]="'cocktails.count' | translate" min="0" step="1"
+                                           class="edit-measure-input">
+                                    <span class="unit-label">{{ 'cocktails.items' | translate }}</span>
+                                } @else {
+                                    <input type="number" [(ngModel)]="editingIngredientEntry.measureValue" 
+                                           [name]="'editMeasureValue' + i"
+                                           [placeholder]="'cocktails.amount' | translate" min="0" step="0.5"
+                                           class="edit-measure-input">
+                                    <select [(ngModel)]="currentUnit" (ngModelChange)="setUnit($event)" 
+                                            [name]="'editMeasureUnit' + i"
+                                            class="unit-select">
+                                        @for (unit of availableUnits; track unit) {
+                                            <option [value]="unit">{{ unit }}</option>
+                                        }
+                                    </select>
+                                }
+                                <button type="button" class="btn-small btn-save"
+                                        (click)="saveEditingIngredient()">{{ 'common.save' | translate }}
+                                </button>
+                                <button type="button" class="btn-small"
+                                        (click)="cancelEditingIngredient()">{{ 'common.cancel' | translate }}
+                                </button>
+                            </div>
+                        } @else {
+                            <span class="item-content">
                                 {{ getIngredientName(ing.ingredientId) }} - {{ formatMeasure(ing.measureMl) }}
                             </span>
-                        <button type="button" class="btn-small"
-                                (click)="removeIngredient(i)">{{ 'common.remove' | translate }}
-                        </button>
+                            <button type="button" class="btn-small"
+                                    (click)="startEditingIngredient(i)">{{ 'common.edit' | translate }}
+                            </button>
+                            <button type="button" class="btn-small"
+                                    (click)="removeIngredient(i)">{{ 'common.remove' | translate }}
+                            </button>
+                        }
                     </li>
                 }
             </ul>
@@ -145,14 +180,31 @@
                 [cdkDropListDisabled]="formCocktail.steps.length <= 1">
                 @for (step of formCocktail.steps; track step; let i = $index) {
                     <li cdkDrag 
-                        [cdkDragDisabled]="formCocktail.steps.length <= 1"
+                        [cdkDragDisabled]="formCocktail.steps.length <= 1 || editingStepIndex === i"
                         class="draggable-item"
                         [attr.aria-label]="'Reorder step ' + (i + 1)">
-                        <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder step">⋮⋮</span>
-                        <span class="item-content">{{ step }}</span>
-                        <button type="button" class="btn-small"
-                                (click)="removeStep(i)">{{ 'common.remove' | translate }}
-                        </button>
+                        <span class="drag-handle" cdkDragHandle 
+                              [class.edit-mode-disabled]="editingStepIndex === i"
+                              aria-label="Drag to reorder step">⋮⋮</span>
+                        @if (editingStepIndex === i) {
+                            <input type="text" [(ngModel)]="editingStepText" 
+                                   [name]="'editStep' + i"
+                                   class="edit-step-input"
+                                   (keydown)="onStepKeydown($event)"
+                                   [placeholder]="'cocktails.addStep' | translate">
+                            <button type="button" class="btn-small btn-save"
+                                    (click)="saveEditingStep()">{{ 'common.save' | translate }}
+                            </button>
+                            <button type="button" class="btn-small"
+                                    (click)="cancelEditingStep()">{{ 'common.cancel' | translate }}
+                            </button>
+                        } @else {
+                            <span class="item-content" (dblclick)="startEditingStep(i)" 
+                                  [attr.title]="'Double-click to edit'">{{ step }}</span>
+                            <button type="button" class="btn-small"
+                                    (click)="removeStep(i)">{{ 'common.remove' | translate }}
+                            </button>
+                        }
                     </li>
                 }
             </ol>
