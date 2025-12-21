@@ -25,3 +25,52 @@
   width: 100%;
 }
 
+/* Edit mode styles */
+.edit-ingredient-form {
+  display: flex;
+  flex: 1;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.edit-measure-input {
+  flex: 1;
+  min-width: 80px;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit-step-input {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn-save {
+  background-color: var(--primary-color, #007bff);
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: var(--primary-hover-color, #0056b3);
+}
+
+.edit-mode-disabled {
+  opacity: 0.3;
+  cursor: not-allowed !important;
+}
+
+.item-content[title] {
+  cursor: pointer;
+}
+
+.item-content[title]:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+

@@ -43,6 +43,13 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   ingredientSearchFilter = '';
   variationSearchFilter = '';
   
+  // Edit state
+  editingIngredientIndex: number | null = null;
+  editingIngredientEntry: { ingredientId: number; measureValue: number } = { ingredientId: 0, measureValue: 0 };
+  editingIngredientIsCountBased = false;
+  editingStepIndex: number | null = null;
+  editingStepText = '';
+  
   // Form fields
   newStep = '';
   newTag = '';
@@ -156,6 +163,47 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
   removeIngredient(index: number): void {
     this.formCocktail.ingredients.splice(index, 1);
   }
+  
+  startEditingIngredient(index: number): void {
+    const ingredient = this.formCocktail.ingredients[index];
+    this.editingIngredientIndex = index;
+    this.editingIngredientEntry.ingredientId = ingredient.ingredientId;
+    
+    // Convert measureMl back to the current unit for editing
+    if (ingredient.measureMl < 0) {
+      // Count-based ingredient
+      this.editingIngredientEntry.measureValue = Math.abs(ingredient.measureMl);
+      this.editingIngredientIsCountBased = true;
+    } else {
+      this.editingIngredientEntry.measureValue = this.measureService.convertFromMl(ingredient.measureMl, this.currentUnit);
+      this.editingIngredientIsCountBased = false;
+    }
+  }
+  
+  saveEditingIngredient(): void {
+    if (this.editingIngredientIndex !== null && this.editingIngredientEntry.measureValue > 0) {
+      let measureMl: number;
+      
+      if (this.editingIngredientIsCountBased) {
+        measureMl = -Math.abs(this.editingIngredientEntry.measureValue);
+      } else {
+        measureMl = this.measureService.convertToMl(this.editingIngredientEntry.measureValue, this.currentUnit);
+      }
+      
+      this.formCocktail.ingredients[this.editingIngredientIndex] = {
+        ingredientId: this.editingIngredientEntry.ingredientId,
+        measureMl: measureMl
+      };
+      
+      this.cancelEditingIngredient();
+    }
+  }
+  
+  cancelEditingIngredient(): void {
+    this.editingIngredientIndex = null;
+    this.editingIngredientEntry = { ingredientId: 0, measureValue: 0 };
+    this.editingIngredientIsCountBased = false;
+  }
 
   dropIngredient(event: CdkDragDrop<CocktailIngredient[]>): void {
     moveItemInArray(this.formCocktail.ingredients, event.previousIndex, event.currentIndex);
@@ -170,6 +218,33 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
 
   removeStep(index: number): void {
     this.formCocktail.steps.splice(index, 1);
+  }
+  
+  startEditingStep(index: number): void {
+    this.editingStepIndex = index;
+    this.editingStepText = this.formCocktail.steps[index];
+  }
+  
+  saveEditingStep(): void {
+    if (this.editingStepIndex !== null && this.editingStepText.trim()) {
+      this.formCocktail.steps[this.editingStepIndex] = this.editingStepText.trim();
+      this.cancelEditingStep();
+    }
+  }
+  
+  cancelEditingStep(): void {
+    this.editingStepIndex = null;
+    this.editingStepText = '';
+  }
+  
+  onStepKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.saveEditingStep();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      this.cancelEditingStep();
+    }
   }
 
   dropStep(event: CdkDragDrop<string[]>): void {
@@ -312,5 +387,10 @@ export class CocktailFormModalComponent implements OnInit, OnChanges {
     this.customGlassware = '';
     this.newIce = '';
     this.customIce = '';
+    this.editingIngredientIndex = null;
+    this.editingIngredientEntry = { ingredientId: 0, measureValue: 0 };
+    this.editingIngredientIsCountBased = false;
+    this.editingStepIndex = null;
+    this.editingStepText = '';
   }
 }
