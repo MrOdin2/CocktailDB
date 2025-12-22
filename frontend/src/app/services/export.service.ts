@@ -421,6 +421,11 @@ export class ExportService {
   /**
    * Generate Menu Handout HTML - optimized for A5 booklet printing
    * Shows only cocktail names and ingredients (without measures)
+   * @param cocktails - List of cocktails to export
+   * @param ingredients - List of all ingredients for name lookup
+   * @param groupBy - Group cocktails by 'spirit' or 'tags'
+   * @param selectedTags - Optional array of tags to filter and order groups (when groupBy is 'tags')
+   * @returns HTML string formatted for A5 booklet with 2-column layout, no ingredient measures
    */
   private generateMenuHandoutHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
     const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
@@ -533,6 +538,11 @@ export class ExportService {
 
   /**
    * Generate Name List HTML - just cocktail names grouped
+   * @param cocktails - List of cocktails to export
+   * @param ingredients - List of all ingredients for grouping by spirit
+   * @param groupBy - Group cocktails by 'spirit' or 'tags'
+   * @param selectedTags - Optional array of tags to filter and order groups (when groupBy is 'tags')
+   * @returns HTML string formatted for A4 with 3-column layout, cocktail names only
    */
   private generateNameListHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
     const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
@@ -619,6 +629,11 @@ export class ExportService {
 
   /**
    * Generate Menu Handout Markdown - ingredients without measures
+   * @param cocktails - List of cocktails to export
+   * @param ingredients - List of all ingredients for name lookup
+   * @param groupBy - Group cocktails by 'spirit' or 'tags'
+   * @param selectedTags - Optional array of tags to filter and order groups (when groupBy is 'tags')
+   * @returns Markdown string with cocktail names and ingredients (no measures)
    */
   private generateMenuHandoutMarkdown(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
     const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
@@ -642,6 +657,11 @@ export class ExportService {
 
   /**
    * Generate Name List Markdown - just cocktail names
+   * @param cocktails - List of cocktails to export
+   * @param ingredients - List of all ingredients for grouping by spirit
+   * @param groupBy - Group cocktails by 'spirit' or 'tags'
+   * @param selectedTags - Optional array of tags to filter and order groups (when groupBy is 'tags')
+   * @returns Markdown string with cocktail names only (no ingredients)
    */
   private generateNameListMarkdown(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
     const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
