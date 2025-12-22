@@ -33,7 +33,8 @@ export const en = {
     tags: 'Tags',
     instructions: 'Instructions',
     next: 'Next',
-    export: 'Export'
+    export: 'Export',
+    close: 'close'
   },
   app: {
     title: 'CocktailDB',
