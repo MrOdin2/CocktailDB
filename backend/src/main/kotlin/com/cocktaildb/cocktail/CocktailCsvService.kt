@@ -141,7 +141,7 @@ class CocktailCsvService(
                     }
                     
                     val amount = ingredientAmounts[i].toDoubleOrNull()
-                    if (amount == null || amount < 0) {
+                    if (amount == null) {
                         errors.add(ImportError(rowNumber, "Invalid amount for ingredient $ingredientName: ${ingredientAmounts[i]}", line))
                         hasIngredientError = true
                         break

@@ -46,6 +46,8 @@ Mint,GARNISH,0,true,,Basil
 1. `name` - Cocktail name (required, unique)
 2. `ingredients` - Semicolon-separated list of ingredient names (required)
 3. `ingredientAmounts` - Semicolon-separated list of amounts in ml (required, must match ingredient count)
+   - **Positive values**: Volume in milliliters (e.g., 60 for 60ml)
+   - **Negative values**: Count of items (e.g., -3 for 3 pieces/slices/dashes)
 4. `steps` - Pipe-separated list of preparation steps (required)
 5. `notes` - Additional notes (optional)
 6. `tags` - Semicolon-separated list of tags (optional)
@@ -58,11 +60,13 @@ Mint,GARNISH,0,true,,Basil
 name,ingredients,ingredientAmounts,steps,notes,tags,glasswareTypes,iceTypes,variationOfId
 Mojito,Rum;Lime Juice;Mint;Simple Syrup;Soda Water,60;30;10;15;60,Muddle mint and lime in glass|Add rum and simple syrup|Fill with ice|Top with soda water|Garnish with mint sprig,Best served in summer,refreshing;summer;classic,Highball,Crushed,
 Gin and Tonic,Gin;Tonic Water;Lime,60;120;5,Fill glass with ice|Add gin|Top with tonic water|Squeeze lime wedge,Use premium tonic for best results,refreshing;easy,Highball,Cubed,
+Old Fashioned,Whiskey;Simple Syrup;Angostura Bitters,60;10;-3,Add simple syrup and 3 dashes of bitters to glass|Add whiskey and stir|Add large ice cube|Garnish with orange peel,Express orange oils before garnishing,classic;spirit-forward,Rocks,Large Cube,
 ```
 
 **Notes:**
 - Ingredient names must exist in the database before importing cocktails
-- Amounts are always in milliliters (ml)
+- Amounts are in milliliters for liquids (positive numbers)
+- **Use negative numbers for count-based items** (e.g., -2 for 2 lime slices, -3 for 3 dashes of bitters)
 - Use pipe (|) to separate steps to avoid conflicts with semicolons in text
 - ABV and base spirit are automatically calculated from ingredients
 - variationOfId must reference an existing cocktail ID (leave empty if not a variation)

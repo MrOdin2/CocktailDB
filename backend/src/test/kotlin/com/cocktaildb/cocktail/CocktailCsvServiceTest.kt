@@ -201,6 +201,33 @@ class CocktailCsvServiceTest {
     }
 
     @Test
+    fun `importFromCsvContent should accept negative amounts for count-based items`() {
+        // Given
+        val csvContent = """
+            name,ingredients,ingredientAmounts,steps,notes,tags,glasswareTypes,iceTypes,variationOfId
+            Garnished Cocktail,Vodka;Lime Juice,60;-3,Shake well|Garnish with 3 lime slices,Great drink,refreshing,Highball,Crushed,
+        """.trimIndent()
+
+        every { ingredientRepository.findAll() } returns listOf(vodka, lime)
+        every { cocktailDataService.getAllCocktails() } returns emptyList()
+        every { patchCocktailService.createCocktail(any()) } answers {
+            val cocktail = firstArg<Cocktail>()
+            cocktail.copy(id = 1L)
+        }
+
+        // When
+        val result = csvService.importFromCsvContent(csvContent)
+
+        // Then
+        assertEquals(1, result.imported.size)
+        assertEquals(0, result.errors.size)
+        assertEquals("Garnished Cocktail", result.imported[0].name)
+        assertEquals(2, result.imported[0].ingredients.size)
+        assertEquals(-3.0, result.imported[0].ingredients[1].measureMl) // Negative value for count
+        verify(exactly = 1) { patchCocktailService.createCocktail(any()) }
+    }
+
+    @Test
     fun `importFromCsvContent should handle empty file`() {
         // Given
         val csvContent = ""
