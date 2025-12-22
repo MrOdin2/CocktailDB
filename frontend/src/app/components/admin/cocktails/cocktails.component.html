@@ -143,6 +143,10 @@
                         <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.PDF">
                         {{ 'cocktails.export.pdf' | translate }}
                     </label>
+                    <label>
+                        <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.CSV">
+                        {{ 'cocktails.export.csv' | translate }}
+                    </label>
                 </div>
             </div>
 

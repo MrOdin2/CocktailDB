@@ -223,6 +223,7 @@ export const de = {
       html: 'HTML',
       markdown: 'Markdown (.md)',
       pdf: 'PDF (Als PDF drucken)',
+      csv: 'CSV (Gefilterte Auswahl)',
       exportingCount: '{{ count }} Cocktail(s) werden basierend auf aktuellen Filtern exportiert.',
       tagSelection: {
         title: 'Tags für Gruppierung auswählen',

@@ -5,7 +5,8 @@ import { MeasureService } from './measure.service';
 export enum ExportFormat {
   HTML = 'html',
   MARKDOWN = 'md',
-  PDF = 'pdf'
+  PDF = 'pdf',
+  CSV = 'csv'
 }
 
 export enum ExportType {

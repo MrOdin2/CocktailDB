@@ -420,6 +420,13 @@ export class CocktailsComponent implements OnInit, OnDestroy {
       return;
     }
     
+    // Handle CSV export separately
+    if (this.exportFormat === ExportFormat.CSV) {
+      this.exportFilteredCocktailsCsv(cocktailsToExport);
+      this.closeExportModal();
+      return;
+    }
+    
     this.exportService.exportCocktails(
       cocktailsToExport,
       this.ingredients,
@@ -450,6 +457,73 @@ export class CocktailsComponent implements OnInit, OnDestroy {
         alert('Failed to export cocktails. Please try again.');
       }
     });
+  }
+
+  exportFilteredCocktailsCsv(cocktails: Cocktail[]): void {
+    // Generate CSV content for filtered cocktails
+    const csv = this.generateCsvContent(cocktails);
+    
+    // Download the CSV
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `cocktails-filtered-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
+
+  generateCsvContent(cocktails: Cocktail[]): string {
+    // CSV Header
+    let csv = 'name,ingredients,ingredientAmounts,steps,notes,tags,glasswareTypes,iceTypes,variationOfId\n';
+    
+    for (const cocktail of cocktails) {
+      // Name
+      csv += this.escapeCsvField(cocktail.name) + ',';
+      
+      // Ingredients (semicolon-separated names)
+      const ingredientNames = cocktail.ingredients.map(ing => {
+        const ingredient = this.ingredients.find(i => i.id === ing.ingredientId);
+        return ingredient ? ingredient.name : 'Unknown';
+      });
+      csv += this.escapeCsvField(ingredientNames.join(';')) + ',';
+      
+      // Ingredient amounts
+      const amounts = cocktail.ingredients.map(ing => ing.measureMl.toString());
+      csv += this.escapeCsvField(amounts.join(';')) + ',';
+      
+      // Steps (pipe-separated)
+      csv += this.escapeCsvField(cocktail.steps.join('|')) + ',';
+      
+      // Notes
+      csv += this.escapeCsvField(cocktail.notes || '') + ',';
+      
+      // Tags
+      csv += this.escapeCsvField(cocktail.tags.join(';')) + ',';
+      
+      // Glassware types
+      csv += this.escapeCsvField(cocktail.glasswareTypes.join(';')) + ',';
+      
+      // Ice types
+      csv += this.escapeCsvField(cocktail.iceTypes.join(';')) + ',';
+      
+      // Variation of ID
+      csv += cocktail.variationOfId?.toString() || '';
+      
+      csv += '\n';
+    }
+    
+    return csv;
+  }
+
+  escapeCsvField(value: string): string {
+    // Escape CSV field according to RFC 4180
+    if (value.includes(',') || value.includes('"') || value.includes('\n')) {
+      return '"' + value.replace(/"/g, '""') + '"';
+    }
+    return value;
   }
 
   onCsvFileSelected(event: any): void {
