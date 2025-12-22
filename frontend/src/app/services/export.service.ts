@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cocktail, Ingredient, MeasureUnit } from '../models/models';
+import { Cocktail, Ingredient } from '../models/models';
 import { MeasureService } from './measure.service';
 
 export enum ExportFormat {
@@ -32,9 +32,9 @@ export class ExportService {
     groupBy: 'spirit' | 'tags' = 'spirit',
     selectedTags?: string[]
   ): void {
-    let content: string;
-    let filename: string;
-    let mimeType: string;
+    let content: string = "none";
+    let filename: string= "none";
+    let mimeType: string= "none";
 
     const timestamp = new Date().toISOString().split('T')[0];
     const baseFilename = `${type}-${timestamp}`;
