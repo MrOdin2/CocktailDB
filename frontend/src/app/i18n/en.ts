@@ -33,7 +33,8 @@ export const en = {
     tags: 'Tags',
     instructions: 'Instructions',
     next: 'Next',
-    export: 'Export'
+    export: 'Export',
+    close: 'close'
   },
   app: {
     title: 'CocktailDB',
@@ -141,6 +142,14 @@ export const en = {
     editRelationshipsInfo: 'Edit substitutes/alternatives below',
     searchIngredients: 'Search ingredients...',
     noMatch: 'No matching ingredients',
+    exportCsv: 'Export CSV',
+    importCsv: 'Import CSV',
+    csvImportResults: 'CSV Import Results',
+    csvImported: 'Successfully imported',
+    csvErrors: 'Errors',
+    csvErrorDetails: 'Error Details',
+    csvRow: 'Row',
+    csvImportSuccess: 'Ingredients have been imported successfully!',
     modal: {
       title: 'Add New Ingredient'
     }
@@ -195,6 +204,14 @@ export const en = {
     alternative: 'Alternative',
     usesSubstitutes: 'This cocktail can be made with substitute ingredients',
     usesAlternatives: 'This cocktail can be made with alternative ingredients',
+    exportCsv: 'Export CSV',
+    importCsv: 'Import CSV',
+    csvImportResults: 'CSV Import Results',
+    csvImported: 'Successfully imported',
+    csvErrors: 'Errors',
+    csvErrorDetails: 'Error Details',
+    csvRow: 'Row',
+    csvImportSuccess: 'Cocktails have been imported successfully!',
     export: {
       title: 'Export Cocktails',
       exportType: 'Export Type:',
@@ -207,6 +224,7 @@ export const en = {
       html: 'HTML',
       markdown: 'Markdown (.md)',
       pdf: 'PDF (Print to PDF)',
+      csv: 'CSV (Filtered Selection)',
       exportingCount: 'Exporting {{ count }} cocktail(s) based on current filters.',
       tagSelection: {
         title: 'Select Tags for Grouping',

@@ -83,4 +83,51 @@ export class ApiService {
   setTheme(theme: string): Observable<{ theme: string }> {
     return this.http.put<{ theme: string }>(`${this.baseUrl}/settings/theme`, { theme }, { withCredentials: true });
   }
+
+  // CSV Import/Export endpoints
+  exportCocktailsCsv(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/cocktails/export/csv`, { 
+      responseType: 'blob',
+      withCredentials: true 
+    });
+  }
+
+  importCocktailsCsv(file: File): Observable<CsvImportResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<CsvImportResult>(`${this.baseUrl}/cocktails/import/csv`, formData, { 
+      withCredentials: true 
+    });
+  }
+
+  exportIngredientsCsv(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/ingredients/export/csv`, { 
+      responseType: 'blob',
+      withCredentials: true 
+    });
+  }
+
+  importIngredientsCsv(file: File): Observable<IngredientCsvImportResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<IngredientCsvImportResult>(`${this.baseUrl}/ingredients/import/csv`, formData, { 
+      withCredentials: true 
+    });
+  }
+}
+
+export interface CsvImportError {
+  row: number;
+  message: string;
+  data: string;
+}
+
+export interface CsvImportResult {
+  imported: Cocktail[];
+  errors: CsvImportError[];
+}
+
+export interface IngredientCsvImportResult {
+  imported: Ingredient[];
+  errors: CsvImportError[];
 }

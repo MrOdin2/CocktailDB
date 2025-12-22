@@ -5,6 +5,9 @@
             <button class="btn-primary" (click)="openModal()">{{ 'cocktails.addNew' | translate }}</button>
             <button class="btn-secondary" (click)="openExportModal()">{{ 'cocktails.exportCocktails' | translate }}
             </button>
+            <button class="btn-secondary" (click)="exportCsv()">{{ 'cocktails.exportCsv' | translate }}</button>
+            <button class="btn-secondary" (click)="importCsvFileInput.click()" aria-label="Import cocktails from CSV file">{{ 'cocktails.importCsv' | translate }}</button>
+            <input #importCsvFileInput type="file" accept=".csv" style="display: none" (change)="onCsvFileSelected($event)" aria-hidden="true">
         </div>
     </div>
 
@@ -140,6 +143,10 @@
                         <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.PDF">
                         {{ 'cocktails.export.pdf' | translate }}
                     </label>
+                    <label>
+                        <input type="radio" name="exportFormat" [(ngModel)]="exportFormat" [value]="ExportFormat.CSV">
+                        {{ 'cocktails.export.csv' | translate }}
+                    </label>
                 </div>
             </div>
 
@@ -216,6 +223,45 @@
                         (click)="confirmTagSelection()"
                         [disabled]="selectedTagsForExport.length === 0">
                     {{ 'common.export' | translate }}
+                </button>
+            </div>
+        </div>
+    </app-modal>
+
+    <!-- CSV Import Result Modal -->
+    <app-modal [isOpen]="isCsvImportModalOpen" (close)="closeCsvImportModal()">
+        <div class="modal-content">
+            <h3>{{ 'cocktails.csvImportResults' | translate }}</h3>
+            
+            @if (csvImportResult) {
+                <div class="import-summary">
+                    <p><strong>{{ 'cocktails.csvImported' | translate }}:</strong> {{ csvImportResult.imported.length }}</p>
+                    <p><strong>{{ 'cocktails.csvErrors' | translate }}:</strong> {{ csvImportResult.errors.length }}</p>
+                </div>
+
+                @if (csvImportResult.errors.length > 0) {
+                    <div class="error-list">
+                        <h4>{{ 'cocktails.csvErrorDetails' | translate }}</h4>
+                        <div class="error-items">
+                            @for (error of csvImportResult.errors; track error.row) {
+                                <div class="error-item">
+                                    <strong>{{ 'cocktails.csvRow' | translate }} {{ error.row }}:</strong> {{ error.message }}
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (csvImportResult.imported.length > 0) {
+                    <div class="success-message">
+                        {{ 'cocktails.csvImportSuccess' | translate }}
+                    </div>
+                }
+            }
+
+            <div class="modal-actions">
+                <button type="button" class="btn-primary" (click)="closeCsvImportModal()">
+                    {{ 'common.close' | translate }}
                 </button>
             </div>
         </div>

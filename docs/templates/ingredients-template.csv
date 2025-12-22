@@ -1,0 +1,26 @@
+name,type,abv,inStock,substituteNames,alternativeNames
+Vodka,SPIRIT,40,true,Grain Vodka,
+Grain Vodka,SPIRIT,40,true,Vodka,
+Gin,SPIRIT,40,true,,
+White Rum,SPIRIT,40,true,Light Rum,Dark Rum
+Light Rum,SPIRIT,40,true,White Rum,
+Dark Rum,SPIRIT,40,false,,White Rum
+Tequila,SPIRIT,40,true,,
+Whiskey,SPIRIT,40,true,,Bourbon
+Bourbon,SPIRIT,40,true,,Whiskey
+Triple Sec,LIQUEUR,40,true,Cointreau,
+Cointreau,LIQUEUR,40,true,Triple Sec,
+Lime Juice,JUICE,0,true,Lemon Juice,
+Lemon Juice,JUICE,0,true,Lime Juice,
+Simple Syrup,SYRUP,0,true,Sugar Syrup,Honey
+Sugar Syrup,SYRUP,0,true,Simple Syrup,
+Honey,SYRUP,0,true,,Simple Syrup
+Mint,GARNISH,0,true,,Basil
+Basil,GARNISH,0,false,,Mint
+Angostura Bitters,BITTERS,45,true,,
+Soda Water,SODA,0,true,Club Soda,
+Club Soda,SODA,0,true,Soda Water,
+Tonic Water,SODA,0,true,,
+Cranberry Juice,JUICE,0,true,,
+Orange Juice,JUICE,0,true,,
+Pineapple Juice,JUICE,0,true,,

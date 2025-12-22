@@ -33,7 +33,8 @@ export const de = {
     tags: 'Tags',
     instructions: 'Anleitung',
     next: 'Weiter',
-    export: 'Exportieren'
+    export: 'Exportieren',
+    close: 'Schließen'
   },
   app: {
     title: 'CocktailDB',
@@ -141,6 +142,14 @@ export const de = {
     editRelationshipsInfo: 'Ersatzstoffe/Alternativen unten bearbeiten',
     searchIngredients: 'Zutaten suchen...',
     noMatch: 'Keine passenden Zutaten',
+    exportCsv: 'CSV exportieren',
+    importCsv: 'CSV importieren',
+    csvImportResults: 'CSV-Import-Ergebnisse',
+    csvImported: 'Erfolgreich importiert',
+    csvErrors: 'Fehler',
+    csvErrorDetails: 'Fehlerdetails',
+    csvRow: 'Zeile',
+    csvImportSuccess: 'Zutaten wurden erfolgreich importiert!',
     modal: {
       title: 'Neue Zutat hinzufügen'
     }
@@ -195,6 +204,14 @@ export const de = {
     alternative: 'Alternative',
     usesSubstitutes: 'Dieser Cocktail kann mit Ersatzzutaten zubereitet werden',
     usesAlternatives: 'Dieser Cocktail kann mit alternativen Zutaten zubereitet werden',
+    exportCsv: 'CSV exportieren',
+    importCsv: 'CSV importieren',
+    csvImportResults: 'CSV-Import-Ergebnisse',
+    csvImported: 'Erfolgreich importiert',
+    csvErrors: 'Fehler',
+    csvErrorDetails: 'Fehlerdetails',
+    csvRow: 'Zeile',
+    csvImportSuccess: 'Cocktails wurden erfolgreich importiert!',
     export: {
       title: 'Cocktails exportieren',
       exportType: 'Exporttyp:',
@@ -207,6 +224,7 @@ export const de = {
       html: 'HTML',
       markdown: 'Markdown (.md)',
       pdf: 'PDF (Als PDF drucken)',
+      csv: 'CSV (Gefilterte Auswahl)',
       exportingCount: '{{ count }} Cocktail(s) werden basierend auf aktuellen Filtern exportiert.',
       tagSelection: {
         title: 'Tags für Gruppierung auswählen',

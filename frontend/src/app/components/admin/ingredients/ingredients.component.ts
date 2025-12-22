@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Ingredient, IngredientType } from '../../../models/models';
-import { ApiService } from '../../../services/api.service';
+import { ApiService, IngredientCsvImportResult } from '../../../services/api.service';
 import { FuzzySearchService } from '../../../services/fuzzy-search.service';
 import { ModalComponent } from '../../util/modal.component';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
@@ -41,6 +41,10 @@ export class IngredientsComponent implements OnInit {
   alternativeSearch = '';
   substituteSearchEdit = '';
   alternativeSearchEdit = '';
+  
+  // CSV import modal
+  isCsvImportModalOpen = false;
+  csvImportResult: IngredientCsvImportResult | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -321,5 +325,55 @@ export class IngredientsComponent implements OnInit {
     } else {
       this.newIngredient.alternativeIds = this.newIngredient.alternativeIds?.filter(id => id !== ingredientId) || [];
     }
+  }
+
+  // CSV Import/Export methods
+  exportCsv(): void {
+    this.apiService.exportIngredientsCsv().subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `ingredients-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error: any) => {
+        console.error('Error exporting ingredients CSV:', error);
+        alert('Failed to export ingredients. Please try again.');
+      }
+    });
+  }
+
+  onCsvFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.apiService.importIngredientsCsv(file).subscribe({
+        next: (result: IngredientCsvImportResult) => {
+          this.csvImportResult = result;
+          this.isCsvImportModalOpen = true;
+          
+          // Reload ingredients if any were imported
+          if (result.imported.length > 0) {
+            this.loadIngredients();
+          }
+          
+          // Reset file input
+          event.target.value = '';
+        },
+        error: (error: any) => {
+          console.error('Error importing ingredients CSV:', error);
+          alert('Failed to import ingredients. Please check the file format and try again.');
+          event.target.value = '';
+        }
+      });
+    }
+  }
+
+  closeCsvImportModal(): void {
+    this.isCsvImportModalOpen = false;
+    this.csvImportResult = null;
   }
 }
