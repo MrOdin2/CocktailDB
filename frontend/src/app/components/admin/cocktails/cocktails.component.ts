@@ -350,8 +350,9 @@ export class CocktailsComponent implements OnInit, OnDestroy {
   }
   
   proceedWithExport(): void {
-    // If grouping by tags and it's a menu export, show tag selection modal
-    if (this.exportType === ExportType.MENU && this.exportGroupBy === 'tags') {
+    // If grouping by tags and it's a menu-like export, show tag selection modal
+    if ((this.exportType === ExportType.MENU || this.exportType === ExportType.MENU_HANDOUT || this.exportType === ExportType.NAME_LIST) 
+        && this.exportGroupBy === 'tags') {
       this.openTagSelectionModal();
     } else {
       this.performExport();

@@ -215,8 +215,10 @@ export const de = {
     export: {
       title: 'Cocktails exportieren',
       exportType: 'Exporttyp:',
-      menuType: 'Menü (nur Name + Zutaten)',
+      menuType: 'Menü (Name + Zutaten mit Mengenangaben)',
       cheatsheetType: 'Spickzettel (Vollständiges Rezept mit Schritten)',
+      menuHandoutType: 'Menü-Handzettel (Name + Zutaten ohne Mengen - A5 Broschüre)',
+      nameListType: 'Namensliste (nur Cocktailnamen)',
       groupBy: 'Gruppieren nach:',
       groupBySpirit: 'Spirituose',
       groupByTags: 'Tags',

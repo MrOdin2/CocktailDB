@@ -108,10 +108,18 @@
                         <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.CHEATSHEET">
                         {{ 'cocktails.export.cheatsheetType' | translate }}
                     </label>
+                    <label>
+                        <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.MENU_HANDOUT">
+                        {{ 'cocktails.export.menuHandoutType' | translate }}
+                    </label>
+                    <label>
+                        <input type="radio" name="exportType" [(ngModel)]="exportType" [value]="ExportType.NAME_LIST">
+                        {{ 'cocktails.export.nameListType' | translate }}
+                    </label>
                 </div>
             </div>
 
-            @if (exportType === ExportType.MENU) {
+            @if (exportType === ExportType.MENU || exportType === ExportType.MENU_HANDOUT || exportType === ExportType.NAME_LIST) {
                 <div class="form-group">
                     <label>{{ 'cocktails.export.groupBy' | translate }}</label>
                     <div class="radio-group">

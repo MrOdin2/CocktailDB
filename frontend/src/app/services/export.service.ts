@@ -11,7 +11,9 @@ export enum ExportFormat {
 
 export enum ExportType {
   MENU = 'menu',
-  CHEATSHEET = 'cheatsheet'
+  CHEATSHEET = 'cheatsheet',
+  MENU_HANDOUT = 'menu_handout',
+  NAME_LIST = 'name_list'
 }
 
 @Injectable({
@@ -41,29 +43,71 @@ export class ExportService {
 
     switch (format) {
       case ExportFormat.HTML:
-        content = type === ExportType.MENU 
-          ? this.generateMenuHTML(cocktails, ingredients, groupBy, selectedTags)
-          : this.generateCheatSheetHTML(cocktails, ingredients);
+        content = this.generateHTMLByType(type, cocktails, ingredients, groupBy, selectedTags);
         filename = `${baseFilename}.html`;
         mimeType = 'text/html';
         break;
       case ExportFormat.MARKDOWN:
-        content = type === ExportType.MENU
-          ? this.generateMenuMarkdown(cocktails, ingredients, groupBy, selectedTags)
-          : this.generateCheatSheetMarkdown(cocktails, ingredients);
+        content = this.generateMarkdownByType(type, cocktails, ingredients, groupBy, selectedTags);
         filename = `${baseFilename}.md`;
         mimeType = 'text/markdown';
         break;
       case ExportFormat.PDF:
         // For PDF, we'll generate HTML and use the browser's print-to-PDF functionality
-        content = type === ExportType.MENU
-          ? this.generateMenuHTML(cocktails, ingredients, groupBy, selectedTags)
-          : this.generateCheatSheetHTML(cocktails, ingredients);
+        content = this.generateHTMLByType(type, cocktails, ingredients, groupBy, selectedTags);
         this.printToPDF(content, baseFilename);
         return;
     }
 
     this.downloadFile(content, filename, mimeType);
+  }
+
+  /**
+   * Generate HTML based on export type
+   */
+  private generateHTMLByType(
+    type: ExportType,
+    cocktails: Cocktail[],
+    ingredients: Ingredient[],
+    groupBy: 'spirit' | 'tags',
+    selectedTags?: string[]
+  ): string {
+    switch (type) {
+      case ExportType.MENU:
+        return this.generateMenuHTML(cocktails, ingredients, groupBy, selectedTags);
+      case ExportType.CHEATSHEET:
+        return this.generateCheatSheetHTML(cocktails, ingredients);
+      case ExportType.MENU_HANDOUT:
+        return this.generateMenuHandoutHTML(cocktails, ingredients, groupBy, selectedTags);
+      case ExportType.NAME_LIST:
+        return this.generateNameListHTML(cocktails, ingredients, groupBy, selectedTags);
+      default:
+        return this.generateMenuHTML(cocktails, ingredients, groupBy, selectedTags);
+    }
+  }
+
+  /**
+   * Generate Markdown based on export type
+   */
+  private generateMarkdownByType(
+    type: ExportType,
+    cocktails: Cocktail[],
+    ingredients: Ingredient[],
+    groupBy: 'spirit' | 'tags',
+    selectedTags?: string[]
+  ): string {
+    switch (type) {
+      case ExportType.MENU:
+        return this.generateMenuMarkdown(cocktails, ingredients, groupBy, selectedTags);
+      case ExportType.CHEATSHEET:
+        return this.generateCheatSheetMarkdown(cocktails, ingredients);
+      case ExportType.MENU_HANDOUT:
+        return this.generateMenuHandoutMarkdown(cocktails, ingredients, groupBy, selectedTags);
+      case ExportType.NAME_LIST:
+        return this.generateNameListMarkdown(cocktails, ingredients, groupBy, selectedTags);
+      default:
+        return this.generateMenuMarkdown(cocktails, ingredients, groupBy, selectedTags);
+    }
   }
 
   /**
@@ -369,6 +413,247 @@ export class ExportService {
       }
 
       markdown += `---\n\n`;
+    }
+
+    return markdown;
+  }
+
+  /**
+   * Generate Menu Handout HTML - optimized for A5 booklet printing
+   * Shows only cocktail names and ingredients (without measures)
+   */
+  private generateMenuHandoutHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
+    const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
+    
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktail Menu</title>
+  <style>
+    @page {
+      size: A5;
+      margin: 10mm;
+    }
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 10mm;
+      background: white;
+      font-size: 10pt;
+      line-height: 1.3;
+    }
+    h1 {
+      text-align: center;
+      color: #222;
+      border-bottom: 2px solid #222;
+      padding-bottom: 4mm;
+      margin-bottom: 5mm;
+      font-size: 16pt;
+      font-weight: bold;
+    }
+    h2 {
+      color: #333;
+      margin-top: 6mm;
+      margin-bottom: 3mm;
+      border-bottom: 1px solid #666;
+      padding-bottom: 2mm;
+      font-size: 12pt;
+      font-weight: bold;
+      column-span: all;
+      page-break-after: avoid;
+    }
+    .cocktail-container {
+      column-count: 2;
+      column-gap: 5mm;
+    }
+    .cocktail {
+      padding: 2mm 0;
+      margin-bottom: 3mm;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .cocktail-name {
+      font-size: 10pt;
+      font-weight: bold;
+      color: #111;
+      margin-bottom: 1mm;
+    }
+    .ingredients {
+      color: #444;
+      line-height: 1.2;
+      font-size: 9pt;
+      margin: 0;
+      padding-left: 5mm;
+      list-style-type: none;
+    }
+    .ingredients li {
+      margin: 0.5mm 0;
+    }
+    .ingredients li:before {
+      content: "• ";
+      font-weight: bold;
+    }
+    @media print {
+      body {
+        margin: 0;
+        padding: 10mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Cocktail Menu</h1>
+`;
+
+    for (const [groupName, groupCocktails] of Object.entries(groups)) {
+      html += `  <h2>${this.escapeHtml(groupName)}</h2>\n`;
+      html += `  <div class="cocktail-container">\n`;
+      for (const cocktail of groupCocktails) {
+        html += `    <div class="cocktail">
+      <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
+      <ul class="ingredients">
+`;
+        for (const ing of cocktail.ingredients) {
+          const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
+          html += `        <li>${this.escapeHtml(ingredientName)}</li>\n`;
+        }
+        html += `      </ul>
+    </div>
+`;
+      }
+      html += `  </div>\n`;
+    }
+
+    html += `</body>
+</html>`;
+    return html;
+  }
+
+  /**
+   * Generate Name List HTML - just cocktail names grouped
+   */
+  private generateNameListHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
+    const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
+    
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktail Name List</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 15mm;
+      background: white;
+      font-size: 11pt;
+      line-height: 1.4;
+    }
+    h1 {
+      text-align: center;
+      color: #222;
+      border-bottom: 2px solid #222;
+      padding-bottom: 5mm;
+      margin-bottom: 8mm;
+      font-size: 18pt;
+    }
+    h2 {
+      color: #333;
+      margin-top: 8mm;
+      margin-bottom: 3mm;
+      border-bottom: 1px solid #666;
+      padding-bottom: 2mm;
+      font-size: 14pt;
+      column-span: all;
+      page-break-after: avoid;
+    }
+    .cocktail-container {
+      column-count: 3;
+      column-gap: 6mm;
+    }
+    .cocktail-name {
+      font-size: 10pt;
+      color: #222;
+      margin: 2mm 0;
+      padding-left: 3mm;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .cocktail-name:before {
+      content: "• ";
+      font-weight: bold;
+      color: #666;
+    }
+    @media print {
+      body {
+        margin: 0;
+        padding: 15mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Cocktail Name List</h1>
+`;
+
+    for (const [groupName, groupCocktails] of Object.entries(groups)) {
+      html += `  <h2>${this.escapeHtml(groupName)}</h2>\n`;
+      html += `  <div class="cocktail-container">\n`;
+      for (const cocktail of groupCocktails) {
+        html += `    <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>\n`;
+      }
+      html += `  </div>\n`;
+    }
+
+    html += `</body>
+</html>`;
+    return html;
+  }
+
+  /**
+   * Generate Menu Handout Markdown - ingredients without measures
+   */
+  private generateMenuHandoutMarkdown(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
+    const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
+    
+    let markdown = `# Cocktail Menu\n\n`;
+
+    for (const [groupName, groupCocktails] of Object.entries(groups)) {
+      markdown += `## ${groupName}\n\n`;
+      for (const cocktail of groupCocktails) {
+        markdown += `### ${cocktail.name}\n\n`;
+        for (const ing of cocktail.ingredients) {
+          const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
+          markdown += `- ${ingredientName}\n`;
+        }
+        markdown += `\n`;
+      }
+    }
+
+    return markdown;
+  }
+
+  /**
+   * Generate Name List Markdown - just cocktail names
+   */
+  private generateNameListMarkdown(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
+    const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
+    
+    let markdown = `# Cocktail Name List\n\n`;
+
+    for (const [groupName, groupCocktails] of Object.entries(groups)) {
+      markdown += `## ${groupName}\n\n`;
+      for (const cocktail of groupCocktails) {
+        markdown += `- ${cocktail.name}\n`;
+      }
+      markdown += `\n`;
     }
 
     return markdown;
