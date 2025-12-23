@@ -36,6 +36,67 @@ CocktailDB uses [Flyway](https://flywaydb.org/) for database version control and
 - Keep migrations focused - one logical change per migration
 - Add comments to explain complex changes
 
+#### ⚠️ IMPORTANT: Entity Changes Require Migrations
+
+**When modifying JPA entities (adding, removing, or changing fields), you MUST create a corresponding Flyway migration.**
+
+**Pre-commit Checklist for Entity Changes:**
+
+Before committing changes to any `@Entity` class:
+
+- [ ] Created a new Flyway migration file (`V{next_version}__{description}.sql`)
+- [ ] Migration includes all DDL changes (ALTER TABLE, CREATE TABLE, etc.)
+- [ ] Added appropriate indexes for new foreign keys and frequently queried columns
+- [ ] Added foreign key constraints with proper ON DELETE behavior
+- [ ] Tested migration with PostgreSQL (`dev-postgres` profile)
+- [ ] Verified existing data compatibility (if applicable)
+- [ ] Migration file is in `backend/src/main/resources/db/migration/`
+
+**Common Entity Changes and Required SQL:**
+
+1. **Adding a simple column:**
+   ```sql
+   ALTER TABLE table_name ADD COLUMN column_name TYPE;
+   ```
+
+2. **Adding a foreign key column:**
+   ```sql
+   ALTER TABLE table_name ADD COLUMN fk_column_id BIGINT;
+   ALTER TABLE table_name ADD CONSTRAINT fk_name 
+       FOREIGN KEY (fk_column_id) REFERENCES other_table(id) ON DELETE CASCADE;
+   CREATE INDEX idx_table_name_fk_column_id ON table_name(fk_column_id);
+   ```
+
+3. **Adding @ElementCollection (e.g., List<String>):**
+   ```sql
+   CREATE TABLE IF NOT EXISTS table_name_collection (
+       parent_id BIGINT NOT NULL,
+       collection_item VARCHAR(255) NOT NULL,
+       CONSTRAINT fk_table_name_collection_parent 
+           FOREIGN KEY (parent_id) REFERENCES table_name(id) ON DELETE CASCADE
+   );
+   CREATE INDEX idx_table_name_collection_parent_id ON table_name_collection(parent_id);
+   ```
+
+4. **Adding @ElementCollection with embeddable:**
+   ```sql
+   CREATE TABLE IF NOT EXISTS table_name_collection (
+       parent_id BIGINT NOT NULL,
+       embedded_field1 TYPE1,
+       embedded_field2 TYPE2,
+       -- Add all embeddable fields
+       CONSTRAINT fk_table_name_collection_parent 
+           FOREIGN KEY (parent_id) REFERENCES table_name(id) ON DELETE CASCADE
+   );
+   ```
+
+**Why This Matters:**
+
+- The `dev` profile uses H2 with `ddl-auto=create-drop`, which auto-generates schema (no migration needed for local H2)
+- The `dev-postgres` and `prod` profiles use `ddl-auto=validate`, which **requires** migrations
+- Without migrations, the application will fail to start in PostgreSQL environments with schema validation errors
+- Production deployments rely on Flyway for zero-downtime schema evolution
+
 #### Example Migration
 
 ```sql
