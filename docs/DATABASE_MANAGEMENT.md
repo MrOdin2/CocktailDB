@@ -92,10 +92,14 @@ Before committing changes to any `@Entity` class:
 
 **Why This Matters:**
 
-- The `dev` profile uses H2 with `ddl-auto=create-drop`, which auto-generates schema (no migration needed for local H2)
-- The `dev-postgres` and `prod` profiles use `ddl-auto=validate`, which **requires** migrations
-- Without migrations, the application will fail to start in PostgreSQL environments with schema validation errors
+- The `dev` profile uses H2 with `ddl-auto=create-drop`, which auto-generates schema from entities
+- The `dev-postgres` and `prod` profiles use `ddl-auto=validate`, which **requires** migrations to match entities
+- **Even though H2 auto-generates schema, migrations are still required** because:
+  - They ensure consistency across all environments (H2, PostgreSQL)
+  - Other developers switching between profiles will encounter failures without migrations
+  - The application will fail to start in PostgreSQL environments with schema validation errors
 - Production deployments rely on Flyway for zero-downtime schema evolution
+- **Best Practice:** Always create migrations when modifying entities, regardless of your local development profile
 
 #### Example Migration
 
