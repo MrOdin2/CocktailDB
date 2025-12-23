@@ -82,12 +82,15 @@ Before committing changes to any `@Entity` class:
    ```sql
    CREATE TABLE IF NOT EXISTS table_name_collection (
        parent_id BIGINT NOT NULL,
-       embedded_field1 TYPE1,
-       embedded_field2 TYPE2,
+       embedded_field1 TYPE1 NOT NULL,
+       embedded_field2 TYPE2 NOT NULL,
        -- Add all embeddable fields
+       PRIMARY KEY (parent_id, embedded_field1),  -- Composite key on parent + unique field(s)
        CONSTRAINT fk_table_name_collection_parent 
            FOREIGN KEY (parent_id) REFERENCES table_name(id) ON DELETE CASCADE
    );
+   -- Note: For embeddables with @Embeddable annotation, use CocktailIngredient as reference
+   -- which has composite key (cocktail_id, ingredient_id)
    ```
 
 **Why This Matters:**
