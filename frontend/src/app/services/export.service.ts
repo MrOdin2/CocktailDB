@@ -419,14 +419,14 @@ export class ExportService {
   }
 
   /**
-   * Generate Menu Handout HTML - optimized for A5 booklet printing
+   * Generate Menu Handout HTML - A5 portrait menu card with decorative elements
    * Shows only cocktail names and ingredients (without measures)
-   * Minimalist paper-focused design without web-like styling
+   * Fixed A5 portrait format (148mm x 210mm) ready for printing
    * @param cocktails - List of cocktails to export
    * @param ingredients - List of all ingredients for name lookup
    * @param groupBy - Group cocktails by 'spirit' or 'tags'
    * @param selectedTags - Optional array of tags to filter and order groups (when groupBy is 'tags')
-   * @returns HTML string formatted for A5 booklet with single-column, minimalist layout
+   * @returns HTML string formatted as print-ready A5 portrait menu card
    */
   private generateMenuHandoutHTML(cocktails: Cocktail[], ingredients: Ingredient[], groupBy: 'spirit' | 'tags', selectedTags?: string[]): string {
     const groups = this.groupCocktails(cocktails, ingredients, groupBy, selectedTags);
@@ -435,96 +435,192 @@ export class ExportService {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cocktail Menu</title>
+  <title>Cocktail Menu Card</title>
   <style>
-    @page {
-      size: A5;
-      margin: 12mm 15mm;
-    }
-    body {
-      font-family: 'Garamond', 'Times New Roman', serif;
+    * {
       margin: 0;
       padding: 0;
-      background: white;
-      font-size: 11pt;
-      line-height: 1.5;
-      color: #000;
+      box-sizing: border-box;
     }
-    h1 {
-      text-align: center;
-      font-size: 18pt;
-      font-weight: normal;
-      letter-spacing: 2pt;
-      text-transform: uppercase;
-      margin: 0 0 8mm 0;
-      padding-bottom: 3mm;
-      border-bottom: 0.5pt solid #000;
+    
+    @page {
+      size: A5 portrait;
+      margin: 0;
     }
-    h2 {
-      font-size: 13pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1pt;
-      margin: 8mm 0 4mm 0;
+    
+    html, body {
+      width: 148mm;
+      height: 210mm;
+      margin: 0;
       padding: 0;
-      border: none;
-      page-break-after: avoid;
+      overflow: hidden;
     }
-    .cocktail {
-      margin-bottom: 5mm;
-      page-break-inside: avoid;
-    }
-    .cocktail-name {
-      font-size: 11pt;
-      font-weight: bold;
-      margin-bottom: 1mm;
-    }
-    .ingredients {
+    
+    body {
+      font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+      background: #fff;
+      color: #1a1a1a;
       font-size: 10pt;
       line-height: 1.4;
+      position: relative;
+      padding: 12mm 10mm;
+    }
+    
+    /* Decorative border frame */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 8mm;
+      left: 6mm;
+      right: 6mm;
+      bottom: 8mm;
+      border: 1.5pt double #2c2c2c;
+      pointer-events: none;
+    }
+    
+    /* Inner decorative corners */
+    body::after {
+      content: '';
+      position: absolute;
+      top: 10mm;
+      left: 8mm;
+      right: 8mm;
+      bottom: 10mm;
+      border: 0.5pt solid #666;
+      pointer-events: none;
+    }
+    
+    .menu-container {
+      position: relative;
+      height: 100%;
+      padding: 8mm 6mm 6mm 6mm;
+      overflow: auto;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 16pt;
+      font-weight: normal;
+      letter-spacing: 3pt;
+      text-transform: uppercase;
+      margin: 0 0 2mm 0;
+      color: #1a1a1a;
+      position: relative;
+    }
+    
+    h1::after {
+      content: '◆';
+      display: block;
+      text-align: center;
+      font-size: 8pt;
+      margin-top: 2mm;
+      color: #666;
+    }
+    
+    .divider {
+      width: 30mm;
+      height: 0.5pt;
+      background: #666;
+      margin: 3mm auto 6mm auto;
+    }
+    
+    h2 {
+      font-size: 11pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5pt;
+      margin: 6mm 0 3mm 0;
+      padding-bottom: 1mm;
+      border-bottom: 1pt solid #2c2c2c;
+      color: #1a1a1a;
+      page-break-after: avoid;
+      position: relative;
+    }
+    
+    h2::before {
+      content: '❖';
+      position: absolute;
+      left: -5mm;
+      font-size: 8pt;
+      color: #666;
+    }
+    
+    .cocktail {
+      margin-bottom: 4mm;
+      page-break-inside: avoid;
+    }
+    
+    .cocktail-name {
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 0.5mm;
+      color: #1a1a1a;
+    }
+    
+    .ingredients {
+      font-size: 9pt;
+      line-height: 1.3;
       margin: 0;
       padding-left: 0;
       list-style: none;
-      color: #333;
+      color: #444;
+      font-style: italic;
     }
+    
     .ingredients li {
       margin: 0;
-      padding-left: 4mm;
-      text-indent: -4mm;
+      padding-left: 3mm;
+      text-indent: -3mm;
     }
+    
+    .ingredients li::before {
+      content: '• ';
+      color: #888;
+    }
+    
     @media print {
-      body {
+      html, body {
+        width: 148mm;
+        height: 210mm;
         margin: 0;
         padding: 0;
       }
-      h1, h2, .cocktail-name {
-        color: #000;
+      
+      body {
+        padding: 12mm 10mm;
+      }
+      
+      .menu-container {
+        overflow: visible;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Cocktail Menu</h1>
+  <div class="menu-container">
+    <h1>Cocktail Menu</h1>
+    <div class="divider"></div>
 `;
 
     for (const [groupName, groupCocktails] of Object.entries(groups)) {
-      html += `  <h2>${this.escapeHtml(groupName)}</h2>\n`;
+      html += `    <h2>${this.escapeHtml(groupName)}</h2>\n`;
       for (const cocktail of groupCocktails) {
-        html += `  <div class="cocktail">
-    <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
-    <ul class="ingredients">
+        html += `    <div class="cocktail">
+      <div class="cocktail-name">${this.escapeHtml(cocktail.name)}</div>
+      <ul class="ingredients">
 `;
         for (const ing of cocktail.ingredients) {
           const ingredientName = this.getIngredientName(ing.ingredientId, ingredients);
-          html += `      <li>${this.escapeHtml(ingredientName)}</li>\n`;
+          html += `        <li>${this.escapeHtml(ingredientName)}</li>\n`;
         }
-        html += `    </ul>
-  </div>
+        html += `      </ul>
+    </div>
 `;
       }
     }
 
-    html += `</body>
+    html += `  </div>
+</body>
 </html>`;
     return html;
   }
