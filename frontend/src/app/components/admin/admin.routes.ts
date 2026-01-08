@@ -21,5 +21,9 @@ export const ADMIN_ROUTES: Routes = [
   { 
     path: 'settings', 
     loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent)
+  },
+  { 
+    path: 'qr-code', 
+    loadComponent: () => import('./qr-code/qr-code.component').then(m => m.QrCodeComponent)
   }
 ];
