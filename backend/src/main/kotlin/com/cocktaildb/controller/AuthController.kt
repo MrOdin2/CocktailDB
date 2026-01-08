@@ -223,9 +223,11 @@ class AuthController(
         }
         
         // Set customer token cookie (valid for 24 hours)
+        // Note: isHttpOnly is set to false to allow localStorage backup for client-side token management
+        // In production, set secure to true to enforce HTTPS-only transmission
         val cookie = Cookie("customerToken", token).apply {
-            isHttpOnly = false // Allow JavaScript access for localStorage backup
-            secure = false // Set to true in production with HTTPS
+            isHttpOnly = false // Allow JavaScript access for localStorage synchronization
+            secure = false // TODO: Set to true in production with HTTPS
             path = "/"
             maxAge = 60 * 60 * 24 // 24 hours
         }

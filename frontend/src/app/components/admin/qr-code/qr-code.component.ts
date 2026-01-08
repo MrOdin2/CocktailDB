@@ -291,12 +291,28 @@ export class QrCodeComponent implements OnInit {
   }
 
   copyToClipboard(input: HTMLInputElement): void {
-    input.select();
-    document.execCommand('copy');
-    this.copiedMessage = 'Copied!';
-    setTimeout(() => {
-      this.copiedMessage = '';
-    }, 2000);
+    // Use modern Clipboard API instead of deprecated execCommand
+    navigator.clipboard.writeText(input.value).then(() => {
+      this.copiedMessage = 'Copied!';
+      setTimeout(() => {
+        this.copiedMessage = '';
+      }, 2000);
+    }).catch(() => {
+      // Fallback for browsers that don't support Clipboard API
+      input.select();
+      try {
+        document.execCommand('copy');
+        this.copiedMessage = 'Copied!';
+        setTimeout(() => {
+          this.copiedMessage = '';
+        }, 2000);
+      } catch (err) {
+        this.copiedMessage = 'Failed to copy';
+        setTimeout(() => {
+          this.copiedMessage = '';
+        }, 2000);
+      }
+    });
   }
 
   printQrCode(): void {

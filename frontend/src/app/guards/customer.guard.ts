@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { map, take } from 'rxjs/operators';
+import { map, take, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export const customerGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -15,21 +16,24 @@ export const customerGuard: CanActivateFn = (route, state) => {
   // Check for token in URL parameters (QR code redirect)
   const token = route.queryParams['token'];
   if (token) {
-    // Authenticate with token and reload
-    authService.authenticateCustomer(token).pipe(
+    // Authenticate with token and return observable
+    return authService.authenticateCustomer(token).pipe(
       take(1),
       map(response => {
         if (response.success) {
-          // Remove token from URL and reload
+          // Remove token from URL
           router.navigate([state.url.split('?')[0]]);
           return true;
         } else {
           router.navigate(['/customer-login']);
           return false;
         }
+      }),
+      catchError(() => {
+        router.navigate(['/customer-login']);
+        return of(false);
       })
-    ).subscribe();
-    return false; // Will redirect after authentication
+    );
   }
 
   // No customer authentication, redirect to customer login
