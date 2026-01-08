@@ -146,4 +146,116 @@ class AuthControllerTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.authenticated").value(false))
     }
+    
+    @Test
+    fun `generateCustomerToken should succeed with admin session`() {
+        // Given
+        val adminSessionId = sessionService.createSession(UserRole.ADMIN)
+        
+        // When/Then
+        mockMvc.perform(
+            get("/api/auth/customer/generate-token")
+                .cookie(Cookie("sessionId", adminSessionId))
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.token").exists())
+    }
+    
+    @Test
+    fun `generateCustomerToken should fail without session`() {
+        // When/Then
+        mockMvc.perform(get("/api/auth/customer/generate-token"))
+            .andExpect(status().isUnauthorized)
+            .andExpect(jsonPath("$.success").value(false))
+    }
+    
+    @Test
+    fun `generateCustomerToken should fail with barkeeper session`() {
+        // Given
+        val barkeeperSessionId = sessionService.createSession(UserRole.BARKEEPER)
+        
+        // When/Then
+        mockMvc.perform(
+            get("/api/auth/customer/generate-token")
+                .cookie(Cookie("sessionId", barkeeperSessionId))
+        )
+            .andExpect(status().isUnauthorized)
+            .andExpect(jsonPath("$.success").value(false))
+    }
+    
+    @Test
+    fun `authenticateCustomer should succeed with valid token`() {
+        // Given
+        val adminSessionId = sessionService.createSession(UserRole.ADMIN)
+        val tokenResponse = mockMvc.perform(
+            get("/api/auth/customer/generate-token")
+                .cookie(Cookie("sessionId", adminSessionId))
+        )
+            .andExpect(status().isOk)
+            .andReturn()
+        
+        val responseBody = objectMapper.readTree(tokenResponse.response.contentAsString)
+        val token = responseBody.get("token").asText()
+        
+        // When/Then
+        mockMvc.perform(
+            post("/api/auth/customer/authenticate")
+                .param("token", token)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(cookie().exists("customerToken"))
+    }
+    
+    @Test
+    fun `authenticateCustomer should fail with invalid token`() {
+        // Given
+        val invalidToken = "invalid-token"
+        
+        // When/Then
+        mockMvc.perform(
+            post("/api/auth/customer/authenticate")
+                .param("token", invalidToken)
+        )
+            .andExpect(status().isUnauthorized)
+            .andExpect(jsonPath("$.success").value(false))
+    }
+    
+    @Test
+    fun `validateCustomerToken should return valid for newly generated token`() {
+        // Given
+        val adminSessionId = sessionService.createSession(UserRole.ADMIN)
+        val tokenResponse = mockMvc.perform(
+            get("/api/auth/customer/generate-token")
+                .cookie(Cookie("sessionId", adminSessionId))
+        )
+            .andExpect(status().isOk)
+            .andReturn()
+        
+        val responseBody = objectMapper.readTree(tokenResponse.response.contentAsString)
+        val token = responseBody.get("token").asText()
+        
+        // When/Then
+        mockMvc.perform(
+            get("/api/auth/customer/validate")
+                .param("token", token)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.success").value(true))
+    }
+    
+    @Test
+    fun `validateCustomerToken should return invalid for bad token`() {
+        // Given
+        val invalidToken = "invalid-token"
+        
+        // When/Then
+        mockMvc.perform(
+            get("/api/auth/customer/validate")
+                .param("token", invalidToken)
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.success").value(false))
+    }
 }
