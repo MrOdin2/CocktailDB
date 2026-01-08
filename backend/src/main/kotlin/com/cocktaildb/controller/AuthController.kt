@@ -1,5 +1,6 @@
 package com.cocktaildb.controller
 
+import com.cocktaildb.security.CustomerTokenService
 import com.cocktaildb.security.PasswordService
 import com.cocktaildb.security.SessionService
 import com.cocktaildb.security.UserRole
@@ -42,6 +43,16 @@ data class AuthStatusResponse(
     val role: String? = null
 )
 
+@Schema(description = "Customer authentication response with token")
+data class CustomerAuthResponse(
+    @Schema(description = "Whether the authentication was successful", required = true)
+    val success: Boolean,
+    @Schema(description = "Customer authentication token", required = false)
+    val token: String? = null,
+    @Schema(description = "Message describing the result")
+    val message: String? = null
+)
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = ["http://localhost:4200"], allowCredentials = "true")
@@ -49,6 +60,7 @@ data class AuthStatusResponse(
 class AuthController(
     private val passwordService: PasswordService,
     private val sessionService: SessionService,
+    private val customerTokenService: CustomerTokenService,
     @Value("\${admin.password.hash}")
     private val adminPasswordHash: String,
     @Value("\${barkeeper.password.hash}")
@@ -88,6 +100,8 @@ class AuthController(
         val passwordHash = when (role) {
             UserRole.ADMIN -> adminPasswordHash
             UserRole.BARKEEPER -> barkeeperPasswordHash
+            UserRole.CUSTOMER -> return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(LoginResponse(success = false, message = "Customer authentication not supported via this endpoint"))
         }
         
         if (!passwordService.verifyPassword(request.password, passwordHash)) {
@@ -178,5 +192,114 @@ class AuthController(
         } else {
             ResponseEntity.ok(AuthStatusResponse(authenticated = false))
         }
+    }
+    
+    @PostMapping("/customer/authenticate")
+    @Operation(
+        summary = "Authenticate as customer using token",
+        description = "Authenticate as customer using a token from QR code. Sets customer authentication cookie valid for 24 hours."
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Customer authentication successful",
+                content = [Content(schema = Schema(implementation = CustomerAuthResponse::class))]
+            ),
+            ApiResponse(
+                responseCode = "401",
+                description = "Invalid or expired token",
+                content = [Content(schema = Schema(implementation = CustomerAuthResponse::class))]
+            )
+        ]
+    )
+    fun authenticateCustomer(
+        @RequestParam token: String,
+        response: HttpServletResponse
+    ): ResponseEntity<CustomerAuthResponse> {
+        if (!customerTokenService.validateCustomerToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(CustomerAuthResponse(success = false, message = "Invalid or expired token"))
+        }
+        
+        // Set customer token cookie (valid for 24 hours)
+        val cookie = Cookie("customerToken", token).apply {
+            isHttpOnly = false // Allow JavaScript access for localStorage backup
+            secure = false // Set to true in production with HTTPS
+            path = "/"
+            maxAge = 60 * 60 * 24 // 24 hours
+        }
+        response.addCookie(cookie)
+        
+        return ResponseEntity.ok(CustomerAuthResponse(
+            success = true,
+            token = token,
+            message = "Customer authentication successful"
+        ))
+    }
+    
+    @GetMapping("/customer/generate-token")
+    @Operation(
+        summary = "Generate customer authentication token (Admin only)",
+        description = "Generate a new customer authentication token for QR code. Requires admin authentication."
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Token generated successfully",
+                content = [Content(schema = Schema(implementation = CustomerAuthResponse::class))]
+            ),
+            ApiResponse(
+                responseCode = "401",
+                description = "Admin authentication required"
+            )
+        ]
+    )
+    fun generateCustomerToken(
+        @CookieValue(value = "sessionId", required = false) sessionId: String?
+    ): ResponseEntity<CustomerAuthResponse> {
+        // Verify admin session
+        if (sessionId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(CustomerAuthResponse(success = false, message = "Authentication required"))
+        }
+        
+        val session = sessionService.validateSession(sessionId)
+        if (session == null || session.role != UserRole.ADMIN) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(CustomerAuthResponse(success = false, message = "Admin authentication required"))
+        }
+        
+        val token = customerTokenService.generateCustomerToken()
+        return ResponseEntity.ok(CustomerAuthResponse(
+            success = true,
+            token = token,
+            message = "Token generated successfully"
+        ))
+    }
+    
+    @GetMapping("/customer/validate")
+    @Operation(
+        summary = "Validate customer authentication token",
+        description = "Check if the provided customer token is valid"
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Token validation result",
+                content = [Content(schema = Schema(implementation = CustomerAuthResponse::class))]
+            )
+        ]
+    )
+    fun validateCustomerToken(
+        @RequestParam token: String
+    ): ResponseEntity<CustomerAuthResponse> {
+        val isValid = customerTokenService.validateCustomerToken(token)
+        return ResponseEntity.ok(CustomerAuthResponse(
+            success = isValid,
+            message = if (isValid) "Token is valid" else "Token is invalid or expired"
+        ))
     }
 }
