@@ -2,13 +2,35 @@
 
 ## Overview
 
-CocktailDB now includes a customer authentication layer that requires all users to authenticate via a QR code before accessing any part of the application. This feature is designed for establishments (bars, restaurants) that want to control access to their digital cocktail menu.
+CocktailDB includes a customer authentication layer that requires visitors to authenticate via a QR code before accessing the cocktail menu. This feature is designed for establishments (bars, restaurants) that want to control access to their digital cocktail menu while maintaining easy staff access.
+
+## Important: Initial Setup (Bootstrapping)
+
+### First-Time Admin Access
+
+**There is no chicken-and-egg problem!** Staff members (Admin/Barkeeper) can log in directly at `/login` without needing customer authentication. This allows the admin to:
+
+1. Navigate directly to `http://your-domain.com/login`
+2. Log in with admin credentials
+3. Generate the first customer QR code
+4. Distribute the QR code to customers
+
+**Customer authentication is only required for visitor routes**, not for staff access. This means:
+- ✅ Staff can always access `/login`, `/admin`, and `/barkeeper` routes
+- ✅ Admin can generate QR codes without customer authentication
+- ❌ Visitors must have a valid customer token to access `/visitor` routes
 
 ## How It Works
 
 ### Architecture
 
 ```
+┌─────────────────────────────────────┐
+│  Staff Access (Direct)              │
+│  /login → Admin Panel → QR Generate │
+│  No customer token required         │
+└─────────────────────────────────────┘
+
 ┌─────────────┐
 │   Customer  │
 │   Scans QR  │
@@ -24,13 +46,13 @@ CocktailDB now includes a customer authentication layer that requires all users 
 │  - Redirects to visitor menu        │
 └──────┬──────────────────────────────┘
        │
-       │ All subsequent requests include X-Customer-Token header
+       │ All visitor requests include X-Customer-Token header
        │
        ▼
 ┌─────────────────────────────────────┐
 │  Backend Authentication Filter      │
-│  - Verifies customer token          │
-│  - Checks 24-hour expiration        │
+│  - Staff routes: Check session      │
+│  - Visitor routes: Check token      │
 │  - Validates HMAC signature         │
 └─────────────────────────────────────┘
 ```
@@ -63,10 +85,13 @@ CUSTOMER_TOKEN_SECRET=<your-generated-secret>
 
 ### 2. Generate QR Code
 
-1. Log in as admin
-2. Navigate to **Admin → QR Code**
-3. Click "Generate QR Code"
-4. The QR code and authentication URL are displayed
+**No customer authentication needed for this step!**
+
+1. Navigate directly to `http://your-domain.com/login`
+2. Log in as admin with your admin password
+3. Navigate to **Admin → QR Code**
+4. Click "Generate QR Code"
+5. The QR code and authentication URL are displayed
 
 ### 3. Print or Display QR Code
 
@@ -113,18 +138,25 @@ Once authenticated, customers can:
 
 ## Staff Access (Admin/Barkeeper)
 
-### Prerequisites
+### Direct Access (No Customer Authentication Required)
 
-Before staff can log in, they must also authenticate as a customer:
-1. Scan the customer QR code (or visit the auth URL)
-2. Once customer authentication is complete, navigate to `/login`
-3. Select role (Admin or Barkeeper)
-4. Enter password
+Staff members can access the system directly without customer authentication:
 
-This two-layer authentication ensures:
-- Only authenticated customers can see the staff login page
-- Staff accounts have additional security layer
-- Separation between customer and staff access
+1. Navigate directly to `http://your-domain.com/login`
+2. Select role (Admin or Barkeeper)
+3. Enter password
+4. Access admin panel or barkeeper interface
+
+**Key Points:**
+- ✅ Staff login does NOT require customer QR authentication
+- ✅ Admin can generate QR codes without customer token
+- ✅ Staff routes (`/admin`, `/barkeeper`) are protected by session authentication only
+- ℹ️ Visitor routes (`/visitor`) require customer authentication
+
+This design allows:
+- Initial setup without chicken-and-egg problem
+- Staff access in emergencies even if QR codes are unavailable
+- Clear separation between staff and customer access paths
 
 ## API Endpoints
 

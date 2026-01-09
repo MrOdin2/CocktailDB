@@ -31,19 +31,11 @@ class SessionAuthenticationFilter(
         // Skip customer authentication in test profile
         val requireCustomerAuth = !environment.activeProfiles.contains("test")
         
-        // Check for customer authentication first (required for all access in non-test environments)
-        if (requireCustomerAuth) {
-            val customerToken = request.getHeader("X-Customer-Token") 
-                ?: request.cookies?.find { it.name == "customerToken" }?.value
-            
-            if (customerToken == null || !customerTokenService.validateCustomerToken(customerToken)) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Customer authentication required")
-                return
-            }
-        }
+        // Check if this is a staff-only endpoint that requires staff authentication
+        val isStaffEndpoint = requiresStaffAuthentication(path, method)
         
-        // For staff endpoints (admin/barkeeper), check session cookie
-        if (requiresStaffAuthentication(path, method)) {
+        // For staff endpoints, check staff authentication first
+        if (isStaffEndpoint) {
             val sessionCookie = request.cookies?.find { it.name == "sessionId" }
             val sessionId = sessionCookie?.value
             
@@ -55,6 +47,21 @@ class SessionAuthenticationFilter(
             val session = sessionService.validateSession(sessionId)
             if (session == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired session")
+                return
+            }
+            
+            // Staff is authenticated, allow access without customer token
+            filterChain.doFilter(request, response)
+            return
+        }
+        
+        // For non-staff endpoints (visitor routes), require customer authentication
+        if (requireCustomerAuth) {
+            val customerToken = request.getHeader("X-Customer-Token") 
+                ?: request.cookies?.find { it.name == "customerToken" }?.value
+            
+            if (customerToken == null || !customerTokenService.validateCustomerToken(customerToken)) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Customer authentication required")
                 return
             }
         }
@@ -73,7 +80,7 @@ class SessionAuthenticationFilter(
     }
     
     private fun requiresStaffAuthentication(path: String, method: String): Boolean {
-        // Admin-only endpoints
+        // Admin-only endpoints (CRUD operations)
         if (method in listOf("POST", "PUT", "DELETE")) {
             if (path.startsWith("/api/cocktails") || path.startsWith("/api/ingredients")) {
                 return true
@@ -85,9 +92,9 @@ class SessionAuthenticationFilter(
             return true
         }
         
-        // Other authenticated staff endpoints (logout, status check)
-        if (path.startsWith("/api/auth/logout") || path.startsWith("/api/auth/status")) {
-            return false // These are available to anyone (authenticated by customer token in prod)
+        // Customer token generation (admin only) - requires admin session
+        if (path.startsWith("/api/auth/customer/generate-token")) {
+            return true
         }
         
         return false

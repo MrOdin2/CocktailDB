@@ -22,22 +22,22 @@ export const routes: Routes = [
   { path: 'visitor/random', component: VisitorRandomPickerComponent, canActivate: [customerGuard] },
   { path: 'visitor/categories', component: VisitorCategoriesComponent, canActivate: [customerGuard] },
   
-  // Login (requires customer authentication first)
-  { path: 'login', component: LoginComponent, canActivate: [customerGuard] },
+  // Login (no customer auth required - staff can login directly)
+  { path: 'login', component: LoginComponent },
   
-  // Barkeeper routes (lazy loaded, protected by customer + barkeeper guards)
+  // Barkeeper routes (lazy loaded, protected by barkeeper guard only)
   { 
     path: 'barkeeper', 
     loadChildren: () => import('./components/barkeeper/barkeeper.routes').then(m => m.BARKEEPER_ROUTES),
-    canActivate: [customerGuard, barkeeperGuard]
+    canActivate: [barkeeperGuard]
   },
   
-  // Admin routes (lazy loaded, protected by customer + admin guards)
+  // Admin routes (lazy loaded, protected by admin guard only)
   { 
     path: 'admin', 
     loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent),
     loadChildren: () => import('./components/admin/admin.routes').then(m => m.ADMIN_ROUTES),
-    canActivate: [customerGuard, adminGuard]
+    canActivate: [adminGuard]
   },
   
   // Redirect old admin routes to new structure
