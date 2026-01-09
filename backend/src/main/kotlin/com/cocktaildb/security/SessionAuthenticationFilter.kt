@@ -55,6 +55,18 @@ class SessionAuthenticationFilter(
             return
         }
         
+        // Check for staff session even on non-staff endpoints (staff can access anything)
+        val sessionCookie = request.cookies?.find { it.name == "sessionId" }
+        val sessionId = sessionCookie?.value
+        if (sessionId != null) {
+            val session = sessionService.validateSession(sessionId)
+            if (session != null) {
+                // Valid staff session - allow access without customer token
+                filterChain.doFilter(request, response)
+                return
+            }
+        }
+        
         // For non-staff endpoints (visitor routes), require customer authentication
         if (requireCustomerAuth) {
             val customerToken = request.getHeader("X-Customer-Token") 
