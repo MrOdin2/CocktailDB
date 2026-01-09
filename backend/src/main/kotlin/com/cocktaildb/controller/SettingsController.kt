@@ -23,6 +23,18 @@ data class ThemeRequest(
     val theme: String
 )
 
+@Schema(description = "Customer authentication status response")
+data class CustomerAuthStatusResponse(
+    @Schema(description = "Whether customer authentication is enabled", required = true)
+    val enabled: Boolean
+)
+
+@Schema(description = "Customer authentication update request")
+data class CustomerAuthUpdateRequest(
+    @Schema(description = "Enable or disable customer authentication", required = true)
+    val enabled: Boolean
+)
+
 @RestController
 @RequestMapping("/api/settings")
 @Tag(name = "Settings", description = "Application settings management endpoints")
@@ -75,5 +87,44 @@ class SettingsController(
         } catch (e: IllegalArgumentException) {
             ResponseEntity.badRequest().build()
         }
+    }
+    
+    @GetMapping("/customer-auth")
+    @Operation(
+        summary = "Get customer authentication status",
+        description = "Check if customer authentication is enabled for visitor routes"
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "Customer auth status retrieved successfully",
+        content = [Content(schema = Schema(implementation = CustomerAuthStatusResponse::class))]
+    )
+    fun getCustomerAuthStatus(): ResponseEntity<CustomerAuthStatusResponse> {
+        val enabled = appSettingsService.isCustomerAuthEnabled()
+        return ResponseEntity.ok(CustomerAuthStatusResponse(enabled))
+    }
+    
+    @PutMapping("/customer-auth")
+    @Operation(
+        summary = "Enable or disable customer authentication",
+        description = "Toggle customer authentication requirement for visitor routes. Requires admin authentication.",
+        security = [SecurityRequirement(name = "cookieAuth")]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Customer auth setting updated successfully",
+                content = [Content(schema = Schema(implementation = CustomerAuthStatusResponse::class))]
+            ),
+            ApiResponse(
+                responseCode = "401",
+                description = "Unauthorized - admin authentication required"
+            )
+        ]
+    )
+    fun setCustomerAuthStatus(@RequestBody request: CustomerAuthUpdateRequest): ResponseEntity<CustomerAuthStatusResponse> {
+        val enabled = appSettingsService.setCustomerAuthEnabled(request.enabled)
+        return ResponseEntity.ok(CustomerAuthStatusResponse(enabled))
     }
 }

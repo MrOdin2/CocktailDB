@@ -1,5 +1,6 @@
 package com.cocktaildb.security
 
+import com.cocktaildb.appsettings.AppSettingsService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -11,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 class SessionAuthenticationFilter(
     private val sessionService: SessionService,
     private val customerTokenService: CustomerTokenService,
+    private val appSettingsService: AppSettingsService,
     private val environment: Environment
 ) : OncePerRequestFilter() {
     
@@ -29,7 +31,7 @@ class SessionAuthenticationFilter(
         }
         
         // Skip customer authentication in test profile
-        val requireCustomerAuth = !environment.activeProfiles.contains("test")
+        val requireCustomerAuth = !environment.activeProfiles.contains("test") && appSettingsService.isCustomerAuthEnabled()
         
         // Check if this is a staff-only endpoint that requires staff authentication
         val isStaffEndpoint = requiresStaffAuthentication(path, method)

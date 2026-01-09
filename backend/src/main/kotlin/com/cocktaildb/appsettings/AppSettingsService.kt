@@ -11,6 +11,9 @@ class AppSettingsService(
         const val THEME_KEY = "theme"
         const val DEFAULT_THEME = "basic"
         val VALID_THEMES = setOf("basic", "terminal-green", "cyberpunk", "amber")
+        
+        const val CUSTOMER_AUTH_ENABLED_KEY = "customer_auth_enabled"
+        const val DEFAULT_CUSTOMER_AUTH_ENABLED = "true"
     }
 
     @Transactional(readOnly = true)
@@ -33,5 +36,23 @@ class AppSettingsService(
         appSettingsRepository.save(setting)
 
         return theme
+    }
+    
+    @Transactional(readOnly = true)
+    fun isCustomerAuthEnabled(): Boolean {
+        return appSettingsRepository.findBySettingKey(CUSTOMER_AUTH_ENABLED_KEY)
+            .map { it.settingValue.toBoolean() }
+            .orElse(DEFAULT_CUSTOMER_AUTH_ENABLED.toBoolean())
+    }
+    
+    @Transactional
+    fun setCustomerAuthEnabled(enabled: Boolean): Boolean {
+        val setting = appSettingsRepository.findBySettingKey(CUSTOMER_AUTH_ENABLED_KEY)
+            .orElse(AppSettings(settingKey = CUSTOMER_AUTH_ENABLED_KEY, settingValue = enabled.toString()))
+        
+        setting.settingValue = enabled.toString()
+        appSettingsRepository.save(setting)
+        
+        return enabled
     }
 }

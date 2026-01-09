@@ -199,3 +199,69 @@
 .info-section li {
   margin: 8px 0;
 }
+
+/* Customer Auth Toggle */
+.auth-toggle-container {
+  margin-top: 15px;
+}
+
+.auth-status {
+  padding: 20px;
+  border: 2px solid;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.auth-status.enabled {
+  border-color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.auth-status.disabled {
+  border-color: #ff9800;
+  background-color: rgba(255, 152, 0, 0.1);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.status-icon {
+  font-size: 32px;
+}
+
+.status-text h4 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+}
+
+.status-text p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.btn-toggle {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-toggle:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
