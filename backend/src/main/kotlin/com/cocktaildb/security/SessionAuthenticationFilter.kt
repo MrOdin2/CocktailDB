@@ -87,6 +87,7 @@ class SessionAuthenticationFilter(
     private fun isPublicEndpoint(path: String, method: String): Boolean {
         return path.startsWith("/api/auth/customer") || // Customer authentication endpoints
                path.startsWith("/api/auth/login") ||  // Staff login endpoint
+               (path == "/api/settings/customer-auth" && method == "GET") || // Check if customer auth is enabled
                path.startsWith("/actuator/") ||
                path.startsWith("/api-docs") ||
                path.startsWith("/swagger-ui") ||
