@@ -1,3 +1,5 @@
+I just wanted to try out Copilot, and suddenly i had a mostly usable web application. Some stuff is weird, some is cool. 
+
 # CocktailDB
 A home solution to manage Cocktails and Ingredients. Keep track of your recipes, see what you can make with what you have.
 
