@@ -4,6 +4,32 @@
   </div>
 
   <div class="settings-section">
+    <h3>Customer Authentication</h3>
+    <p>Control whether customers need to scan a QR code to access visitor routes. When disabled, the cocktail menu is publicly accessible.</p>
+
+    <div class="auth-toggle-container">
+      <div class="auth-status" [class.enabled]="customerAuthEnabled" [class.disabled]="!customerAuthEnabled">
+        <div class="status-indicator">
+          <span class="status-icon">{{ customerAuthEnabled ? '🔒' : '🔓' }}</span>
+          <div class="status-text">
+            <h4>{{ customerAuthEnabled ? 'Enabled' : 'Disabled' }}</h4>
+            <p>{{ customerAuthEnabled ? 'Visitors must scan QR code to access menu' : 'Menu is publicly accessible' }}</p>
+          </div>
+        </div>
+        <button 
+          class="btn-toggle" 
+          [disabled]="isLoadingCustomerAuth"
+          (click)="toggleCustomerAuth()"
+          aria-label="Enable or disable customer authentication">
+          {{ isLoadingCustomerAuth ? 'Updating...' : (customerAuthEnabled ? 'Disable' : 'Enable') }}
+        </button>
+      </div>
+    </div>
+    
+    <p class="setting-note"><strong>{{ 'common.notes' | translate }}:</strong> When enabled, visitors need a valid QR code token to access cocktail listings and recipes. Staff can always log in directly. This is useful for bars that want to control menu access or when deploying on public networks.</p>
+  </div>
+
+  <div class="settings-section">
     <h3>{{ 'settings.language.title' | translate }}</h3>
     <p>{{ 'settings.language.description' | translate }}</p>
 

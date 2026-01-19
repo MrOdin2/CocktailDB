@@ -114,6 +114,20 @@ export class ApiService {
       withCredentials: true 
     });
   }
+  
+  // Settings endpoints
+  getCustomerAuthStatus(): Observable<CustomerAuthStatusResponse> {
+    return this.http.get<CustomerAuthStatusResponse>(`${this.baseUrl}/settings/customer-auth`, { 
+      withCredentials: true 
+    });
+  }
+  
+  setCustomerAuthStatus(enabled: boolean): Observable<CustomerAuthStatusResponse> {
+    return this.http.put<CustomerAuthStatusResponse>(`${this.baseUrl}/settings/customer-auth`, 
+      { enabled }, 
+      { withCredentials: true }
+    );
+  }
 }
 
 export interface CsvImportError {
@@ -130,4 +144,8 @@ export interface CsvImportResult {
 export interface IngredientCsvImportResult {
   imported: Ingredient[];
   errors: CsvImportError[];
+}
+
+export interface CustomerAuthStatusResponse {
+  enabled: boolean;
 }

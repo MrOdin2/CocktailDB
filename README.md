@@ -5,6 +5,7 @@ A home solution to manage Cocktails and Ingredients. Keep track of your recipes,
 
 ## Features
 
+- **Customer QR Code Authentication**: Secure access control via QR code - customers scan to access the menu, valid for 24 hours (see [CUSTOMER_QR_AUTHENTICATION.md](docs/CUSTOMER_QR_AUTHENTICATION.md))
 - **Ingredient Management**: Track all your cocktail ingredients with details like type (spirit, juice, syrup, etc.), ABV, and stock status
 - **Cocktail Recipes**: Store your favorite cocktail recipes with ingredients, measurements, and step-by-step instructions
 - **Cocktail Variations**: Mark cocktails as variations of base recipes to organize related drinks (e.g., Dirty Martini as variation of Martini)

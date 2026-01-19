@@ -5,29 +5,34 @@ import { VisitorRecipeComponent } from './components/visitor/recipe/visitor-reci
 import { VisitorRandomPickerComponent } from './components/visitor/random-picker/visitor-random-picker.component';
 import { VisitorCategoriesComponent } from './components/visitor/categories/visitor-categories.component';
 import { LoginComponent } from './components/login/login.component';
+import { CustomerLoginComponent } from './components/customer-login/customer-login.component';
 import { adminGuard } from './guards/admin.guard';
 import { barkeeperGuard } from './guards/barkeeper.guard';
+import { customerGuard } from './guards/customer.guard';
 
 export const routes: Routes = [
-  // Visitor routes (public, no authentication required)
-  { path: '', redirectTo: '/visitor', pathMatch: 'full' },
-  { path: 'visitor', component: VisitorMenuComponent },
-  { path: 'visitor/cocktails', component: VisitorCocktailListComponent },
-  { path: 'visitor/recipe/:id', component: VisitorRecipeComponent },
-  { path: 'visitor/random', component: VisitorRandomPickerComponent },
-  { path: 'visitor/categories', component: VisitorCategoriesComponent },
+  // Customer login (no guard required)
+  { path: 'customer-login', component: CustomerLoginComponent },
   
-  // Login
+  // Visitor routes (require customer authentication)
+  { path: '', redirectTo: '/visitor', pathMatch: 'full' },
+  { path: 'visitor', component: VisitorMenuComponent, canActivate: [customerGuard] },
+  { path: 'visitor/cocktails', component: VisitorCocktailListComponent, canActivate: [customerGuard] },
+  { path: 'visitor/recipe/:id', component: VisitorRecipeComponent, canActivate: [customerGuard] },
+  { path: 'visitor/random', component: VisitorRandomPickerComponent, canActivate: [customerGuard] },
+  { path: 'visitor/categories', component: VisitorCategoriesComponent, canActivate: [customerGuard] },
+  
+  // Login (no customer auth required - staff can login directly)
   { path: 'login', component: LoginComponent },
   
-  // Barkeeper routes (lazy loaded, protected)
+  // Barkeeper routes (lazy loaded, protected by barkeeper guard only)
   { 
     path: 'barkeeper', 
     loadChildren: () => import('./components/barkeeper/barkeeper.routes').then(m => m.BARKEEPER_ROUTES),
     canActivate: [barkeeperGuard]
   },
   
-  // Admin routes (lazy loaded, protected)
+  // Admin routes (lazy loaded, protected by admin guard only)
   { 
     path: 'admin', 
     loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent),
