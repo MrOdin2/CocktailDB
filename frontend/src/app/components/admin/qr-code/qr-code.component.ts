@@ -36,7 +36,11 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
               readonly 
               #urlInput
             />
-            <button (click)="copyToClipboard(urlInput)" class="btn-copy">
+            <button
+              (click)="copyToClipboard(urlInput)"
+              class="btn-copy"
+              aria-label="Copy authentication link to clipboard"
+            >
               {{ copiedMessage || 'Copy' }}
             </button>
           </div>
