@@ -17,12 +17,12 @@ import { AuthService } from '../../services/auth.service';
           <p>Authenticating...</p>
         </div>
         
-        <div *ngIf="errorMessage && !isAuthenticating" class="error-message">
+        <div *ngIf="errorMessage && !isAuthenticating" class="error-message" role="alert">
           <p>{{ errorMessage }}</p>
           <p class="help-text">Please scan the QR code provided by the establishment.</p>
         </div>
         
-        <div *ngIf="!isAuthenticating && !errorMessage" class="info-message">
+        <div *ngIf="!isAuthenticating && !errorMessage" class="info-message" role="status">
           <p>This application requires customer authentication via QR code.</p>
           <p class="help-text">Please scan the QR code provided at the bar to access the cocktail menu.</p>
         </div>
