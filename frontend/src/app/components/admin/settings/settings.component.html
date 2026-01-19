@@ -19,7 +19,8 @@
         <button 
           class="btn-toggle" 
           [disabled]="isLoadingCustomerAuth"
-          (click)="toggleCustomerAuth()">
+          (click)="toggleCustomerAuth()"
+          aria-label="Enable or disable customer authentication">
           {{ isLoadingCustomerAuth ? 'Updating...' : (customerAuthEnabled ? 'Disable' : 'Enable') }}
         </button>
       </div>
