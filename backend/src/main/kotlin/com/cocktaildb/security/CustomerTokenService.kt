@@ -47,10 +47,16 @@ class CustomerTokenService(
             val message = "customer:$timestamp"
             val expectedHmac = generateHMAC(message)
             
-            return providedHmac == expectedHmac
+            return constantTimeEquals(expectedHmac, providedHmac)
         } catch (e: Exception) {
             return false
         }
+    }
+    
+    private fun constantTimeEquals(expected: String, provided: String): Boolean {
+        val expectedBytes = expected.toByteArray(Charsets.UTF_8)
+        val providedBytes = provided.toByteArray(Charsets.UTF_8)
+        return MessageDigest.isEqual(expectedBytes, providedBytes)
     }
     
     /**
