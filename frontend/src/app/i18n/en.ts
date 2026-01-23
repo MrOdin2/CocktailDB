@@ -215,8 +215,10 @@ export const en = {
     export: {
       title: 'Export Cocktails',
       exportType: 'Export Type:',
-      menuType: 'Menu (Name + Ingredients only)',
+      menuType: 'Menu (Name + Ingredients with Measures)',
       cheatsheetType: 'CheatSheet (Full Recipe with Steps)',
+      menuHandoutType: 'Menu Handout (Name + Ingredients, No Measures - A5 Booklet)',
+      nameListType: 'Name List (Cocktail Names Only)',
       groupBy: 'Group By:',
       groupBySpirit: 'Spirit',
       groupByTags: 'Tags',
