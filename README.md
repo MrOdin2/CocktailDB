@@ -459,6 +459,8 @@ For detailed information about the security implementation, authentication, and 
 
 For contributors and developers:
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete architecture guide with diagrams, patterns, and best practices
+- **[docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md)** - Comprehensive accessibility assessment and improvement plan (A11Y Project, WCAG 2.1)
+- **[docs/ACCESSIBILITY_QUICK_REFERENCE.md](docs/ACCESSIBILITY_QUICK_REFERENCE.md)** - Quick reference guide for accessible development
 - **[docs/OPENAPI.md](docs/OPENAPI.md)** - OpenAPI/Swagger UI documentation and usage guide
 - **[docs/DATABASE_MANAGEMENT.md](docs/DATABASE_MANAGEMENT.md)** - Database migrations with Flyway and backup/restore procedures
 - **[docs/INGREDIENT_SUBSTITUTIONS.md](docs/INGREDIENT_SUBSTITUTIONS.md)** - Ingredient substitutions and alternatives feature guide

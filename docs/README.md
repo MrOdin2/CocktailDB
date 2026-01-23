@@ -81,6 +81,22 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
   - Code review checklist
   - Common pitfalls to avoid
 
+#### Accessibility
+- **[ACCESSIBILITY.md](ACCESSIBILITY.md)** - Comprehensive accessibility assessment and improvement plan
+  - Current accessibility state and features
+  - Critical accessibility gaps identified
+  - 8-week implementation plan (4 phases)
+  - Testing strategy and success metrics
+  - A11Y Project and WCAG 2.1 Level AA compliance
+
+- **[ACCESSIBILITY_QUICK_REFERENCE.md](ACCESSIBILITY_QUICK_REFERENCE.md)** - Quick reference for developers
+  - Pre-commit accessibility checklist
+  - Common accessible patterns and code examples
+  - Essential CSS classes (sr-only, skip-link, focus styles)
+  - Testing checklist and keyboard shortcuts
+  - Color contrast requirements
+  - Common mistakes to avoid
+
 #### Deployment
 - **[docker-deploy-guide](docker-deploy-guide)** - Docker deployment quick reference
   - Build and start commands
@@ -121,7 +137,8 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
 1. Read [ARCHITECTURE.md](ARCHITECTURE.md) - Full architecture overview
 2. Review [SECURITY_CONCEPT.md](../SECURITY_CONCEPT.md) - Contributor guidance
 3. Check [../.github/copilot-instructions.md](../.github/copilot-instructions.md) - Coding standards
-4. Follow development patterns and best practices
+4. Review [ACCESSIBILITY_QUICK_REFERENCE.md](ACCESSIBILITY_QUICK_REFERENCE.md) - Accessibility best practices
+5. Follow development patterns and best practices
 
 ### I need to troubleshoot an issue
 1. Check [security-quick-reference.md](security-quick-reference.md) - Troubleshooting section
@@ -152,6 +169,8 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
 | Document | Purpose | Audience |
 |----------|---------|----------|
 | OPENAPI.md | API documentation and OpenAPI spec | Developers & API Users |
+| ACCESSIBILITY.md | Accessibility assessment and improvement plan | Developers |
+| ACCESSIBILITY_QUICK_REFERENCE.md | Developer accessibility quick reference | Developers |
 | local-network-testing.md | Multi-device network setup | Users |
 | local-network-configuration-summary.md | Network setup summary | Users |
 | copilot-instructions.md | Repository conventions | Developers |
@@ -180,6 +199,7 @@ Welcome to the CocktailDB documentation! This guide will help you find the right
 - Frontend patterns: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Backend patterns: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Testing: [SECURITY_CONCEPT.md](../SECURITY_CONCEPT.md), [authentication-guide.md](authentication-guide.md)
+- Accessibility: [ACCESSIBILITY.md](ACCESSIBILITY.md), [ACCESSIBILITY_QUICK_REFERENCE.md](ACCESSIBILITY_QUICK_REFERENCE.md)
 
 ### Deployment
 - Docker setup: [README.md](../README.md), [docker-deploy-guide](docker-deploy-guide)
@@ -207,6 +227,9 @@ See [SECURITY_CONCEPT.md](../SECURITY_CONCEPT.md) - Random Cocktail Feature sect
 ### Where are the API endpoints documented?
 See [OPENAPI.md](OPENAPI.md) for complete OpenAPI documentation with interactive Swagger UI, and [authentication-guide.md](authentication-guide.md) for authentication-specific endpoints
 
+### How do I ensure my code changes are accessible?
+See [ACCESSIBILITY_QUICK_REFERENCE.md](ACCESSIBILITY_QUICK_REFERENCE.md) for a pre-commit checklist and common patterns, and [ACCESSIBILITY.md](ACCESSIBILITY.md) for the complete accessibility improvement plan
+
 ## 📝 Contributing to Documentation
 
 If you find errors or want to improve the documentation:
@@ -225,6 +248,6 @@ If you find errors or want to improve the documentation:
 
 ---
 
-**Last Updated**: November 2024  
-**Version**: 1.0  
+**Last Updated**: January 2026  
+**Version**: 1.1  
 **Maintained By**: CocktailDB Contributors
