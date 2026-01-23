@@ -1,111 +1,106 @@
 /* ===================================
    SHARED ADMIN COMPONENT STYLES
-   Used across admin components to reduce duplication
+   Tailwind-based reusable component classes
    =================================== */
 
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
+  /* Container */
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
 
-/* Header Section */
-.header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+  /* Header Section */
+  .header-section {
+    @apply flex justify-between items-center mb-5 gap-4 flex-wrap;
+  }
 
-.header-section h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
+  .header-section h2 {
+    @apply m-0 text-2xl;
+  }
 
-/* Filter Section */
-.filter-section {
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
-}
+  /* Filter Section */
+  .filter-section {
+    @apply p-4 rounded-md mb-5 text-base border;
+    background-color: oklch(var(--b2));
+    border-color: oklch(var(--b3));
+  }
 
-.filter-controls {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
+  .filter-controls {
+    @apply flex gap-4 items-end flex-wrap;
+  }
 
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  min-width: 150px;
-  flex: 1;
-}
+  .filter-group {
+    @apply flex flex-col min-w-[150px] flex-1;
+  }
 
-.filter-group label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-}
+  .filter-group label {
+    @apply font-bold mb-2 text-sm;
+  }
 
-.filter-group input,
-.filter-group select {
-  padding: 0.75rem;
-  border-radius: 4px;
-  width: 100%;
-  font-size: 1rem;
-}
+  .filter-group input,
+  .filter-group select {
+    @apply p-3 rounded border w-full text-base;
+    background-color: oklch(var(--b1));
+    border-color: oklch(var(--b3));
+    color: oklch(var(--bc));
+  }
 
-.clear-btn {
-  align-self: flex-end;
-  white-space: nowrap;
-  margin-bottom: 0;
-}
+  .filter-group input:focus,
+  .filter-group select:focus {
+    @apply outline-none ring-2;
+    ring-color: oklch(var(--p));
+  }
 
-/* Form Styles */
-.add-form {
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-}
+  .clear-btn {
+    @apply self-end whitespace-nowrap mb-0;
+  }
 
-.form-group {
-  margin-bottom: 1.25rem;
-}
+  /* Form Styles */
+  .add-form {
+    @apply p-4 rounded-md mb-6 border;
+    background-color: oklch(var(--b2));
+    border-color: oklch(var(--b3));
+  }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
+  .form-group {
+    @apply mb-5;
+  }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-}
+  .form-group label {
+    @apply block mb-2 font-bold;
+  }
 
-.error-message {
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
+  .form-group input[type="text"],
+  .form-group input[type="number"],
+  .form-group textarea,
+  .form-group select {
+    @apply w-full p-3 text-base border rounded;
+    border-color: oklch(var(--b3));
+    background-color: oklch(var(--b1));
+    color: oklch(var(--bc));
+  }
 
-/* Modal Actions */
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-  flex-wrap: wrap;
-}
+  .form-group input[type="text"]:focus,
+  .form-group input[type="number"]:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    @apply outline-none ring-2;
+    ring-color: oklch(var(--p));
+  }
+
+  .form-group input.ng-invalid.ng-touched,
+  .form-group select.ng-invalid.ng-touched {
+    border-color: oklch(var(--er));
+  }
+
+  .error-message {
+    @apply text-sm mt-1;
+    color: oklch(var(--er));
+  }
+
+  /* Modal Actions */
+  .modal-actions {
+    @apply flex justify-end gap-3 mt-5 flex-wrap;
+  }
 
 /* ===================================
    RESPONSIVE STYLES
@@ -114,62 +109,60 @@
 /* Mobile (small) */
 @media (max-width: 767px) {
   .container {
-    padding: 0.75rem;
+    @apply px-3;
   }
   
   .header-section {
-    flex-direction: column;
-    align-items: flex-start;
+    @apply flex-col items-start;
   }
   
   .header-section h2 {
-    font-size: 1.25rem;
+    @apply text-xl;
   }
   
   .filter-section {
-    padding: 0.75rem;
+    @apply p-3;
   }
   
   .filter-group {
-    min-width: 100%;
+    @apply min-w-full;
   }
   
   .modal-actions {
-    flex-direction: column;
+    @apply flex-col;
   }
   
   .modal-actions button {
-    width: 100%;
+    @apply w-full;
   }
 }
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1023px) {
   .container {
-    padding: 1.25rem;
+    @apply px-5;
   }
 }
 
 /* Desktop */
 @media (min-width: 1024px) {
   .container {
-    padding: 1.5rem;
+    @apply px-6;
   }
   
   .header-section {
-    margin-bottom: 1.5rem;
+    @apply mb-6;
   }
   
   .header-section h2 {
-    font-size: 1.75rem;
+    @apply text-3xl;
   }
   
   .filter-section {
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
+    @apply p-5 mb-6;
   }
   
   .filter-group {
-    min-width: 200px;
+    @apply min-w-[200px];
   }
 }

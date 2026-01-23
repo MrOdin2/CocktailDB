@@ -1,194 +1,121 @@
 /* ===================================
    SHARED VISITOR MODE STYLES
-   Used across all visitor components to reduce duplication
+   Tailwind-based reusable component classes
    =================================== */
 
-/* Container */
-.visitor-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-  min-height: 100vh;
-}
+  /* Container */
+  .visitor-container {
+    @apply max-w-7xl mx-auto px-4 min-h-screen;
+  }
 
-/* Page Header */
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid;
-  flex-wrap: wrap;
-}
+  /* Page Header */
+  .page-header {
+    @apply flex items-center gap-4 mb-6 pb-4 border-b-2 flex-wrap;
+    border-color: oklch(var(--p));
+  }
 
-.page-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  flex: 1;
-  text-align: center;
-}
+  .page-header h1 {
+    @apply m-0 text-3xl flex-1 text-center;
+  }
 
-/* Navigation Buttons */
-.back-btn {
-  border: 1px solid;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  min-height: 44px;
-}
+  /* Navigation Buttons */
+  .back-btn {
+    @apply border px-4 py-2 rounded cursor-pointer text-base transition-all duration-200 min-h-[44px] hover:-translate-x-0.5 focus:-translate-x-0.5;
+    border-color: oklch(var(--p));
+  }
 
-.back-btn:hover,
-.back-btn:focus {
-  transform: translateX(-2px);
-}
+  /* Loading and Error States */
+  .loading,
+  .empty-state {
+    @apply text-center py-12 px-4;
+  }
 
-/* Loading and Error States */
-.loading,
-.empty-state {
-  text-align: center;
-  padding: 3rem 1rem;
-}
+  .error-message {
+    @apply border-2 rounded-lg p-6 text-center my-8;
+    background-color: oklch(var(--er) / 0.1);
+    border-color: oklch(var(--er));
+    color: oklch(var(--er) / 0.8);
+  }
 
-.error-message {
-  background: rgba(255, 0, 0, 0.1);
-  border: 2px solid #ff0000;
-  border-radius: 8px;
-  color: #ff6666;
-  padding: 1.5rem;
-  text-align: center;
-  margin: 2rem 0;
-}
+  .retry-btn {
+    @apply mt-4 border-2 px-6 py-3 rounded cursor-pointer text-base transition-all duration-200 min-h-[44px] hover:scale-105 focus:scale-105;
+    border-color: oklch(var(--p));
+  }
 
-.retry-btn {
-  margin-top: 1rem;
-  border: 2px solid;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  min-height: 44px;
-}
+  /* Cocktail Cards */
+  .cocktail-card {
+    @apply rounded-lg p-6 transition-all duration-300 hover:shadow-lg;
+    border: 2px solid oklch(var(--p));
+    background-color: oklch(var(--b2));
+  }
 
-.retry-btn:hover,
-.retry-btn:focus {
-  transform: scale(1.05);
-}
+  .cocktail-header {
+    @apply flex justify-between items-start gap-4 mb-4 flex-wrap;
+  }
 
-/* Cocktail Cards */
-.cocktail-card {
-  border: 2px solid;
-  border-radius: 8px;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-}
+  .cocktail-name {
+    @apply m-0 flex-1 min-w-[150px];
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
 
-.cocktail-card:hover {
-  box-shadow: 0 4px 12px;
-}
+  /* Badges */
+  .alcohol-badge {
+    @apply px-3 py-2 rounded text-sm font-bold whitespace-nowrap;
+    border: 2px solid;
+  }
 
-.cocktail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
+  .alcohol-badge.alcoholic {
+    border-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+  }
 
-.cocktail-name {
-  margin: 0;
-  font-size: 1.4rem;
-  flex: 1;
-  min-width: 150px;
-}
+  .alcohol-badge.non-alcoholic {
+    border-color: #51cf66;
+    background-color: rgba(81, 207, 102, 0.2);
+    color: #51cf66;
+  }
 
-/* Badges */
-.alcohol-badge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  white-space: nowrap;
-}
+  /* Info Rows */
+  .info-row {
+    @apply flex justify-between py-2 border-b;
+    border-color: oklch(var(--b3));
+  }
 
-.alcohol-badge.alcoholic {
-  background: rgba(255, 165, 0, 0.2);
-  color: #ffaa00;
-  border: 1px solid #ffaa00;
-}
+  .info-row:last-child {
+    @apply border-b-0;
+  }
 
-.alcohol-badge.non-alcoholic {
-  background: rgba(0, 200, 255, 0.2);
-  color: #00ccff;
-  border: 1px solid #00ccff;
-}
+  .label {
+    @apply font-bold;
+  }
 
-/* Info Rows */
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid;
-}
+  /* Tags */
+  .tags-section {
+    @apply mt-4 flex flex-wrap gap-2;
+  }
 
-.info-row:last-child {
-  border-bottom: none;
-}
+  .tag {
+    @apply border px-2 py-1 rounded text-sm;
+    border-color: oklch(var(--p));
+  }
 
-.label {
-  font-weight: bold;
-}
+  /* Action Buttons */
+  .view-recipe-btn {
+    @apply w-full border-2 px-6 py-4 rounded cursor-pointer text-lg font-bold transition-all duration-200 min-h-[48px] hover:-translate-y-0.5 hover:shadow-lg focus:-translate-y-0.5 focus:shadow-lg;
+    border-color: oklch(var(--p));
+  }
 
-/* Tags */
-.tags-section {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
+  /* Grids */
+  .cocktails-grid {
+    @apply grid grid-cols-1 gap-6;
+  }
 
-.tag {
-  border: 1px solid;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-}
-
-/* Action Buttons */
-.view-recipe-btn {
-  width: 100%;
-  border: 2px solid;
-  padding: 0.875rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  min-height: 48px;
-}
-
-.view-recipe-btn:hover,
-.view-recipe-btn:focus {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px;
-}
-
-/* Grids */
-.cocktails-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-/* Utilities */
-.hint {
-  font-size: 0.95rem;
-  margin-top: 0.5rem;
-}
+  /* Utilities */
+  .hint {
+    @apply text-base mt-2;
+  }
 
 /* ===================================
    RESPONSIVE STYLES
@@ -197,26 +124,25 @@
 /* Tablet and up (768px+) */
 @media (min-width: 768px) {
   .visitor-container {
-    padding: 2rem;
+    @apply px-8;
   }
 
   .page-header h1 {
-    font-size: 2.5rem;
+    @apply text-4xl;
   }
 
   .cocktails-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    @apply grid-cols-2 gap-8;
   }
 
   .cocktail-header {
-    flex-wrap: nowrap;
+    @apply flex-nowrap;
   }
 }
 
 /* Desktop (1024px+) */
 @media (min-width: 1024px) {
   .cocktails-grid {
-    grid-template-columns: repeat(3, 1fr);
+    @apply grid-cols-3;
   }
 }

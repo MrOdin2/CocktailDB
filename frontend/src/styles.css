@@ -1,80 +1,187 @@
-* {
-  box-sizing: border-box;
+/* Import shared component styles at the top */
+@import './app/components/admin/admin-shared.css' layer(components);
+@import './app/components/visitor/visitor-shared.css' layer(components);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* DaisyUI theme variables - manually defined since daisyUI 5.x has issues */
+[data-theme="basic"] {
+  --p: 0.35 0 0;           /* primary #333333 */
+  --pc: 1 0 0;              /* primary-content #ffffff */
+  --s: 1 0 0;               /* secondary #ffffff */
+  --sc: 0.35 0 0;           /* secondary-content #333333 */
+  --a: 0.35 0 0;            /* accent #333333 */
+  --ac: 1 0 0;              /* accent-content #ffffff */
+  --n: 0.96 0 0;            /* neutral #f5f5f5 */
+  --nc: 0.35 0 0;           /* neutral-content #333333 */
+  --b1: 1 0 0;              /* base-100 #ffffff */
+  --b2: 0.98 0 0;           /* base-200 #f9f9f9 */
+  --b3: 0.96 0 0;           /* base-300 #f5f5f5 */
+  --bc: 0.35 0 0;           /* base-content #333333 */
 }
 
-body {
-  margin: 0;
-  font-family: 'Courier New', 'Courier', monospace;
-  background-color: #000000 !important;
-  color: #00ff00;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
+[data-theme="terminal-green"] {
+  --p: 0.90 0.30 145;       /* primary #00ff00 */
+  --pc: 0 0 0;              /* primary-content #000000 */
+  --s: 0.50 0.20 145;       /* secondary #008800 */
+  --sc: 0.90 0.30 145;      /* secondary-content #00ff00 */
+  --a: 0.90 0.30 145;       /* accent #00ff00 */
+  --ac: 0 0 0;              /* accent-content #000000 */
+  --n: 0.10 0.05 145;       /* neutral #001100 */
+  --nc: 0.90 0.30 145;      /* neutral-content #00ff00 */
+  --b1: 0 0 0;              /* base-100 #000000 */
+  --b2: 0.10 0.05 145;      /* base-200 #001100 */
+  --b3: 0.15 0.05 145;      /* base-300 #002200 */
+  --bc: 0.90 0.30 145;      /* base-content #00ff00 */
 }
 
-code {
-  font-family: 'Courier New', 'Courier', monospace;
+[data-theme="cyberpunk"] {
+  --p: 0.91 0.19 195;       /* primary #00ffff - cyan */
+  --pc: 0.18 0.03 265;      /* primary-content #0a0e27 */
+  --s: 0.70 0.29 328;       /* secondary #ff00ff - magenta */
+  --sc: 0.18 0.03 265;      /* secondary-content #0a0e27 */
+  --a: 0.91 0.19 195;       /* accent #00ffff - cyan */
+  --ac: 0.18 0.03 265;      /* accent-content #0a0e27 */
+  --n: 0.18 0.03 265;       /* neutral #0a0e27 */
+  --nc: 0.91 0.19 195;      /* neutral-content #00ffff */
+  --b1: 0.18 0.03 265;      /* base-100 #0a0e27 - dark blue */
+  --b2: 0.22 0.03 265;      /* base-200 #141933 */
+  --b3: 0.26 0.03 265;      /* base-300 #1e2440 */
+  --bc: 0.91 0.19 195;      /* base-content #00ffff - cyan text */
 }
 
-/* CRT scanline effect - reduced intensity, will be overridden by theme-specific styles */
-body::before {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-  background-size: 100% 3px;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.3;
+[data-theme="amber"] {
+  --p: 0.77 0.14 65;        /* primary #ffb000 - amber/orange */
+  --pc: 0.13 0.02 65;       /* primary-content #1a0f00 */
+  --s: 0.65 0.13 55;        /* secondary #cc8800 - darker orange */
+  --sc: 0.13 0.02 65;       /* secondary-content #1a0f00 */
+  --a: 0.77 0.14 65;        /* accent #ffb000 - amber */
+  --ac: 0.13 0.02 65;       /* accent-content #1a0f00 */
+  --n: 0.13 0.02 65;        /* neutral #1a0f00 - dark brown */
+  --nc: 0.77 0.14 65;       /* neutral-content #ffb000 */
+  --b1: 0.13 0.02 65;       /* base-100 #1a0f00 - dark brown */
+  --b2: 0.18 0.02 65;       /* base-200 #2a1f00 */
+  --b3: 0.23 0.02 65;       /* base-300 #3a2f00 */
+  --bc: 0.77 0.14 65;       /* base-content #ffb000 - amber text */
 }
 
-/* Responsive Typography */
-html {
-  font-size: 16px;
-}
-
-@media (max-width: 767px) {
+@layer base {
   html {
-    font-size: 14px;
+    @apply text-base;
   }
-}
 
-/* Responsive Utilities */
-.mobile-only {
-  display: block;
-}
+  body {
+    @apply m-0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: oklch(var(--b1));
+    color: oklch(var(--bc));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-.tablet-up {
-  display: none;
-}
-
-.desktop-only {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .mobile-only {
-    display: none;
+  code {
+    font-family: 'Courier New', 'Courier', monospace;
   }
   
+  /* Barkeeper mode - fixed high contrast colors, never affected by themes */
+  .barkeeper-container,
+  .barkeeper-container * {
+    background-color: #1a1a1a !important;
+    color: #f0f0f0 !important;
+  }
+  
+  .barkeeper-container .view-header {
+    background-color: #2d2d2d !important;
+  }
+  
+  .barkeeper-container button,
+  .barkeeper-container .back-btn {
+    background-color: #3a3a3a !important;
+    color: #ffffff !important;
+  }
+  
+  .barkeeper-container .alphabet-letter {
+    background-color: #3a3a3a !important;
+    border-color: #ff8c00 !important;
+    color: #ffffff !important;
+  }
+  
+  .barkeeper-container .alphabet-letter.active {
+    background-color: #ff8c00 !important;
+    color: #1a1a1a !important;
+  }
+  
+  .barkeeper-container .cocktail-card {
+    background-color: #2d2d2d !important;
+    border-color: #ff8c00 !important;
+  }
+  
+  .barkeeper-container input,
+  .barkeeper-container select {
+    background-color: #2d2d2d !important;
+    color: #f0f0f0 !important;
+    border-color: #555555 !important;
+  }
+
+  /* Responsive Typography */
+  @media (max-width: 767px) {
+    html {
+      @apply text-sm;
+    }
+  }
+}
+
+@layer components {
+  /* CRT scanline effect for retro themes */
+  [data-theme="terminal-green"] body::before,
+  [data-theme="cyberpunk"] body::before,
+  [data-theme="amber"] body::before {
+    content: " ";
+    @apply block fixed top-0 left-0 bottom-0 right-0 pointer-events-none z-[1] opacity-30;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 3px;
+  }
+
+  /* Text glow effects for retro themes */
+  [data-theme="terminal-green"] {
+    h1, h2, h3, h4, h5, h6 {
+      text-shadow: 0 0 5px currentColor;
+    }
+  }
+
+  [data-theme="cyberpunk"] {
+    h1, h2, h3, h4, h5, h6 {
+      text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+  }
+
+  [data-theme="amber"] {
+    h1, h2, h3, h4, h5, h6 {
+      text-shadow: 0 0 5px currentColor;
+    }
+  }
+
+  /* Touch-friendly interactive elements on mobile */
+  @media (max-width: 1023px) {
+    button, a, input[type="checkbox"], input[type="radio"], select {
+      @apply min-h-[44px] min-w-[44px];
+    }
+  }
+}
+
+@layer utilities {
+  /* Responsive display utilities */
+  .mobile-only {
+    @apply block md:hidden;
+  }
+
   .tablet-up {
-    display: block;
+    @apply hidden md:block;
   }
-}
 
-@media (min-width: 1024px) {
   .desktop-only {
-    display: block;
-  }
-}
-
-/* Touch-friendly interactive elements */
-@media (max-width: 1023px) {
-  button, a, input[type="checkbox"], input[type="radio"], select {
-    min-height: 44px;
-    min-width: 44px;
+    @apply hidden lg:block;
   }
 }

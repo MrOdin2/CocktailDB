@@ -46,33 +46,9 @@ export class ThemeService {
   }
 
   private applyTheme(theme: Theme): void {
-    // Remove existing theme stylesheets
-    const existingTheme = document.getElementById('theme-stylesheet');
-    if (existingTheme) {
-      existingTheme.remove();
-    }
-
-    // Create and append new theme stylesheet
-    const link = document.createElement('link');
-    link.id = 'theme-stylesheet';
-    link.rel = 'stylesheet';
-    link.href = `styles-theme${this.getThemeFileName(theme)}.css`;
-    document.head.appendChild(link);
-  }
-
-  private getThemeFileName(theme: Theme): string {
-    switch (theme) {
-      case 'basic':
-        return '0-basic';
-      case 'terminal-green':
-        return '1-terminal-green';
-      case 'cyberpunk':
-        return '2-cyberpunk';
-      case 'amber':
-        return '3-amber';
-      default:
-        return '0-basic';
-    }
+    // Use daisyUI's data-theme attribute for theme switching
+    const htmlElement = document.documentElement;
+    htmlElement.setAttribute('data-theme', theme);
   }
 
   getCurrentTheme(): Theme {
